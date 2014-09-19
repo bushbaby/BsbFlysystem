@@ -1,0 +1,85 @@
+<?php
+
+namespace BsbFlysystemTest\Service;
+
+use BsbFlysystem\Service\FilesystemManager;
+use BsbFlysystemTest\Bootstrap;
+use BsbFlysystemTest\Framework\TestCase;
+use League\Flysystem\Adapter\AbstractAdapter;
+use League\Flysystem\Filesystem;
+use Zend\ServiceManager\AbstractPluginManager;
+
+class FilesystemManagerTest extends TestCase
+{
+    public function testCreateViaServiceManager()
+    {
+        $sm      = Bootstrap::getServiceManager();
+        $manager = $sm->get('BsbFlysystemManager');
+
+        $this->assertInstanceOf('BsbFlysystem\Service\FilesystemManager', $manager);
+    }
+
+    public function testManagerValidatesPlugin()
+    {
+        $manager = new FilesystemManager();
+        $plugin  = $this->getMockBuilder('League\Flysystem\Filesystem')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->assertNull($manager->validatePlugin($plugin));
+
+        $this->setExpectedException('Zend\ServiceManager\Exception\RuntimeException');
+
+        $plugin = new \stdClass();
+        $this->assertNull($manager->validatePlugin($plugin));
+    }
+
+    public function testCanGetSpecificFilesystem()
+    {
+        $sm      = Bootstrap::getServiceManager();
+        $manager = $sm->get('BsbFlysystemManager');
+
+        $this->assertInstanceOf('League\Flysystem\Filesystem', $manager->get('default'));
+    }
+
+    public function testServicesSharedByDefault()
+    {
+        $sm = Bootstrap::getServiceManager();
+        /** @var AbstractPluginManager $manager */
+        $manager = $sm->get('BsbFlysystemManager');
+
+        $localA = $manager->get('default');
+        $localB = $manager->get('default');
+        $this->assertTrue($localA === $localB);
+    }
+
+    public function testConfigurationOverrideableForNotSharedServices()
+    {
+        $sm = Bootstrap::getServiceManager();
+        /** @var FilesystemManager $manager */
+        $manager = $sm->get('BsbFlysystemManager');
+
+        /** @var Filesystem $filesystem */
+        $filesystem = $manager->get('default_unshared');
+
+        /** @var AbstractAdapter $adapter */
+        $adapter = $filesystem->getAdapter();
+
+        $pathPrefix = $adapter->getPathPrefix();
+        $pathPrefix = str_replace(realpath('.'), '', $pathPrefix);
+
+        $this->assertEquals('/test/build/files/', $pathPrefix);
+
+        /** @var Filesystem $filesystem */
+        $filesystem = $manager->get('default_unshared',
+            array('adapter_options' => array('root' => './test/build/documents')));
+
+        /** @var AbstractAdapter $adapter */
+        $adapter = $filesystem->getAdapter();
+
+        $pathPrefix = $adapter->getPathPrefix();
+        $pathPrefix = str_replace(realpath('.'), '', $pathPrefix);
+
+        $this->assertEquals('/test/build/documents/', $pathPrefix);
+    }
+}

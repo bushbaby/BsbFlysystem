@@ -1,0 +1,53 @@
+{
+    "name": "bushbaby/flysystem",
+    "description": "Zend Framework 2 module bridge for flysystem filesystem.",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Bas Kamer",
+            "email": "bas@bushbaby.nl"
+        }
+    ],
+    "require": {
+        "zendframework/zendframework": "~2.2",
+        "league/flysystem": "~0.5.7"
+    },
+    "require-dev": {
+        "league/event": "~1.0",
+        "rackspace/php-opencloud": "~1.10.0",
+        "dropbox/dropbox-sdk": "~1.1.3",
+        "barracuda/copy": "~1.1.4",
+        "phpseclib/phpseclib" : "~0.3.5",
+        "aws/aws-sdk-php": "~2.4",
+        "squizlabs/php_codesniffer": "~2.0RC1",
+        "phpunit/phpunit": "~4.1",
+        "ocramius/proxy-manager": "~1.0.0@beta",
+        "sabre/dav" : "*"
+    },
+    "autoload": {
+        "psr-0": {
+            "BsbFlysystem\\": "src/",
+            "BsbFlysystemTest\\": "test/"
+        },
+        "classmap": [
+            "Module.php"
+        ]
+    },
+    "suggest": {
+        "league/event": "Required for EventableFilesystem",
+        "aws/aws-sdk-php": "Allows you to use AWS S3 storage",
+        "predis/predis": "Allows you to use Predis for caching",
+        "dropbox/dropbox-sdk": "Allows you to use Dropbox storage",
+        "phpseclib/phpseclib": "Allows SFTP server storage",
+        "sabre/dav": "Enables WebDav support",
+        "rackspace/php-opencloud": "Allows you to use Rackspace Cloud Files",
+        "barracuda/copy": "Allows you to use Copy.com storage",
+        "guzzlehttp/guzzle": "Allows you to use http files (reading only)"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
+    }
+}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="./test/Bootstrap.php" colors="true">
+
+    <testsuites>
+        <testsuite name="BsbFlysystem">
+            <directory>test</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./src</directory>
+        </whitelist>
+    </filter>
+
+    <logging>
+        <log type="coverage-clover" target="./test/build/logs/clover.xml"/>
+        <log type="coverage-html" target="./test/build/coverage" charset="UTF-8"
+             yui="true" highlight="true" lowUpperBound="90" highLowerBound="100"/>
+    </logging>
+</phpunit>

@@ -1,0 +1,94 @@
+<?php
+
+namespace BsbFlysystemTest\Adapter\Factory;
+
+use BsbFlysystem\Adapter\Factory\ReplicateAdapterFactory;
+use BsbFlysystemTest\Bootstrap;
+use BsbFlysystemTest\Framework\TestCase;
+
+class ReplicaAdapterFactoryTest extends TestCase
+{
+    /**
+     * @var \ReflectionProperty
+     */
+    protected $property;
+
+    /**
+     * @var \ReflectionMethod
+     */
+    protected $method;
+
+    public function setup()
+    {
+        $class          = new \ReflectionClass('BsbFlysystem\Adapter\Factory\ReplicateAdapterFactory');
+        $this->property = $class->getProperty('options');
+        $this->property->setAccessible(true);
+
+        $this->method = $class->getMethod('validateConfig');
+        $this->method->setAccessible(true);
+    }
+
+    public function testCreateService()
+    {
+        $sm      = Bootstrap::getServiceManager();
+        $manager = $sm->get('BsbFlysystemAdapterManager');
+
+        $factory = new ReplicateAdapterFactory();
+
+        $adapter = $factory->createService($manager, 'replicatedefault', 'replicate_default');
+
+        $this->assertInstanceOf('League\Flysystem\Adapter\ReplicateAdapter', $adapter);
+    }
+
+    /**
+     * @dataProvider validateConfigProvider
+     *
+     * @param      $options
+     * @param bool $expectedOptions
+     * @param bool $expectedException
+     * @param bool $expectedExceptionMessage
+     */
+    public function testValidateConfig(
+        $options,
+        $expectedOptions = false,
+        $expectedException = false,
+        $expectedExceptionMessage = false
+    ) {
+        $factory = new ReplicateAdapterFactory($options);
+
+        if ($expectedException) {
+            $this->setExpectedException($expectedException, $expectedExceptionMessage);
+        }
+
+        $this->method->invokeArgs($factory, array());
+
+        if (is_array($expectedOptions)) {
+            $this->assertEquals($expectedOptions, $this->property->getValue($factory));
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function validateConfigProvider()
+    {
+        return array(
+            array(
+                array(),
+                false,
+                'UnexpectedValueException',
+                "Missing 'source' as option"
+            ),
+            array(
+                array('source' => 'local->default'),
+                false,
+                'UnexpectedValueException',
+                "Missing 'replicate' as option"
+            ),
+            array(
+                array('source' => 'local->default', 'replicate' => 'zip->default'),
+                array('source' => 'local->default', 'replicate' => 'zip->default'),
+            ),
+        );
+    }
+}

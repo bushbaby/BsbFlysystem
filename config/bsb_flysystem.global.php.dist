@@ -1,0 +1,74 @@
+<?php
+
+return array(
+    'bsb_flysystem' => array(
+        'connection' => array(
+            'local_default'     => array(
+                'type'    => 'local',
+                'options' => array(
+                    'root' => './data/files'
+                ),
+            ),
+            'sftp_default'      => array(
+                'type'    => 'sftp',
+                'options' => array(
+                    'host'     => 'xxxxx.xxx',
+                    'port'     => 21,
+                    'username' => 'xxxxx',
+                    'password' => 'xxxxx',
+                    // 'privateKey' => 'path/to/or/contents/of/privatekey',
+                    // 'root' => '/path/to/root',
+                    // 'timeout' => 10,
+                ),
+            ),
+            'zip_default'       => array(
+                'type'    => 'zip',
+                'options' => array(
+                    'archive' => './data/files.zip',
+                    'prefix'  => '/'
+                ),
+            ),
+            'rackspace_default' => array(
+                'type'    => 'rackspace',
+                'options' => array(
+                    'url'         => "http://api-uri",
+                    'secret'      => array(
+                        'username' => "xxxxx",
+                        'password' => "xxxxx",
+                    ),
+                    'objectstore' => array(
+                        'name'      => 'xxxxx',
+                        'region'    => 'XX',
+                        'url_type'  => 'publicURL',
+                        'container' => 'xxxxx'
+                    ),
+                    'prefix'      => '/'
+                ),
+            ),
+            'dropbox_default'   => array(
+                'type'    => 'dropbox',
+                'options' => array(
+                    'client_identifier' => 'app_id',
+                    'access_token'      => 'xxxxx',
+                    'prefix'            => '/'
+                ),
+            ),
+            'awss3_default'     => array(
+                'type'    => 'awss3',
+                'options' => array(
+                    'key'    => 'your-app-id',
+                    'secret' => 'xxxxx',
+                    'bucket' => 'xxxxx'
+                ),
+            ),
+            'webdav_default'    => array(
+                'type'    => 'webdav',
+                'options' => array(
+                    'baseUri'  => 'http://demo.sabredav.org/',
+                    'userName' => 'testuser',
+                    'password' => 'test'
+                ),
+            ),
+        ),
+    ),
+);
