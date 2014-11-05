@@ -20,6 +20,11 @@ Then add `BsbFlysystem` to the `config/application.config.php` modules list.
 
 Copy the `config/bsb_flysystem.global.php.dist` to the `config/autoload` directory to jump start configuration. 
 
+## Requirements
+
+- \>=PHP5.4
+- \>=ZF2.2.0
+
 ## Configuration
 
 All configuration regarding BsbFlysystem life in the `bsb_flysystem` config key.
