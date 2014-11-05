@@ -73,7 +73,7 @@ Configure a filesystems by adding to `bsb_flysystem->filesystems`. Each filesyst
 
 - adapter \<string\>  Name of adapter service.
 - cache   \<string\> (optional) If defined a name of a cache service. Defaults to false.
-- eventable \<boolean\> When true returns an EventableFGilesystem instance. (see [flysystem](http://flysystem.thephpleague.com).
+- eventable \<boolean\> When true returns an EventableFilesystem instance. (see [flysystem](http://flysystem.thephpleague.com).
 
 example: Filesystem called 'files' with the previously defined 'local_files' adapter.
 
