@@ -35,26 +35,24 @@ class RackspaceAdapterFactory extends AbstractAdapterFactory implements FactoryI
             );
         }
 
-        $self = $this;
-
         $proxy = $this->getLazyFactory($serviceLocator)->createProxy(
             'League\Flysystem\Adapter\Rackspace',
-            function (&$wrappedObject, $proxy, $method, $parameters, &$initializer) use ($self) {
+            function (&$wrappedObject, $proxy, $method, $parameters, &$initializer) {
                 $client = new OpenStack(
-                    $self->options['url'],
-                    $self->options['secret'],
-                    $self->options['options']
+                    $this->options['url'],
+                    $this->options['secret'],
+                    $this->options['options']
                 );
 
                 $store = $client->objectStoreService(
-                    $self->options['objectstore']['name'],
-                    $self->options['objectstore']['region'],
-                    $self->options['objectstore']['url_type']
+                    $this->options['objectstore']['name'],
+                    $this->options['objectstore']['region'],
+                    $this->options['objectstore']['url_type']
                 );
 
-                $container = $store->getContainer($self->options['objectstore']['container']);
+                $container = $store->getContainer($this->options['objectstore']['container']);
 
-                $wrappedObject = new Adapter($container, $self->options['prefix']);
+                $wrappedObject = new Adapter($container, $this->options['prefix']);
 
                 return true;
             }
