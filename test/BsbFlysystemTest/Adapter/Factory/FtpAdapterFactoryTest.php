@@ -55,7 +55,7 @@ class FtpAdapterFactoryTest extends TestCase
             $this->setExpectedException($expectedException, $expectedExceptionMessage);
         }
 
-        $this->method->invokeArgs($factory, array());
+        $this->method->invokeArgs($factory, []);
 
         if (is_array($expectedOptions)) {
             $this->assertEquals($expectedOptions, $this->property->getValue($factory));
@@ -64,35 +64,35 @@ class FtpAdapterFactoryTest extends TestCase
 
     public function validateConfigProvider()
     {
-        return array(
-            array(
-                array(),
+        return [
+            [
+                [],
                 false,
                 'UnexpectedValueException',
                 "Missing 'host' as option"
-            ),
-            array(
-                array('host' => 'foo'),
+            ],
+            [
+                ['host' => 'foo'],
                 false,
                 'UnexpectedValueException',
                 "Missing 'port' as option"
-            ),
-            array(
-                array('host' => 'foo', 'port' => 'foo'),
+            ],
+            [
+                ['host' => 'foo', 'port' => 'foo'],
                 false,
                 'UnexpectedValueException',
                 "Missing 'username' as option"
-            ),
-            array(
-                array('host' => 'foo', 'port' => 'foo', 'username' => 'foo'),
+            ],
+            [
+                ['host' => 'foo', 'port' => 'foo', 'username' => 'foo'],
                 false,
                 'UnexpectedValueException',
                 "Missing 'password' as option"
-            ),
-            array(
-                array('host' => 'foo', 'port' => 'foo', 'username' => 'foo', 'password' => 'foo'),
-                array('host' => 'foo', 'port' => 'foo', 'username' => 'foo', 'password' => 'foo'),
-            ),
-        );
+            ],
+            [
+                ['host' => 'foo', 'port' => 'foo', 'username' => 'foo', 'password' => 'foo'],
+                ['host' => 'foo', 'port' => 'foo', 'username' => 'foo', 'password' => 'foo'],
+            ],
+        ];
     }
 }

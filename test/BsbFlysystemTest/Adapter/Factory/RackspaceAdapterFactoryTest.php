@@ -59,7 +59,7 @@ class RackspaceAdapterFactoryTest extends TestCase
             $this->setExpectedException($expectedException, $expectedExceptionMessage);
         }
 
-        $this->method->invokeArgs($factory, array());
+        $this->method->invokeArgs($factory, []);
 
         if (is_array($expectedOptions)) {
             $this->assertEquals($expectedOptions, $this->property->getValue($factory));
@@ -71,117 +71,117 @@ class RackspaceAdapterFactoryTest extends TestCase
      */
     public function validateConfigProvider()
     {
-        return array(
-            array(
-                array(),
-                array(),
+        return [
+            [
+                [],
+                [],
                 'UnexpectedValueException',
                 "Missing 'url' as option"
-            ),
-            array(
-                array('url' => 'some_url'),
-                array(),
+            ],
+            [
+                ['url' => 'some_url'],
+                [],
                 'UnexpectedValueException',
                 "Missing 'secret' as option"
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'url'    => 'some_url',
                     'secret' => 'secret'
-                ),
-                array(),
+                ],
+                [],
                 'UnexpectedValueException',
                 "Missing 'secret' as option"
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'url'    => 'some_url',
-                    'secret' => array(),
-                ),
-                array(),
+                    'secret' => [],
+                ],
+                [],
                 'UnexpectedValueException',
                 "Missing 'objectstore' as option"
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'url'         => 'some_url',
-                    'secret'      => array(
+                    'secret'      => [
                         'username'    => 'foo',
                         'password'    => 'foo',
                         'tenant_name' => 'foo'
-                    ),
+                    ],
                     'objectstore' => 'bar'
-                ),
-                array(),
+                ],
+                [],
                 'UnexpectedValueException',
                 "Missing 'objectstore' as option"
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'url'         => 'some_url',
-                    'secret'      => array(
+                    'secret'      => [
                         'username'    => 'foo',
                         'password'    => 'foo',
                         'tenant_name' => 'foo'
-                    ),
-                    'objectstore' => array()
-                ),
-                array(),
+                    ],
+                    'objectstore' => []
+                ],
+                [],
                 'UnexpectedValueException',
                 "Missing 'objectstore.name' as option"
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'url'         => 'some_url',
-                    'secret'      => array(
+                    'secret'      => [
                         'username'    => 'foo',
                         'password'    => 'foo',
                         'tenant_name' => 'foo'
-                    ),
-                    'objectstore' => array(
+                    ],
+                    'objectstore' => [
                         'name' => 'foo',
-                    )
-                ),
-                array(),
+                    ]
+                ],
+                [],
                 'UnexpectedValueException',
                 "Missing 'objectstore.region' as option"
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'url'         => 'some_url',
-                    'secret'      => array(),
-                    'objectstore' => array(
+                    'secret'      => [],
+                    'objectstore' => [
                         'name'   => 'foo',
                         'region' => 'foo',
-                    )
-                ),
-                array(),
+                    ]
+                ],
+                [],
                 'UnexpectedValueException',
                 "Missing 'objectstore.container' as option"
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'url'         => 'some_url',
-                    'secret'      => array(),
-                    'objectstore' => array(
+                    'secret'      => [],
+                    'objectstore' => [
                         'name'      => 'foo',
                         'region'    => 'foo',
                         'container' => 'foo',
-                    )
-                ),
-                array(
+                    ]
+                ],
+                [
                     'url'         => 'some_url',
-                    'secret'      => array(),
-                    'objectstore' => array(
+                    'secret'      => [],
+                    'objectstore' => [
                         'name'      => 'foo',
                         'region'    => 'foo',
                         'container' => 'foo',
                         'url_type'  => null, // added
-                    ),
-                    'options'     => array(), // added
+                    ],
+                    'options'     => [], // added
                     'prefix'      => null, // added
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 }

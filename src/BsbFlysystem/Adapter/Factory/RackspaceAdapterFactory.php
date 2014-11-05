@@ -29,7 +29,7 @@ class RackspaceAdapterFactory extends AbstractAdapterFactory implements FactoryI
             throw new RequirementsException(
                 sprintf(
                     "Install '%s' to use '%s'",
-                    implode(', ', array('rackspace/php-opencloud', 'ocramius/proxy-manager')),
+                    implode(', ', ['rackspace/php-opencloud', 'ocramius/proxy-manager']),
                     'League\Flysystem\Adapter\Rackspace'
                 )
             );
@@ -89,7 +89,7 @@ class RackspaceAdapterFactory extends AbstractAdapterFactory implements FactoryI
         }
 
         if (!isset($this->options['options'])) {
-            $this->options['options'] = array();
+            $this->options['options'] = [];
         }
 
         if (!isset($this->options['prefix'])) {

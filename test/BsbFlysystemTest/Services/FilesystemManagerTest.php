@@ -72,7 +72,7 @@ class FilesystemManagerTest extends TestCase
 
         /** @var Filesystem $filesystem */
         $filesystem = $manager->get('default_unshared',
-            array('adapter_options' => array('root' => './test/build/documents')));
+            ['adapter_options' => ['root' => './test/build/documents']]);
 
         /** @var AbstractAdapter $adapter */
         $adapter = $filesystem->getAdapter();

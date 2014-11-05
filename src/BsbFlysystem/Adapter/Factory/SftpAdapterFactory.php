@@ -25,7 +25,7 @@ class SftpAdapterFactory extends AbstractAdapterFactory implements FactoryInterf
             throw new RequirementsException(
                 sprintf(
                     "Install '%s' to use '%s'",
-                    implode(', ', array('phpseclib/phpseclib')),
+                    implode(', ', ['phpseclib/phpseclib']),
                     'League\Flysystem\Adapter\Sftp'
                 )
             );

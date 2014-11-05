@@ -26,7 +26,7 @@ class WebDavAdapterFactory extends AbstractAdapterFactory implements FactoryInte
             throw new RequirementsException(
                 sprintf(
                     "Install '%s' to use '%s'",
-                    implode(', ', array('sabre/dav')),
+                    implode(', ', ['sabre/dav']),
                     'League\Flysystem\Adapter\WebDav'
                 )
             );

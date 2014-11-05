@@ -27,17 +27,17 @@ class AwsS3AdapterFactory extends AbstractAdapterFactory implements FactoryInter
             throw new RequirementsException(
                 sprintf(
                     "Install '%s' to use '%s'",
-                    implode(', ', array('aws/aws-sdk-php')),
+                    implode(', ', ['aws/aws-sdk-php']),
                     'League\Flysystem\Adapter\AwsS3'
                 )
             );
         }
 
-        $client = S3Client::factory(array(
+        $client = S3Client::factory([
             'key'    => $this->options['key'],
             'secret' => $this->options['secret'],
             'region' => $this->options['region'],
-        ));
+        ]);
 
         $adapter = new Adapter($client, $this->options['bucket'], $this->options['prefix']);
 

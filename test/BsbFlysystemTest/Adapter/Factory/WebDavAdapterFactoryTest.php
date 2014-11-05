@@ -55,7 +55,7 @@ class WebDavAdapterFactoryTest extends TestCase
             $this->setExpectedException($expectedException, $expectedExceptionMessage);
         }
 
-        $this->method->invokeArgs($factory, array());
+        $this->method->invokeArgs($factory, []);
 
         if (is_array($expectedOptions)) {
             $this->assertEquals($expectedOptions, $this->property->getValue($factory));
@@ -67,17 +67,17 @@ class WebDavAdapterFactoryTest extends TestCase
      */
     public function validateConfigProvider()
     {
-        return array(
-            array(
-                array(),
+        return [
+            [
+                [],
                 false,
                 'UnexpectedValueException',
                 "Missing 'baseUri' as option"
-            ),
-            array(
-                array('baseUri' => 'foo'),
-                array('baseUri' => 'foo', 'prefix' => null),
-            ),
-        );
+            ],
+            [
+                ['baseUri' => 'foo'],
+                ['baseUri' => 'foo', 'prefix' => null],
+            ],
+        ];
     }
 }

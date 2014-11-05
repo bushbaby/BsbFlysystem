@@ -25,7 +25,7 @@ class DropboxAdapterFactory extends AbstractAdapterFactory implements FactoryInt
             throw new RequirementsException(
                 sprintf(
                     "Install '%s' to use '%s'",
-                    implode(', ', array('dropbox/dropbox-sdk')),
+                    implode(', ', ['dropbox/dropbox-sdk']),
                     'League\Flysystem\Adapter\AwsS3'
                 )
             );

@@ -20,7 +20,7 @@ class ReplicateAdapterFactory extends AbstractAdapterFactory implements FactoryI
 
         $this->validateConfig();
 
-        while (is_callable(array($serviceLocator, 'getServiceLocator'))) {
+        while (is_callable([$serviceLocator, 'getServiceLocator'])) {
             $serviceLocator = $serviceLocator->getServiceLocator();
         }
 

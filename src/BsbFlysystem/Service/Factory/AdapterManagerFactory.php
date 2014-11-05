@@ -9,7 +9,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class AdapterManagerFactory implements FactoryInterface
 {
-    protected $adapterFactoryMap = array(
+    protected $adapterFactoryMap = [
         'awss3'     => 'BsbFlysystem\Adapter\Factory\AwsS3AdapterFactory',
         'copy'      => 'BsbFlysystem\Adapter\Factory\CopyAdapterFactory',
         'dropbox'   => 'BsbFlysystem\Adapter\Factory\DropboxAdapterFactory',
@@ -21,7 +21,7 @@ class AdapterManagerFactory implements FactoryInterface
         'sftp'      => 'BsbFlysystem\Adapter\Factory\SftpAdapterFactory',
         'webdav'    => 'BsbFlysystem\Adapter\Factory\WebDavAdapterFactory',
         'zip'       => 'BsbFlysystem\Adapter\Factory\ZipAdapterFactory',
-    );
+    ];
 
     /**
      * Create service

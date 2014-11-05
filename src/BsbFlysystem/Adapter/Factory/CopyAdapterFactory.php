@@ -26,7 +26,7 @@ class CopyAdapterFactory extends AbstractAdapterFactory implements FactoryInterf
             throw new RequirementsException(
                 sprintf(
                     "Install '%s' to use '%s'",
-                    implode(', ', array('barracuda/copy')),
+                    implode(', ', ['barracuda/copy']),
                     'League\Flysystem\Adapter\Copy'
                 )
             );

@@ -30,7 +30,7 @@ class AbstractAdapterFactoryTest extends TestCase
 
     public function testOptionsViaContructor()
     {
-        $options = array('option' => 1);
+        $options = ['option' => 1];
         $factory = new SimpleAdapterFactory($options);
 
         $expected = $options;
@@ -40,23 +40,23 @@ class AbstractAdapterFactoryTest extends TestCase
 
     public function testOptionsFromConfigService()
     {
-        $options = array('option' => 1);
+        $options = ['option' => 1];
         $factory = new SimpleAdapterFactory();
         $sm      = new ServiceManager();
         $sm->setService(
             'Config',
-            array(
-                'bsb_flysystem' => array(
-                    'adapters' => array(
-                        'simple_default' => array(
+            [
+                'bsb_flysystem' => [
+                    'adapters' => [
+                        'simple_default' => [
                             'options' => $options
-                        )
-                    )
-                )
-            )
+                        ]
+                    ]
+                ]
+            ]
         );
 
-        $this->method->invokeArgs($factory, array($sm, 'simple_default'));
+        $this->method->invokeArgs($factory, [$sm, 'simple_default']);
         $expected = $options;
 
         $this->assertEquals($expected, $this->property->getValue($factory));
@@ -64,70 +64,70 @@ class AbstractAdapterFactoryTest extends TestCase
 
     public function testConstructOptionsOverridesOptionsFromConfigService()
     {
-        $constructor_options = array('option' => 1, 'option2' => 2);
-        $config_options      = array('option' => 0, 'option3' => 3);
+        $constructor_options = ['option' => 1, 'option2' => 2];
+        $config_options      = ['option' => 0, 'option3' => 3];
         $factory             = new SimpleAdapterFactory($constructor_options);
         $sm                  = new ServiceManager();
         $sm->setService(
             'Config',
-            array(
-                'bsb_flysystem' => array(
-                    'adapters' => array('simple_default' => array('options' => $config_options))
-                )
-            )
+            [
+                'bsb_flysystem' => [
+                    'adapters' => ['simple_default' => ['options' => $config_options]]
+                ]
+            ]
         );
 
-        $this->method->invokeArgs($factory, array($sm, 'simple_default'));
+        $this->method->invokeArgs($factory, [$sm, 'simple_default']);
 
-        $expected = array('option' => 1, 'option2' => 2, 'option3' => 3);
+        $expected = ['option' => 1, 'option2' => 2, 'option3' => 3];
 
         $this->assertEquals($expected, $this->property->getValue($factory));
     }
 
     public function testIncompleteConfigPathsDoesNotChangeOptions()
     {
-        $constructor_options = array('option' => 1, 'option2' => 2);
+        $constructor_options = ['option' => 1, 'option2' => 2];
         $factory             = new SimpleAdapterFactory($constructor_options);
         $sm                  = new ServiceManager();
-        $sm->setService('Config', array());
+        $sm->setService('Config', []);
 
-        $this->method->invokeArgs($factory, array($sm, 'simple_default'));
+        $this->method->invokeArgs($factory, [$sm, 'simple_default']);
         $expected = $constructor_options;
         $this->assertEquals($expected, $this->property->getValue($factory));
 
         $sm = new ServiceManager();
 
-        $this->method->invokeArgs($factory, array($sm, 'simple_default'));
+        $this->method->invokeArgs($factory, [$sm, 'simple_default']);
         $expected = $constructor_options;
         $this->assertEquals($expected, $this->property->getValue($factory));
 
         $sm = new ServiceManager();
-        $sm->setService('Config', array('bsb_flysystem' => array()));
+        $sm->setService('Config', ['bsb_flysystem' => []]);
 
-        $this->method->invokeArgs($factory, array($sm, 'simple_default'));
+        $this->method->invokeArgs($factory, [$sm, 'simple_default']);
         $expected = $constructor_options;
         $this->assertEquals($expected, $this->property->getValue($factory));
 
         $sm = new ServiceManager();
-        $sm->setService('Config', array('bsb_flysystem' => array('adapters' => array())));
+        $sm->setService('Config', ['bsb_flysystem' => ['adapters' => []]]);
 
-        $this->method->invokeArgs($factory, array($sm, 'simple.simple_default'));
+        $this->method->invokeArgs($factory, [$sm, 'simple.simple_default']);
         $expected = $constructor_options;
         $this->assertEquals($expected, $this->property->getValue($factory));
 
         $sm = new ServiceManager();
         $sm->setService(
             'Config',
-            array(
-                'bsb_flysystem' => array(
-                    'adapters' => array(
-                        'simple_default' => array()
-                    )
-                )
-            )
+            [
+                'bsb_flysystem' => [
+                    'adapters' => [
+                        'simple_default' => []
+                    ]
+                ]
+            ]
         );
 
-        $this->method->invokeArgs($factory, array($sm, 'simple_default'));
+        $this->method->invokeArgs($factory, [$sm, 'simple_default']);
         $expected = $constructor_options;
         $this->assertEquals($expected, $this->property->getValue($factory));
     }

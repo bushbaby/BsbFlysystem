@@ -55,7 +55,7 @@ class NullAdapterFactoryTest extends TestCase
             $this->setExpectedException($expectedException, $expectedExceptionMessage);
         }
 
-        $this->method->invokeArgs($factory, array());
+        $this->method->invokeArgs($factory, []);
 
         if (is_array($expectedOptions)) {
             $this->assertEquals($expectedOptions, $this->property->getValue($factory));
@@ -64,11 +64,11 @@ class NullAdapterFactoryTest extends TestCase
 
     public function validateConfigProvider()
     {
-        return array(
-            array(
-                array(),
-                array(),
-            ),
-        );
+        return [
+            [
+                [],
+                [],
+            ],
+        ];
     }
 }

@@ -16,7 +16,7 @@ class FilesystemFactory implements FactoryInterface, MutableCreationOptionsInter
      */
     protected $options;
 
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
         $this->setCreationOptions($options);
     }
@@ -32,7 +32,7 @@ class FilesystemFactory implements FactoryInterface, MutableCreationOptionsInter
         $this->options = $options;
 
         if (!isset($this->options['adapter_options'])) {
-            $this->options['adapter_options'] = array();
+            $this->options['adapter_options'] = [];
         }
     }
 
@@ -45,7 +45,7 @@ class FilesystemFactory implements FactoryInterface, MutableCreationOptionsInter
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        while (is_callable(array($serviceLocator, 'getServiceLocator'))) {
+        while (is_callable([$serviceLocator, 'getServiceLocator'])) {
             $serviceLocator = $serviceLocator->getServiceLocator();
         }
 
@@ -57,7 +57,7 @@ class FilesystemFactory implements FactoryInterface, MutableCreationOptionsInter
             ->get($config['adapter'], $this->options['adapter_options']);
 
         $cache   = null;
-        $options = isset($config['options']) && is_array($config['options']) ? $config['options'] : array();
+        $options = isset($config['options']) && is_array($config['options']) ? $config['options'] : [];
 
         if (isset($config['eventable']) && filter_var($config['eventable'], FILTER_VALIDATE_BOOLEAN)) {
             if (!class_exists('League\Flysystem\EventableFilesystem')) {

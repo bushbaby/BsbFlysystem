@@ -55,7 +55,7 @@ class LocalAdapterFactoryTest extends TestCase
             $this->setExpectedException($expectedException, $expectedExceptionMessage);
         }
 
-        $this->method->invokeArgs($factory, array());
+        $this->method->invokeArgs($factory, []);
 
         if (is_array($expectedOptions)) {
             $this->assertEquals($expectedOptions, $this->property->getValue($factory));
@@ -64,17 +64,17 @@ class LocalAdapterFactoryTest extends TestCase
 
     public function validateConfigProvider()
     {
-        return array(
-            array(
-                array(),
+        return [
+            [
+                [],
                 false,
                 'UnexpectedValueException',
                 "Missing 'root' as option"
-            ),
-            array(
-                array('root' => '.'),
-                array('root' => '.')
-            ),
-        );
+            ],
+            [
+                ['root' => '.'],
+                ['root' => '.']
+            ],
+        ];
     }
 }

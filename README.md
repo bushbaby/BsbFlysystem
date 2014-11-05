@@ -55,16 +55,16 @@ example: a local adapter pointing to ./data/files
 
 ```
 <?php
-    'bsb_flysystem' => array(
-        'adapters' => array(
-            'local_files' => array(
+    'bsb_flysystem' => [
+        'adapters' => [
+            'local_files' => [
                 'type' => 'local',
-                'options' => array(
+                'options' => [
                     'root' => './data/files'
-                ),
-            ),
-        ),
-    ),
+                ],
+            ],
+        ],
+    ],
 ```
 
 ### Filesystems
@@ -78,15 +78,15 @@ Configure a filesystems by adding to `bsb_flysystem->filesystems`. Each filesyst
 example: Filesystem called 'files' with the previously defined 'local_files' adapter.
 
 ```php
-    'bsb_flysystem' => array(
-        'filesystem' => array(
-            'files' => array(
+    'bsb_flysystem' => [
+        'filesystem' => [
+            'files' => []
     	        'adapter' => 'local_files',
     	        'cache' => false,
     	        'eventable => false,
-            )
-        )
-    ),
+            ],
+        ],
+    ],
 ```
 
 ### Caches
@@ -98,13 +98,12 @@ Configure a caches by adding to `bsb_flysystem->caches`. Each cache may containi
 example: Cache called 'memcached'.
 
 ```php
-    'bsb_flysystem' => array(
-        'caches' => array(
-            'memcached' => array(
-
-            )
-        )
-    ),
+    'bsb_flysystem' => [
+        'caches' => [
+            'memcached' => [
+            ],
+        ],
+    ],
 ```
 
 
@@ -168,21 +167,21 @@ A feature of ZF2 service managers is the ability to create an instance of a serv
 Consider the following configuration.
 
 ```
-       'adapters' => array(
-           'dropbox_user' => array(
+       'adapters' => [
+           'dropbox_user' => [
                 'type' => 'dropbox',
                 'shared' => false,
-                'options' => array(
+                'options' => [
                     'client_identifier' => 'app_id',
                     'access_token'      => 'xxxxx',
-                ),
-            ),
-        ),
-        'filesystems' => array(
-        	'dropbox_user' => array(
+                ],
+            ],
+        ],
+        'filesystems' => [
+        	'dropbox_user' => [
         		'adapter' => 'dropbox_user'
-        	)
-        ),
+        	],
+        ],
 ```
 
 ```

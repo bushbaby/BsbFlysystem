@@ -16,7 +16,7 @@ abstract class AbstractAdapterFactory implements MutableCreationOptionsInterface
      */
     protected $options;
 
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
         $this->setCreationOptions($options);
     }
@@ -40,11 +40,11 @@ abstract class AbstractAdapterFactory implements MutableCreationOptionsInterface
      */
     protected function mergeMvcConfig(ServiceLocatorInterface $serviceLocator, $requestedName)
     {
-        while (is_callable(array($serviceLocator, 'getServiceLocator'))) {
+        while (is_callable([$serviceLocator, 'getServiceLocator'])) {
             $serviceLocator = $serviceLocator->getServiceLocator();
         }
 
-        $config = $serviceLocator->has('Config') ? $serviceLocator->get('Config') : array();
+        $config = $serviceLocator->has('Config') ? $serviceLocator->get('Config') : [];
 
         if (!isset($config['bsb_flysystem']['adapters'][$requestedName]['options']) ||
             !is_array(($config['bsb_flysystem']['adapters'][$requestedName]['options']))
@@ -65,14 +65,14 @@ abstract class AbstractAdapterFactory implements MutableCreationOptionsInterface
      */
     public function getLazyFactory(ServiceLocatorInterface $serviceLocator)
     {
-        while (is_callable(array($serviceLocator, 'getServiceLocator'))) {
+        while (is_callable([$serviceLocator, 'getServiceLocator'])) {
             $serviceLocator = $serviceLocator->getServiceLocator();
         }
 
-        $config = $serviceLocator->has('Config') ? $serviceLocator->get('Config') : array();
+        $config = $serviceLocator->has('Config') ? $serviceLocator->get('Config') : [];
 
         $config['lazy_services'] = ArrayUtils::merge(
-            isset($config['lazy_services']) ? $config['lazy_services'] : array(),
+            isset($config['lazy_services']) ? $config['lazy_services'] : [],
             $config['bsb_flysystem']['adapter_manager']['lazy_services']
         );
 

@@ -60,7 +60,7 @@ class ReplicaAdapterFactoryTest extends TestCase
             $this->setExpectedException($expectedException, $expectedExceptionMessage);
         }
 
-        $this->method->invokeArgs($factory, array());
+        $this->method->invokeArgs($factory, []);
 
         if (is_array($expectedOptions)) {
             $this->assertEquals($expectedOptions, $this->property->getValue($factory));
@@ -72,23 +72,23 @@ class ReplicaAdapterFactoryTest extends TestCase
      */
     public function validateConfigProvider()
     {
-        return array(
-            array(
-                array(),
+        return [
+            [
+                [],
                 false,
                 'UnexpectedValueException',
                 "Missing 'source' as option"
-            ),
-            array(
-                array('source' => 'local->default'),
+            ],
+            [
+                ['source' => 'local->default'],
                 false,
                 'UnexpectedValueException',
                 "Missing 'replicate' as option"
-            ),
-            array(
-                array('source' => 'local->default', 'replicate' => 'zip->default'),
-                array('source' => 'local->default', 'replicate' => 'zip->default'),
-            ),
-        );
+            ],
+            [
+                ['source' => 'local->default', 'replicate' => 'zip->default'],
+                ['source' => 'local->default', 'replicate' => 'zip->default'],
+            ],
+        ];
     }
 }

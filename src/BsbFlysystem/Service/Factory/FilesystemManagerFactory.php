@@ -17,7 +17,7 @@ class FilesystemManagerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        while (is_callable(array($serviceLocator, 'getServiceLocator'))) {
+        while (is_callable([$serviceLocator, 'getServiceLocator'])) {
             $serviceLocator = $serviceLocator->getServiceLocator();
         }
 

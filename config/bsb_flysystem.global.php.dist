@@ -1,17 +1,17 @@
 <?php
 
-return array(
-    'bsb_flysystem' => array(
-        'connection' => array(
-            'local_default'     => array(
+return [
+    'bsb_flysystem' => [
+        'connection' => [
+            'local_default'     => [
                 'type'    => 'local',
-                'options' => array(
+                'options' => [
                     'root' => './data/files'
-                ),
-            ),
-            'sftp_default'      => array(
+                ],
+            ],
+            'sftp_default'      => [
                 'type'    => 'sftp',
-                'options' => array(
+                'options' => [
                     'host'     => 'xxxxx.xxx',
                     'port'     => 21,
                     'username' => 'xxxxx',
@@ -19,56 +19,56 @@ return array(
                     // 'privateKey' => 'path/to/or/contents/of/privatekey',
                     // 'root' => '/path/to/root',
                     // 'timeout' => 10,
-                ),
-            ),
-            'zip_default'       => array(
+                ],
+            ],
+            'zip_default'       => [
                 'type'    => 'zip',
-                'options' => array(
+                'options' => [
                     'archive' => './data/files.zip',
                     'prefix'  => '/'
-                ),
-            ),
-            'rackspace_default' => array(
+                ],
+            ],
+            'rackspace_default' => [
                 'type'    => 'rackspace',
-                'options' => array(
+                'options' => [
                     'url'         => "http://api-uri",
-                    'secret'      => array(
+                    'secret'      => [
                         'username' => "xxxxx",
                         'password' => "xxxxx",
-                    ),
-                    'objectstore' => array(
+                    ],
+                    'objectstore' => [
                         'name'      => 'xxxxx',
                         'region'    => 'XX',
                         'url_type'  => 'publicURL',
                         'container' => 'xxxxx'
-                    ),
+                    ],
                     'prefix'      => '/'
-                ),
-            ),
-            'dropbox_default'   => array(
+                ],
+            ],
+            'dropbox_default'   => [
                 'type'    => 'dropbox',
-                'options' => array(
+                'options' => [
                     'client_identifier' => 'app_id',
                     'access_token'      => 'xxxxx',
                     'prefix'            => '/'
-                ),
-            ),
-            'awss3_default'     => array(
+                ],
+            ],
+            'awss3_default'     => [
                 'type'    => 'awss3',
-                'options' => array(
+                'options' => [
                     'key'    => 'your-app-id',
                     'secret' => 'xxxxx',
                     'bucket' => 'xxxxx'
-                ),
-            ),
-            'webdav_default'    => array(
+                ],
+            ],
+            'webdav_default'    => [
                 'type'    => 'webdav',
-                'options' => array(
+                'options' => [
                     'baseUri'  => 'http://demo.sabredav.org/',
                     'userName' => 'testuser',
                     'password' => 'test'
-                ),
-            ),
-        ),
-    ),
-);
+                ],
+            ],
+        ],
+    ],
+];

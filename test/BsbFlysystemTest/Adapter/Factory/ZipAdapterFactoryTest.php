@@ -55,7 +55,7 @@ class ZipAdapterFactoryTest extends TestCase
             $this->setExpectedException($expectedException, $expectedExceptionMessage);
         }
 
-        $this->method->invokeArgs($factory, array());
+        $this->method->invokeArgs($factory, []);
 
         if (is_array($expectedOptions)) {
             $this->assertEquals($expectedOptions, $this->property->getValue($factory));
@@ -67,17 +67,17 @@ class ZipAdapterFactoryTest extends TestCase
      */
     public function validateConfigProvider()
     {
-        return array(
-            array(
-                array(),
+        return [
+            [
+                [],
                 false,
                 'UnexpectedValueException',
                 "Missing 'archive' as option"
-            ),
-            array(
-                array('archive' => 'foo'),
-                array('archive' => 'foo', 'prefix' => null)
-            ),
-        );
+            ],
+            [
+                ['archive' => 'foo'],
+                ['archive' => 'foo', 'prefix' => null]
+            ],
+        ];
     }
 }

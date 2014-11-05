@@ -1,47 +1,47 @@
 <?php
 
-return array(
-    'bsb_flysystem' => array(
-        'adapters'        => array(
-            'local_default'       => array(
+return [
+    'bsb_flysystem' => [
+        'adapters'        => [
+            'local_default'       => [
                 'type'    => 'local',
-                'options' => array(
+                'options' => [
                     'root' => './test/build/files'
-                ),
-            ),
-            'local_data_unshared' => array(
+                ],
+            ],
+            'local_data_unshared' => [
                 'type'    => 'local',
                 'shared'  => false,
-                'options' => array(
+                'options' => [
                     'root' => './test/build/files'
-                ),
-            ),
-            'copy_default'        => array(
+                ],
+            ],
+            'copy_default'        => [
                 'type'    => 'copy',
-                'options' => array(
+                'options' => [
                     'consumer_key'    => 'xxxxx',
                     'consumer_secret' => 'xxxxx',
                     'access_token'    => 'xxxxx',
                     'token_secret'    => 'xxxxx',
-                ),
-            ),
-            'null_default'        => array(
+                ],
+            ],
+            'null_default'        => [
                 'type'    => 'null',
-                'options' => array(),
-            ),
-            'sftp_default'        => array(
+                'options' => [],
+            ],
+            'sftp_default'        => [
                 'type'    => 'sftp',
-                'options' => array(
+                'options' => [
                     'host'     => 'xxxxx',
                     'port'     => 22,
                     'username' => 'xxxxx',
                     'password' => 'xxxxx',
                     'timeout'  => 10,
-                ),
-            ),
-            'ftp_default'         => array(
+                ],
+            ],
+            'ftp_default'         => [
                 'type'    => 'ftp',
-                'options' => array(
+                'options' => [
                     'host'     => 'xxxxx',
                     'username' => 'xxxxx',
                     'password' => 'xxxxx',
@@ -51,91 +51,91 @@ return array(
                     'passive'  => true,
                     'ssl'      => false,
                     'timeout'  => 30,
-                ),
-            ),
-            'zip_default'         => array(
+                ],
+            ],
+            'zip_default'         => [
                 'type'    => 'zip',
-                'options' => array(
+                'options' => [
                     'archive' => './test/build/files.zip'
 
-                ),
-            ),
-            'rackspace_default'   => array(
+                ],
+            ],
+            'rackspace_default'   => [
                 'type'    => 'rackspace',
-                'options' => array(
+                'options' => [
                     'url'         => "http.xxxxx.xxx",
-                    'secret'      => array(
+                    'secret'      => [
                         'username'    => "xxxxx",
                         'password'    => "xxxxx",
                         'tenant_name' => "xxxxx"
-                    ),
-                    'objectstore' => array(
+                    ],
+                    'objectstore' => [
                         'name'      => 'xxxxx',
                         'region'    => 'XX',
                         'url_type'  => 'publicURL',
                         'container' => 'xxxxx'
-                    ),
-                ),
-            ),
-            'rackspace_lazy'      => array(
+                    ],
+                ],
+            ],
+            'rackspace_lazy'      => [
                 'type'    => 'rackspace',
-                'options' => array(
+                'options' => [
                     'url'         => "http.xxxxx.xxx",
-                    'secret'      => array(
+                    'secret'      => [
                         'username'    => "xxxxx",
                         'password'    => "xxxxx",
                         'tenant_name' => "xxxxx"
-                    ),
-                    'objectstore' => array(
+                    ],
+                    'objectstore' => [
                         'name'      => 'xxxxx',
                         'region'    => 'XX',
                         'url_type'  => 'publicURL',
                         'container' => 'xxxxx'
-                    ),
-                ),
-            ),
-            'dropbox_default'     => array(
+                    ],
+                ],
+            ],
+            'dropbox_default'     => [
                 'type'    => 'dropbox',
                 'shared'  => 'off', /* optional */
-                'options' => array(
+                'options' => [
                     'client_identifier' => 'xxxxx',
                     'access_token'      => 'xxxxx'
-                ),
-            ),
-            'awss3_default'       => array(
+                ],
+            ],
+            'awss3_default'       => [
                 'type'    => 'awss3',
-                'options' => array(
+                'options' => [
                     'key'    => 'xxxxx',
                     'secret' => 'xxxxx',
                     'region' => 'eu-west-1',
                     'bucket' => 'xxxxx'
-                ),
-            ),
-            'replicate_default'   => array(
+                ],
+            ],
+            'replicate_default'   => [
                 'type'    => 'replicate',
-                'options' => array(
+                'options' => [
                     'source'    => 'local_default',
                     'replicate' => 'zip_default'
-                ),
-            ),
-            'webdav_default'      => array(
+                ],
+            ],
+            'webdav_default'      => [
                 'type'    => 'webdav',
-                'options' => array(
+                'options' => [
                     'baseUri'  => 'http.xxxxx.xxx',
                     'userName' => 'xxxxx',
                     'password' => 'xxxxx'
-                ),
-            ),
-        ),
-        'filesystems'     => array(
-            'default'          => array(
+                ],
+            ],
+        ],
+        'filesystems'     => [
+            'default'          => [
                 'adapter' => 'local_data',
-            ),
-            'default_unshared' => array(
+            ],
+            'default_unshared' => [
                 'shared'  => false,
                 'adapter' => 'local_data_unshared',
-            )
-        ),
-        'adapter_manager' => array(),
-    ),
-);
+            ]
+        ],
+        'adapter_manager' => [],
+    ],
+];

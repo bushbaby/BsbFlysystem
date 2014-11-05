@@ -56,7 +56,7 @@ class CopyAdapterFactoryTest extends TestCase
             $this->setExpectedException($expectedException, $expectedExceptionMessage);
         }
 
-        $this->method->invokeArgs($factory, array());
+        $this->method->invokeArgs($factory, []);
 
         if (is_array($expectedOptions)) {
             $this->assertEquals($expectedOptions, $this->property->getValue($factory));
@@ -65,46 +65,46 @@ class CopyAdapterFactoryTest extends TestCase
 
     public function validateConfigProvider()
     {
-        return array(
-            array(
-                array(),
-                array(),
+        return [
+            [
+                [],
+                [],
                 'UnexpectedValueException',
                 "Missing 'consumer_key' as option"
-            ),
-            array(
-                array('consumer_key' => 'xxx'),
-                array(),
+            ],
+            [
+                ['consumer_key' => 'xxx'],
+                [],
                 'UnexpectedValueException',
                 "Missing 'consumer_secret' as option"
-            ),
-            array(
-                array('consumer_key' => 'xxx', 'consumer_secret' => 'xxx'),
-                array(),
+            ],
+            [
+                ['consumer_key' => 'xxx', 'consumer_secret' => 'xxx'],
+                [],
                 'UnexpectedValueException',
                 "Missing 'access_token' as option"
-            ),
-            array(
-                array('consumer_key' => 'xxx', 'consumer_secret' => 'xxx', 'access_token' => 'xxx'),
-                array(),
+            ],
+            [
+                ['consumer_key' => 'xxx', 'consumer_secret' => 'xxx', 'access_token' => 'xxx'],
+                [],
                 'UnexpectedValueException',
                 "Missing 'token_secret' as option"
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'consumer_key'    => 'xxx',
                     'consumer_secret' => 'xxx',
                     'access_token'    => 'xxx',
                     'token_secret'    => 'xxx'
-                ),
-                array(
+                ],
+                [
                     'consumer_key'    => 'xxx',
                     'consumer_secret' => 'xxx',
                     'access_token'    => 'xxx',
                     'token_secret'    => 'xxx',
                     'prefix'          => null
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 }

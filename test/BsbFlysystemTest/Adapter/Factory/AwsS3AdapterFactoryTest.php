@@ -55,7 +55,7 @@ class AwsS3AdapterFactoryTest extends TestCase
             $this->setExpectedException($expectedException, $expectedExceptionMessage);
         }
 
-        $this->method->invokeArgs($factory, array());
+        $this->method->invokeArgs($factory, []);
 
         if (is_array($expectedOptions)) {
             $this->assertEquals($expectedOptions, $this->property->getValue($factory));
@@ -64,53 +64,53 @@ class AwsS3AdapterFactoryTest extends TestCase
 
     public function validateConfigProvider()
     {
-        return array(
-            array(
-                array(),
-                array(),
+        return [
+            [
+                [],
+                [],
                 'UnexpectedValueException',
                 "Missing 'key' as option"
-            ),
-            array(
-                array('key' => 'foo'),
-                array(),
+            ],
+            [
+                ['key' => 'foo'],
+                [],
                 'UnexpectedValueException',
                 "Missing 'secret' as option"
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'key'    => 'foo',
                     'secret' => 'secret',
-                ),
-                array(),
+                ],
+                [],
                 'UnexpectedValueException',
                 "Missing 'region' as option"
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'key'    => 'foo',
                     'secret' => 'secret',
                     'region' => 'region',
-                ),
-                array(),
+                ],
+                [],
                 'UnexpectedValueException',
                 "Missing 'bucket' as option"
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'key'    => 'abc',
                     'secret' => 'def',
                     'region' => 'ghi',
                     'bucket' => 'jkl',
-                ),
-                array(
+                ],
+                [
                     'key'    => 'abc',
                     'secret' => 'def',
                     'region' => 'ghi',
                     'bucket' => 'jkl',
                     'prefix' => null,
-                )
-            ),
-        );
+                ]
+            ],
+        ];
     }
 }
