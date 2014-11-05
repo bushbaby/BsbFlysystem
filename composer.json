@@ -16,15 +16,15 @@
     },
     "require-dev": {
         "league/event": "~1.0",
-        "rackspace/php-opencloud": "~1.10.0",
-        "dropbox/dropbox-sdk": "~1.1.3",
-        "barracuda/copy": "~1.1.4",
-        "phpseclib/phpseclib" : "~0.3.5",
+        "rackspace/php-opencloud": "~1.10",
+        "dropbox/dropbox-sdk": "~1.1",
+        "barracuda/copy": "~1.1",
+        "phpseclib/phpseclib" : "~0.3",
         "aws/aws-sdk-php": "~2.4",
         "squizlabs/php_codesniffer": "~2.0RC1",
         "phpunit/phpunit": "~4.1",
-        "ocramius/proxy-manager": "~1.0.0@beta",
-        "sabre/dav" : "*"
+        "ocramius/proxy-manager": "~1.0@beta",
+        "sabre/dav" : "~2.0"
     },
     "autoload": {
         "psr-0": {
