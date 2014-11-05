@@ -2,11 +2,11 @@
 
 A simple Zend Framework 2 module that bridges the Flysystem filesystem.
 
-Provides a way to configure the various filesystem adapters provided by the flysystem. These configured adapters are exposed via the service manager.
+[![Latest Stable Version](https://poser.pugx.org/bushbaby/flysystem/v/stable.svg)](https://packagist.org/packages/bushbaby/flysystem) [![Total Downloads](https://poser.pugx.org/bushbaby/flysystem/downloads.svg)](https://packagist.org/packages/bushbaby/flysystem) [![Latest Unstable Version](https://poser.pugx.org/bushbaby/flysystem/v/unstable.svg)](https://packagist.org/packages/bushbaby/flysystem) [![License](https://poser.pugx.org/bushbaby/flysystem/license.svg)](https://packagist.org/packages/bushbaby/flysystem)
 
-Visit [flysystem](http://flysystem.thephpleague.com) for detailed usage of the Flysystem library.
+Provides a way to configure the various filesystem adapters provided by thephpleague's 'Flysystem'. Visit [flysystem](http://flysystem.thephpleague.com) for detailed usage of the Flysystem library.
 
-Note : WIP do not use in production!
+Note: WIP do not use in production!
 
 This module allows to retrieve fully configured filesystems by name from the ServiceLocator. These filesystems will be fully configured. This allows your code be agnostic the configuration of adpaters and filesystems. Whether the filesystem is a local filesystem or remote dropbox account, whether you enable caching or use the replicate adapter becomes a configuration detail.
 
