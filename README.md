@@ -11,11 +11,7 @@ A simple Zend Framework 2 module that bridges the Flysystem filesystem.
 [![Build Status](https://scrutinizer-ci.com/g/bushbaby/BsbFlysystem/badges/build.png?b=master)](https://scrutinizer-ci.com/g/bushbaby/BsbFlysystem/build-status/master)
 [![Dependency Status](https://www.versioneye.com/user/projects/545a9e49114a5db6d5000006/badge.svg?style=flat)](https://www.versioneye.com/user/projects/545a9e49114a5db6d5000006)
 
-Provides a way to configure the various filesystem adapters provided by thephpleague's 'Flysystem'. Visit [flysystem](http://flysystem.thephpleague.com) for detailed usage of the Flysystem library.
-
-Note: WIP do not use in production!
-
-This module allows to retrieve fully configured filesystems by name from the ServiceLocator. These filesystems will be fully configured. This allows your code be agnostic the configuration of adpaters and filesystems. Whether the filesystem is a local filesystem or remote dropbox account, whether you enable caching or use the replicate adapter becomes a configuration detail.
+Provides a way to configure the various filesystem adapters provided by thephpleague's 'Flysystem'. And allows to retrieve fully configured filesystems by name from the ServiceLocator. Whether the defined filesystems are local- or dropbox filesystems becomes a configuration detail.
 
 ## Installation
 
@@ -53,7 +49,7 @@ To configure an adapter you add a key to `bsb_flysystem->adapters` with a associ
 
 example: a local adapter pointing to ./data/files
 
-```
+```php
 <?php
     'bsb_flysystem' => [
         'adapters' => [
@@ -78,9 +74,10 @@ Configure a filesystems by adding to `bsb_flysystem->filesystems`. Each filesyst
 example: Filesystem called 'files' with the previously defined 'local_files' adapter.
 
 ```php
+<?php
     'bsb_flysystem' => [
-        'filesystem' => [
-            'files' => []
+        'filesystems' => [
+            'files' => [
     	        'adapter' => 'local_files',
     	        'cache' => false,
     	        'eventable => false,
@@ -91,13 +88,14 @@ example: Filesystem called 'files' with the previously defined 'local_files' ada
 
 ### Caches
 
-- **Not yet implemented** -
+\- **Not yet implemented** -
 
 Configure a caches by adding to `bsb_flysystem->caches`. Each cache may containing the following options;
 
 example: Cache called 'memcached'.
 
 ```php
+<?php
     'bsb_flysystem' => [
         'caches' => [
             'memcached' => [
@@ -106,6 +104,29 @@ example: Cache called 'memcached'.
     ],
 ```
 
+#### AdapterManager
+
+The AdapterManager is automaticly configured, However it is possible to tweak its configuration via `bsb_flysystem->adapter_manager`. 
+
+Inparticular the lazy_services may be usefull if you use the Rackspace Adapter. BsbFlystem lazy load that adapter so it will not create a connection until you actually use adapter. This done with help from [ProxyManager](https://github.com/Ocramius/ProxyManager). As ZF2 also uses this libary we take advantage of the 'lazy_services' configuration that may be available in your application. The Rackspace adapter merges the ZF2 lazy_services config key with the adapter_manager lazy_services config allowing control over how the ProxyManager handles it's thing.
+
+```php
+<?php
+    'bsb_flysystem' => [
+        'adapter_manager' => [
+            'services'      => [
+            ],
+            'lazy_services' => [
+                // directory where proxy classes will be written - default to system_get_tmp_dir()
+                // 'proxies_target_dir'    => 'data/cache',
+                // namespace of the generated proxies, default to "ProxyManagerGeneratedProxy"
+                // 'proxies_namespace'     => null,
+                // whether the generated proxy classes should be written to disk
+                // 'write_proxy_files'     => false,
+            ],
+        ],
+    ],
+```
 
 ## Usage
 
@@ -119,9 +140,10 @@ In its simplest form this is how we would retrieve a filesystem. We get the file
 
 example: Fetch a 'default' filesystem. In this case a 'local' filesystem with a root of 'data'.
 
-```
-$filesystem = $serviceLocator->get('BsbFlysystemManager')->get('default');
-$contents   = $filesystem->read('file.txt');
+```php
+<?php
+    $filesystem = $serviceLocator->get('BsbFlysystemManager')->get('default');
+    $contents   = $filesystem->read('file.txt');
 ```
 
 If we at some point decide we need to store these files on a different system. Rackspace for example, we simply reconfigure the named filesystem service to use a different named adapter service. No need to change the userland implementation.
@@ -130,10 +152,11 @@ If we at some point decide we need to store these files on a different system. R
 
 Direct access to the Adapter service is possible by via the `BsbFlysystemAdapterManager` service registered in the main service locator. This is useful to setup `Mount` Filesystems or to use runtime configuration. See the advanced section below.
 
-```
-$adapter    = $serviceLocator->get('BsbFlysystemAdapterManager')->get('local.data');
-$filesystem = new Filesystem($adapter);
-$contents   = $filesystem->read('file.txt');
+```php
+<?php
+    $adapter    = $serviceLocator->get('BsbFlysystemAdapterManager')->get('local_data');
+    $filesystem = new Filesystem($adapter);
+    $contents   = $filesystem->read('file.txt');
 ```
 
 ## Provided Factories
@@ -147,6 +170,7 @@ I have tried to provide factories (and tests) for each of the adapters that come
 - Dropbox
 - Ftp
 - Local
+  - BsbFlysystem is preconfigured with an adapter named 'local_data' to expose the ./data directory of a ZF2 application
 - Null
 - Rackspace
   - the ObjectStore Container must exist before usage
@@ -158,36 +182,87 @@ I have tried to provide factories (and tests) for each of the adapters that come
 
 ### Cache
 
+\- **not yet implemented** -
 
+### Filesystems
+
+There is one FilesystemFactory which creates a Filesystem of EventableFilesystem based on the configuration
 
 ## Advanced Usage
 
-A feature of ZF2 service managers is the ability to create an instance of a service each time you request it from the service manager (shared vs unshared). For adapters this can be easily accomplished by setting 'shared' to false/true. This in combination with the create options that can be provided to the get method of the service manager is useful to override certain configuration keys. 
+### Shared option and createOptions
 
-Consider the following configuration.
+A feature of ZF2 service managers is the ability to create an instance of a service each time you request it from the service manager (shared vs unshared). As a convienence this can be easily accomplished by setting 'shared' to false/true. Together with 'createOptions' that can be provided to the get method of a service manager this is useful to override option values. 
 
-```
-       'adapters' => [
-           'dropbox_user' => [
-                'type' => 'dropbox',
-                'shared' => false,
-                'options' => [
-                    'client_identifier' => 'app_id',
-                    'access_token'      => 'xxxxx',
-                ],
+Consider the following configuration; Retrieve multiple configured dropbox filesystems based on stored accessTokens retrieved at runtime.
+
+```php
+<?php
+    'adapters' => [
+        'dropbox_user' => [
+            'type' => 'dropbox',
+            'shared' => false,
+            'options' => [
+                'client_identifier' => 'app_id',
+                'access_token'      => 'xxxxx',
             ],
         ],
-        'filesystems' => [
-        	'dropbox_user' => [
-        		'adapter' => 'dropbox_user'
-        	],
+    ],
+    'filesystems' => [
+        'dropbox_user' => [
+            'shared' => false,
+            'adapter' => 'dropbox_user'
         ],
+    ],
 ```
 
-```
-$adapter    = $serviceLocator->get('BsbFlysystemAdapterManager')
-                             ->get('dropbox_user', ['access_token' => $accessToken]);
-$filesystem = new Filesystem($adapter);
+```php
+<?php
+    $accessTokens = [...];
+    foreach ($accessTokens as $accessToken) {
+        $adapter    = $serviceLocator->get('BsbFlysystemAdapterManager')
+                                     ->get('dropbox_user', [
+                                         'access_token' => $accessToken
+                                     ]);
+
+        $filesystem = new Filesystem($adapter);
+        $filesystem->put('TOS.txt', 'hi!');
+    }
 ```
 
+Using the same createOptions feature but now directly from the Filesystem Manager. Note: the adapter_options key which are passed to the Adapter Manager by the FilesystemFactory.
+
+```php
+<?php
+    $accessTokens = [...];
+    foreach ($accessTokens as $accessToken) {
+        $filesystem    = $serviceLocator->get('BsbFlysystemManager')
+                                        ->get('dropbox_user', [
+                                            'adapter_options' => [
+                                               'access_token' => $accessToken
+                                            ]
+                                        ]);
+ 
+        $filesystem = new Filesystem($adapter);
+        $filesystem->put('TOS.txt', 'hi!');
+    }
+```
+
+### Mount Manager
+
+```php
+<?php
+    $sourceFilesystem    = $serviceLocator->get('BsbFlysystemManager')->get('default'); // local adapter ./data
+    $targetFilesystem    = $serviceLocator->get('BsbFlysystemManager')->get('archive'); // eg. zip archive
+
+    $manager = new League\Flysystem\MountManager(array(
+        'source' => $sourceFilesystem,
+        'target' => $targetFilesystem,
+    ));
+
+    $contents = $manager->listContents('source://some_directory', true);
+    foreach ($contents as $entry) {
+	    $manager->put('target://'.$entry['path'], $manager->read('source://'.$entry['path']));
+    }
+```
 

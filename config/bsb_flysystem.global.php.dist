@@ -2,8 +2,8 @@
 
 return [
     'bsb_flysystem' => [
-        'connection' => [
-            'local_default'     => [
+        'adapters' => [
+            'local_files'     => [
                 'type'    => 'local',
                 'options' => [
                     'root' => './data/files'
@@ -68,6 +68,13 @@ return [
                     'userName' => 'testuser',
                     'password' => 'test'
                 ],
+            ],
+        ],
+        'filesystem' => [
+            'files' => [
+                'adapter' => 'xxxx',
+            	'cache' => false,
+                'eventable => false,
             ],
         ],
     ],
