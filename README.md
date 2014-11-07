@@ -30,7 +30,7 @@ Copy the `config/bsb_flysystem.global.php.dist` to the `config/autoload` directo
 
 ## Configuration
 
-All configuration regarding BsbFlysystem life in the `bsb_flysystem` config key.
+All configuration regarding BsbFlysystem live in the 'bsb_flysystem' config key.
 
 The configuration consists of the following base elements;
 
@@ -69,7 +69,7 @@ Configure a filesystems by adding to `bsb_flysystem->filesystems`. Each filesyst
 
 - adapter \<string\>  Name of adapter service.
 - cache   \<string\> (optional) If defined a name of a cache service. Defaults to false.
-- eventable \<boolean\> When true returns an EventableFilesystem instance. (see [flysystem](http://flysystem.thephpleague.com).
+- eventable \<boolean\> When true returns an EventableFilesystem instance. (see [flysystem](http://flysystem.thephpleague.com)).
 
 example: Filesystem called 'files' with the previously defined 'local_files' adapter.
 
