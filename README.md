@@ -105,12 +105,12 @@ example: Cache called 'memcached'.
 
 The AdapterManager is automaticly configured, However it is possible to tweak its configuration via `bsb_flysystem->adapter_manager`. 
 
-Inparticular the lazy_services may be usefull if you use the Rackspace Adapter. BsbFlystem lazy load that adapter so it will not create a connection until you actually use adapter. This done with help from [ProxyManager](https://github.com/Ocramius/ProxyManager). As ZF2 also uses this libary we take advantage of the 'lazy_services' configuration that may be available in your application. The Rackspace adapter merges the ZF2 lazy_services config key with the adapter_manager lazy_services config allowing control over how the ProxyManager handles it's thing.
+In particular the lazy_services configuration key may be useful if you use the Rackspace Adapter. BsbFlysystem loads that adapter 'lazily'. A connection is only established until you actually use the adapter. This done with help from [ProxyManager](https://github.com/Ocramius/ProxyManager). As ZF2 also uses this libary we take advantage of the 'lazy_services' configuration that may be available in your application. The Rackspace adapter merges the ZF2 lazy_services config key with the adapter_manager lazy_services config allowing control over how the ProxyManager handles it's thing.
 
 ```php
 'bsb_flysystem' => [
     'adapter_manager' => [
-        'services'      => [
+        'config'      => [
         ],
         'lazy_services' => [
             // directory where proxy classes will be written - default to system_get_tmp_dir()

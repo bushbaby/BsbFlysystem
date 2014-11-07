@@ -23,7 +23,7 @@ return [
             ]
         ],
         'adapter_manager'    => [
-            'services'      => [],
+            'config'      => [],
             'lazy_services' => [
                 // directory where proxy classes will be written - default to system_get_tmp_dir()
                 // 'proxies_target_dir'    => 'data/cache',
@@ -34,7 +34,7 @@ return [
             ],
         ],
         'filesystem_manager' => [
-            'services' => [],
+            'config' => [],
         ],
     ],
     'service_manager' => [

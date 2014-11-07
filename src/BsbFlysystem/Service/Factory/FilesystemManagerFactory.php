@@ -23,7 +23,7 @@ class FilesystemManagerFactory implements FactoryInterface
 
         $config        = $serviceLocator->get('config');
         $config        = $config['bsb_flysystem'];
-        $serviceConfig = $config['filesystem_manager']['services'];
+        $serviceConfig = $config['filesystem_manager']['config'];
 
         foreach ($config['filesystems'] as $name => $filesystemConfig) {
             if (isset($filesystemConfig['shared'])) {

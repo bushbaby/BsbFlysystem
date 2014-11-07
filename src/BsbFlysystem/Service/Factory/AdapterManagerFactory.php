@@ -33,7 +33,7 @@ class AdapterManagerFactory implements FactoryInterface
     {
         $config        = $serviceLocator->get('config');
         $config        = $config['bsb_flysystem'];
-        $serviceConfig = $config['adapter_manager']['services'];
+        $serviceConfig = $config['adapter_manager']['config'];
 
         foreach ($config['adapters'] as $name => $adapterConfig) {
             if (!isset($adapterConfig['type'])) {
