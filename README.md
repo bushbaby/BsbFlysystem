@@ -80,7 +80,7 @@ example: Filesystem called 'files' with the previously defined 'local_files' ada
             'files' => [
     	        'adapter' => 'local_files',
     	        'cache' => false,
-    	        'eventable => false,
+    	        'eventable' => false,
             ],
         ],
     ],
