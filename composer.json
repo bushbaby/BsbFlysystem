@@ -40,15 +40,6 @@
         ]
     },
     "suggest": {
-        "league/event": "Required for EventableFilesystem",
-        "aws/aws-sdk-php": "Allows you to use AWS S3 storage",
-        "predis/predis": "Allows you to use Predis for caching",
-        "dropbox/dropbox-sdk": "Allows you to use Dropbox storage",
-        "phpseclib/phpseclib": "Allows SFTP server storage",
-        "sabre/dav": "Enables WebDav support",
-        "rackspace/php-opencloud": "Allows you to use Rackspace Cloud Files",
-        "barracuda/copy": "Allows you to use Copy.com storage",
-        "guzzlehttp/guzzle": "Allows you to use http files (reading only)"
     },
     "extra": {
         "branch-alias": {
