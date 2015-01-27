@@ -3,6 +3,7 @@
 namespace BsbFlysystem\Filesystem\Factory;
 
 use BsbFlysystem\Exception\RequirementsException;
+use League\Flysystem\Cached\CachedAdapter;
 use League\Flysystem\EventableFilesystem\EventableFilesystem;
 use League\Flysystem\Filesystem;
 use Zend\ServiceManager\FactoryInterface;
@@ -56,8 +57,21 @@ class FilesystemFactory implements FactoryInterface, MutableCreationOptionsInter
             ->get('BsbFlysystemAdapterManager')
             ->get($config['adapter'], $this->options['adapter_options']);
 
-        $cache   = null;
         $options = isset($config['options']) && is_array($config['options']) ? $config['options'] : [];
+
+        if (isset($config['cache']) && filter_var($config['cache'], FILTER_VALIDATE_BOOLEAN)) {
+            if (!class_exists('League\Flysystem\Cached\CachedAdapter')) {
+                throw new RequirementsException(
+                    sprintf("Install '%s' to use cached adapters", 'league/flysystem-cached-adapter')
+                );
+            }
+
+            $cacheAdapter = $serviceLocator
+                ->get('BsbFlysystemCacheManager')
+                ->get($config['cache']);
+
+            $adapter = new CachedAdapter($adapter, $cacheAdapter);
+        }
 
         if (isset($config['eventable']) && filter_var($config['eventable'], FILTER_VALIDATE_BOOLEAN)) {
             if (!class_exists('League\Flysystem\EventableFilesystem\EventableFilesystem')) {
