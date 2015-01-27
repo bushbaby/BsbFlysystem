@@ -66,9 +66,9 @@ class FilesystemFactory implements FactoryInterface, MutableCreationOptionsInter
                 );
             }
 
-            $filesystem = new EventableFilesystem($adapter, $cache, $options);
+            $filesystem = new EventableFilesystem($adapter, $options);
         } else {
-            $filesystem = new Filesystem($adapter, $cache, $options);
+            $filesystem = new Filesystem($adapter, $options);
         }
 
         if (isset($config['plugins']) && is_array($config['plugins'])) {
