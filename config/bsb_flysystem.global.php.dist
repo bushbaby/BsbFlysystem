@@ -70,11 +70,11 @@ return [
                 ],
             ],
         ],
-        'filesystem' => [
+        'filesystems' => [
             'files' => [
                 'adapter' => 'xxxx',
-            	'cache' => false,
-                'eventable => false,
+                'cache' => false,
+                'eventable' => false,
             ],
         ],
     ],
