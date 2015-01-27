@@ -38,7 +38,7 @@ class CopyAdapterFactoryTest extends TestCase
 
         $adapter = $factory->createService($manager, 'copydefault', 'copy_default');
 
-        $this->assertInstanceOf('League\Flysystem\Adapter\Copy', $adapter);
+        $this->assertInstanceOf('League\Flysystem\Copy\CopyAdapter', $adapter);
     }
 
     /**

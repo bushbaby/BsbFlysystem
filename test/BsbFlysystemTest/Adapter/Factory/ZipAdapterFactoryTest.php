@@ -37,7 +37,7 @@ class ZipAdapterFactoryTest extends TestCase
 
         $adapter = $factory->createService($manager, 'zipdefault', 'zip_default');
 
-        $this->assertInstanceOf('League\Flysystem\Adapter\Zip', $adapter);
+        $this->assertInstanceOf('League\Flysystem\ZipArchive\ZipArchiveAdapter', $adapter);
     }
 
     /**

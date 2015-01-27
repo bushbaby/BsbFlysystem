@@ -37,7 +37,7 @@ class AwsS3AdapterFactoryTest extends TestCase
 
         $adapter = $factory->createService($manager, 'awss3default', 'awss3_default');
 
-        $this->assertInstanceOf('League\Flysystem\Adapter\AwsS3', $adapter);
+        $this->assertInstanceOf('League\Flysystem\AwsS3v2\AwsS3Adapter', $adapter);
     }
 
     /**

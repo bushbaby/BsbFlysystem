@@ -37,7 +37,7 @@ class RackspaceAdapterFactoryTest extends TestCase
 
         $adapter = $factory->createService($manager, 'rackspacedefault', 'rackspace_default');
 
-        $this->assertInstanceOf('League\Flysystem\Adapter\RackSpace', $adapter);
+        $this->assertInstanceOf('League\Flysystem\Rackspace\RackspaceAdapter', $adapter);
     }
 
     /**

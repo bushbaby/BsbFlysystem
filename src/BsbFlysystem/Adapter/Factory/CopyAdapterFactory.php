@@ -4,7 +4,7 @@ namespace BsbFlysystem\Adapter\Factory;
 
 use Barracuda\Copy\API;
 use BsbFlysystem\Exception\RequirementsException;
-use League\Flysystem\Adapter\Copy as Adapter;
+use League\Flysystem\Copy\CopyAdapter as Adapter;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -27,7 +27,7 @@ class CopyAdapterFactory extends AbstractAdapterFactory implements FactoryInterf
                 sprintf(
                     "Install '%s' to use '%s'",
                     implode(', ', ['barracuda/copy']),
-                    'League\Flysystem\Adapter\Copy'
+                    'League\Flysystem\Copy\CopyAdapter'
                 )
             );
         }

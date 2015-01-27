@@ -2,7 +2,7 @@
 
 namespace BsbFlysystem\Adapter\Factory;
 
-use League\Flysystem\Adapter\ReplicateAdapter as Adapter;
+use League\Flysystem\Replicate\ReplicateAdapter as Adapter;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 

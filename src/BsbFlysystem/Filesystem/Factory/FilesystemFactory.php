@@ -3,7 +3,7 @@
 namespace BsbFlysystem\Filesystem\Factory;
 
 use BsbFlysystem\Exception\RequirementsException;
-use League\Flysystem\EventableFilesystem;
+use League\Flysystem\EventableFilesystem\EventableFilesystem;
 use League\Flysystem\Filesystem;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\MutableCreationOptionsInterface;
@@ -60,8 +60,10 @@ class FilesystemFactory implements FactoryInterface, MutableCreationOptionsInter
         $options = isset($config['options']) && is_array($config['options']) ? $config['options'] : [];
 
         if (isset($config['eventable']) && filter_var($config['eventable'], FILTER_VALIDATE_BOOLEAN)) {
-            if (!class_exists('League\Flysystem\EventableFilesystem')) {
-                throw new RequirementsException(sprintf("Install '%s' to use EventableFilesystem", 'league/event'));
+            if (!class_exists('League\Flysystem\EventableFilesystem\EventableFilesystem')) {
+                throw new RequirementsException(
+                    sprintf("Install '%s' to use EventableFilesystem", 'league/flysystem-eventable-filesystem')
+                );
             }
 
             $filesystem = new EventableFilesystem($adapter, $cache, $options);

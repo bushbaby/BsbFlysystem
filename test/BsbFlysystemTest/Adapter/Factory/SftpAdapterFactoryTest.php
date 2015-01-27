@@ -37,7 +37,7 @@ class SftpAdapterFactoryTest extends TestCase
 
         $adapter = $factory->createService($manager, 'sftpdefault', 'sftp_default');
 
-        $this->assertInstanceOf('League\Flysystem\Adapter\Sftp', $adapter);
+        $this->assertInstanceOf('League\Flysystem\Sftp\SftpAdapter', $adapter);
     }
 
     /**

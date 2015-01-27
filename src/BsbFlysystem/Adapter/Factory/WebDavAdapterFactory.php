@@ -3,7 +3,7 @@
 namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\RequirementsException;
-use League\Flysystem\Adapter\WebDav as Adapter;
+use League\Flysystem\WebDAV\WebDAVAdapter as Adapter;
 use Sabre\DAV\Client;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -27,7 +27,7 @@ class WebDavAdapterFactory extends AbstractAdapterFactory implements FactoryInte
                 sprintf(
                     "Install '%s' to use '%s'",
                     implode(', ', ['sabre/dav']),
-                    'League\Flysystem\Adapter\WebDav'
+                    'League\Flysystem\WebDAV\WebDAVAdapter'
                 )
             );
         }

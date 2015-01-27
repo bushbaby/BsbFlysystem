@@ -3,7 +3,7 @@
 namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\RequirementsException;
-use League\Flysystem\Adapter\Dropbox as Adapter;
+use League\Flysystem\Dropbox\DropboxAdapter as Adapter;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -26,7 +26,7 @@ class DropboxAdapterFactory extends AbstractAdapterFactory implements FactoryInt
                 sprintf(
                     "Install '%s' to use '%s'",
                     implode(', ', ['dropbox/dropbox-sdk']),
-                    'League\Flysystem\Adapter\Dropbox'
+                    'League\Flysystem\Dropbox\DropboxAdapter'
                 )
             );
         }

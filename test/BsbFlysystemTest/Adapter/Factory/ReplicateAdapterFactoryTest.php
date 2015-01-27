@@ -37,7 +37,7 @@ class ReplicaAdapterFactoryTest extends TestCase
 
         $adapter = $factory->createService($manager, 'replicatedefault', 'replicate_default');
 
-        $this->assertInstanceOf('League\Flysystem\Adapter\ReplicateAdapter', $adapter);
+        $this->assertInstanceOf('League\Flysystem\Replicate\ReplicateAdapter', $adapter);
     }
 
     /**

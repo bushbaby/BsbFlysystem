@@ -3,7 +3,7 @@
 namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\RequirementsException;
-use League\Flysystem\Adapter\Sftp as Adapter;
+use League\Flysystem\Sftp\SftpAdapter as Adapter;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -26,7 +26,7 @@ class SftpAdapterFactory extends AbstractAdapterFactory implements FactoryInterf
                 sprintf(
                     "Install '%s' to use '%s'",
                     implode(', ', ['phpseclib/phpseclib']),
-                    'League\Flysystem\Adapter\Sftp'
+                    'League\Flysystem\Sftp\SftpAdapter'
                 )
             );
         }

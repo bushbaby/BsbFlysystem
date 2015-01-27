@@ -37,7 +37,7 @@ class DropboxAdapterFactoryTest extends TestCase
 
         $adapter = $factory->createService($manager, 'dropboxdefault', 'dropbox_default');
 
-        $this->assertInstanceOf('League\Flysystem\Adapter\Dropbox', $adapter);
+        $this->assertInstanceOf('League\Flysystem\Dropbox\DropboxAdapter', $adapter);
     }
 
     /**

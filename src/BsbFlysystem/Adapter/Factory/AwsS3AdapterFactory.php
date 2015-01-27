@@ -4,7 +4,7 @@ namespace BsbFlysystem\Adapter\Factory;
 
 use Aws\S3\S3Client;
 use BsbFlysystem\Exception\RequirementsException;
-use League\Flysystem\Adapter\AwsS3 as Adapter;
+use League\Flysystem\AwsS3v2\AwsS3Adapter as Adapter;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -28,7 +28,7 @@ class AwsS3AdapterFactory extends AbstractAdapterFactory implements FactoryInter
                 sprintf(
                     "Install '%s' to use '%s'",
                     implode(', ', ['aws/aws-sdk-php']),
-                    'League\Flysystem\Adapter\AwsS3'
+                    'League\Flysystem\AwsS3v2\AwsS3Adapter'
                 )
             );
         }

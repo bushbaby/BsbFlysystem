@@ -37,7 +37,7 @@ class WebDavAdapterFactoryTest extends TestCase
 
         $adapter = $factory->createService($manager, 'webdavdefault', 'webdav_default');
 
-        $this->assertInstanceOf('League\Flysystem\Adapter\WebDav', $adapter);
+        $this->assertInstanceOf('League\Flysystem\WebDAV\WebDAVAdapter', $adapter);
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace BsbFlysystem\Adapter\Factory;
 
-use League\Flysystem\Adapter\Zip as Adapter;
+use League\Flysystem\ZipArchive\ZipArchiveAdapter as Adapter;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 

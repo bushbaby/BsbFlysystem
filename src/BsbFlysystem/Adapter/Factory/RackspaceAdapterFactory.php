@@ -3,7 +3,7 @@
 namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\RequirementsException;
-use League\Flysystem\Adapter\Rackspace as Adapter;
+use League\Flysystem\Rackspace\RackspaceAdapter as Adapter;
 use OpenCloud\OpenStack;
 use ProxyManager\Factory\LazyLoadingValueHolderFactory;
 use Zend\ServiceManager\FactoryInterface;
@@ -30,13 +30,13 @@ class RackspaceAdapterFactory extends AbstractAdapterFactory implements FactoryI
                 sprintf(
                     "Install '%s' to use '%s'",
                     implode(', ', ['rackspace/php-opencloud', 'ocramius/proxy-manager']),
-                    'League\Flysystem\Adapter\Rackspace'
+                    'League\Flysystem\Rackspace\RackspaceAdapter'
                 )
             );
         }
 
         $proxy = $this->getLazyFactory($serviceLocator)->createProxy(
-            'League\Flysystem\Adapter\Rackspace',
+            'League\Flysystem\Rackspace\RackspaceAdapter',
             function (&$wrappedObject, $proxy, $method, $parameters, &$initializer) {
                 $client = new OpenStack(
                     $this->options['url'],
