@@ -6,7 +6,7 @@ use League\Flysystem\ZipArchive\ZipArchiveAdapter as Adapter;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class ZipAdapterFactory extends AbstractAdapterFactory implements FactoryInterface
+class ZipArchiveAdapterFactory extends AbstractAdapterFactory implements FactoryInterface
 {
     /**
      * Create service

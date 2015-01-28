@@ -1,9 +1,10 @@
 # CHANGELOG
 
 v1.0.0-dev
-
-- Updated to work with Flysystem 1.0.0
-- Renamed config keys :
+- Zip is now called ZipArchive (BC)
+- Caching is now implemented
+- compatible with Flysystem 1.0.0 (BC)
+- Renamed config keys (BC);
   - bsb_flysystem['adapter_manager']['services'] > bsb_flysystem['adapter_manager']['config']
   - bsb_flysystem['filesystem_manager']['services'] > bsb_flysystem['filesystem_manager']['config']
 

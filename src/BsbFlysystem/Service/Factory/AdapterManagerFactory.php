@@ -10,17 +10,17 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class AdapterManagerFactory implements FactoryInterface
 {
     protected $adapterFactoryMap = [
-        'awss3'     => 'BsbFlysystem\Adapter\Factory\AwsS3AdapterFactory',
-        'copy'      => 'BsbFlysystem\Adapter\Factory\CopyAdapterFactory',
-        'dropbox'   => 'BsbFlysystem\Adapter\Factory\DropboxAdapterFactory',
-        'ftp'       => 'BsbFlysystem\Adapter\Factory\FtpAdapterFactory',
-        'local'     => 'BsbFlysystem\Adapter\Factory\LocalAdapterFactory',
-        'null'      => 'BsbFlysystem\Adapter\Factory\NullAdapterFactory',
-        'rackspace' => 'BsbFlysystem\Adapter\Factory\RackspaceAdapterFactory',
-        'replicate' => 'BsbFlysystem\Adapter\Factory\ReplicateAdapterFactory',
-        'sftp'      => 'BsbFlysystem\Adapter\Factory\SftpAdapterFactory',
-        'webdav'    => 'BsbFlysystem\Adapter\Factory\WebDavAdapterFactory',
-        'zip'       => 'BsbFlysystem\Adapter\Factory\ZipAdapterFactory',
+        'awss3'      => 'BsbFlysystem\Adapter\Factory\AwsS3AdapterFactory',
+        'copy'       => 'BsbFlysystem\Adapter\Factory\CopyAdapterFactory',
+        'dropbox'    => 'BsbFlysystem\Adapter\Factory\DropboxAdapterFactory',
+        'ftp'        => 'BsbFlysystem\Adapter\Factory\FtpAdapterFactory',
+        'local'      => 'BsbFlysystem\Adapter\Factory\LocalAdapterFactory',
+        'null'       => 'BsbFlysystem\Adapter\Factory\NullAdapterFactory',
+        'rackspace'  => 'BsbFlysystem\Adapter\Factory\RackspaceAdapterFactory',
+        'replicate'  => 'BsbFlysystem\Adapter\Factory\ReplicateAdapterFactory',
+        'sftp'       => 'BsbFlysystem\Adapter\Factory\SftpAdapterFactory',
+        'webdav'     => 'BsbFlysystem\Adapter\Factory\WebDavAdapterFactory',
+        'ziparchive' => 'BsbFlysystem\Adapter\Factory\ZipArchiveAdapterFactory',
     ];
 
     /**

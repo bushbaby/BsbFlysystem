@@ -54,7 +54,7 @@ return [
                 ],
             ],
             'zip_default'            => [
-                'type'    => 'zip',
+                'type'    => 'ziparchive',
                 'options' => [
                     'archive' => './test/build/files.zip'
 

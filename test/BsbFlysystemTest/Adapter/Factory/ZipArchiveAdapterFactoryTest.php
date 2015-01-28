@@ -2,11 +2,11 @@
 
 namespace BsbFlysystemTest\Adapter\Factory;
 
-use BsbFlysystem\Adapter\Factory\ZipAdapterFactory;
+use BsbFlysystem\Adapter\Factory\ZipArchiveAdapterFactory;
 use BsbFlysystemTest\Bootstrap;
 use BsbFlysystemTest\Framework\TestCase;
 
-class ZipAdapterFactoryTest extends TestCase
+class ZipArchiveAdapterFactoryTest extends TestCase
 {
     /**
      * @var \ReflectionProperty
@@ -20,7 +20,7 @@ class ZipAdapterFactoryTest extends TestCase
 
     public function setup()
     {
-        $class          = new \ReflectionClass('BsbFlysystem\Adapter\Factory\ZipAdapterFactory');
+        $class          = new \ReflectionClass('BsbFlysystem\Adapter\Factory\ZipArchiveAdapterFactory');
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -33,7 +33,7 @@ class ZipAdapterFactoryTest extends TestCase
         $sm      = Bootstrap::getServiceManager();
         $manager = $sm->get('BsbFlysystemAdapterManager');
 
-        $factory = new ZipAdapterFactory();
+        $factory = new ZipArchiveAdapterFactory();
 
         $adapter = $factory->createService($manager, 'zipdefault', 'zip_default');
 
@@ -49,7 +49,7 @@ class ZipAdapterFactoryTest extends TestCase
         $expectedException = false,
         $expectedExceptionMessage = false
     ) {
-        $factory = new ZipAdapterFactory($options);
+        $factory = new ZipArchiveAdapterFactory($options);
 
         if ($expectedException) {
             $this->setExpectedException($expectedException, $expectedExceptionMessage);
