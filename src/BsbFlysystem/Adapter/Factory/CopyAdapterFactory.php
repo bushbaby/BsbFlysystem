@@ -22,11 +22,11 @@ class CopyAdapterFactory extends AbstractAdapterFactory implements FactoryInterf
 
         $this->validateConfig();
 
-        if (!class_exists('Barracuda\Copy\API')) {
+        if (!class_exists('League\Flysystem\Copy\CopyAdapter')) {
             throw new RequirementsException(
                 sprintf(
                     "Install '%s' to use '%s'",
-                    implode(', ', ['barracuda/copy']),
+                    'league/flysystem-copy',
                     'League\Flysystem\Copy\CopyAdapter'
                 )
             );

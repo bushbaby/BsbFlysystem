@@ -22,11 +22,11 @@ class WebDAVAdapterFactory extends AbstractAdapterFactory implements FactoryInte
 
         $this->validateConfig();
 
-        if (!class_exists('Sabre\DAV\Client')) {
+        if (!class_exists('League\Flysystem\WebDAV\WebDAVAdapter')) {
             throw new RequirementsException(
                 sprintf(
                     "Install '%s' to use '%s'",
-                    implode(', ', ['sabre/dav']),
+                    'league/flysystem-webdav',
                     'League\Flysystem\WebDAV\WebDAVAdapter'
                 )
             );

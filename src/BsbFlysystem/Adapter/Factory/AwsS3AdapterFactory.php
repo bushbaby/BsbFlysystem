@@ -23,11 +23,11 @@ class AwsS3AdapterFactory extends AbstractAdapterFactory implements FactoryInter
 
         $this->validateConfig();
 
-        if (!class_exists('Aws\S3\S3Client')) {
+        if (!class_exists('League\Flysystem\AwsS3v2\AwsS3Adapter')) {
             throw new RequirementsException(
                 sprintf(
                     "Install '%s' to use '%s'",
-                    implode(', ', ['aws/aws-sdk-php']),
+                    'league/flysystem-aws-s3-v2',
                     'League\Flysystem\AwsS3v2\AwsS3Adapter'
                 )
             );

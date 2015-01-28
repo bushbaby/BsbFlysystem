@@ -23,13 +23,13 @@ class RackspaceAdapterFactory extends AbstractAdapterFactory implements FactoryI
 
         $this->validateConfig();
 
-        if (!class_exists('OpenCloud\OpenStack') ||
+        if (!class_exists('League\Flysystem\Rackspace\RackspaceAdapter') ||
             !class_exists('ProxyManager\Factory\LazyLoadingValueHolderFactory')
         ) {
             throw new RequirementsException(
                 sprintf(
                     "Install '%s' to use '%s'",
-                    implode(', ', ['rackspace/php-opencloud', 'ocramius/proxy-manager']),
+                    implode(', ', ['league/flysystem-rackspace', 'ocramius/proxy-manager']),
                     'League\Flysystem\Rackspace\RackspaceAdapter'
                 )
             );

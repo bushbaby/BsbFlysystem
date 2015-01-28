@@ -21,11 +21,11 @@ class DropboxAdapterFactory extends AbstractAdapterFactory implements FactoryInt
 
         $this->validateConfig();
 
-        if (!class_exists('Dropbox\Client')) {
+        if (!class_exists('League\Flysystem\Dropbox\DropboxAdapter')) {
             throw new RequirementsException(
                 sprintf(
                     "Install '%s' to use '%s'",
-                    implode(', ', ['dropbox/dropbox-sdk']),
+                    'league/flysystem-dropbox',
                     'League\Flysystem\Dropbox\DropboxAdapter'
                 )
             );

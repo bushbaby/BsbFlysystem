@@ -21,11 +21,11 @@ class SftpAdapterFactory extends AbstractAdapterFactory implements FactoryInterf
 
         $this->validateConfig();
 
-        if (!class_exists('Net_SFTP')) {
+        if (!class_exists('League\Flysystem\Sftp\SftpAdapter')) {
             throw new RequirementsException(
                 sprintf(
                     "Install '%s' to use '%s'",
-                    implode(', ', ['phpseclib/phpseclib']),
+                    'league/flysystem-sftp',
                     'League\Flysystem\Sftp\SftpAdapter'
                 )
             );
