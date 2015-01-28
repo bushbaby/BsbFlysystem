@@ -6,6 +6,7 @@ use BsbFlysystem\Exception\RequirementsException;
 use League\Flysystem\Rackspace\RackspaceAdapter as Adapter;
 use OpenCloud\OpenStack;
 use ProxyManager\Factory\LazyLoadingValueHolderFactory;
+use ProxyManager\Proxy\VirtualProxyInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -15,7 +16,7 @@ class RackspaceAdapterFactory extends AbstractAdapterFactory implements FactoryI
      * Create service
      *
      * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
+     * @return VirtualProxyInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {

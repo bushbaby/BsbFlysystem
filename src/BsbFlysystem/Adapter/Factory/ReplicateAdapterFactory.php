@@ -13,7 +13,7 @@ class ReplicateAdapterFactory extends AbstractAdapterFactory implements FactoryI
      * Create service
      *
      * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
+     * @return Adapter
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
