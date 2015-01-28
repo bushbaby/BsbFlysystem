@@ -170,7 +170,7 @@ In its simplest form this is how we would retrieve a filesystem. We get the file
 
 example: Fetch a 'default' filesystem. In this case a 'local' filesystem with a root of 'data'.
 
-```php
+```
 $filesystem = $serviceLocator->get('BsbFlysystemManager')->get('default');
 $contents   = $filesystem->read('file.txt');
 ```
@@ -181,7 +181,7 @@ If we at some point decide we need to store these files on a different system. R
 
 Direct access to the Adapter service is possible by via the `BsbFlysystemAdapterManager` service registered in the main service locator. This is useful to setup `Mount` Filesystems or to use runtime configuration. See the advanced section below.
 
-```php
+```
 $adapter    = $serviceLocator->get('BsbFlysystemAdapterManager')->get('local_data');
 $filesystem = new Filesystem($adapter);
 $contents   = $filesystem->read('file.txt');
@@ -220,7 +220,7 @@ A feature of ZF2 service managers is the ability to create an instance of a serv
 
 Consider the following configuration; Retrieve multiple configured dropbox filesystems based on stored accessTokens retrieved at runtime.
 
-```php
+```
 'adapters' => [
     'dropbox_user' => [
         'type' => 'dropbox',
@@ -239,7 +239,7 @@ Consider the following configuration; Retrieve multiple configured dropbox files
 ],
 ```
 
-```php
+```
 $accessTokens = [...];
 foreach ($accessTokens as $accessToken) {
     $adapter    = $serviceLocator->get('BsbFlysystemAdapterManager')
@@ -254,7 +254,7 @@ foreach ($accessTokens as $accessToken) {
 
 Using the same createOptions feature but now directly from the Filesystem Manager. Notice the adapter_options key which are passed to the Adapter Manager by the FilesystemFactory.
 
-```php
+```
 $accessTokens = [...];
 foreach ($accessTokens as $accessToken) {
     $filesystem    = $serviceLocator->get('BsbFlysystemManager')
@@ -282,6 +282,6 @@ $manager = new League\Flysystem\MountManager(array(
 
 $contents = $manager->listContents('source://some_directory', true);
 foreach ($contents as $entry) {
-  $manager->put('target://'.$entry['path'], $manager->read('source://'.$entry['path']));
+    $manager->put('target://'.$entry['path'], $manager->read('source://'.$entry['path']));
 }
 ```
