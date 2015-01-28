@@ -50,5 +50,4 @@ class ZendStorageCache extends AbstractCache
         $contents = $this->getForStorage();
         $this->storage->setItem($this->key, $contents);
     }
-
 }
