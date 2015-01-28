@@ -1,15 +1,13 @@
 <?php
 
-return array(
-    'modules' => array(
+return [
+    'modules' => [
         'BsbFlysystem'
-    ),
-
-    'module_listener_options' => array(
-        'config_glob_paths' => array(
-            __DIR__ . '/../config/module.config.php',
+    ],
+    'module_listener_options' => [
+        'config_glob_paths' => [
             __DIR__ . '/BsbFlysystemTest/Assets/bsb_flysystem.global.php',
-        ),
-        'module_paths' => array()
-    ),
-);
+        ],
+        'module_paths' => []
+    ],
+];

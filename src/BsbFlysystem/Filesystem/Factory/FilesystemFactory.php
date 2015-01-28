@@ -2,10 +2,13 @@
 
 namespace BsbFlysystem\Filesystem\Factory;
 
+use BsbFlysystem\Cache\ZendStorageCache;
 use BsbFlysystem\Exception\RequirementsException;
 use League\Flysystem\Cached\CachedAdapter;
+use League\Flysystem\Cached\CacheInterface;
 use League\Flysystem\EventableFilesystem\EventableFilesystem;
 use League\Flysystem\Filesystem;
+use Zend\Cache\Storage\StorageInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\MutableCreationOptionsInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -41,7 +44,6 @@ class FilesystemFactory implements FactoryInterface, MutableCreationOptionsInter
      * Create service
      *
      * @param ServiceLocatorInterface $serviceLocator
-     * @todo implement caching
      * @return mixed
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
@@ -59,7 +61,7 @@ class FilesystemFactory implements FactoryInterface, MutableCreationOptionsInter
 
         $options = isset($config['options']) && is_array($config['options']) ? $config['options'] : [];
 
-        if (isset($config['cache']) && filter_var($config['cache'], FILTER_VALIDATE_BOOLEAN)) {
+        if (isset($config['cache']) && is_string($config['cache'])) {
             if (!class_exists('League\Flysystem\Cached\CachedAdapter')) {
                 throw new RequirementsException(
                     sprintf("Install '%s' to use cached adapters", 'league/flysystem-cached-adapter')
@@ -67,10 +69,17 @@ class FilesystemFactory implements FactoryInterface, MutableCreationOptionsInter
             }
 
             $cacheAdapter = $serviceLocator
-                ->get('BsbFlysystemCacheManager')
                 ->get($config['cache']);
 
-            $adapter = new CachedAdapter($adapter, $cacheAdapter);
+            // wrap if StorageInterface, use filesystem name a key
+            if ($cacheAdapter instanceof StorageInterface) {
+                $cacheAdapter = new ZendStorageCache($cacheAdapter, func_get_arg(2));
+            }
+
+            // ignore if not CacheInterface
+            if ($cacheAdapter instanceof CacheInterface) {
+                $adapter = new CachedAdapter($adapter, $cacheAdapter);
+            }
         }
 
         if (isset($config['eventable']) && filter_var($config['eventable'], FILTER_VALIDATE_BOOLEAN)) {
@@ -86,7 +95,7 @@ class FilesystemFactory implements FactoryInterface, MutableCreationOptionsInter
         }
 
         if (isset($config['plugins']) && is_array($config['plugins'])) {
-            foreach($config['plugins'] as $plugin) {
+            foreach ($config['plugins'] as $plugin) {
                 $plugin = new $plugin();
                 $filesystem->addPlugin($plugin);
             }

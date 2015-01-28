@@ -15,7 +15,7 @@ Provides a way to configure the various filesystem adapters provided by thephple
 
 ## Installation
 
-```sh
+```
 php composer.phar require "bushbaby/flysystem:~0.1"
 ```
 
@@ -30,12 +30,11 @@ Copy the `config/bsb_flysystem.global.php.dist` to the `config/autoload` directo
 
 ## Configuration
 
-All configuration regarding BsbFlysystem live in the 'bsb_flysystem' config key.
+Configuration regarding BsbFlysystem lives in the top-level configuration key 'bsb_flysystem.
 
 The configuration consists of the following base elements;
 
 - *Adapters* are consumed by a Filesystem.
-- *Caches* are consumed by a Filesystem.
 - *Filesystems* filesystem are consumed in userland.
 
 ### Adapters
@@ -49,7 +48,7 @@ To configure an adapter you add a key to `bsb_flysystem->adapters` with a associ
 
 example: a local adapter pointing to ./data/files
 
-```php
+```
 'bsb_flysystem' => [
     'adapters' => [
         'local_files' => [
@@ -67,12 +66,12 @@ example: a local adapter pointing to ./data/files
 Configure a filesystems by adding to `bsb_flysystem->filesystems`. Each filesystem may containing the following options;
 
 - adapter \<string\>  Name of adapter service.
-- cache   \<string\> (optional) If defined a name of a cache service. Defaults to false.
+- cache   \<string\> (optional) If defined as string it should be a name of a service present in the main service locator. Defaults to false.
 - eventable \<boolean\> When true returns an EventableFilesystem instance. (see [flysystem](http://flysystem.thephpleague.com)).
 
 example: Filesystem called 'files' with the previously defined 'local_files' adapter.
 
-```php
+```
 'bsb_flysystem' => [
     'filesystems' => [
         'files' => [
@@ -84,22 +83,57 @@ example: Filesystem called 'files' with the previously defined 'local_files' ada
 ],
 ```
 
-### Caches
+#### Caching
 
-\- **Not yet implemented** -
+No cache factories are provided by BsbFlysystem. You should write them yourself and register them in main service manager. You can use these by setting the cache option to the name of the service.
 
-Configure a caches by adding to `bsb_flysystem->caches`. Each cache may containing the following options;
-
-example: Cache called 'memcached'.
-
-```php
+```
 'bsb_flysystem' => [
-    'caches' => [
-        'memcached' => [
+    'filesystems' => [
+        'files' => [
+	        'cache' => 'My/Service/Cache',
         ],
     ],
 ],
+'service_manager' => [
+    'factories' => [
+    	'My/Service/Cache' => 'My/Service/CacheFactory'
+    ]
+]
 ```
+
+BsbFilesystem is able to automaticly wrap a ZF2 caching service in a in such way that a Flysystem instance is able to consume it.
+
+This means that BsbFlysystem can work with both flysystem caches (implementing `League\Flysystem\Cached\CacheInterface`) and ZF2 caches (implementing `Zend\Cache\Storage\StorageInterface`).
+
+example: caching options as are common in a ZF2 application
+
+```
+'bsb_flysystem' => [
+    'filesystems' => [
+        'files' => [
+	        'cache' => 'Cache\BsbFlystem\Memory',
+        ],
+    ],
+],
+'caches' => [
+    'Cache\BsbFlystem\Memory' => [
+        'adapter' => [
+            'name'    => 'memory',
+            'options' => [
+                'ttl'       => 300,
+            ],
+        ],
+    ],
+],
+'service_manager' => [
+    'abstract_factories' => [
+    	'Zend\Cache\Service\StorageCacheAbstractServiceFactory'
+    ],
+],
+```
+ 
+Further reading in ZF2 [documentation](http://framework.zend.com/manual/current/en/modules/zend.mvc.services.html#zend-cache-service-storagecacheabstractservicefactory).
 
 #### AdapterManager
 
@@ -155,7 +189,7 @@ $contents   = $filesystem->read('file.txt');
 
 ## Provided Factories
 
-I have tried to provide factories (and tests) for each of the adapters that come with the Flysystem. Each come with there own setof required and optional options. I refer to the Flysystem documentation for more inforation.
+I have tried to provide factories (and tests) for each of the adapters that come with the Flysystem. Each come with there own setof required and optional options. I refer to the Flysystem documentation for more information.
 
 ### Adapters
 
@@ -164,7 +198,7 @@ I have tried to provide factories (and tests) for each of the adapters that come
 - Dropbox
 - Ftp
 - Local
-  - BsbFlysystem is preconfigured with an adapter named 'local_data' to expose the ./data directory of a ZF2 application
+  - BsbFlysystem is preconfigured with an adapter named 'local_data' to expose the ./data directory of a ZF2 application.
 - Null
 - Rackspace
   - the ObjectStore Container must exist before usage
@@ -174,13 +208,9 @@ I have tried to provide factories (and tests) for each of the adapters that come
 - WebDav
 - Zip
 
-### Cache
-
-\- **not yet implemented** -
-
 ### Filesystems
 
-There is one FilesystemFactory which creates a Filesystem of EventableFilesystem based on the configuration
+There is one FilesystemFactory which creates a Filesystem or EventableFilesystem based on the configuration
 
 ## Advanced Usage
 
@@ -222,7 +252,7 @@ foreach ($accessTokens as $accessToken) {
 }
 ```
 
-Using the same createOptions feature but now directly from the Filesystem Manager. Note: the adapter_options key which are passed to the Adapter Manager by the FilesystemFactory.
+Using the same createOptions feature but now directly from the Filesystem Manager. Notice the adapter_options key which are passed to the Adapter Manager by the FilesystemFactory.
 
 ```php
 $accessTokens = [...];

@@ -1,22 +1,22 @@
 <?php
 
 return [
-    'bsb_flysystem' => [
+    'bsb_flysystem'   => [
         'adapters'        => [
-            'local_default'       => [
+            'local_default'          => [
                 'type'    => 'local',
                 'options' => [
                     'root' => './test/build/files'
                 ],
             ],
-            'local_data_unshared' => [
+            'local_default_unshared' => [
                 'type'    => 'local',
                 'shared'  => false,
                 'options' => [
                     'root' => './test/build/files'
                 ],
             ],
-            'copy_default'        => [
+            'copy_default'           => [
                 'type'    => 'copy',
                 'options' => [
                     'consumer_key'    => 'xxxxx',
@@ -25,11 +25,11 @@ return [
                     'token_secret'    => 'xxxxx',
                 ],
             ],
-            'null_default'        => [
+            'null_default'           => [
                 'type'    => 'null',
                 'options' => [],
             ],
-            'sftp_default'        => [
+            'sftp_default'           => [
                 'type'    => 'sftp',
                 'options' => [
                     'host'     => 'xxxxx',
@@ -39,7 +39,7 @@ return [
                     'timeout'  => 10,
                 ],
             ],
-            'ftp_default'         => [
+            'ftp_default'            => [
                 'type'    => 'ftp',
                 'options' => [
                     'host'     => 'xxxxx',
@@ -53,14 +53,14 @@ return [
                     'timeout'  => 30,
                 ],
             ],
-            'zip_default'         => [
+            'zip_default'            => [
                 'type'    => 'zip',
                 'options' => [
                     'archive' => './test/build/files.zip'
 
                 ],
             ],
-            'rackspace_default'   => [
+            'rackspace_default'      => [
                 'type'    => 'rackspace',
                 'options' => [
                     'url'         => "http.xxxxx.xxx",
@@ -77,7 +77,7 @@ return [
                     ],
                 ],
             ],
-            'rackspace_lazy'      => [
+            'rackspace_lazy'         => [
                 'type'    => 'rackspace',
                 'options' => [
                     'url'         => "http.xxxxx.xxx",
@@ -94,7 +94,7 @@ return [
                     ],
                 ],
             ],
-            'dropbox_default'     => [
+            'dropbox_default'        => [
                 'type'    => 'dropbox',
                 'shared'  => 'off', /* optional */
                 'options' => [
@@ -102,7 +102,7 @@ return [
                     'access_token'      => 'xxxxx'
                 ],
             ],
-            'awss3_default'       => [
+            'awss3_default'          => [
                 'type'    => 'awss3',
                 'options' => [
                     'key'    => 'xxxxx',
@@ -111,14 +111,14 @@ return [
                     'bucket' => 'xxxxx'
                 ],
             ],
-            'replicate_default'   => [
+            'replicate_default'      => [
                 'type'    => 'replicate',
                 'options' => [
                     'source'    => 'local_default',
                     'replicate' => 'zip_default'
                 ],
             ],
-            'webdav_default'      => [
+            'webdav_default'         => [
                 'type'    => 'webdav',
                 'options' => [
                     'baseUri'  => 'http.xxxxx.xxx',
@@ -129,13 +129,33 @@ return [
         ],
         'filesystems'     => [
             'default'          => [
-                'adapter' => 'local_data',
+                'adapter' => 'local_default',
             ],
             'default_unshared' => [
                 'shared'  => false,
-                'adapter' => 'local_data_unshared',
-            ]
+                'adapter' => 'local_default_unshared',
+            ],
+            'default_cached'   => [
+                'adapter' => 'local_default',
+                'cache'   => 'Cache\BsbFlysystem\Memory'
+            ],
         ],
         'adapter_manager' => [],
+    ],
+    'caches'          => [
+        'Cache\BsbFlysystem\Memory' => [
+            'adapter' => [
+                'name'    => 'memory',
+                'options' => [
+                    'ttl'       => 5,
+                    'namespace' => 'bsbflystem',
+                ],
+            ],
+        ],
+    ],
+    'service_manager' => [
+        'abstract_factories' => [
+            'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
+        ],
     ],
 ];

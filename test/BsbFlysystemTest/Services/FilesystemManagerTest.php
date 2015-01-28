@@ -6,6 +6,7 @@ use BsbFlysystem\Service\FilesystemManager;
 use BsbFlysystemTest\Bootstrap;
 use BsbFlysystemTest\Framework\TestCase;
 use League\Flysystem\Adapter\AbstractAdapter;
+use League\Flysystem\Cached\CachedAdapter;
 use League\Flysystem\Filesystem;
 use Zend\ServiceManager\AbstractPluginManager;
 
@@ -81,5 +82,20 @@ class FilesystemManagerTest extends TestCase
         $pathPrefix = str_replace(realpath('.'), '', $pathPrefix);
 
         $this->assertEquals('/test/build/documents/', $pathPrefix);
+    }
+
+    public function testCanGetCachedFilesystem()
+    {
+        $sm = Bootstrap::getServiceManager();
+        /** @var FilesystemManager $manager */
+        $manager = $sm->get('BsbFlysystemManager');
+
+        /** @var Filesystem $filesystem */
+        $filesystem = $manager->get('default_cached');
+
+        /** @var CachedAdapter $adapter */
+        $adapter = $filesystem->getAdapter();
+
+        $this->assertInstanceOf('League\Flysystem\Cached\CachedAdapter', $adapter);
     }
 }
