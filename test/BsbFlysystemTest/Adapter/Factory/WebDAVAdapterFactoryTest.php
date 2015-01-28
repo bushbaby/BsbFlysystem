@@ -2,11 +2,11 @@
 
 namespace BsbFlysystemTest\Adapter\Factory;
 
-use BsbFlysystem\Adapter\Factory\WebDavAdapterFactory;
+use BsbFlysystem\Adapter\Factory\WebDAVAdapterFactory;
 use BsbFlysystemTest\Bootstrap;
 use BsbFlysystemTest\Framework\TestCase;
 
-class WebDavAdapterFactoryTest extends TestCase
+class WebDAVAdapterFactoryTest extends TestCase
 {
     /**
      * @var \ReflectionProperty
@@ -20,7 +20,7 @@ class WebDavAdapterFactoryTest extends TestCase
 
     public function setup()
     {
-        $class          = new \ReflectionClass('BsbFlysystem\Adapter\Factory\WebDavAdapterFactory');
+        $class          = new \ReflectionClass('BsbFlysystem\Adapter\Factory\WebDAVAdapterFactory');
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -33,7 +33,7 @@ class WebDavAdapterFactoryTest extends TestCase
         $sm      = Bootstrap::getServiceManager();
         $manager = $sm->get('BsbFlysystemAdapterManager');
 
-        $factory = new WebDavAdapterFactory();
+        $factory = new WebDAVAdapterFactory();
 
         $adapter = $factory->createService($manager, 'webdavdefault', 'webdav_default');
 
@@ -49,7 +49,7 @@ class WebDavAdapterFactoryTest extends TestCase
         $expectedException = false,
         $expectedExceptionMessage = false
     ) {
-        $factory = new WebDavAdapterFactory($options);
+        $factory = new WebDAVAdapterFactory($options);
 
         if ($expectedException) {
             $this->setExpectedException($expectedException, $expectedExceptionMessage);

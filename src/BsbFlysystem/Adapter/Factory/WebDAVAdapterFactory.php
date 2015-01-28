@@ -8,7 +8,7 @@ use Sabre\DAV\Client;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class WebDavAdapterFactory extends AbstractAdapterFactory implements FactoryInterface
+class WebDAVAdapterFactory extends AbstractAdapterFactory implements FactoryInterface
 {
     /**
      * Create service
