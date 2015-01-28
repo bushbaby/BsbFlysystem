@@ -6,14 +6,14 @@ return [
             'local_default'          => [
                 'type'    => 'local',
                 'options' => [
-                    'root' => './test/build/files'
+                    'root' => './test/_build/files'
                 ],
             ],
             'local_default_unshared' => [
                 'type'    => 'local',
                 'shared'  => false,
                 'options' => [
-                    'root' => './test/build/files'
+                    'root' => './test/_build/files'
                 ],
             ],
             'copy_default'           => [
@@ -56,7 +56,7 @@ return [
             'zip_default'            => [
                 'type'    => 'ziparchive',
                 'options' => [
-                    'archive' => './test/build/files.zip'
+                    'archive' => './test/_build/files.zip'
 
                 ],
             ],

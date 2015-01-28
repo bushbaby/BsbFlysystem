@@ -31,19 +31,14 @@
         "league/flysystem-ziparchive": "~1.0"
     },
     "autoload": {
-        "psr-0": {
+        "psr-4": {
             "BsbFlysystem\\": "src/"
-        },
-        "classmap": [
-            "Module.php"
-        ]
-    },
-    "autoload-dev": {
-        "psr-0": {
-            "BsbFlysystemTest\\": "test/"
         }
     },
-    "suggest": {
+    "autoload-dev": {
+        "psr-4": {
+            "BsbFlysystemTest\\": "test/"
+        }
     },
     "extra": {
         "branch-alias": {

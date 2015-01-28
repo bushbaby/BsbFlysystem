@@ -8,7 +8,7 @@ php:
 before_script:
   - composer self-update
   - composer install --dev --prefer-source
-  - mkdir -p test/build
+  - mkdir -p test/_build
 
 script:
   - vendor/bin/phpunit -c ./phpunit.xml

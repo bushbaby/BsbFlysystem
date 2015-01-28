@@ -6,7 +6,7 @@ return [
     ],
     'module_listener_options' => [
         'config_glob_paths' => [
-            __DIR__ . '/BsbFlysystemTest/Assets/bsb_flysystem.global.php',
+            __DIR__ . '/Assets/bsb_flysystem.global.php',
         ],
         'module_paths' => []
     ],
