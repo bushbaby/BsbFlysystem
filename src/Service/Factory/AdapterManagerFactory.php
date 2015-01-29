@@ -46,7 +46,7 @@ class AdapterManagerFactory implements FactoryInterface
      * Create service
      *
      * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
+     * @return AdapterManager
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {

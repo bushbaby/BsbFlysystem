@@ -18,7 +18,7 @@ class AdapterManager extends AbstractPluginManager
         }
 
         throw new Exception\RuntimeException(sprintf(
-            'Adapter of type %s is invalid; must implement \League\Flysystem\Adapter\AbstractAdapter',
+            'Adapter of type %s is invalid; must implement \League\Flysystem\AdapterInterface',
             (is_object($plugin) ? get_class($plugin) : gettype($plugin))
         ));
     }
