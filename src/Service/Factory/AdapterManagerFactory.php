@@ -15,12 +15,15 @@ class AdapterManagerFactory implements FactoryInterface
         'dropbox'    => 'BsbFlysystem\Adapter\Factory\DropboxAdapterFactory',
         'ftp'        => 'BsbFlysystem\Adapter\Factory\FtpAdapterFactory',
         'local'      => 'BsbFlysystem\Adapter\Factory\LocalAdapterFactory',
-        'null'       => 'BsbFlysystem\Adapter\Factory\NullAdapterFactory',
         'rackspace'  => 'BsbFlysystem\Adapter\Factory\RackspaceAdapterFactory',
         'replicate'  => 'BsbFlysystem\Adapter\Factory\ReplicateAdapterFactory',
         'sftp'       => 'BsbFlysystem\Adapter\Factory\SftpAdapterFactory',
         'webdav'     => 'BsbFlysystem\Adapter\Factory\WebDavAdapterFactory',
         'ziparchive' => 'BsbFlysystem\Adapter\Factory\ZipArchiveAdapterFactory',
+    ];
+
+    protected $adapterInvokableMap = [
+        'null'       => 'League\Flysystem\Adapter\NullAdapter',
     ];
 
     /**
@@ -49,7 +52,9 @@ class AdapterManagerFactory implements FactoryInterface
                 $serviceConfig['shared'][$name] = filter_var($adapterConfig['shared'], FILTER_VALIDATE_BOOLEAN);
             }
 
-            if (isset($this->adapterFactoryMap[$type])) {
+            if (isset($this->adapterInvokableMap[$type])) {
+                $serviceConfig['invokables'][$name] = $this->adapterInvokableMap[strtolower($type)];
+            } elseif (isset($this->adapterFactoryMap[$type])) {
                 $serviceConfig['factories'][$name] = $this->adapterFactoryMap[strtolower($type)];
             } else {
                 throw new \UnexpectedValueException(sprintf("Unknown adapter 'type' ('%s')", $name));

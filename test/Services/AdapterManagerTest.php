@@ -6,6 +6,7 @@ use BsbFlysystem\Service\AdapterManager;
 use BsbFlysystem\Service\ConnectionManager;
 use BsbFlysystemTest\Bootstrap;
 use BsbFlysystemTest\Framework\TestCase;
+use Zend\ServiceManager\AbstractPluginManager;
 
 class AdapterManagerTest extends TestCase
 {
@@ -39,6 +40,14 @@ class AdapterManagerTest extends TestCase
         $manager = $sm->get('BsbFlysystemAdapterManager');
 
         $this->assertInstanceOf('League\Flysystem\Adapter\AbstractAdapter', $manager->get('local_default'));
+    }
+
+    public function testCreateViaServiceManagerNull()
+    {
+        $sm      = Bootstrap::getServiceManager();
+        $manager = $sm->get('BsbFlysystemAdapterManager');
+
+        $this->assertInstanceOf('League\Flysystem\Adapter\NullAdapter', $manager->get('null_default'));
     }
 
     public function testServicesSharedByDefault()
