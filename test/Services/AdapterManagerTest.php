@@ -3,10 +3,8 @@
 namespace BsbFlysystemTest\Service;
 
 use BsbFlysystem\Service\AdapterManager;
-use BsbFlysystem\Service\ConnectionManager;
 use BsbFlysystemTest\Bootstrap;
 use BsbFlysystemTest\Framework\TestCase;
-use Zend\ServiceManager\AbstractPluginManager;
 
 class AdapterManagerTest extends TestCase
 {
@@ -26,12 +24,12 @@ class AdapterManagerTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->assertNull($manager->validatePlugin($plugin));
+        $manager->validatePlugin($plugin);
 
         $this->setExpectedException('Zend\ServiceManager\Exception\RuntimeException');
 
         $plugin = new \stdClass();
-        $this->assertNull($manager->validatePlugin($plugin));
+        $manager->validatePlugin($plugin);
     }
 
     public function testCreateViaServiceManagerLocal()
@@ -48,16 +46,5 @@ class AdapterManagerTest extends TestCase
         $manager = $sm->get('BsbFlysystemAdapterManager');
 
         $this->assertInstanceOf('League\Flysystem\Adapter\NullAdapter', $manager->get('null_default'));
-    }
-
-    public function testServicesSharedByDefault()
-    {
-        $sm = Bootstrap::getServiceManager();
-        /** @var AbstractPluginManager $manager */
-        $manager = $sm->get('BsbFlysystemAdapterManager');
-
-        $localA = $manager->get('local_data');
-        $localB = $manager->get('local_data');
-        $this->assertTrue($localA === $localB);
     }
 }

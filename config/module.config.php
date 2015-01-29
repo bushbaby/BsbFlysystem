@@ -23,7 +23,7 @@ return [
             ]
         ],
         'adapter_manager'    => [
-            'config'      => [],
+            'config'        => [],
             'lazy_services' => [
                 // directory where proxy classes will be written - default to system_get_tmp_dir()
                 // 'proxies_target_dir'    => 'data/cache',
@@ -38,9 +38,11 @@ return [
         ],
     ],
     'service_manager' => [
-        'factories' => [
+        'invokables' => [
+            'BsbFlysystemManager' => 'BsbFlysystem\Service\FilesystemManager',
+        ],
+        'factories'  => [
             'BsbFlysystemAdapterManager' => 'BsbFlysystem\Service\Factory\AdapterManagerFactory',
-            'BsbFlysystemManager'        => 'BsbFlysystem\Service\Factory\FilesystemManagerFactory',
         ],
     ],
 ];

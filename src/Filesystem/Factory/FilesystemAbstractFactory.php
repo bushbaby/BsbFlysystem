@@ -8,12 +8,14 @@ use League\Flysystem\Cached\CachedAdapter;
 use League\Flysystem\Cached\CacheInterface;
 use League\Flysystem\EventableFilesystem\EventableFilesystem;
 use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemInterface;
+use UnexpectedValueException;
 use Zend\Cache\Storage\StorageInterface;
-use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\MutableCreationOptionsInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class FilesystemFactory implements FactoryInterface, MutableCreationOptionsInterface
+class FilesystemAbstractFactory implements AbstractFactoryInterface, MutableCreationOptionsInterface
 {
     /**
      * @var array
@@ -41,27 +43,43 @@ class FilesystemFactory implements FactoryInterface, MutableCreationOptionsInter
     }
 
     /**
-     * Create service
-     *
      * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
+     * @param                         $name
+     * @param                         $requestedName
+     * @return bool
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        while (is_callable([$serviceLocator, 'getServiceLocator'])) {
-            $serviceLocator = $serviceLocator->getServiceLocator();
-        }
+        $config = $serviceLocator->get('config');
 
-        $config = $serviceLocator->get('Config');
-        $config = $config['bsb_flysystem']['filesystems'][func_get_arg(2)];
+        return isset($config['bsb_flysystem']['filesystems'][$requestedName]);
+    }
+
+    /**
+     * @param ServiceLocatorInterface $serviceLocator
+     * @param                         $name
+     * @param                         $requestedName
+     * @return FilesystemInterface
+     */
+    public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
+    {
+        $config   = $serviceLocator->get('config');
+        $fsConfig = $config['bsb_flysystem']['filesystems'][$requestedName];
+
+        if (!isset($fsConfig['adapter'])) {
+            throw new UnexpectedValueException(sprintf(
+                "Missing 'adapter' key for the filesystem '%s' configuration",
+                $name
+            ));
+        }
 
         $adapter = $serviceLocator
             ->get('BsbFlysystemAdapterManager')
-            ->get($config['adapter'], $this->options['adapter_options']);
+            ->get($fsConfig['adapter'], $this->options['adapter_options']);
 
-        $options = isset($config['options']) && is_array($config['options']) ? $config['options'] : [];
+        $options = isset($fsConfig['options']) && is_array($fsConfig['options']) ? $fsConfig['options'] : [];
 
-        if (isset($config['cache']) && is_string($config['cache'])) {
+        if (isset($fsConfig['cache']) && is_string($fsConfig['cache'])) {
             if (!class_exists('League\Flysystem\Cached\CachedAdapter')) {
                 throw new RequirementsException(
                     sprintf("Install '%s' to use cached adapters", 'league/flysystem-cached-adapter')
@@ -69,11 +87,11 @@ class FilesystemFactory implements FactoryInterface, MutableCreationOptionsInter
             }
 
             $cacheAdapter = $serviceLocator
-                ->get($config['cache']);
+                ->get($fsConfig['cache']);
 
             // wrap if StorageInterface, use filesystem name a key
             if ($cacheAdapter instanceof StorageInterface) {
-                $cacheAdapter = new ZendStorageCache($cacheAdapter, func_get_arg(2));
+                $cacheAdapter = new ZendStorageCache($cacheAdapter, $requestedName);
             }
 
             // ignore if not CacheInterface
@@ -82,7 +100,7 @@ class FilesystemFactory implements FactoryInterface, MutableCreationOptionsInter
             }
         }
 
-        if (isset($config['eventable']) && filter_var($config['eventable'], FILTER_VALIDATE_BOOLEAN)) {
+        if (isset($fsConfig['eventable']) && filter_var($fsConfig['eventable'], FILTER_VALIDATE_BOOLEAN)) {
             if (!class_exists('League\Flysystem\EventableFilesystem\EventableFilesystem')) {
                 throw new RequirementsException(
                     sprintf("Install '%s' to use EventableFilesystem", 'league/flysystem-eventable-filesystem')
@@ -94,8 +112,8 @@ class FilesystemFactory implements FactoryInterface, MutableCreationOptionsInter
             $filesystem = new Filesystem($adapter, $options);
         }
 
-        if (isset($config['plugins']) && is_array($config['plugins'])) {
-            foreach ($config['plugins'] as $plugin) {
+        if (isset($fsConfig['plugins']) && is_array($fsConfig['plugins'])) {
+            foreach ($fsConfig['plugins'] as $plugin) {
                 $plugin = new $plugin();
                 $filesystem->addPlugin($plugin);
             }

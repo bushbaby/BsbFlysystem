@@ -4,10 +4,18 @@ namespace BsbFlysystem\Service;
 
 use League\Flysystem\FilesystemInterface;
 use Zend\ServiceManager\AbstractPluginManager;
+use Zend\ServiceManager\ConfigInterface;
 use Zend\ServiceManager\Exception;
 
 class FilesystemManager extends AbstractPluginManager
 {
+    public function __construct(ConfigInterface $configuration = null)
+    {
+        parent::__construct($configuration);
+
+        $this->addAbstractFactory('BsbFlysystem\Filesystem\Factory\FilesystemAbstractFactory');
+    }
+
     /**
      * {@inheritDoc}
      */
