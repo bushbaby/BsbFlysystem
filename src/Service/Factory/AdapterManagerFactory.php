@@ -50,6 +50,10 @@ class AdapterManagerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
+        while (is_callable([$serviceLocator, 'getServiceLocator'])) {
+            $serviceLocator = $serviceLocator->getServiceLocator();
+        }
+
         $config        = $serviceLocator->get('config');
         $config        = $config['bsb_flysystem'];
         $serviceConfig = isset($config['adapter_manager']['config']) ? $config['adapter_manager']['config'] : [];
