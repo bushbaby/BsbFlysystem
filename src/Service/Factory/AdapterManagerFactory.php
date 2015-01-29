@@ -33,9 +33,9 @@ class AdapterManagerFactory implements FactoryInterface
     ];
 
     /**
-     * @param null $adapterMap configurable adapter map for for testing purposed
+     * @param array $adapterMap configurable adapter map for for testing purposed
      */
-    public function __construct($adapterMap = null)
+    public function __construct(array $adapterMap = null)
     {
         if ($adapterMap !== null) {
             $this->adapterMap = $adapterMap;
