@@ -50,11 +50,8 @@ class FilesystemAbstractFactory implements AbstractFactoryInterface, MutableCrea
      */
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        while (is_callable([$serviceLocator, 'getServiceLocator'])) {
-            $serviceLocator = $serviceLocator->getServiceLocator();
-        }
-
-        $config = $serviceLocator->get('config');
+        $serviceLocator = $serviceLocator->getServiceLocator();
+        $config         = $serviceLocator->get('config');
 
         return isset($config['bsb_flysystem']['filesystems'][$requestedName]);
     }
@@ -67,12 +64,9 @@ class FilesystemAbstractFactory implements AbstractFactoryInterface, MutableCrea
      */
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        while (is_callable([$serviceLocator, 'getServiceLocator'])) {
-            $serviceLocator = $serviceLocator->getServiceLocator();
-        }
-
-        $config   = $serviceLocator->get('config');
-        $fsConfig = $config['bsb_flysystem']['filesystems'][$requestedName];
+        $serviceLocator = $serviceLocator->getServiceLocator();
+        $config         = $serviceLocator->get('config');
+        $fsConfig       = $config['bsb_flysystem']['filesystems'][$requestedName];
 
         if (!isset($fsConfig['adapter'])) {
             throw new UnexpectedValueException(sprintf(
