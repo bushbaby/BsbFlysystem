@@ -2,6 +2,8 @@
 
 namespace BsbFlysystem\Adapter\Factory;
 
+use InvalidArgumentException;
+use League\Flysystem\Adapter\AbstractAdapter;
 use ProxyManager\Configuration;
 use ProxyManager\Factory\LazyLoadingValueHolderFactory;
 use ProxyManager\GeneratorStrategy\EvaluatingGeneratorStrategy;
@@ -33,6 +35,25 @@ abstract class AbstractAdapterFactory implements MutableCreationOptionsInterface
     }
 
     /**
+     * Create service
+     *
+     * @param ServiceLocatorInterface $serviceLocator
+     * @return AbstractAdapter
+     */
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
+        $serviceLocator = $serviceLocator->getServiceLocator();
+
+        $this->mergeMvcConfig($serviceLocator, func_get_arg(2));
+
+        $this->validateConfig();
+
+        $service = $this->doCreateService($serviceLocator);
+
+        return $service;
+    }
+
+    /**
      * Merges the options given from the ServiceLocator Config object with the create options of the class.
      *
      * @param ServiceLocatorInterface $serviceLocator
@@ -40,11 +61,7 @@ abstract class AbstractAdapterFactory implements MutableCreationOptionsInterface
      */
     protected function mergeMvcConfig(ServiceLocatorInterface $serviceLocator, $requestedName)
     {
-        while (is_callable([$serviceLocator, 'getServiceLocator'])) {
-            $serviceLocator = $serviceLocator->getServiceLocator();
-        }
-
-        $config = $serviceLocator->has('Config') ? $serviceLocator->get('Config') : [];
+        $config = $serviceLocator->has('config') ? $serviceLocator->get('config') : [];
 
         if (!isset($config['bsb_flysystem']['adapters'][$requestedName]['options']) ||
             !is_array(($config['bsb_flysystem']['adapters'][$requestedName]['options']))
@@ -61,15 +78,11 @@ abstract class AbstractAdapterFactory implements MutableCreationOptionsInterface
     /**
      * @param ServiceLocatorInterface $serviceLocator
      * @return LazyLoadingValueHolderFactory
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function getLazyFactory(ServiceLocatorInterface $serviceLocator)
     {
-        while (is_callable([$serviceLocator, 'getServiceLocator'])) {
-            $serviceLocator = $serviceLocator->getServiceLocator();
-        }
-
-        $config = $serviceLocator->has('Config') ? $serviceLocator->get('Config') : [];
+        $config = $serviceLocator->has('config') ? $serviceLocator->get('config') : [];
 
         $config['lazy_services'] = ArrayUtils::merge(
             isset($config['lazy_services']) ? $config['lazy_services'] : [],
@@ -100,6 +113,14 @@ abstract class AbstractAdapterFactory implements MutableCreationOptionsInterface
 
         return new LazyLoadingValueHolderFactory($factoryConfig);
     }
+
+    /**
+     * Create service
+     *
+     * @param ServiceLocatorInterface $serviceLocator
+     * @return AbstractAdapter
+     */
+    abstract protected function doCreateService(ServiceLocatorInterface $serviceLocator);
 
     /**
      * Implement in adapter

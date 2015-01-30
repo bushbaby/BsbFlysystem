@@ -9,17 +9,10 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class FtpAdapterFactory extends AbstractAdapterFactory implements FactoryInterface
 {
     /**
-     * Create service
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
+     * @inheritdoc
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function doCreateService(ServiceLocatorInterface $serviceLocator)
     {
-        $this->mergeMvcConfig($serviceLocator, func_get_arg(2));
-
-        $this->validateConfig();
-
         $adapter = new Adapter($this->options);
 
         return $adapter;

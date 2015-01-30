@@ -4,6 +4,7 @@ namespace BsbFlysystem\Adapter\Factory;
 
 use Aws\S3\S3Client;
 use BsbFlysystem\Exception\RequirementsException;
+use League\Flysystem\Adapter\AbstractAdapter;
 use League\Flysystem\AwsS3v2\AwsS3Adapter as Adapter;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -12,17 +13,10 @@ class AwsS3AdapterFactory extends AbstractAdapterFactory implements FactoryInter
 {
 
     /**
-     * Create service
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
+     * @inheritdoc
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function doCreateService(ServiceLocatorInterface $serviceLocator)
     {
-        $this->mergeMvcConfig($serviceLocator, func_get_arg(2));
-
-        $this->validateConfig();
-
         if (!class_exists('League\Flysystem\AwsS3v2\AwsS3Adapter')) {
             throw new RequirementsException(
                 ['league/flysystem-aws-s3-v2'],
