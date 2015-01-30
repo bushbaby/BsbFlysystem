@@ -5,6 +5,7 @@ namespace BsbFlysystem\Adapter\Factory;
 use BsbFlysystem\Exception\RequirementsException;
 use League\Flysystem\WebDAV\WebDAVAdapter as Adapter;
 use Sabre\DAV\Client;
+use UnexpectedValueException;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -17,8 +18,8 @@ class WebDAVAdapterFactory extends AbstractAdapterFactory implements FactoryInte
     {
         if (!class_exists('League\Flysystem\WebDAV\WebDAVAdapter')) {
             throw new RequirementsException(
-                    ['league/flysystem-webdav'],
-                    'WebDAV'
+                ['league/flysystem-webdav'],
+                'WebDAV'
             );
         }
 
@@ -35,7 +36,7 @@ class WebDAVAdapterFactory extends AbstractAdapterFactory implements FactoryInte
     protected function validateConfig()
     {
         if (!isset($this->options['baseUri'])) {
-            throw new \UnexpectedValueException("Missing 'baseUri' as option");
+            throw new UnexpectedValueException("Missing 'baseUri' as option");
         }
 
         if (!isset($this->options['prefix'])) {

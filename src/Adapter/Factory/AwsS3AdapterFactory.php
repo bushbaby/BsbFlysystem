@@ -4,8 +4,8 @@ namespace BsbFlysystem\Adapter\Factory;
 
 use Aws\S3\S3Client;
 use BsbFlysystem\Exception\RequirementsException;
-use League\Flysystem\Adapter\AbstractAdapter;
 use League\Flysystem\AwsS3v2\AwsS3Adapter as Adapter;
+use UnexpectedValueException;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -41,19 +41,19 @@ class AwsS3AdapterFactory extends AbstractAdapterFactory implements FactoryInter
     protected function validateConfig()
     {
         if (!isset($this->options['key'])) {
-            throw new \UnexpectedValueException("Missing 'key' as option");
+            throw new UnexpectedValueException("Missing 'key' as option");
         }
 
         if (!isset($this->options['secret'])) {
-            throw new \UnexpectedValueException("Missing 'secret' as option");
+            throw new UnexpectedValueException("Missing 'secret' as option");
         }
 
         if (!isset($this->options['region'])) {
-            throw new \UnexpectedValueException("Missing 'region' as option");
+            throw new UnexpectedValueException("Missing 'region' as option");
         }
 
         if (!isset($this->options['bucket'])) {
-            throw new \UnexpectedValueException("Missing 'bucket' as option");
+            throw new UnexpectedValueException("Missing 'bucket' as option");
         }
 
         if (!isset($this->options['prefix'])) {

@@ -4,6 +4,7 @@ namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\RequirementsException;
 use League\Flysystem\Replicate\ReplicateAdapter as Adapter;
+use UnexpectedValueException;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -37,11 +38,11 @@ class ReplicateAdapterFactory extends AbstractAdapterFactory implements FactoryI
     protected function validateConfig()
     {
         if (!isset($this->options['source'])) {
-            throw new \UnexpectedValueException("Missing 'source' as option");
+            throw new UnexpectedValueException("Missing 'source' as option");
         }
 
         if (!isset($this->options['replicate'])) {
-            throw new \UnexpectedValueException("Missing 'replicate' as option");
+            throw new UnexpectedValueException("Missing 'replicate' as option");
         }
     }
 }

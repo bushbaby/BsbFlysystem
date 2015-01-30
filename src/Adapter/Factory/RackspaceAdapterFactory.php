@@ -6,9 +6,9 @@ use BsbFlysystem\Exception\RequirementsException;
 use League\Flysystem\Rackspace\RackspaceAdapter as Adapter;
 use OpenCloud\OpenStack;
 use ProxyManager\Factory\LazyLoadingValueHolderFactory;
-use ProxyManager\Proxy\VirtualProxyInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use UnexpectedValueException;
 
 class RackspaceAdapterFactory extends AbstractAdapterFactory implements FactoryInterface
 {
@@ -58,21 +58,21 @@ class RackspaceAdapterFactory extends AbstractAdapterFactory implements FactoryI
     protected function validateConfig()
     {
         if (!isset($this->options['url'])) {
-            throw new \UnexpectedValueException("Missing 'url' as option");
+            throw new UnexpectedValueException("Missing 'url' as option");
         }
 
         if (!isset($this->options['secret']) || !is_array($this->options['secret'])) {
-            throw new \UnexpectedValueException("Missing 'secret' as option");
+            throw new UnexpectedValueException("Missing 'secret' as option");
         }
 
         if (!isset($this->options['objectstore']) || !is_array($this->options['objectstore'])) {
-            throw new \UnexpectedValueException("Missing 'objectstore' as option");
+            throw new UnexpectedValueException("Missing 'objectstore' as option");
         } elseif (!isset($this->options['objectstore']['name'])) {
-            throw new \UnexpectedValueException("Missing 'objectstore.name' as option");
+            throw new UnexpectedValueException("Missing 'objectstore.name' as option");
         } elseif (!isset($this->options['objectstore']['region'])) {
-            throw new \UnexpectedValueException("Missing 'objectstore.region' as option");
+            throw new UnexpectedValueException("Missing 'objectstore.region' as option");
         } elseif (!isset($this->options['objectstore']['container'])) {
-            throw new \UnexpectedValueException("Missing 'objectstore.container' as option");
+            throw new UnexpectedValueException("Missing 'objectstore.container' as option");
         }
 
         if (!isset($this->options['objectstore']['url_type'])) {

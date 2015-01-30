@@ -3,8 +3,8 @@
 namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\RequirementsException;
-use League\Flysystem\Adapter\AbstractAdapter;
 use League\Flysystem\ZipArchive\ZipArchiveAdapter as Adapter;
+use UnexpectedValueException;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -33,7 +33,7 @@ class ZipArchiveAdapterFactory extends AbstractAdapterFactory implements Factory
     protected function validateConfig()
     {
         if (!isset($this->options['archive'])) {
-            throw new \UnexpectedValueException("Missing 'archive' as option");
+            throw new UnexpectedValueException("Missing 'archive' as option");
         }
 
         if (!isset($this->options['prefix'])) {

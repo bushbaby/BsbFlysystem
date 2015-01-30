@@ -4,6 +4,7 @@ namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\RequirementsException;
 use League\Flysystem\Dropbox\DropboxAdapter as Adapter;
+use UnexpectedValueException;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -38,11 +39,11 @@ class DropboxAdapterFactory extends AbstractAdapterFactory implements FactoryInt
     protected function validateConfig()
     {
         if (!isset($this->options['access_token'])) {
-            throw new \UnexpectedValueException("Missing 'access_token' as option");
+            throw new UnexpectedValueException("Missing 'access_token' as option");
         }
 
         if (!isset($this->options['client_identifier'])) {
-            throw new \UnexpectedValueException("Missing 'client_identifier' as option");
+            throw new UnexpectedValueException("Missing 'client_identifier' as option");
         }
 
         if (!isset($this->options['user_locale'])) {

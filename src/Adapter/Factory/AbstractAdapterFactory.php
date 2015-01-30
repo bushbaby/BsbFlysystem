@@ -4,9 +4,12 @@ namespace BsbFlysystem\Adapter\Factory;
 
 use InvalidArgumentException;
 use League\Flysystem\Adapter\AbstractAdapter;
+use UnexpectedValueException;
+use League\Flysystem\AdapterInterface;
 use ProxyManager\Configuration;
 use ProxyManager\Factory\LazyLoadingValueHolderFactory;
 use ProxyManager\GeneratorStrategy\EvaluatingGeneratorStrategy;
+use ProxyManager\Proxy\VirtualProxyInterface;
 use Zend\ServiceManager\MutableCreationOptionsInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\ArrayUtils;
@@ -38,7 +41,7 @@ abstract class AbstractAdapterFactory implements MutableCreationOptionsInterface
      * Create service
      *
      * @param ServiceLocatorInterface $serviceLocator
-     * @return AbstractAdapter
+     * @return AdapterInterface|VirtualProxyInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
@@ -118,14 +121,14 @@ abstract class AbstractAdapterFactory implements MutableCreationOptionsInterface
      * Create service
      *
      * @param ServiceLocatorInterface $serviceLocator
-     * @return AbstractAdapter
+     * @return AdapterInterface|VirtualProxyInterface
      */
     abstract protected function doCreateService(ServiceLocatorInterface $serviceLocator);
 
     /**
      * Implement in adapter
      *
-     * @throw \UnexpectedValueException
+     * @throw UnexpectedValueException
      * @return null
      */
     abstract protected function validateConfig();

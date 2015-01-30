@@ -3,6 +3,7 @@
 namespace BsbFlysystem\Adapter\Factory;
 
 use League\Flysystem\Adapter\Local as Adapter;
+use UnexpectedValueException;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -24,7 +25,7 @@ class LocalAdapterFactory extends AbstractAdapterFactory implements FactoryInter
     protected function validateConfig()
     {
         if (!isset($this->options['root'])) {
-            throw new \UnexpectedValueException("Missing 'root' as option");
+            throw new UnexpectedValueException("Missing 'root' as option");
         }
     }
 }

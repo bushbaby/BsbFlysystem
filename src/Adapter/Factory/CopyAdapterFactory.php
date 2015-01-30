@@ -5,6 +5,7 @@ namespace BsbFlysystem\Adapter\Factory;
 use Barracuda\Copy\API;
 use BsbFlysystem\Exception\RequirementsException;
 use League\Flysystem\Copy\CopyAdapter as Adapter;
+use UnexpectedValueException;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -40,19 +41,19 @@ class CopyAdapterFactory extends AbstractAdapterFactory implements FactoryInterf
     protected function validateConfig()
     {
         if (!isset($this->options['consumer_key'])) {
-            throw new \UnexpectedValueException("Missing 'consumer_key' as option");
+            throw new UnexpectedValueException("Missing 'consumer_key' as option");
         }
 
         if (!isset($this->options['consumer_secret'])) {
-            throw new \UnexpectedValueException("Missing 'consumer_secret' as option");
+            throw new UnexpectedValueException("Missing 'consumer_secret' as option");
         }
 
         if (!isset($this->options['access_token'])) {
-            throw new \UnexpectedValueException("Missing 'access_token' as option");
+            throw new UnexpectedValueException("Missing 'access_token' as option");
         }
 
         if (!isset($this->options['token_secret'])) {
-            throw new \UnexpectedValueException("Missing 'token_secret' as option");
+            throw new UnexpectedValueException("Missing 'token_secret' as option");
         }
 
         if (!isset($this->options['prefix'])) {

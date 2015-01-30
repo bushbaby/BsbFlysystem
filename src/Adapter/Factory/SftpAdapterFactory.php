@@ -6,6 +6,7 @@ use BsbFlysystem\Exception\RequirementsException;
 use League\Flysystem\Sftp\SftpAdapter as Adapter;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use UnexpectedValueException;
 
 class SftpAdapterFactory extends AbstractAdapterFactory implements FactoryInterface
 {
@@ -32,19 +33,19 @@ class SftpAdapterFactory extends AbstractAdapterFactory implements FactoryInterf
     protected function validateConfig()
     {
         if (!isset($this->options['host'])) {
-            throw new \UnexpectedValueException("Missing 'host' as option");
+            throw new UnexpectedValueException("Missing 'host' as option");
         }
 
         if (!isset($this->options['port'])) {
-            throw new \UnexpectedValueException("Missing 'port' as option");
+            throw new UnexpectedValueException("Missing 'port' as option");
         }
 
         if (!isset($this->options['username'])) {
-            throw new \UnexpectedValueException("Missing 'username' as option");
+            throw new UnexpectedValueException("Missing 'username' as option");
         }
 
         if (!isset($this->options['password'])) {
-            throw new \UnexpectedValueException("Missing 'password' as option");
+            throw new UnexpectedValueException("Missing 'password' as option");
         }
     }
 }
