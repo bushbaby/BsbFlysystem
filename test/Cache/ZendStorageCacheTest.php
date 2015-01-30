@@ -8,7 +8,7 @@ use BsbFlysystemTest\Framework\TestCase;
 /**
  * Tests for the zend cache wrapper
  */
-class ZendCacheWrapperTest extends TestCase
+class ZendStorageCacheTest extends TestCase
 {
 
     public function testLoadDefault()
@@ -18,6 +18,18 @@ class ZendCacheWrapperTest extends TestCase
 
         $zendStorageCache = new ZendStorageCache($mock);
         $zendStorageCache->load();
+    }
+
+    public function testLoadDefaultCallsSetFromStorage()
+    {
+        $mock = $this->getMock('Zend\Cache\Storage\StorageInterface');
+        // setFromStorage expects json in this form
+        $mock->expects($this->once())->method('getItem')->willReturn('this-is-not-valid-json');
+
+        $zendStorageCache = new ZendStorageCache($mock);
+        $zendStorageCache->load();
+
+        $this->assertTrue(json_last_error() !== JSON_ERROR_NONE);
     }
 
     public function testLoadWithCustomKey()
