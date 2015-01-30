@@ -5,10 +5,9 @@ A simple Zend Framework 2 module that bridges the Flysystem filesystem.
 [![Latest Stable Version](https://poser.pugx.org/bushbaby/flysystem/v/stable.svg)](https://packagist.org/packages/bushbaby/flysystem) [![Total Downloads](https://poser.pugx.org/bushbaby/flysystem/downloads.svg)](https://packagist.org/packages/bushbaby/flysystem) [![Latest Unstable Version](https://poser.pugx.org/bushbaby/flysystem/v/unstable.svg)](https://packagist.org/packages/bushbaby/flysystem) [![License](https://poser.pugx.org/bushbaby/flysystem/license.svg)](https://packagist.org/packages/bushbaby/flysystem)
 
 
-[![Build Status](https://travis-ci.org/bushbaby/BsbFlysystem.svg?branch=master)](https://travis-ci.org/bushbaby/BsbFlysystem)
+[![Build Status](https://scrutinizer-ci.com/g/bushbaby/BsbFlysystem/badges/build.png?b=master)](https://scrutinizer-ci.com/g/bushbaby/BsbFlysystem/build-status/master)
 [![Code Coverage](https://scrutinizer-ci.com/g/bushbaby/BsbFlysystem/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/bushbaby/BsbFlysystem/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bushbaby/BsbFlysystem/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bushbaby/BsbFlysystem/?branch=master)
-[![Build Status](https://scrutinizer-ci.com/g/bushbaby/BsbFlysystem/badges/build.png?b=master)](https://scrutinizer-ci.com/g/bushbaby/BsbFlysystem/build-status/master)
 [![Dependency Status](https://www.versioneye.com/user/projects/545a9e49114a5db6d5000006/badge.svg?style=flat)](https://www.versioneye.com/user/projects/545a9e49114a5db6d5000006)
 
 Provides a way to configure the various filesystem adapters provided by thephpleague's 'Flysystem'. And allows to retrieve fully configured filesystems by name from the ServiceLocator. Whether the defined filesystems are local- or dropbox filesystems becomes a configuration detail.
@@ -68,8 +67,9 @@ Configure a filesystems by adding to `bsb_flysystem->filesystems`. Each filesyst
 - adapter \<string\>  Name of adapter service.
 - cache   \<string\> (optional) If defined as string it should be a name of a service present in the main service locator. Defaults to false.
 - eventable \<boolean\> When true returns an EventableFilesystem instance. (see [flysystem](http://flysystem.thephpleague.com)).
+- plugins \<array\> List of FQCN to the plugin you wish to register for this filesystem
 
-example: Filesystem called 'files' with the previously defined 'local_files' adapter.
+example: Filesystem called 'files' with the previously defined 'local_files' adapter and the 'listFiles' plugin registered.
 
 ```
 'bsb_flysystem' => [
@@ -78,6 +78,9 @@ example: Filesystem called 'files' with the previously defined 'local_files' ada
 	        'adapter' => 'local_files',
 	        'cache' => false,
 	        'eventable' => false,
+	        'plugins' => [
+	        	'League\Flysystem\Plugin\ListFiles',
+    		],
         ],
     ],
 ],
@@ -141,7 +144,7 @@ The AdapterManager is automaticly configured, However it is possible to tweak it
 
 In particular the lazy_services configuration key may be useful if you use the Rackspace Adapter. BsbFlysystem loads that adapter 'lazily'. A connection is only established until you actually use the adapter. This done with help from [ProxyManager](https://github.com/Ocramius/ProxyManager). As ZF2 also uses this libary we take advantage of the 'lazy_services' configuration that may be available in your application. The Rackspace adapter merges the ZF2 lazy_services config key with the adapter_manager lazy_services config allowing control over how the ProxyManager handles it's thing.
 
-```php
+```
 'bsb_flysystem' => [
     'adapter_manager' => [
         'config'      => [
