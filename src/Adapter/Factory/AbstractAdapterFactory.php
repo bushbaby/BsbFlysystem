@@ -3,7 +3,6 @@
 namespace BsbFlysystem\Adapter\Factory;
 
 use InvalidArgumentException;
-use League\Flysystem\Adapter\AbstractAdapter;
 use UnexpectedValueException;
 use League\Flysystem\AdapterInterface;
 use ProxyManager\Configuration;
