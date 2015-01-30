@@ -23,11 +23,8 @@ class ReplicateAdapterFactory extends AbstractAdapterFactory implements FactoryI
 
         if (!class_exists('League\Flysystem\Replicate\ReplicateAdapter')) {
             throw new RequirementsException(
-                sprintf(
-                    "Install '%s' to use '%s'",
-                    'league/flysystem-replicate-adapter',
-                    'League\Flysystem\Replicate\ReplicateAdapter'
-                )
+                ['league/flysystem-replicate-adapter'],
+                'Replicate'
             );
         }
 

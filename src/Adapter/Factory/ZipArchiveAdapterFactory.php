@@ -23,11 +23,8 @@ class ZipArchiveAdapterFactory extends AbstractAdapterFactory implements Factory
 
         if (!class_exists('League\Flysystem\ZipArchive\ZipArchiveAdapter')) {
             throw new RequirementsException(
-                sprintf(
-                    "Install '%s' to use '%s'",
-                    'league/flysystem-ziparchive',
-                    'League\Flysystem\ZipArchive\ZipArchiveAdapter'
-                )
+                ['league/ziparchive'],
+                'ZipArchive'
             );
         }
 

@@ -23,11 +23,8 @@ class SftpAdapterFactory extends AbstractAdapterFactory implements FactoryInterf
 
         if (!class_exists('League\Flysystem\Sftp\SftpAdapter')) {
             throw new RequirementsException(
-                sprintf(
-                    "Install '%s' to use '%s'",
-                    'league/flysystem-sftp',
-                    'League\Flysystem\Sftp\SftpAdapter'
-                )
+                ['league/flysystem-sftp'],
+                'Sftp'
             );
         }
 

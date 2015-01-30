@@ -83,9 +83,7 @@ class FilesystemAbstractFactory implements AbstractFactoryInterface, MutableCrea
 
         if (isset($fsConfig['cache']) && is_string($fsConfig['cache'])) {
             if (!class_exists('League\Flysystem\Cached\CachedAdapter')) {
-                throw new RequirementsException(
-                    sprintf("Install '%s' to use cached adapters", 'league/flysystem-cached-adapter')
-                );
+                throw new RequirementsException(['league/flysystem-cached-adapter'], 'CachedAdapter');
             }
 
             $cacheAdapter = $serviceLocator
@@ -104,9 +102,7 @@ class FilesystemAbstractFactory implements AbstractFactoryInterface, MutableCrea
 
         if (isset($fsConfig['eventable']) && filter_var($fsConfig['eventable'], FILTER_VALIDATE_BOOLEAN)) {
             if (!class_exists('League\Flysystem\EventableFilesystem\EventableFilesystem')) {
-                throw new RequirementsException(
-                    sprintf("Install '%s' to use EventableFilesystem", 'league/flysystem-eventable-filesystem')
-                );
+                throw new RequirementsException(['league/flysystem-eventable-filesystem'], 'EventableFilesystem');
             }
 
             $filesystem = new EventableFilesystem($adapter, $options);

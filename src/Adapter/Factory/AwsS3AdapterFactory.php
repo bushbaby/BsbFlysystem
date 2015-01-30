@@ -25,11 +25,8 @@ class AwsS3AdapterFactory extends AbstractAdapterFactory implements FactoryInter
 
         if (!class_exists('League\Flysystem\AwsS3v2\AwsS3Adapter')) {
             throw new RequirementsException(
-                sprintf(
-                    "Install '%s' to use '%s'",
-                    'league/flysystem-aws-s3-v2',
-                    'League\Flysystem\AwsS3v2\AwsS3Adapter'
-                )
+                ['league/flysystem-aws-s3-v2'],
+                'AwsS3'
             );
         }
 

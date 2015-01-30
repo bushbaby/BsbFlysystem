@@ -23,11 +23,8 @@ class DropboxAdapterFactory extends AbstractAdapterFactory implements FactoryInt
 
         if (!class_exists('League\Flysystem\Dropbox\DropboxAdapter')) {
             throw new RequirementsException(
-                sprintf(
-                    "Install '%s' to use '%s'",
-                    'league/flysystem-dropbox',
-                    'League\Flysystem\Dropbox\DropboxAdapter'
-                )
+                ['league/flysystem-dropbox'],
+                'Dropbox'
             );
         }
 

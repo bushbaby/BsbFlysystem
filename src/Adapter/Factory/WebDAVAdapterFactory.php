@@ -24,11 +24,8 @@ class WebDAVAdapterFactory extends AbstractAdapterFactory implements FactoryInte
 
         if (!class_exists('League\Flysystem\WebDAV\WebDAVAdapter')) {
             throw new RequirementsException(
-                sprintf(
-                    "Install '%s' to use '%s'",
-                    'league/flysystem-webdav',
-                    'League\Flysystem\WebDAV\WebDAVAdapter'
-                )
+                    ['league/flysystem-webdav'],
+                    'WebDAV'
             );
         }
 

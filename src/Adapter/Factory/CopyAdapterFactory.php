@@ -24,11 +24,8 @@ class CopyAdapterFactory extends AbstractAdapterFactory implements FactoryInterf
 
         if (!class_exists('League\Flysystem\Copy\CopyAdapter')) {
             throw new RequirementsException(
-                sprintf(
-                    "Install '%s' to use '%s'",
-                    'league/flysystem-copy',
-                    'League\Flysystem\Copy\CopyAdapter'
-                )
+                ['league/flysystem-copy'],
+                'Copy'
             );
         }
 

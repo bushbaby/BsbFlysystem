@@ -28,11 +28,8 @@ class RackspaceAdapterFactory extends AbstractAdapterFactory implements FactoryI
             !class_exists('ProxyManager\Factory\LazyLoadingValueHolderFactory')
         ) {
             throw new RequirementsException(
-                sprintf(
-                    "Install '%s' to use '%s'",
-                    implode(', ', ['league/flysystem-rackspace', 'ocramius/proxy-manager']),
-                    'League\Flysystem\Rackspace\RackspaceAdapter'
-                )
+                ['league/flysystem-rackspace', 'ocramius/proxy-manager'],
+                'Rackspace'
             );
         }
 
