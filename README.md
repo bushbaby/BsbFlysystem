@@ -5,17 +5,16 @@ A simple Zend Framework 2 module that bridges the Flysystem filesystem.
 [![Latest Stable Version](https://poser.pugx.org/bushbaby/flysystem/v/stable.svg)](https://packagist.org/packages/bushbaby/flysystem) [![Total Downloads](https://poser.pugx.org/bushbaby/flysystem/downloads.svg)](https://packagist.org/packages/bushbaby/flysystem) [![Latest Unstable Version](https://poser.pugx.org/bushbaby/flysystem/v/unstable.svg)](https://packagist.org/packages/bushbaby/flysystem) [![License](https://poser.pugx.org/bushbaby/flysystem/license.svg)](https://packagist.org/packages/bushbaby/flysystem)
 
 
-[![Build Status](https://travis-ci.org/bushbaby/BsbFlysystem.svg?branch=master)](https://travis-ci.org/bushbaby/BsbFlysystem)
+[![Build Status](https://scrutinizer-ci.com/g/bushbaby/BsbFlysystem/badges/build.png?b=master)](https://scrutinizer-ci.com/g/bushbaby/BsbFlysystem/build-status/master)
 [![Code Coverage](https://scrutinizer-ci.com/g/bushbaby/BsbFlysystem/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/bushbaby/BsbFlysystem/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bushbaby/BsbFlysystem/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bushbaby/BsbFlysystem/?branch=master)
-[![Build Status](https://scrutinizer-ci.com/g/bushbaby/BsbFlysystem/badges/build.png?b=master)](https://scrutinizer-ci.com/g/bushbaby/BsbFlysystem/build-status/master)
 [![Dependency Status](https://www.versioneye.com/user/projects/545a9e49114a5db6d5000006/badge.svg?style=flat)](https://www.versioneye.com/user/projects/545a9e49114a5db6d5000006)
 
 Provides a way to configure the various filesystem adapters provided by thephpleague's 'Flysystem'. And allows to retrieve fully configured filesystems by name from the ServiceLocator. Whether the defined filesystems are local- or dropbox filesystems becomes a configuration detail.
 
 ## Installation
 
-```sh
+```
 php composer.phar require "bushbaby/flysystem:~0.1"
 ```
 
@@ -30,12 +29,11 @@ Copy the `config/bsb_flysystem.global.php.dist` to the `config/autoload` directo
 
 ## Configuration
 
-All configuration regarding BsbFlysystem live in the 'bsb_flysystem' config key.
+Configuration regarding BsbFlysystem lives in the top-level configuration key 'bsb_flysystem.
 
 The configuration consists of the following base elements;
 
 - *Adapters* are consumed by a Filesystem.
-- *Caches* are consumed by a Filesystem.
 - *Filesystems* filesystem are consumed in userland.
 
 ### Adapters
@@ -49,7 +47,7 @@ To configure an adapter you add a key to `bsb_flysystem->adapters` with a associ
 
 example: a local adapter pointing to ./data/files
 
-```php
+```
 'bsb_flysystem' => [
     'adapters' => [
         'local_files' => [
@@ -67,39 +65,78 @@ example: a local adapter pointing to ./data/files
 Configure a filesystems by adding to `bsb_flysystem->filesystems`. Each filesystem may containing the following options;
 
 - adapter \<string\>  Name of adapter service.
-- cache   \<string\> (optional) If defined a name of a cache service. Defaults to false.
+- cache   \<string\> (optional) If defined as string it should be a name of a service present in the main service locator. Defaults to false.
 - eventable \<boolean\> When true returns an EventableFilesystem instance. (see [flysystem](http://flysystem.thephpleague.com)).
+- plugins \<array\> List of FQCN to the plugin you wish to register for this filesystem
 
-example: Filesystem called 'files' with the previously defined 'local_files' adapter.
+example: Filesystem called 'files' with the previously defined 'local_files' adapter and the 'listFiles' plugin registered.
 
-```php
+```
 'bsb_flysystem' => [
     'filesystems' => [
         'files' => [
 	        'adapter' => 'local_files',
 	        'cache' => false,
 	        'eventable' => false,
+	        'plugins' => [
+	        	'League\Flysystem\Plugin\ListFiles',
+    		],
         ],
     ],
 ],
 ```
 
-### Caches
+#### Caching
 
-\- **Not yet implemented** -
+No cache factories are provided by BsbFlysystem. You should write them yourself and register them in main service manager. You can use these by setting the cache option to the name of the service.
 
-Configure a caches by adding to `bsb_flysystem->caches`. Each cache may containing the following options;
-
-example: Cache called 'memcached'.
-
-```php
+```
 'bsb_flysystem' => [
-    'caches' => [
-        'memcached' => [
+    'filesystems' => [
+        'files' => [
+	        'cache' => 'My/Service/Cache',
         ],
     ],
 ],
+'service_manager' => [
+    'factories' => [
+    	'My/Service/Cache' => 'My/Service/CacheFactory'
+    ]
+]
 ```
+
+BsbFilesystem is able to automaticly wrap a ZF2 caching service in a in such way that a Flysystem instance is able to consume it.
+
+This means that BsbFlysystem can work with both flysystem caches (implementing `League\Flysystem\Cached\CacheInterface`) and ZF2 caches (implementing `Zend\Cache\Storage\StorageInterface`).
+
+example: caching options as are common in a ZF2 application
+
+```
+'bsb_flysystem' => [
+    'filesystems' => [
+        'files' => [
+	        'cache' => 'Cache\BsbFlystem\Memory',
+        ],
+    ],
+],
+'caches' => [
+    'Cache\BsbFlystem\Memory' => [
+        'adapter' => [
+            'name'    => 'memory',
+            'options' => [
+                'ttl'       => 300,
+            ],
+        ],
+    ],
+],
+'service_manager' => [
+    'abstract_factories' => [
+    	'Zend\Cache\Service\StorageCacheAbstractServiceFactory'
+    ],
+],
+```
+ 
+Further reading in ZF2 [documentation](http://framework.zend.com/manual/current/en/modules/zend.mvc.services.html#zend-cache-service-storagecacheabstractservicefactory).
 
 #### AdapterManager
 
@@ -107,7 +144,7 @@ The AdapterManager is automaticly configured, However it is possible to tweak it
 
 In particular the lazy_services configuration key may be useful if you use the Rackspace Adapter. BsbFlysystem loads that adapter 'lazily'. A connection is only established until you actually use the adapter. This done with help from [ProxyManager](https://github.com/Ocramius/ProxyManager). As ZF2 also uses this libary we take advantage of the 'lazy_services' configuration that may be available in your application. The Rackspace adapter merges the ZF2 lazy_services config key with the adapter_manager lazy_services config allowing control over how the ProxyManager handles it's thing.
 
-```php
+```
 'bsb_flysystem' => [
     'adapter_manager' => [
         'config'      => [
@@ -136,7 +173,7 @@ In its simplest form this is how we would retrieve a filesystem. We get the file
 
 example: Fetch a 'default' filesystem. In this case a 'local' filesystem with a root of 'data'.
 
-```php
+```
 $filesystem = $serviceLocator->get('BsbFlysystemManager')->get('default');
 $contents   = $filesystem->read('file.txt');
 ```
@@ -147,7 +184,7 @@ If we at some point decide we need to store these files on a different system. R
 
 Direct access to the Adapter service is possible by via the `BsbFlysystemAdapterManager` service registered in the main service locator. This is useful to setup `Mount` Filesystems or to use runtime configuration. See the advanced section below.
 
-```php
+```
 $adapter    = $serviceLocator->get('BsbFlysystemAdapterManager')->get('local_data');
 $filesystem = new Filesystem($adapter);
 $contents   = $filesystem->read('file.txt');
@@ -155,7 +192,7 @@ $contents   = $filesystem->read('file.txt');
 
 ## Provided Factories
 
-I have tried to provide factories (and tests) for each of the adapters that come with the Flysystem. Each come with there own setof required and optional options. I refer to the Flysystem documentation for more inforation.
+I have tried to provide factories (and tests) for each of the adapters that come with the Flysystem. Each come with there own setof required and optional options. I refer to the Flysystem documentation for more information.
 
 ### Adapters
 
@@ -164,23 +201,19 @@ I have tried to provide factories (and tests) for each of the adapters that come
 - Dropbox
 - Ftp
 - Local
-  - BsbFlysystem is preconfigured with an adapter named 'local_data' to expose the ./data directory of a ZF2 application
+  - BsbFlysystem is preconfigured with an adapter named 'local_data' to expose the ./data directory of a ZF2 application.
 - Null
 - Rackspace
   - the ObjectStore Container must exist before usage
   - Won't connect until actual usage by Filesystem (thanks to [ProxyManager](https://github.com/Ocramius/ProxyManager)) and uses the same lazy loading configuration ZF2 provides.
 - Replicate
 - Sftp
-- WebDav
-- Zip
-
-### Cache
-
-\- **not yet implemented** -
+- WebDAV
+- ZipArchive
 
 ### Filesystems
 
-There is one FilesystemFactory which creates a Filesystem of EventableFilesystem based on the configuration
+There is one FilesystemFactory which creates a Filesystem or EventableFilesystem based on the configuration
 
 ## Advanced Usage
 
@@ -190,7 +223,7 @@ A feature of ZF2 service managers is the ability to create an instance of a serv
 
 Consider the following configuration; Retrieve multiple configured dropbox filesystems based on stored accessTokens retrieved at runtime.
 
-```php
+```
 'adapters' => [
     'dropbox_user' => [
         'type' => 'dropbox',
@@ -209,7 +242,7 @@ Consider the following configuration; Retrieve multiple configured dropbox files
 ],
 ```
 
-```php
+```
 $accessTokens = [...];
 foreach ($accessTokens as $accessToken) {
     $adapter    = $serviceLocator->get('BsbFlysystemAdapterManager')
@@ -222,9 +255,9 @@ foreach ($accessTokens as $accessToken) {
 }
 ```
 
-Using the same createOptions feature but now directly from the Filesystem Manager. Note: the adapter_options key which are passed to the Adapter Manager by the FilesystemFactory.
+Using the same createOptions feature but now directly from the Filesystem Manager. Notice the adapter_options key which are passed to the Adapter Manager by the FilesystemFactory.
 
-```php
+```
 $accessTokens = [...];
 foreach ($accessTokens as $accessToken) {
     $filesystem    = $serviceLocator->get('BsbFlysystemManager')
@@ -252,6 +285,6 @@ $manager = new League\Flysystem\MountManager(array(
 
 $contents = $manager->listContents('source://some_directory', true);
 foreach ($contents as $entry) {
-  $manager->put('target://'.$entry['path'], $manager->read('source://'.$entry['path']));
+    $manager->put('target://'.$entry['path'], $manager->read('source://'.$entry['path']));
 }
 ```

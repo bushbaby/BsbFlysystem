@@ -3,7 +3,6 @@
 namespace BsbFlysystemTest;
 
 use RuntimeException;
-use Zend\Loader\AutoloaderFactory;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\ServiceManager;
 
@@ -40,29 +39,9 @@ class Bootstrap
             return;
         }
 
-        $zf2Path = getenv('ZF2_PATH') ?: (defined('ZF2_PATH') ? ZF2_PATH :
-            (is_dir($vendorPath . '/ZF2/library') ? $vendorPath . '/ZF2/library' : false));
-
-        if (!$zf2Path) {
-            throw new RuntimeException(
-                'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.'
-            );
-        }
-
-        if (isset($loader)) {
-            $loader->add('Zend', $zf2Path . '/Zend');
-        } else {
-            include $zf2Path . '/Zend/Loader/AutoloaderFactory.php';
-            AutoloaderFactory::factory([
-                'Zend\Loader\StandardAutoloader' => [
-                    'autoregister_zf' => true,
-                    'namespaces'      => [
-                        'BsbFlysystem' => __DIR__ . '/../src/',
-                        __NAMESPACE__  => __DIR__,
-                    ],
-                ],
-            ]);
-        }
+        throw new RuntimeException(
+            'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.'
+        );
     }
 
     public static function getApplicationConfig()
