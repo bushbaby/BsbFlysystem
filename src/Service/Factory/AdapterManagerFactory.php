@@ -53,6 +53,9 @@ class AdapterManagerFactory implements FactoryInterface
         $config         = $serviceLocator->get('config');
         $config         = $config['bsb_flysystem'];
         $serviceConfig  = isset($config['adapter_manager']['config']) ? $config['adapter_manager']['config'] : [];
+        $factoriesAdapter=$config['adapter_manager']['config']['factories'];
+        $this->adapterMap['factories']=array_merge($this->adapterMap['factories'],$factoriesAdapter);
+
 
         foreach ($config['adapters'] as $name => $adapterConfig) {
             if (!isset($adapterConfig['type'])) {
