@@ -10,12 +10,17 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class AzureAdapterFactory extends AbstractAdapterFactory implements FactoryInterface
 {
+
     /**
      * @inheritdoc
      */
     public function doCreateService(ServiceLocatorInterface $serviceLocator)
     {
-        $endpoint = sprintf('DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s', $this->options['account-name'], $this->options['account-key']);
+        $endpoint = sprintf(
+            'DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s',
+            $this->options['account-name'],
+            $this->options['account-key']
+        );
         $blobRestProxy = ServicesBuilder::getInstance()->createBlobService($endpoint);
         $adapter = new Adapter($blobRestProxy, $this->options['container']);
 
