@@ -1,5 +1,8 @@
 # CHANGELOG
 
+v1.0.0
+- none
+
 v1.0.0-dev
 - relies only on composer for autloading
 - PSR4 autoloading
