@@ -90,11 +90,15 @@ class SftpAdapterFactoryTest extends TestCase
                 ['host' => 'foo', 'port' => 'foo', 'username' => 'foo'],
                 false,
                 'UnexpectedValueException',
-                "Missing 'password' as option"
+                "Missing either 'password' or 'privateKey' as option"
             ],
             [
                 ['host' => 'foo', 'port' => 'foo', 'username' => 'foo', 'password' => 'foo'],
                 ['host' => 'foo', 'port' => 'foo', 'username' => 'foo', 'password' => 'foo'],
+            ],
+            [
+                ['host' => 'foo', 'port' => 'foo', 'username' => 'foo', 'privateKey' => 'foo'],
+                ['host' => 'foo', 'port' => 'foo', 'username' => 'foo', 'privateKey' => 'foo'],
             ],
         ];
     }
