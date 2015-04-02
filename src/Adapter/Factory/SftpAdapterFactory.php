@@ -44,8 +44,8 @@ class SftpAdapterFactory extends AbstractAdapterFactory implements FactoryInterf
             throw new UnexpectedValueException("Missing 'username' as option");
         }
 
-        if (!isset($this->options['password'])) {
-            throw new UnexpectedValueException("Missing 'password' as option");
+        if (!isset($this->options['password']) && !isset($this->options['privateKey'])) {
+            throw new UnexpectedValueException("Missing either 'password' or 'privateKey' as option");
         }
     }
 }
