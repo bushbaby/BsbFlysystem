@@ -69,7 +69,7 @@ return [
                     'password' => 'test'
                 ],
             ],
-            'sessions' => [
+            'azure_default' => [
                 'type' => 'azure',
                 'options' => [
                     'container' => 'your-container',
