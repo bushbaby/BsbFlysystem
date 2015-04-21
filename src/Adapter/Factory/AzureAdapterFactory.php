@@ -2,6 +2,7 @@
 
 namespace BsbFlysystem\Adapter\Factory;
 
+use BsbFlysystem\Exception\RequirementsException;
 use WindowsAzure\Common\ServicesBuilder;
 use League\Flysystem\Azure\AzureAdapter as Adapter;
 use UnexpectedValueException;
@@ -16,6 +17,12 @@ class AzureAdapterFactory extends AbstractAdapterFactory implements FactoryInter
      */
     public function doCreateService(ServiceLocatorInterface $serviceLocator)
     {
+        if (!class_exists('League\Flysystem\Azure\AzureAdapter')) {
+            throw new RequirementsException(
+                ['league/flysystem-azure'],
+                'Azure'
+            );
+        }
         $endpoint = sprintf(
             'DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s',
             $this->options['account-name'],
