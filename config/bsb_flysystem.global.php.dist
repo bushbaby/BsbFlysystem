@@ -72,16 +72,16 @@ return [
             'azure_default' => [
                 'type' => 'azure',
                 'options' => [
-                    'container' => 'your-container',
+                    'container'    => 'your-container',
                     'account-name' => 'xxxxx',
-                    'account-key' => 'xxxxx'
+                    'account-key'  => 'xxxxx'
                 ],
             ]
         ],
         'filesystems' => [
             'files' => [
-                'adapter' => 'xxxx',
-                'cache' => false,
+                'adapter'   => 'xxxx',
+                'cache'     => false,
                 'eventable' => false,
             ],
         ],

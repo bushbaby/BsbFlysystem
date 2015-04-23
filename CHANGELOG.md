@@ -1,5 +1,8 @@
 # CHANGELOG
 
+v1.1.0
+- adds adapter for Azure
+
 v1.0.1
 - SftpAdapter 'password' is not required option when 'privateKey' is set
 

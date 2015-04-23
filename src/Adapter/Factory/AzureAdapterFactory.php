@@ -3,9 +3,9 @@
 namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\RequirementsException;
-use WindowsAzure\Common\ServicesBuilder;
 use League\Flysystem\Azure\AzureAdapter as Adapter;
 use UnexpectedValueException;
+use WindowsAzure\Common\ServicesBuilder;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -23,13 +23,14 @@ class AzureAdapterFactory extends AbstractAdapterFactory implements FactoryInter
                 'Azure'
             );
         }
-        $endpoint = sprintf(
+        $endpoint      = sprintf(
             'DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s',
             $this->options['account-name'],
             $this->options['account-key']
         );
+
         $blobRestProxy = ServicesBuilder::getInstance()->createBlobService($endpoint);
-        $adapter = new Adapter($blobRestProxy, $this->options['container']);
+        $adapter       = new Adapter($blobRestProxy, $this->options['container']);
 
         return $adapter;
     }
@@ -42,9 +43,11 @@ class AzureAdapterFactory extends AbstractAdapterFactory implements FactoryInter
         if (!isset($this->options['account-name'])) {
             throw new UnexpectedValueException("Missing 'account-name' as option");
         }
+
         if (!isset($this->options['account-key'])) {
             throw new UnexpectedValueException("Missing 'account-key' as option");
         }
+
         if (!isset($this->options['container'])) {
             throw new UnexpectedValueException("Missing 'container' as option");
         }
