@@ -17,6 +17,7 @@ class AdapterManagerFactory implements FactoryInterface
     protected $adapterMap = [
         'factories' => [
             'awss3'      => 'BsbFlysystem\Adapter\Factory\AwsS3AdapterFactory',
+            'azure'      => 'BsbFlysystem\Adapter\Factory\AzureAdapterFactory',
             'copy'       => 'BsbFlysystem\Adapter\Factory\CopyAdapterFactory',
             'dropbox'    => 'BsbFlysystem\Adapter\Factory\DropboxAdapterFactory',
             'ftp'        => 'BsbFlysystem\Adapter\Factory\FtpAdapterFactory',
