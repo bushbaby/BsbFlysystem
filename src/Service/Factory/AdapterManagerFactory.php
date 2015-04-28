@@ -45,7 +45,9 @@ class AdapterManagerFactory implements FactoryInterface
         $config         = $serviceLocator->get('config');
         $config         = $config['bsb_flysystem'];
         $serviceConfig  = isset($config['adapter_manager']['config']) ? $config['adapter_manager']['config'] : [];
-        $adapterMap     = isset($config['adapter_map']) ? ArrayUtils::merge($this->adapterMap, $config['adapter_map']) : $this->adapterMap;
+        $adapterMap     = $this->adapterMap;
+
+        if(isset($config['adapter_map'])) $adapterMap = ArrayUtils::merge($this->adapterMap, $config['adapter_map']);
 
         foreach ($config['adapters'] as $name => $adapterConfig) {
             if (!isset($adapterConfig['type'])) {
