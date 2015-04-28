@@ -34,16 +34,6 @@ class AdapterManagerFactory implements FactoryInterface
     ];
 
     /**
-     * @param array $adapterMap configurable adapter map for for testing purposed
-     */
-    public function __construct(array $adapterMap = null)
-    {
-        if ($adapterMap !== null) {
-            $this->adapterMap = $adapterMap;
-        }
-    }
-
-    /**
      * Create service
      *
      * @param ServiceLocatorInterface $serviceLocator
@@ -64,6 +54,7 @@ class AdapterManagerFactory implements FactoryInterface
             }
 
             $type = strtolower($adapterConfig['type']);
+            $this->adapterMap = ArrayUtils::merge($this->adapterMap, isset($config['adapter_map']) ? $config['adapter_map'] : []);
 
             foreach (array_keys($this->adapterMap) as $serviceKind) {
                 if (isset($this->adapterMap[$serviceKind][$type])) {
