@@ -109,7 +109,6 @@ example : Add a custom Adapter called `customAdapter` using an invokables class 
             'customAdapter' => 'Custom\Adapter'
         ]
     ]
-]
 ];
 ```
 
