@@ -7,6 +7,7 @@ use UnexpectedValueException;
 use Zend\ServiceManager\Config;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\Stdlib\ArrayUtils;
 
 class AdapterManagerFactory implements FactoryInterface
 {
