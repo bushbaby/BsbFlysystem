@@ -47,7 +47,9 @@ class AdapterManagerFactory implements FactoryInterface
         $serviceConfig  = isset($config['adapter_manager']['config']) ? $config['adapter_manager']['config'] : [];
         $adapterMap     = $this->adapterMap;
 
-        if(isset($config['adapter_map'])) $adapterMap = ArrayUtils::merge($this->adapterMap, $config['adapter_map']);
+        if (isset($config['adapter_map'])) {
+            $adapterMap = ArrayUtils::merge($this->adapterMap, $config['adapter_map']);
+        }
 
         foreach ($config['adapters'] as $name => $adapterConfig) {
             if (!isset($adapterConfig['type'])) {
