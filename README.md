@@ -35,6 +35,7 @@ The configuration consists of the following base elements;
 
 - *Adapters* are consumed by a Filesystem.
 - *Filesystems* filesystem are consumed in userland.
+- *Adapter Map* are used to overload the default adapter list.
 
 ### Adapters
 
@@ -84,6 +85,32 @@ example: Filesystem called 'files' with the previously defined 'local_files' ada
         ],
     ],
 ],
+```
+
+
+### Adapter Map
+
+By default, BsbFlysystem provide a [list of adapters](src/Service/Factory/AdapterManagerFactory.php#L18-35) that are ready to used.
+
+If you want to add a custom adapter, you can register it using the `adapter_map` key.
+
+example : Add a custom Adapter called `customAdapter` using an invokables class `Custom\Adapter`
+
+```
+'bsb_flysystem' => [
+    'adapters' => [
+        'named_adapter' => [
+            'type'   => 'customAdapter',
+            'shared' => true,
+        ]
+    ],
+    'adapter_map' => [
+        'invokables' => [
+            'customAdapter' => 'Custom\Adapter'
+        ]
+    ]
+]
+];
 ```
 
 #### Caching
