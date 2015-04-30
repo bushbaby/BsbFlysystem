@@ -7,6 +7,7 @@ use UnexpectedValueException;
 use Zend\ServiceManager\Config;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\Stdlib\ArrayUtils;
 
 class AdapterManagerFactory implements FactoryInterface
 {
@@ -34,16 +35,6 @@ class AdapterManagerFactory implements FactoryInterface
     ];
 
     /**
-     * @param array $adapterMap configurable adapter map for for testing purposed
-     */
-    public function __construct(array $adapterMap = null)
-    {
-        if ($adapterMap !== null) {
-            $this->adapterMap = $adapterMap;
-        }
-    }
-
-    /**
      * Create service
      *
      * @param ServiceLocatorInterface $serviceLocator
@@ -54,6 +45,11 @@ class AdapterManagerFactory implements FactoryInterface
         $config         = $serviceLocator->get('config');
         $config         = $config['bsb_flysystem'];
         $serviceConfig  = isset($config['adapter_manager']['config']) ? $config['adapter_manager']['config'] : [];
+        $adapterMap     = $this->adapterMap;
+
+        if (isset($config['adapter_map'])) {
+            $adapterMap = ArrayUtils::merge($this->adapterMap, $config['adapter_map']);
+        }
 
         foreach ($config['adapters'] as $name => $adapterConfig) {
             if (!isset($adapterConfig['type'])) {
@@ -65,9 +61,9 @@ class AdapterManagerFactory implements FactoryInterface
 
             $type = strtolower($adapterConfig['type']);
 
-            foreach (array_keys($this->adapterMap) as $serviceKind) {
-                if (isset($this->adapterMap[$serviceKind][$type])) {
-                    $serviceConfig[$serviceKind][$name] = $this->adapterMap[$serviceKind][$type];
+            foreach (array_keys($adapterMap) as $serviceKind) {
+                if (isset($adapterMap[$serviceKind][$type])) {
+                    $serviceConfig[$serviceKind][$name] = $adapterMap[$serviceKind][$type];
 
                     if (isset($adapterConfig['shared'])) {
                         $serviceConfig['shared'][$name] = filter_var($adapterConfig['shared'], FILTER_VALIDATE_BOOLEAN);

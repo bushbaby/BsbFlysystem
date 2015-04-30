@@ -27,18 +27,18 @@ class AdapterManagerFactoryTest extends TestCase
 
     public function testServicesSharedByDefault()
     {
-        $adapterMap = [
-            'invokables' => [
-                'someadapter' => 'Some/Adapter'
-            ]
-        ];
-        $factory    = new AdapterManagerFactory($adapterMap);
+        $factory    = new AdapterManagerFactory();
         $config     = [
             'bsb_flysystem' => [
                 'adapters' => [
                     'named_adapter' => [
                         'type'   => 'someadapter',
                         'shared' => true,
+                    ]
+                ],
+                'adapter_map' => [
+                    'invokables' => [
+                        'someadapter' => 'Some/Adapter'
                     ]
                 ]
             ]
