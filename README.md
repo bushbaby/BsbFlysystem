@@ -2,8 +2,10 @@
 
 A simple Zend Framework 2 module that bridges the Flysystem filesystem.
 
-[![Latest Stable Version](https://poser.pugx.org/bushbaby/flysystem/v/stable.svg)](https://packagist.org/packages/bushbaby/flysystem) [![Total Downloads](https://poser.pugx.org/bushbaby/flysystem/downloads.svg)](https://packagist.org/packages/bushbaby/flysystem) [![Latest Unstable Version](https://poser.pugx.org/bushbaby/flysystem/v/unstable.svg)](https://packagist.org/packages/bushbaby/flysystem) [![License](https://poser.pugx.org/bushbaby/flysystem/license.svg)](https://packagist.org/packages/bushbaby/flysystem)
-
+[![Latest Stable Version](https://poser.pugx.org/bushbaby/flysystem/v/stable)](https://packagist.org/packages/bushbaby/flysystem) 
+[![Total Downloads](https://poser.pugx.org/bushbaby/flysystem/downloads)](https://packagist.org/packages/bushbaby/flysystem) 
+[![Latest Unstable Version](https://poser.pugx.org/bushbaby/flysystem/v/unstable)](https://packagist.org/packages/bushbaby/flysystem) 
+[![License](https://poser.pugx.org/bushbaby/flysystem/license)](https://packagist.org/packages/bushbaby/flysystem)
 
 [![Build Status](https://scrutinizer-ci.com/g/bushbaby/BsbFlysystem/badges/build.png?b=master)](https://scrutinizer-ci.com/g/bushbaby/BsbFlysystem/build-status/master)
 [![Code Coverage](https://scrutinizer-ci.com/g/bushbaby/BsbFlysystem/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/bushbaby/BsbFlysystem/?branch=master)
@@ -35,7 +37,7 @@ The configuration consists of the following base elements;
 
 - *Adapters* are consumed by a Filesystem.
 - *Filesystems* filesystem are consumed in userland.
-- *Adapter Map* are used to overload the default adapter list.
+- *Adapter Map* is used to overload the default adapter list.
 
 ### Adapters
 
@@ -90,11 +92,11 @@ example: Filesystem called 'files' with the previously defined 'local_files' ada
 
 ### Adapter Map
 
-By default, BsbFlysystem provide a [list of adapters](src/Service/Factory/AdapterManagerFactory.php#L18-35) that are ready to used.
+By default, BsbFlysystem provides a [list of adapters](src/Service/Factory/AdapterManagerFactory.php#L18-35) that are ready to used.
 
-If you want to add a custom adapter, you can register it using the `adapter_map` key.
+If you need to add a custom adapter you are able to by registering it onto the `adapter_map` key.
 
-example : Add a custom Adapter called `customAdapter` using an invokables class `Custom\Adapter`
+example : Add a custom Adapter called 'customAdapter' using an invokable class 'Custom\Adapter'
 
 ```
 'bsb_flysystem' => [
