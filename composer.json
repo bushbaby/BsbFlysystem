@@ -11,8 +11,10 @@
     ],
     "require": {
         "php": ">=5.4",
-        "zendframework/zendframework": "~2.2",
-        "league/flysystem": "~1.0.0"
+        "league/flysystem": "~1.0.0",
+        "zendframework/zend-servicemanager": "~2.2",
+        "zendframework/zend-cache": "~2.2",
+        "zendframework/zend-stdlib": "~2.2"
     },
     "require-dev": {
         "phpseclib/phpseclib" : "~0.3",
