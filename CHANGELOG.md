@@ -1,5 +1,8 @@
 # CHANGELOG
 
+v1.2.1
+- composer now installs the needed zf2 packages instead of the full framework
+
 v1.2.0
 - adds the ability to overload (add a custom one or modify an existing one) the provided adapters
 
