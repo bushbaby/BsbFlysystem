@@ -31,7 +31,7 @@ Copy the `config/bsb_flysystem.global.php.dist` to the `config/autoload` directo
 
 ## Configuration
 
-Configuration regarding BsbFlysystem lives in the top-level configuration key 'bsb_flysystem.
+Configuration regarding BsbFlysystem lives in the top-level configuration key `bsb_flysystem`.
 
 The configuration consists of the following base elements;
 
