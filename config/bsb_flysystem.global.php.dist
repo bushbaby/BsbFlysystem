@@ -61,6 +61,18 @@ return [
                     'bucket' => 'xxxxx'
                 ],
             ],
+            'awss3v3_default'     => [
+                'type'       => 'awss3v3',
+                'options'    => [
+                    'credentials' => [
+                        'key'    => 'your-app-id',
+                        'secret' => 'xxxxx',
+                    ],
+                    'region'  => 'us-east-1',
+                    'bucket'  => 'xxxxx',
+                    'version' => 'latest|version', // default: 'latest'
+                ],
+            ],
             'webdav_default'    => [
                 'type'    => 'webdav',
                 'options' => [
