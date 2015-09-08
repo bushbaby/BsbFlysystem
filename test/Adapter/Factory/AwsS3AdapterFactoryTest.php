@@ -30,6 +30,8 @@ class AwsS3AdapterFactoryTest extends TestCase
 
     public function testCreateService()
     {
+        $this->markTestSkipped('Skipped because Aws3Sv2 and Aws3Sv3 are not compatible.');
+
         $sm      = Bootstrap::getServiceManager();
         $manager = $sm->get('BsbFlysystemAdapterManager');
 
