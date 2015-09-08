@@ -22,7 +22,7 @@ php composer.phar require "bushbaby/flysystem:~1.0"
 
 Then add `BsbFlysystem` to the `config/application.config.php` modules list.
 
-Copy the `config/bsb_flysystem.global.php.dist` to the `config/autoload` directory to jump start configuration. 
+Copy the `config/bsb_flysystem.local.php.dist` to the `config/autoload` directory to jump start configuration. 
 
 ## Requirements
 
@@ -45,7 +45,7 @@ To configure an adapter you add a key to `bsb_flysystem->adapters` with a associ
 
 - type    \<string\>  Type of adapter
 - shared  \<boolean\> (optional) Defines the shared option of a [ZF2 service](http://framework.zend.com/manual/2.0/en/modules/zend.service-manager.quick-start.html#using-configuration).
-- options \<array\> Options specific per adapter (see [flysystem](http://flysystem.thephpleague.com) or config/bsb_flysystem.global.php.dist)
+- options \<array\> Options specific per adapter (see [flysystem](http://flysystem.thephpleague.com) or config/bsb_flysystem.local.php.dist)
 
 
 example: a local adapter pointing to ./data/files
