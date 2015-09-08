@@ -241,6 +241,8 @@ I have tried to provide factories (and tests) for each of the adapters that come
 - WebDAV
 - ZipArchive
 
+A note about the AwsS3 adapter; There are two versions of the AwsS3 sdk and only one can be installed at the same time. Therefore the Aws3S and Aws3Sv2 adapters are not required as dev-dependancies and are (at the moment) not unit tested.
+
 ### Filesystems
 
 There is one FilesystemFactory which creates a Filesystem or EventableFilesystem based on the configuration
