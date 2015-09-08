@@ -220,7 +220,7 @@ $contents   = $filesystem->read('file.txt');
 
 ## Provided Factories
 
-I have tried to provide factories (and tests) for each of the adapters that come with the Flysystem. Each come with there own setof required and optional options. I refer to the Flysystem documentation for more information.
+I have tried to provide factories (and tests) for each of the adapters that come with the Flysystem. Each come with there own set of required and optional options. I refer to the Flysystem documentation for more information.
 
 ### Adapters
 
