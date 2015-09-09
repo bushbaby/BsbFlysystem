@@ -3,7 +3,7 @@
 v1.2.2
 - adds an adapter for version 3 of the AwsS3 SDK
 - removes dev requirement and disables unittests for AwsS3 (v2). We cannot force a dependancy as v2 cannot be used together with and v3.
-- moves `bsb_flysystem.global.conf.php` to `bsb_flysystem.local.conf.php` as these might contain credentials and should not be placed under version control
+- moves `bsb_flysystem.global.php.dist` to `bsb_flysystem.local.php.dist` as these might contain credentials and should not be placed under version control
 
 v1.2.1
 - composer now installs the needed zf2 packages instead of the full framework
