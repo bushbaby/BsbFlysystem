@@ -16,6 +16,23 @@ class RenameUpload extends RenameUploadFilter
     protected $filesystem;
 
     /**
+     * Constructor
+     *
+     * @param array $options
+     */
+    public function __construct($options)
+    {
+        if (!is_array($options)) {
+            throw new Exception\InvalidArgumentException(sprintf(
+                '"%s" expects an array; received "%s"',
+                __METHOD__,
+                (is_object($options) ? get_class($options) : gettype($options))
+            ));
+        }
+        parent::__construct($options);
+    }
+
+    /**
      * @throws UnexpectedValueException
      * @return FilesystemInterface
      */
