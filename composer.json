@@ -33,11 +33,15 @@
         "league/flysystem-ziparchive": "~1.0",
         "league/flysystem-azure": "~1.0",
         "zendframework/zend-config": "~2.2",
+        "zendframework/zend-filter": "~2.2",
         "zendframework/zend-i18n": "~2.2",
         "zendframework/zend-loader": "~2.2",
         "zendframework/zend-log": "~2.2",
         "zendframework/zend-mvc": "~2.2",
         "zendframework/zend-view": "~2.2"
+    },
+    "suggest": {
+        "zendframework/zend-filter": "zend-filter component ~2.2, if you need RenameUpload filter"
     },
     "autoload": {
         "psr-4": {
