@@ -2,9 +2,8 @@
 
 namespace BsbFlysystem\Filter\File;
 
-use League\Flysystem\Adapter\Local as LocalAdapter;
-use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
+use UnexpectedValueException;
 use Zend\Filter\File\RenameUpload as RenameUploadFilter;
 use Zend\Filter\Exception;
 use Zend\Stdlib\ErrorHandler;
@@ -17,16 +16,13 @@ class RenameUpload extends RenameUploadFilter
     protected $filesystem;
 
     /**
+     * @throws UnexpectedValueException
      * @return FilesystemInterface
      */
     public function getFilesystem()
     {
         if (!$this->filesystem) {
-            // Fallback to local and guess required root path.
-            $root = $this->guessRootPath();
-
-            // Warning: changing target path later will not update root path.
-            $this->filesystem = new Filesystem(new LocalAdapter($root));
+            throw new UnexpectedValueException('Missing required filesystem.');
         }
 
         return $this->filesystem;
@@ -85,23 +81,5 @@ class RenameUpload extends RenameUploadFilter
         }
 
         return $result;
-    }
-
-    /**
-     * Will try to guess root path for local adapter
-     *
-     * @return string
-     */
-    private function guessRootPath()
-    {
-        $target = $this->getTarget();
-        $path = realpath($target);
-        if (strpos($target, './') === 0) {
-            $target = substr($target, 2);
-        }
-
-        $root = substr_replace($path, '', strrpos($path, $target), strlen($path));
-        // set working dir as root if impossible to guess root path
-        return $root ?: getcwd();
     }
 }
