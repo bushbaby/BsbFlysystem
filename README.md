@@ -320,3 +320,28 @@ foreach ($contents as $entry) {
     $manager->put('target://'.$entry['path'], $manager->read('source://'.$entry['path']));
 }
 ```
+
+### RenameUpload filter
+
+Module provides file filter that allow directly upload to any [flysystem](http://flysystem.thephpleague.com) supported storage. The `BsbFlysystem\Filter\File\RenameUpload` extends `Zend\Filter\File\RenameUpload` class, so please refer to its [documentation](http://framework.zend.com/manual/current/en/modules/zend.filter.file.rename-upload.html#zend-filter-file-rename-upload) for available options.
+
+```
+$request = new Request();
+$files   = $request->getFiles();
+// i.e. $files['my-upload']['tmp_name'] === '/tmp/php5Wx0aJ'
+// i.e. $files['my-upload']['name'] === 'myfile.txt'
+
+// get filesystem from BsbFlysystemManager
+$filesystem = $serviceLocator->get('BsbFlysystemManager')->get('default');
+
+$filter = new \BsbFlysystem\Filter\File\RenameUpload([
+    'target' => 'path/to/file.txt',
+    'filesystem' => $filesystem
+]);
+
+$filter->filter($files['my-upload']);
+// or
+$filter->filter('path/to/local/file.txt');
+
+// File has been renamed and moved through $filesystem with key 'path/to/file.txt'
+```
