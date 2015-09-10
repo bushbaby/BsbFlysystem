@@ -33,6 +33,29 @@ class RenameUploadTest extends TestCase
         $this->assertEquals($path, $key);
     }
 
+    public function testCanUploadFileWhenUploading()
+    {
+        $path = 'path/to/file.txt';
+        $this->filesystem->putStream($path, Argument::any())
+            ->willReturn(true)
+            ->shouldBeCalled();
+        $this->filesystem->has($path)
+            ->willReturn(false);
+
+        $filter = new RenameUpload([
+            'target' => $path,
+            'filesystem' => $this->filesystem->reveal()
+        ]);
+
+        $file = [
+            'tmp_name' => __DIR__ . '/../../Assets/test.txt',
+            'name' => 'test.txt'
+        ];
+        $temp = $filter->filter($file);
+
+        $this->assertEquals($path, $temp['tmp_name']);
+    }
+
     public function testWillThrowExceptionWithInvalidConstructorParams()
     {
         $this->setExpectedException('Zend\Filter\Exception\InvalidArgumentException');
