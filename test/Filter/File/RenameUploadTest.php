@@ -65,4 +65,28 @@ class RenameUploadTest extends TestCase
         $this->setExpectedException('Zend\Filter\Exception\InvalidArgumentException', "File 'path/to/file.txt' could not be uploaded. It already exists.");
         $filter->filter(__DIR__ . '/../../Assets/test.txt');
     }
+
+    public function testWillThrowExceptionWhenFilesystemFails()
+    {
+        $path = 'path/to/file.txt';
+        $this->filesystem->putStream($path, Argument::any())
+            ->willReturn(false)
+            ->shouldBeCalled();
+        $this->filesystem->has($path)
+            ->willReturn(false);
+
+        $filter = new RenameUpload([
+            'target' => $path,
+            'filesystem' => $this->filesystem->reveal()
+        ]);
+
+        $this->setExpectedException(
+            'Zend\Filter\Exception\RuntimeException',
+            sprintf(
+                "File '%s' could not be uploaded. An error occurred while processing the file.",
+                __DIR__ . '/../../Assets/test.txt'
+            )
+        );
+        $filter->filter(__DIR__ . '/../../Assets/test.txt');
+    }
 }

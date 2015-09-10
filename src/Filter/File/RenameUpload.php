@@ -6,7 +6,6 @@ use League\Flysystem\FilesystemInterface;
 use UnexpectedValueException;
 use Zend\Filter\File\RenameUpload as RenameUploadFilter;
 use Zend\Filter\Exception;
-use Zend\Stdlib\ErrorHandler;
 
 class RenameUpload extends RenameUploadFilter
 {
@@ -83,17 +82,14 @@ class RenameUpload extends RenameUploadFilter
      */
     protected function moveUploadedFile($sourceFile, $targetFile)
     {
-        ErrorHandler::start();
         $stream = fopen($sourceFile, 'r+');
         $result = $this->getFilesystem()->putStream($targetFile, $stream);
         fclose($stream);
-        $filesystemException = ErrorHandler::stop();
 
-        if (!$result || null !== $filesystemException) {
+        if (!$result) {
             throw new Exception\RuntimeException(
                 sprintf("File '%s' could not be uploaded. An error occurred while processing the file.", $sourceFile),
-                0,
-                $filesystemException
+                0
             );
         }
 
