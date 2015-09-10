@@ -57,12 +57,7 @@ class RenameUpload extends RenameUploadFilter
      */
     protected function getFinalTarget($uploadData)
     {
-        $path = trim(str_replace('\\', '/', parent::getFinalTarget($uploadData)), '/');
-        if (strpos($path, './') === 0) {
-            $path = substr($path, 2);
-        }
-
-        return $path;
+        return trim(str_replace('\\', '/', parent::getFinalTarget($uploadData)), '/');
     }
 
     /**
