@@ -5,6 +5,7 @@ namespace BsbFlysystemTest\Filter\File;
 use BsbFlysystem\Filter\File\RenameUpload;
 use BsbFlysystemTest\Framework\TestCase;
 use Prophecy\Argument;
+require_once __DIR__ . '/../../Assets/Functions.php';
 
 class RenameUploadTest extends TestCase
 {
@@ -70,6 +71,24 @@ class RenameUploadTest extends TestCase
 
         $this->setExpectedException('UnexpectedValueException');
         $filter->filter(__DIR__ . '/../../Assets/test.txt');
+    }
+
+    public function testWillThrowExceptionWhenFileIsNotPostUploaded()
+    {
+        $path = 'path/to/file.txt';
+        $this->filesystem->has($path)
+            ->willReturn(false);
+
+        $filter = new RenameUpload([
+            'target' => $path,
+            'filesystem' => $this->filesystem->reveal()
+        ]);
+
+        $this->setExpectedException(
+            'Zend\Filter\Exception\RuntimeException',
+            "File '".__DIR__ . '/../../Assets/Functions.php'."' could not be uploaded. Filter can move only uploaded files."
+        );
+        $filter->filter(__DIR__ . '/../../Assets/Functions.php');
     }
 
     public function testWillThrowExceptionWhenFileExists()

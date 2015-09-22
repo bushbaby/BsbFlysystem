@@ -77,6 +77,12 @@ class RenameUpload extends RenameUploadFilter
      */
     protected function moveUploadedFile($sourceFile, $targetFile)
     {
+        if (!is_uploaded_file($sourceFile)) {
+            throw new Exception\RuntimeException(
+                sprintf("File '%s' could not be uploaded. Filter can move only uploaded files.", $sourceFile),
+                0
+            );
+        }
         $stream = fopen($sourceFile, 'r+');
         $result = $this->getFilesystem()->putStream($targetFile, $stream);
         fclose($stream);
