@@ -1,5 +1,8 @@
 # CHANGELOG
 
+v1.3.0-dev
+- adds an FileUploadFilter capable of persisting uploaded files directly to an Flysystem filesystem
+
 v1.2.2
 - adds an adapter for version 3 of the AwsS3 SDK
 - removes dev requirement and disables unittests for AwsS3 (v2). We cannot force a dependancy as v2 cannot be used together with and v3.
