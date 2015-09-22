@@ -38,6 +38,7 @@
         "zendframework/zend-loader": "~2.2",
         "zendframework/zend-log": "~2.2",
         "zendframework/zend-mvc": "~2.2",
+        "zendframework/zend-serializer": "~2.2",
         "zendframework/zend-view": "~2.2"
     },
     "suggest": {
