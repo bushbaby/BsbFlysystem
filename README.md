@@ -323,7 +323,13 @@ foreach ($contents as $entry) {
 
 ### RenameUpload filter
 
-Module provides file filter that allow directly upload to any [flysystem](http://flysystem.thephpleague.com) supported storage. The `BsbFlysystem\Filter\File\RenameUpload` extends `Zend\Filter\File\RenameUpload` class, so please refer to its [documentation](http://framework.zend.com/manual/current/en/modules/zend.filter.file.rename-upload.html#zend-filter-file-rename-upload) for available options.
+@since 1.3.0
+
+`BsbFlysystem\Filter\File\RenameUpload` can be used to rename or move an uploaded file to a Flysystem filesystem.
+
+This class takes an `filesystem` constructor option which must implement `League\Flysystem\FilesystemInterface`.
+
+The `BsbFlysystem\Filter\File\RenameUpload` extends `Zend\Filter\File\RenameUpload` class so I refer to the Flysystem [documentation](http://framework.zend.com/manual/current/en/modules/zend.filter.file.rename-upload.html#zend-filter-file-rename-upload) for more information.
 
 ```
 $request = new Request();
@@ -331,7 +337,7 @@ $files   = $request->getFiles();
 // i.e. $files['my-upload']['tmp_name'] === '/tmp/php5Wx0aJ'
 // i.e. $files['my-upload']['name'] === 'myfile.txt'
 
-// get filesystem from BsbFlysystemManager
+// get a filesystem from the BsbFlysystemManager (or construct one manually)
 $filesystem = $serviceLocator->get('BsbFlysystemManager')->get('default');
 
 $filter = new \BsbFlysystem\Filter\File\RenameUpload([

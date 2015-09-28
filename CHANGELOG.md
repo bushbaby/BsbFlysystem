@@ -1,6 +1,6 @@
 # CHANGELOG
 
-v1.3.0-dev
+v1.3.0
 - adds an FileUploadFilter capable of persisting uploaded files directly to an Flysystem filesystem
 
 v1.2.2
