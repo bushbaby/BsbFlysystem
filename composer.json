@@ -18,7 +18,6 @@
         "zendframework/zend-modulemanager": "~2.2"
     },
     "require-dev": {
-        "phpseclib/phpseclib" : "~0.3",
         "squizlabs/php_codesniffer": "~2.0",
         "phpunit/phpunit": "~4.1",
         "ocramius/proxy-manager": "~1.0",
