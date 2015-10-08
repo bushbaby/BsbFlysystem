@@ -38,7 +38,8 @@
         "zendframework/zend-log": "~2.2",
         "zendframework/zend-mvc": "~2.2",
         "zendframework/zend-serializer": "~2.2",
-        "zendframework/zend-view": "~2.2"
+        "zendframework/zend-view": "~2.2",
+        "league/flysystem-vfs": "^1.0"
     },
     "suggest": {
         "zendframework/zend-filter": "zend-filter component ~2.2, if you need RenameUpload filter"

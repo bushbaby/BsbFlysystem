@@ -29,6 +29,7 @@ class AdapterManagerFactory implements FactoryInterface
             'sftp'       => 'BsbFlysystem\Adapter\Factory\SftpAdapterFactory',
             'webdav'     => 'BsbFlysystem\Adapter\Factory\WebDavAdapterFactory',
             'ziparchive' => 'BsbFlysystem\Adapter\Factory\ZipArchiveAdapterFactory',
+            'vfs'        => 'BsbFlysystem\Adapter\Factory\VfsAdapterFactory',
         ],
         'invokables' => [
             'null' => 'League\Flysystem\Adapter\NullAdapter',
