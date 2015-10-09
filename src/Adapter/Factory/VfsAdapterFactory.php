@@ -30,5 +30,8 @@ class VfsAdapterFactory extends AbstractAdapterFactory implements FactoryInterfa
      *
      * This adapter has no options
      */
-    protected function validateConfig() {}
+    protected function validateConfig()
+    {
+
+    }
 }
