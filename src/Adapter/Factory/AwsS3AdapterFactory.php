@@ -28,6 +28,7 @@ class AwsS3AdapterFactory extends AbstractAdapterFactory implements FactoryInter
             'key'    => $this->options['key'],
             'secret' => $this->options['secret'],
             'region' => $this->options['region'],
+            'request.options' => $this->options['request.options'],
         ]);
 
         $adapter = new Adapter($client, $this->options['bucket'], $this->options['prefix']);
@@ -58,6 +59,10 @@ class AwsS3AdapterFactory extends AbstractAdapterFactory implements FactoryInter
 
         if (!isset($this->options['prefix'])) {
             $this->options['prefix'] = null;
+        }
+
+        if (!isset($this->options['request.options'])) {
+            $this->options['request.options'] = [];
         }
     }
 }
