@@ -238,6 +238,7 @@ I have tried to provide factories (and tests) for each of the adapters that come
   - Won't connect until actual usage by Filesystem (thanks to [ProxyManager](https://github.com/Ocramius/ProxyManager)) and uses the same lazy loading configuration ZF2 provides.
 - Replicate
 - Sftp
+- VFS
 - WebDAV
 - ZipArchive
 

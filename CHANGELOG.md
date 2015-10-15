@@ -1,5 +1,9 @@
 # CHANGELOG
 
+v1.4.0
+- adds Guzzle request options support for Aws S3
+- adds an adapter for the VFS adapter
+
 v1.3.0
 - adds an FileUploadFilter capable of persisting uploaded files directly to an Flysystem filesystem
 
