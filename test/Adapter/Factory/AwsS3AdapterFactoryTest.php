@@ -111,6 +111,7 @@ class AwsS3AdapterFactoryTest extends TestCase
                     'region' => 'ghi',
                     'bucket' => 'jkl',
                     'prefix' => null,
+                    'request.options' => []
                 ]
             ],
         ];

@@ -30,6 +30,7 @@ class AwsS3v3AdapterFactory extends AbstractAdapterFactory implements FactoryInt
             ],
             'region' => $this->options['region'],
             'version' => $this->options['version'],
+            'request.options' => $this->options['request.options'],
         ]);
 
         $adapter = new Adapter($client, $this->options['bucket'], $this->options['prefix']);
@@ -68,6 +69,10 @@ class AwsS3v3AdapterFactory extends AbstractAdapterFactory implements FactoryInt
 
         if (!isset($this->options['prefix'])) {
             $this->options['prefix'] = '';
+        }
+
+        if (!isset($this->options['request.options'])) {
+            $this->options['request.options'] = [];
         }
     }
 }
