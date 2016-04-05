@@ -1,5 +1,10 @@
 # CHANGELOG
 
+v1.4.1
+- factories no longer depends on initializers which are a deprecated function of service manager
+- some composer restrictions where added on the lowest possible package versions 
+- SSL for PEAR repositories as composer does not allow non secure connection by default anymore
+
 v1.4.0
 - adds Guzzle request options support for Aws S3
 - adds an adapter for the VFS adapter
