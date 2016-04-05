@@ -19,7 +19,7 @@
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "~2.0",
-        "phpunit/phpunit": "~4.1",
+        "phpunit/phpunit": "~4.5",
         "ocramius/proxy-manager": "~1.0",
         "league/flysystem-eventable-filesystem": "~1.0",
         "league/flysystem-rackspace": "~1.0",
