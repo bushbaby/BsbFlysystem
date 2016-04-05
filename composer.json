@@ -9,6 +9,9 @@
             "email": "bas@bushbaby.nl"
         }
     ],
+    "config" : {
+        "secure-http" : false
+    },
     "require": {
         "php": ">=5.4",
         "league/flysystem": "~1.0",
