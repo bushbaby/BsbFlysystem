@@ -23,8 +23,11 @@ class Bootstrap
 
         static::initAutoloader();
 
-        $serviceManager = new ServiceManager(new ServiceManagerConfig());
-        $serviceManager->setService('ApplicationConfig', self::getApplicationConfig());
+        $serviceManager = new ServiceManager();
+        $config = self::getApplicationConfig();
+        $serviceManagerConfig = new ServiceManagerConfig($config);
+        $serviceManagerConfig->configureServiceManager($serviceManager);
+        $serviceManager->setService('ApplicationConfig', $config);
         $serviceManager->get('ModuleManager')->loadModules();
         static::$serviceManager = $serviceManager;
     }

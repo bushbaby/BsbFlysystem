@@ -80,6 +80,9 @@ class AdapterManagerFactory implements FactoryInterface
 
         $serviceConfig = new Config($serviceConfig);
 
-        return new AdapterManager($serviceConfig);
+        $adapterManager = new AdapterManager($serviceConfig);
+        $adapterManager->setServiceLocator($serviceLocator);
+
+        return $adapterManager;
     }
 }

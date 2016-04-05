@@ -38,11 +38,12 @@ return [
         ],
     ],
     'service_manager' => [
-        'invokables' => [
-            'BsbFlysystemManager' => 'BsbFlysystem\Service\FilesystemManager',
+        'aliases' => [
+            'BsbFlysystem\Service\FilesystemManager' => 'BsbFlysystemManager',
         ],
         'factories'  => [
             'BsbFlysystemAdapterManager' => 'BsbFlysystem\Service\Factory\AdapterManagerFactory',
+            'BsbFlysystemManager' => 'BsbFlysystem\Service\Factory\FilesystemManagerFactory',
         ],
     ],
 ];

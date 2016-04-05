@@ -20,6 +20,14 @@ class FilesystemManagerTest extends TestCase
         $this->assertInstanceOf('BsbFlysystem\Service\FilesystemManager', $manager);
     }
 
+    public function testCreateByAliasViaServiceManager()
+    {
+        $sm      = Bootstrap::getServiceManager();
+        $manager = $sm->get('BsbFlysystem\Service\FilesystemManager');
+
+        $this->assertInstanceOf('BsbFlysystem\Service\FilesystemManager', $manager);
+    }
+
     public function testManagerValidatesPlugin()
     {
         $manager = new FilesystemManager();
