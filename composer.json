@@ -15,7 +15,7 @@
     "require": {
         "php": ">=5.4",
         "league/flysystem": "~1.0",
-        "zendframework/zend-servicemanager": "~2.2",
+        "zendframework/zend-servicemanager": "~2.4",
         "zendframework/zend-cache": "~2.2",
         "zendframework/zend-stdlib": "~2.2",
         "zendframework/zend-modulemanager": "~2.2"
