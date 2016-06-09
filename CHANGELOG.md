@@ -1,5 +1,8 @@
 # CHANGELOG
 
+unreleased
+- marked azure test as skipped; currently the azure adapter won't work with microsoft/windowsazure to version 0.4.2. [see](https://github.com/thephpleague/flysystem-azure/pull/16)
+
 v1.4.1
 - factories no longer depends on initializers which are a deprecated function of service manager
 - some composer restrictions where added on the lowest possible package versions 
