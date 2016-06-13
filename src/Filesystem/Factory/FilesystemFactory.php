@@ -4,24 +4,28 @@ namespace BsbFlysystem\Filesystem\Factory;
 
 use BsbFlysystem\Cache\ZendStorageCache;
 use BsbFlysystem\Exception\RequirementsException;
+use BsbFlysystem\Exception\UnexpectedValueException;
+use Interop\Container\ContainerInterface;
 use League\Flysystem\Cached\CachedAdapter;
 use League\Flysystem\Cached\CacheInterface;
 use League\Flysystem\EventableFilesystem\EventableFilesystem;
 use League\Flysystem\Filesystem;
-use League\Flysystem\FilesystemInterface;
-use UnexpectedValueException;
 use Zend\Cache\Storage\StorageInterface;
-use Zend\ServiceManager\AbstractFactoryInterface;
-use Zend\ServiceManager\MutableCreationOptionsInterface;
+use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class FilesystemAbstractFactory implements AbstractFactoryInterface, MutableCreationOptionsInterface
+class FilesystemFactory implements FactoryInterface
 {
     /**
      * @var array
      */
     protected $options;
 
+    /**
+     * FilesystemFactory constructor.
+     *
+     * @param array $options
+     */
     public function __construct(array $options = [])
     {
         $this->setCreationOptions($options);
@@ -44,50 +48,52 @@ class FilesystemAbstractFactory implements AbstractFactoryInterface, MutableCrea
 
     /**
      * @param ServiceLocatorInterface $serviceLocator
-     * @param                         $name
-     * @param                         $requestedName
-     * @return bool
+     * @return mixed
      */
-    public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
+    public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $serviceLocator = $serviceLocator->getServiceLocator();
-        $config         = $serviceLocator->get('config');
+        if (method_exists($serviceLocator, 'getServiceLocator')) {
+            $serviceLocator = $serviceLocator->getServiceLocator();
+        }
 
-        return isset($config['bsb_flysystem']['filesystems'][$requestedName]);
+        $requestedName = func_get_arg(2);
+        
+        return $this($serviceLocator, $requestedName);
     }
 
     /**
-     * @param ServiceLocatorInterface $serviceLocator
-     * @param                         $name
-     * @param                         $requestedName
-     * @return FilesystemInterface
+     * @param ContainerInterface $container
+     * @param string             $requestedName
+     * @param array|null         $options
+     * @return EventableFilesystem|Filesystem
      */
-    public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $serviceLocator = $serviceLocator->getServiceLocator();
-        $config         = $serviceLocator->get('config');
+        $config         = $container->get('config');
         $fsConfig       = $config['bsb_flysystem']['filesystems'][$requestedName];
-
         if (!isset($fsConfig['adapter'])) {
             throw new UnexpectedValueException(sprintf(
                 "Missing 'adapter' key for the filesystem '%s' configuration",
-                $name
+                $requestedName
             ));
         }
 
-        $adapter = $serviceLocator
+        if (null !== $options) {
+            $this->setCreationOptions($options);
+        }
+
+        $adapter = $container
             ->get('BsbFlysystemAdapterManager')
             ->get($fsConfig['adapter'], $this->options['adapter_options']);
 
         $options = isset($fsConfig['options']) && is_array($fsConfig['options']) ? $fsConfig['options'] : [];
 
         if (isset($fsConfig['cache']) && is_string($fsConfig['cache'])) {
-            if (!class_exists('League\Flysystem\Cached\CachedAdapter')) {
+            if (!class_exists(\League\Flysystem\Cached\CachedAdapter::class)) {
                 throw new RequirementsException(['league/flysystem-cached-adapter'], 'CachedAdapter');
             }
 
-            $cacheAdapter = $serviceLocator
-                ->get($fsConfig['cache']);
+            $cacheAdapter = $container->get($fsConfig['cache']);
 
             // wrap if StorageInterface, use filesystem name a key
             if ($cacheAdapter instanceof StorageInterface) {
@@ -101,7 +107,7 @@ class FilesystemAbstractFactory implements AbstractFactoryInterface, MutableCrea
         }
 
         if (isset($fsConfig['eventable']) && filter_var($fsConfig['eventable'], FILTER_VALIDATE_BOOLEAN)) {
-            if (!class_exists('League\Flysystem\EventableFilesystem\EventableFilesystem')) {
+            if (!class_exists(\League\Flysystem\EventableFilesystem\EventableFilesystem::class)) {
                 throw new RequirementsException(['league/flysystem-eventable-filesystem'], 'EventableFilesystem');
             }
 

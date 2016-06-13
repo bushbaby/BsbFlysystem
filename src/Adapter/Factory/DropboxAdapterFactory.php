@@ -3,19 +3,19 @@
 namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\RequirementsException;
+use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\Dropbox\DropboxAdapter as Adapter;
-use UnexpectedValueException;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class DropboxAdapterFactory extends AbstractAdapterFactory implements FactoryInterface
+class DropboxAdapterFactory extends AbstractAdapterFactory
 {
     /**
      * @inheritdoc
      */
     public function doCreateService(ServiceLocatorInterface $serviceLocator)
     {
-        if (!class_exists('League\Flysystem\Dropbox\DropboxAdapter')) {
+        if (!class_exists(\League\Flysystem\Dropbox\DropboxAdapter::class)) {
             throw new RequirementsException(
                 ['league/flysystem-dropbox'],
                 'Dropbox'

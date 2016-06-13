@@ -3,19 +3,19 @@
 namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\RequirementsException;
+use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\ZipArchive\ZipArchiveAdapter as Adapter;
-use UnexpectedValueException;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class ZipArchiveAdapterFactory extends AbstractAdapterFactory implements FactoryInterface
+class ZipArchiveAdapterFactory extends AbstractAdapterFactory
 {
     /**
      * @inheritdoc
      */
     public function doCreateService(ServiceLocatorInterface $serviceLocator)
     {
-        if (!class_exists('League\Flysystem\ZipArchive\ZipArchiveAdapter')) {
+        if (!class_exists(\League\Flysystem\ZipArchive\ZipArchiveAdapter::class)) {
             throw new RequirementsException(
                 ['league/ziparchive'],
                 'ZipArchive'

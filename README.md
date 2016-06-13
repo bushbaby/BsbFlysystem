@@ -26,8 +26,8 @@ Copy the `config/bsb_flysystem.local.php.dist` to the `config/autoload` director
 
 ## Requirements
 
-- \>=PHP5.4
-- \>=ZF2.2.0
+- \>=PHP5.5
+- \>=ZF2.7
 
 ## Configuration
 
@@ -159,7 +159,7 @@ example: caching options as are common in a ZF2 application
 ],
 'service_manager' => [
     'abstract_factories' => [
-    	'Zend\Cache\Service\StorageCacheAbstractServiceFactory'
+    	\Zend\Cache\Service\StorageCacheAbstractServiceFactory::class
     ],
 ],
 ```

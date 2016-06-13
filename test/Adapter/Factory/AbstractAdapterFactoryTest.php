@@ -44,7 +44,7 @@ class AbstractAdapterFactoryTest extends TestCase
         $factory = new SimpleAdapterFactory();
         $sm      = new ServiceManager();
         $sm->setService(
-            'Config',
+            'config',
             [
                 'bsb_flysystem' => [
                     'adapters' => [
@@ -69,7 +69,7 @@ class AbstractAdapterFactoryTest extends TestCase
         $factory             = new SimpleAdapterFactory($constructor_options);
         $sm                  = new ServiceManager();
         $sm->setService(
-            'Config',
+            'config',
             [
                 'bsb_flysystem' => [
                     'adapters' => ['simple_default' => ['options' => $config_options]]
@@ -89,7 +89,7 @@ class AbstractAdapterFactoryTest extends TestCase
         $constructor_options = ['option' => 1, 'option2' => 2];
         $factory             = new SimpleAdapterFactory($constructor_options);
         $sm                  = new ServiceManager();
-        $sm->setService('Config', []);
+        $sm->setService('config', []);
 
         $this->method->invokeArgs($factory, [$sm, 'simple_default']);
         $expected = $constructor_options;
@@ -102,14 +102,14 @@ class AbstractAdapterFactoryTest extends TestCase
         $this->assertEquals($expected, $this->property->getValue($factory));
 
         $sm = new ServiceManager();
-        $sm->setService('Config', ['bsb_flysystem' => []]);
+        $sm->setService('config', ['bsb_flysystem' => []]);
 
         $this->method->invokeArgs($factory, [$sm, 'simple_default']);
         $expected = $constructor_options;
         $this->assertEquals($expected, $this->property->getValue($factory));
 
         $sm = new ServiceManager();
-        $sm->setService('Config', ['bsb_flysystem' => ['adapters' => []]]);
+        $sm->setService('config', ['bsb_flysystem' => ['adapters' => []]]);
 
         $this->method->invokeArgs($factory, [$sm, 'simple.simple_default']);
         $expected = $constructor_options;
@@ -117,7 +117,7 @@ class AbstractAdapterFactoryTest extends TestCase
 
         $sm = new ServiceManager();
         $sm->setService(
-            'Config',
+            'config',
             [
                 'bsb_flysystem' => [
                     'adapters' => [

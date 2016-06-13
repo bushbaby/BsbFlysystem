@@ -3,20 +3,20 @@
 namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\RequirementsException;
+use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\WebDAV\WebDAVAdapter as Adapter;
 use Sabre\DAV\Client;
-use UnexpectedValueException;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class WebDAVAdapterFactory extends AbstractAdapterFactory implements FactoryInterface
+class WebDAVAdapterFactory extends AbstractAdapterFactory
 {
     /**
      * @inheritdoc
      */
     public function doCreateService(ServiceLocatorInterface $serviceLocator)
     {
-        if (!class_exists('League\Flysystem\WebDAV\WebDAVAdapter')) {
+        if (!class_exists(\League\Flysystem\WebDAV\WebDAVAdapter::class)) {
             throw new RequirementsException(
                 ['league/flysystem-webdav'],
                 'WebDAV'

@@ -32,11 +32,9 @@ class CopyAdapterFactoryTest extends TestCase
     public function testCreateService()
     {
         $sm      = Bootstrap::getServiceManager();
-        $manager = $sm->get('BsbFlysystemAdapterManager');
-
         $factory = new CopyAdapterFactory();
 
-        $adapter = $factory->createService($manager, 'copydefault', 'copy_default');
+        $adapter = $factory($sm, 'copy_default');
 
         $this->assertInstanceOf('League\Flysystem\Copy\CopyAdapter', $adapter);
     }

@@ -2,37 +2,37 @@
 
 namespace BsbFlysystem\Service\Factory;
 
+use BsbFlysystem\Exception\UnexpectedValueException;
 use BsbFlysystem\Service\AdapterManager;
-use UnexpectedValueException;
-use Zend\ServiceManager\Config;
+use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\ArrayUtils;
 
 class AdapterManagerFactory implements FactoryInterface
 {
-
     /**
      * @var array mapping adapter types to plugin configuration
      */
     protected $adapterMap = [
         'factories' => [
-            'awss3'      => 'BsbFlysystem\Adapter\Factory\AwsS3AdapterFactory',
-            'awss3v3'    => 'BsbFlysystem\Adapter\Factory\AwsS3v3AdapterFactory',
-            'azure'      => 'BsbFlysystem\Adapter\Factory\AzureAdapterFactory',
-            'copy'       => 'BsbFlysystem\Adapter\Factory\CopyAdapterFactory',
-            'dropbox'    => 'BsbFlysystem\Adapter\Factory\DropboxAdapterFactory',
-            'ftp'        => 'BsbFlysystem\Adapter\Factory\FtpAdapterFactory',
-            'local'      => 'BsbFlysystem\Adapter\Factory\LocalAdapterFactory',
-            'rackspace'  => 'BsbFlysystem\Adapter\Factory\RackspaceAdapterFactory',
-            'replicate'  => 'BsbFlysystem\Adapter\Factory\ReplicateAdapterFactory',
-            'sftp'       => 'BsbFlysystem\Adapter\Factory\SftpAdapterFactory',
-            'webdav'     => 'BsbFlysystem\Adapter\Factory\WebDavAdapterFactory',
-            'ziparchive' => 'BsbFlysystem\Adapter\Factory\ZipArchiveAdapterFactory',
-            'vfs'        => 'BsbFlysystem\Adapter\Factory\VfsAdapterFactory',
+            'awss3'      => \BsbFlysystem\Adapter\Factory\AwsS3AdapterFactory::class,
+            'awss3v3'    => \BsbFlysystem\Adapter\Factory\AwsS3v3AdapterFactory::class,
+            'azure'      => \BsbFlysystem\Adapter\Factory\AzureAdapterFactory::class,
+            'copy'       => \BsbFlysystem\Adapter\Factory\CopyAdapterFactory::class,
+            'dropbox'    => \BsbFlysystem\Adapter\Factory\DropboxAdapterFactory::class,
+            'ftp'        => \BsbFlysystem\Adapter\Factory\FtpAdapterFactory::class,
+            'local'      => \BsbFlysystem\Adapter\Factory\LocalAdapterFactory::class,
+            'rackspace'  => \BsbFlysystem\Adapter\Factory\RackspaceAdapterFactory::class,
+            'replicate'  => \BsbFlysystem\Adapter\Factory\ReplicateAdapterFactory::class,
+            'sftp'       => \BsbFlysystem\Adapter\Factory\SftpAdapterFactory::class,
+            'webdav'     => \BsbFlysystem\Adapter\Factory\WebDAVAdapterFactory::class,
+            'ziparchive' => \BsbFlysystem\Adapter\Factory\ZipArchiveAdapterFactory::class,
+            'vfs'        => \BsbFlysystem\Adapter\Factory\VfsAdapterFactory::class,
+            'null'       => \Zend\ServiceManager\Factory\InvokableFactory::class,
         ],
-        'invokables' => [
-            'null' => 'League\Flysystem\Adapter\NullAdapter',
+        'aliases' => [
+            'null' => \League\Flysystem\Adapter\NullAdapter::class,
         ]
     ];
 
@@ -44,10 +44,22 @@ class AdapterManagerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config         = $serviceLocator->get('config');
-        $config         = $config['bsb_flysystem'];
-        $serviceConfig  = isset($config['adapter_manager']['config']) ? $config['adapter_manager']['config'] : [];
-        $adapterMap     = $this->adapterMap;
+        if (method_exists($serviceLocator, 'getServiceLocator')) {
+            $serviceLocator = $serviceLocator->getServiceLocator();
+        }
+
+        return $this($serviceLocator, null);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
+        $config        = $container->get('config');
+        $config        = $config['bsb_flysystem'];
+        $serviceConfig = isset($config['adapter_manager']['config']) ? $config['adapter_manager']['config'] : [];
+        $adapterMap    = $this->adapterMap;
 
         if (isset($config['adapter_map'])) {
             $adapterMap = ArrayUtils::merge($this->adapterMap, $config['adapter_map']);
@@ -63,6 +75,10 @@ class AdapterManagerFactory implements FactoryInterface
 
             $type = strtolower($adapterConfig['type']);
 
+            if (!in_array($type, array_keys($adapterMap['factories']), false)) {
+                throw new UnexpectedValueException(sprintf("Unknown adapter type '%s'", $type));
+            }
+
             foreach (array_keys($adapterMap) as $serviceKind) {
                 if (isset($adapterMap[$serviceKind][$type])) {
                     $serviceConfig[$serviceKind][$name] = $adapterMap[$serviceKind][$type];
@@ -70,19 +86,10 @@ class AdapterManagerFactory implements FactoryInterface
                     if (isset($adapterConfig['shared'])) {
                         $serviceConfig['shared'][$name] = filter_var($adapterConfig['shared'], FILTER_VALIDATE_BOOLEAN);
                     }
-
-                    continue 2;
                 }
             }
-
-            throw new UnexpectedValueException(sprintf("Unknown adapter type '%s'", $type));
         }
 
-        $serviceConfig = new Config($serviceConfig);
-
-        $adapterManager = new AdapterManager($serviceConfig);
-        $adapterManager->setServiceLocator($serviceLocator);
-
-        return $adapterManager;
+        return new AdapterManager($container, $serviceConfig);
     }
 }

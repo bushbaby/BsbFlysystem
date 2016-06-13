@@ -3,7 +3,6 @@
 namespace BsbFlysystem\Exception;
 
 use Exception;
-use RuntimeException;
 
 class RequirementsException extends RuntimeException
 {

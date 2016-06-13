@@ -2,12 +2,12 @@
 
 namespace BsbFlysystem\Adapter\Factory;
 
+use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\Adapter\Local as Adapter;
-use UnexpectedValueException;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class LocalAdapterFactory extends AbstractAdapterFactory implements FactoryInterface
+class LocalAdapterFactory extends AbstractAdapterFactory
 {
     /**
      * @inheritdoc

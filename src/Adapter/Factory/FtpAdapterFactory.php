@@ -2,12 +2,12 @@
 
 namespace BsbFlysystem\Adapter\Factory;
 
+use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\Adapter\Ftp as Adapter;
-use UnexpectedValueException;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class FtpAdapterFactory extends AbstractAdapterFactory implements FactoryInterface
+class FtpAdapterFactory extends AbstractAdapterFactory
 {
     /**
      * @inheritdoc

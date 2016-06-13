@@ -31,11 +31,9 @@ class LocalAdapterFactoryTest extends TestCase
     public function testCreateService()
     {
         $sm      = Bootstrap::getServiceManager();
-        $manager = $sm->get('BsbFlysystemAdapterManager');
-
         $factory = new LocalAdapterFactory();
 
-        $adapter = $factory->createService($manager, 'localdefault', 'local_default');
+        $adapter = $factory($sm, 'local_default');
 
         $this->assertInstanceOf('League\Flysystem\Adapter\Local', $adapter);
     }

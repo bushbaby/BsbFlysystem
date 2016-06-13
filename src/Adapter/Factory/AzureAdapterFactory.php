@@ -3,13 +3,13 @@
 namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\RequirementsException;
+use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\Azure\AzureAdapter as Adapter;
-use UnexpectedValueException;
 use WindowsAzure\Common\ServicesBuilder;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class AzureAdapterFactory extends AbstractAdapterFactory implements FactoryInterface
+class AzureAdapterFactory extends AbstractAdapterFactory
 {
 
     /**
@@ -17,7 +17,7 @@ class AzureAdapterFactory extends AbstractAdapterFactory implements FactoryInter
      */
     public function doCreateService(ServiceLocatorInterface $serviceLocator)
     {
-        if (!class_exists('League\Flysystem\Azure\AzureAdapter')) {
+        if (!class_exists(\League\Flysystem\Azure\AzureAdapter::class)) {
             throw new RequirementsException(
                 ['league/flysystem-azure'],
                 'Azure'

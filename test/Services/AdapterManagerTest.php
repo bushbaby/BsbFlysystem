@@ -5,6 +5,7 @@ namespace BsbFlysystemTest\Service;
 use BsbFlysystem\Service\AdapterManager;
 use BsbFlysystemTest\Bootstrap;
 use BsbFlysystemTest\Framework\TestCase;
+use Zend\ServiceManager\ServiceManager;
 
 class AdapterManagerTest extends TestCase
 {
@@ -19,14 +20,14 @@ class AdapterManagerTest extends TestCase
 
     public function testManagerValidatesPlugin()
     {
-        $manager = new AdapterManager();
+        $manager = new AdapterManager(new ServiceManager());
         $plugin  = $this->getMockBuilder('League\Flysystem\Adapter\AbstractAdapter')
             ->disableOriginalConstructor()
             ->getMock();
 
         $manager->validatePlugin($plugin);
 
-        $this->setExpectedException('Zend\ServiceManager\Exception\RuntimeException');
+        $this->setExpectedException('BsbFlysystem\Exception\RuntimeException');
 
         $plugin = new \stdClass();
         $manager->validatePlugin($plugin);

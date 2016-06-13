@@ -3,19 +3,19 @@
 namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\RequirementsException;
+use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\Replicate\ReplicateAdapter as Adapter;
-use UnexpectedValueException;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class ReplicateAdapterFactory extends AbstractAdapterFactory implements FactoryInterface
+class ReplicateAdapterFactory extends AbstractAdapterFactory
 {
     /**
      * @inheritdoc
      */
     public function doCreateService(ServiceLocatorInterface $serviceLocator)
     {
-        if (!class_exists('League\Flysystem\Replicate\ReplicateAdapter')) {
+        if (!class_exists(\League\Flysystem\Replicate\ReplicateAdapter::class)) {
             throw new RequirementsException(
                 ['league/flysystem-replicate-adapter'],
                 'Replicate'

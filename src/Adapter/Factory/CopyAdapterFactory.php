@@ -4,19 +4,19 @@ namespace BsbFlysystem\Adapter\Factory;
 
 use Barracuda\Copy\API;
 use BsbFlysystem\Exception\RequirementsException;
+use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\Copy\CopyAdapter as Adapter;
-use UnexpectedValueException;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class CopyAdapterFactory extends AbstractAdapterFactory implements FactoryInterface
+class CopyAdapterFactory extends AbstractAdapterFactory
 {
     /**
      * @inheritdoc
      */
     public function doCreateService(ServiceLocatorInterface $serviceLocator)
     {
-        if (!class_exists('League\Flysystem\Copy\CopyAdapter')) {
+        if (!class_exists(\League\Flysystem\Copy\CopyAdapter::class)) {
             throw new RequirementsException(
                 ['league/flysystem-copy'],
                 'Copy'

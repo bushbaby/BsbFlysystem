@@ -3,22 +3,22 @@
 namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\RequirementsException;
+use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\Rackspace\RackspaceAdapter as Adapter;
 use OpenCloud\OpenStack;
 use ProxyManager\Factory\LazyLoadingValueHolderFactory;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use UnexpectedValueException;
 
-class RackspaceAdapterFactory extends AbstractAdapterFactory implements FactoryInterface
+class RackspaceAdapterFactory extends AbstractAdapterFactory
 {
     /**
      * @inheritdoc
      */
     public function doCreateService(ServiceLocatorInterface $serviceLocator)
     {
-        if (!class_exists('League\Flysystem\Rackspace\RackspaceAdapter') ||
-            !class_exists('ProxyManager\Factory\LazyLoadingValueHolderFactory')
+        if (!class_exists(\League\Flysystem\Rackspace\RackspaceAdapter::class) ||
+            !class_exists(\ProxyManager\Factory\LazyLoadingValueHolderFactory::class)
         ) {
             throw new RequirementsException(
                 ['league/flysystem-rackspace', 'ocramius/proxy-manager'],
@@ -27,7 +27,7 @@ class RackspaceAdapterFactory extends AbstractAdapterFactory implements FactoryI
         }
 
         $proxy = $this->getLazyFactory($serviceLocator)->createProxy(
-            'League\Flysystem\Rackspace\RackspaceAdapter',
+            \League\Flysystem\Rackspace\RackspaceAdapter::class,
             function (&$wrappedObject, $proxy, $method, $parameters, &$initializer) {
                 $client = new OpenStack(
                     $this->options['url'],
