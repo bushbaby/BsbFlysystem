@@ -6,7 +6,6 @@ use Aws\S3\S3Client;
 use BsbFlysystem\Exception\RequirementsException;
 use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\AwsS3v2\AwsS3Adapter as Adapter;
-use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class AwsS3AdapterFactory extends AbstractAdapterFactory

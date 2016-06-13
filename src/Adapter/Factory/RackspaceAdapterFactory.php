@@ -6,8 +6,6 @@ use BsbFlysystem\Exception\RequirementsException;
 use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\Rackspace\RackspaceAdapter as Adapter;
 use OpenCloud\OpenStack;
-use ProxyManager\Factory\LazyLoadingValueHolderFactory;
-use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class RackspaceAdapterFactory extends AbstractAdapterFactory

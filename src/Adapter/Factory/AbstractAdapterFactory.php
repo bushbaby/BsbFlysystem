@@ -4,14 +4,12 @@ namespace BsbFlysystem\Adapter\Factory;
 
 use Interop\Container\ContainerInterface;
 use InvalidArgumentException;
-use UnexpectedValueException;
 use League\Flysystem\AdapterInterface;
 use ProxyManager\Configuration;
 use ProxyManager\Factory\LazyLoadingValueHolderFactory;
 use ProxyManager\GeneratorStrategy\EvaluatingGeneratorStrategy;
 use ProxyManager\Proxy\VirtualProxyInterface;
 use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\MutableCreationOptionsInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\ArrayUtils;
 
@@ -22,6 +20,11 @@ abstract class AbstractAdapterFactory implements FactoryInterface
      */
     protected $options;
 
+    /**
+     * AbstractAdapterFactory constructor.
+     *
+     * @param array $options
+     */
     public function __construct(array $options = [])
     {
         $this->setCreationOptions($options);
@@ -38,6 +41,12 @@ abstract class AbstractAdapterFactory implements FactoryInterface
         $this->options = $options;
     }
 
+    /**
+     * @param ContainerInterface $container
+     * @param                    $requestedName
+     * @param array|null         $options
+     * @return AdapterInterface|VirtualProxyInterface
+     */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         if (null !== $options) {
@@ -72,7 +81,7 @@ abstract class AbstractAdapterFactory implements FactoryInterface
      * Merges the options given from the ServiceLocator Config object with the create options of the class.
      *
      * @param ServiceLocatorInterface $serviceLocator
-     * @param                         $requestedName
+     * @param                         string $requestedName
      */
     protected function mergeMvcConfig(ServiceLocatorInterface $serviceLocator, $requestedName)
     {
