@@ -4,12 +4,11 @@ namespace BsbFlysystem\Adapter\Factory;
 
 use Aws\S3\S3Client;
 use BsbFlysystem\Exception\RequirementsException;
+use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\AwsS3v2\AwsS3Adapter as Adapter;
-use UnexpectedValueException;
-use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class AwsS3AdapterFactory extends AbstractAdapterFactory implements FactoryInterface
+class AwsS3AdapterFactory extends AbstractAdapterFactory
 {
 
     /**
@@ -17,7 +16,7 @@ class AwsS3AdapterFactory extends AbstractAdapterFactory implements FactoryInter
      */
     public function doCreateService(ServiceLocatorInterface $serviceLocator)
     {
-        if (!class_exists('League\Flysystem\AwsS3v2\AwsS3Adapter')) {
+        if (!class_exists(\League\Flysystem\AwsS3v2\AwsS3Adapter::class)) {
             throw new RequirementsException(
                 ['league/flysystem-aws-s3-v2'],
                 'AwsS3'

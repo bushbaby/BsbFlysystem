@@ -31,11 +31,9 @@ class ReplicaAdapterFactoryTest extends TestCase
     public function testCreateService()
     {
         $sm      = Bootstrap::getServiceManager();
-        $manager = $sm->get('BsbFlysystemAdapterManager');
-
         $factory = new ReplicateAdapterFactory();
 
-        $adapter = $factory->createService($manager, 'replicatedefault', 'replicate_default');
+        $adapter = $factory($sm, 'replicate_default');
 
         $this->assertInstanceOf('League\Flysystem\Replicate\ReplicateAdapter', $adapter);
     }

@@ -1,5 +1,14 @@
 # CHANGELOG
 
+unreleased
+- adds compatibility with zend-servicemanager 3.0 and therefore zend-servicemanager 2.7.3 is the lowest version you can use
+- support for php5.4 was dropped and for php7.0 added
+- Possibly BC: where previously \UnexpectedValueException was thrown a BsbFlysystem\Exception\UnexpectedValueException is thrown
+- Possibly BC: where previously \RuntimeException was thrown a BsbFlysystem\Exception\RuntimeException is thrown
+- Possibly BC: adapter factories don't implement FactoryInterface as they extends AbstractAdapterFactory which does that
+- Possibly BC: the abstract filesystem factory has been replaced by a regular factory. For each configured filesystem an entry is now dynmicly added to the filesystem plugin manager. This way the shared option for filesystems can be configured correctly (in sm2.7).
+- marked azure test as skipped; currently the azure adapter won't work with microsoft/windowsazure to version 0.4.2. [see](https://github.com/thephpleague/flysystem-azure/pull/16)
+
 v1.4.1
 - factories no longer depends on initializers which are a deprecated function of service manager
 - some composer restrictions where added on the lowest possible package versions 

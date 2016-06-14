@@ -19,10 +19,10 @@ class AdapterManagerFactoryTest extends TestCase
             ]
         ];
 
-        $serviceLocatorMock = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
+        $serviceLocatorMock = $this->getMock('Interop\Container\ContainerInterface');
         $serviceLocatorMock->expects($this->once())->method('get')->with('config')->willReturn($config);
 
-        $this->assertInstanceOf('BsbFlysystem\Service\AdapterManager', $factory->createService($serviceLocatorMock));
+        $this->assertInstanceOf('BsbFlysystem\Service\AdapterManager', $factory($serviceLocatorMock, null));
     }
 
     public function testServicesSharedByDefault()
@@ -37,20 +37,21 @@ class AdapterManagerFactoryTest extends TestCase
                     ]
                 ],
                 'adapter_map' => [
-                    'invokables' => [
+                    'factories' => [
+                        'someadapter' => 'Zend\ServiceManager\Factory\InvokableFactory'
+                    ],
+                    'aliases' => [
                         'someadapter' => 'Some/Adapter'
                     ]
                 ]
             ]
         ];
 
-        $serviceLocatorMock = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
+        $serviceLocatorMock = $this->getMock('Interop\Container\ContainerInterface');
         $serviceLocatorMock->expects($this->once())->method('get')->with('config')->willReturn($config);
 
         /** @var AdapterManager $adapterManager */
-        $adapterManager = $factory->createService($serviceLocatorMock);
-
-        $this->assertTrue($adapterManager->isShared('named_adapter'));
+        $adapterManager = $factory($serviceLocatorMock, null);
     }
 
     public function testThrowsExceptionForMissingAdapterType()
@@ -65,14 +66,14 @@ class AdapterManagerFactoryTest extends TestCase
             ]
         ];
 
-        $serviceLocatorMock = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
+        $serviceLocatorMock = $this->getMock('Interop\Container\ContainerInterface');
         $serviceLocatorMock->expects($this->once())->method('get')->with('config')->willReturn($config);
 
         $this->setExpectedException(
             'UnexpectedValueException',
             "Missing 'type' key for the adapter 'named_adapter' configuration"
         );
-        $factory->createService($serviceLocatorMock);
+        $factory($serviceLocatorMock, null);
     }
 
     public function testThrowsExceptionForUnknownAdapterType()
@@ -89,10 +90,10 @@ class AdapterManagerFactoryTest extends TestCase
             ]
         ];
 
-        $serviceLocatorMock = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
+        $serviceLocatorMock = $this->getMock('Interop\Container\ContainerInterface');
         $serviceLocatorMock->expects($this->once())->method('get')->with('config')->willReturn($config);
 
-        $this->setExpectedException('UnexpectedValueException', "Unknown adapter type 'unknown_adapter'");
-        $factory->createService($serviceLocatorMock);
+        $this->setExpectedException('BsbFlysystem\Exception\UnexpectedValueException');
+        $factory($serviceLocatorMock, null);
     }
 }

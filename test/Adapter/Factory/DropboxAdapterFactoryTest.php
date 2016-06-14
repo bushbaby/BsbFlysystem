@@ -31,11 +31,9 @@ class DropboxAdapterFactoryTest extends TestCase
     public function testCreateService()
     {
         $sm      = Bootstrap::getServiceManager();
-        $manager = $sm->get('BsbFlysystemAdapterManager');
-
         $factory = new DropboxAdapterFactory();
 
-        $adapter = $factory->createService($manager, 'dropboxdefault', 'dropbox_default');
+        $adapter = $factory($sm, 'dropbox_default');
 
         $this->assertInstanceOf('League\Flysystem\Dropbox\DropboxAdapter', $adapter);
     }

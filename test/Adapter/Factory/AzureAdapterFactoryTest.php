@@ -30,9 +30,9 @@ class AzureAdapterFactoryTest extends TestCase
 
     public function testCreateService()
     {
-        $sm = Bootstrap::getServiceManager();
-        $manager = $sm->get('BsbFlysystemAdapterManager');
+        $this->markTestSkipped("Skipped due to https://github.com/thephpleague/flysystem-azure/pull/16");
 
+        $sm      = Bootstrap::getServiceManager();
         $factory = new AzureAdapterFactory(
             [
                 'account-name' => 'foo',
@@ -41,7 +41,7 @@ class AzureAdapterFactoryTest extends TestCase
             ]
         );
 
-        $adapter = $factory->createService($manager, 'azuredefault', 'azure_default');
+        $adapter = $factory($sm, 'azure_default');
 
         $this->assertInstanceOf('League\Flysystem\Azure\AzureAdapter', $adapter);
     }

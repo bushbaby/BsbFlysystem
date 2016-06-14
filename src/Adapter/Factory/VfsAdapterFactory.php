@@ -8,14 +8,14 @@ use VirtualFileSystem\FileSystem as Vfs;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class VfsAdapterFactory extends AbstractAdapterFactory implements FactoryInterface
+class VfsAdapterFactory extends AbstractAdapterFactory
 {
     /**
      * @inheritdoc
      */
     public function doCreateService(ServiceLocatorInterface $serviceLocator)
     {
-        if (!class_exists('League\Flysystem\Vfs\VfsAdapter')) {
+        if (!class_exists(\League\Flysystem\Vfs\VfsAdapter::class)) {
             throw new RequirementsException(
                 ['league/flysystem-vfs'],
                 'Vfs'

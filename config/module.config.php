@@ -38,12 +38,13 @@ return [
         ],
     ],
     'service_manager' => [
-        'aliases' => [
-            'BsbFlysystem\Service\FilesystemManager' => 'BsbFlysystemManager',
+        'aliases'   => [
+            'BsbFlysystemManager'        => \BsbFlysystem\Service\FilesystemManager::class,
+            'BsbFlysystemAdapterManager' => \BsbFlysystem\Service\AdapterManager::class,
         ],
-        'factories'  => [
-            'BsbFlysystemAdapterManager' => 'BsbFlysystem\Service\Factory\AdapterManagerFactory',
-            'BsbFlysystemManager' => 'BsbFlysystem\Service\Factory\FilesystemManagerFactory',
+        'factories' => [
+            \BsbFlysystem\Service\AdapterManager::class    => \BsbFlysystem\Service\Factory\AdapterManagerFactory::class,
+            \BsbFlysystem\Service\FilesystemManager::class => \BsbFlysystem\Service\Factory\FilesystemManagerFactory::class,
         ],
     ],
 ];

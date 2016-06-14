@@ -31,11 +31,9 @@ class WebDAVAdapterFactoryTest extends TestCase
     public function testCreateService()
     {
         $sm      = Bootstrap::getServiceManager();
-        $manager = $sm->get('BsbFlysystemAdapterManager');
-
         $factory = new WebDAVAdapterFactory();
 
-        $adapter = $factory->createService($manager, 'webdavdefault', 'webdav_default');
+        $adapter = $factory($sm, 'webdav_default');
 
         $this->assertInstanceOf('League\Flysystem\WebDAV\WebDAVAdapter', $adapter);
     }

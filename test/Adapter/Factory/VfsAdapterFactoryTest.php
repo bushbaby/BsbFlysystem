@@ -11,11 +11,9 @@ class VfsAdapterFactoryTest extends TestCase
     public function testCreateService()
     {
         $sm      = Bootstrap::getServiceManager();
-        $manager = $sm->get('BsbFlysystemAdapterManager');
-
         $factory = new VfsAdapterFactory();
 
-        $adapter = $factory->createService($manager, null, null);
+        $adapter = $factory($sm, null);
 
         $this->assertInstanceOf('League\Flysystem\Vfs\VfsAdapter', $adapter);
     }

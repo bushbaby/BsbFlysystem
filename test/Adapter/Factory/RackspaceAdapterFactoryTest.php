@@ -31,11 +31,9 @@ class RackspaceAdapterFactoryTest extends TestCase
     public function testCreateService()
     {
         $sm      = Bootstrap::getServiceManager();
-        $manager = $sm->get('BsbFlysystemAdapterManager');
-
         $factory = new RackspaceAdapterFactory();
 
-        $adapter = $factory->createService($manager, 'rackspacedefault', 'rackspace_default');
+        $adapter = $factory($sm,'rackspace_default');
 
         $this->assertInstanceOf('League\Flysystem\Rackspace\RackspaceAdapter', $adapter);
     }

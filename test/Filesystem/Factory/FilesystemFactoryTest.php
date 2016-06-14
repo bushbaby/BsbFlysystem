@@ -1,38 +1,18 @@
 <?php
 
-namespace BsbFlysystemTest\Service\Factory;
+namespace BsbFlysystemTest\Filesystem\Factory;
 
-use BsbFlysystem\Filesystem\Factory\FilesystemAbstractFactory;
+use BsbFlysystem\Filesystem\Factory\FilesystemFactory;
 use BsbFlysystemTest\Framework\TestCase;
 use League\Flysystem\Adapter\NullAdapter;
 use League\Flysystem\Filesystem;
 
-class FilesystemAbstractFactoryTest extends TestCase
+class FilesystemFactoryTest extends TestCase
 {
-    public function testCanCreateService()
-    {
-        $factory = new FilesystemAbstractFactory();
-
-        $config = [
-            'bsb_flysystem' => [
-                'filesystems' => [
-                    'known' => []
-                ]
-            ]
-        ];
-
-        $pluginServiceLocatorMock = $this->getMock('Zend\ServiceManager\AbstractPluginManager');
-        $serviceLocatorMock       = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
-        $pluginServiceLocatorMock->expects($this->any())->method('getServiceLocator')->willReturn($serviceLocatorMock);
-        $serviceLocatorMock->expects($this->any())->method('get')->with('config')->willReturn($config);
-
-        $this->assertTrue($factory->canCreateServiceWithName($pluginServiceLocatorMock, 'known', 'known'));
-        $this->assertFalse($factory->canCreateServiceWithName($pluginServiceLocatorMock, 'unknown', 'unknown'));
-    }
 
     public function testThrowsExceptionForMissingAdapter()
     {
-        $factory = new FilesystemAbstractFactory();
+        $factory = new FilesystemFactory();
 
         $config = [
             'bsb_flysystem' => [
@@ -42,22 +22,20 @@ class FilesystemAbstractFactoryTest extends TestCase
             ]
         ];
 
-        $pluginServiceLocatorMock = $this->getMock('Zend\ServiceManager\AbstractPluginManager');
-        $serviceLocatorMock       = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
-        $pluginServiceLocatorMock->expects($this->once())->method('getServiceLocator')->willReturn($serviceLocatorMock);
+        $serviceLocatorMock       = $this->getMock('Interop\Container\ContainerInterface');
         $serviceLocatorMock->expects($this->at(0))->method('get')->with('config')->willReturn($config);
 
         $this->setExpectedException(
-            'UnexpectedValueException',
-            "Missing 'adapter' key for the filesystem 'namedfs' configuration"
+            'BsbFlysystem\Exception\UnexpectedValueException',
+            "Missing 'adapter' key for the filesystem 'named_fs' configuration"
         );
 
-        $factory->createServiceWithName($pluginServiceLocatorMock, 'namedfs', 'named_fs');
+        $factory($serviceLocatorMock, 'named_fs');
     }
 
     public function testCreateServiceWithNameReturnsFilesystem()
     {
-        $factory = new FilesystemAbstractFactory();
+        $factory = new FilesystemFactory();
 
         $config = [
             'bsb_flysystem' => [
@@ -69,17 +47,15 @@ class FilesystemAbstractFactoryTest extends TestCase
             ]
         ];
 
-        $pluginServiceLocatorMock = $this->getMock('Zend\ServiceManager\AbstractPluginManager');
-        $serviceLocatorMock       = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
-        $pluginServiceLocatorMock->expects($this->once())->method('getServiceLocator')->willReturn($serviceLocatorMock);
+        $serviceLocatorMock       = $this->getMock('Interop\Container\ContainerInterface');
         $serviceLocatorMock->expects($this->at(0))->method('get')->with('config')->willReturn($config);
 
         $adapter           = new NullAdapter();
-        $adapterPluginMock = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
+        $adapterPluginMock = $this->getMock('Interop\Container\ContainerInterface');
         $serviceLocatorMock->expects($this->at(1))->method('get')->with('BsbFlysystemAdapterManager')->willReturn($adapterPluginMock);
         $adapterPluginMock->expects($this->once())->method('get')->with('named_adapter')->willReturn($adapter);
 
-        $service = $factory->createServiceWithName($pluginServiceLocatorMock, 'namedfs', 'named_fs');
+        $service = $factory($serviceLocatorMock, 'named_fs');
 
         $this->assertInstanceOf('League\Flysystem\FilesystemInterface', $service);
         $this->assertInstanceOf('League\Flysystem\Filesystem', $service);
@@ -88,7 +64,7 @@ class FilesystemAbstractFactoryTest extends TestCase
 
     public function testCreateServiceWithNameReturnsEventableFilesystem()
     {
-        $factory = new FilesystemAbstractFactory();
+        $factory = new FilesystemFactory();
 
         $config = [
             'bsb_flysystem' => [
@@ -101,17 +77,15 @@ class FilesystemAbstractFactoryTest extends TestCase
             ]
         ];
 
-        $pluginServiceLocatorMock = $this->getMock('Zend\ServiceManager\AbstractPluginManager');
-        $serviceLocatorMock       = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
-        $pluginServiceLocatorMock->expects($this->once())->method('getServiceLocator')->willReturn($serviceLocatorMock);
+        $serviceLocatorMock       = $this->getMock('Interop\Container\ContainerInterface');
         $serviceLocatorMock->expects($this->at(0))->method('get')->with('config')->willReturn($config);
 
         $adapter           = new NullAdapter();
-        $adapterPluginMock = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
+        $adapterPluginMock = $this->getMock('Interop\Container\ContainerInterface');
         $serviceLocatorMock->expects($this->at(1))->method('get')->with('BsbFlysystemAdapterManager')->willReturn($adapterPluginMock);
         $adapterPluginMock->expects($this->once())->method('get')->with('named_adapter')->willReturn($adapter);
 
-        $service = $factory->createServiceWithName($pluginServiceLocatorMock, 'namedfs', 'named_fs');
+        $service = $factory($serviceLocatorMock, 'named_fs');
 
         $this->assertInstanceOf('League\Flysystem\FilesystemInterface', $service);
         $this->assertInstanceOf('League\Flysystem\EventableFilesystem\EventableFilesystem', $service);
@@ -119,7 +93,7 @@ class FilesystemAbstractFactoryTest extends TestCase
 
     public function testCreateServiceWithNameCachedAdapter()
     {
-        $factory = new FilesystemAbstractFactory();
+        $factory = new FilesystemFactory();
 
         $config = [
             'bsb_flysystem' => [
@@ -132,13 +106,11 @@ class FilesystemAbstractFactoryTest extends TestCase
             ]
         ];
 
-        $pluginServiceLocatorMock = $this->getMock('Zend\ServiceManager\AbstractPluginManager');
-        $serviceLocatorMock       = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
-        $pluginServiceLocatorMock->expects($this->once())->method('getServiceLocator')->willReturn($serviceLocatorMock);
+        $serviceLocatorMock       = $this->getMock('Interop\Container\ContainerInterface');
         $serviceLocatorMock->expects($this->at(0))->method('get')->with('config')->willReturn($config);
 
         $adapter           = new NullAdapter();
-        $adapterPluginMock = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
+        $adapterPluginMock = $this->getMock('Interop\Container\ContainerInterface');
         $serviceLocatorMock->expects($this->at(1))->method('get')->with('BsbFlysystemAdapterManager')->willReturn($adapterPluginMock);
         $adapterPluginMock->expects($this->once())->method('get')->with('named_adapter')->willReturn($adapter);
 
@@ -146,14 +118,14 @@ class FilesystemAbstractFactoryTest extends TestCase
         $serviceLocatorMock->expects($this->at(2))->method('get')->with('named/cache')->willReturn($cacheMock);
 
         /** @var Filesystem $service */
-        $service = $factory->createServiceWithName($pluginServiceLocatorMock, 'namedfs', 'named_fs');
+        $service = $factory($serviceLocatorMock, 'named_fs');
 
         $this->assertInstanceOf('League\Flysystem\Cached\CachedAdapter', $service->getAdapter());
     }
 
     public function testCreateServiceWithNameCachedAdapterZendCacheStorage()
     {
-        $factory = new FilesystemAbstractFactory();
+        $factory = new FilesystemFactory();
 
         $config = [
             'bsb_flysystem' => [
@@ -166,13 +138,11 @@ class FilesystemAbstractFactoryTest extends TestCase
             ]
         ];
 
-        $pluginServiceLocatorMock = $this->getMock('Zend\ServiceManager\AbstractPluginManager');
-        $serviceLocatorMock       = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
-        $pluginServiceLocatorMock->expects($this->once())->method('getServiceLocator')->willReturn($serviceLocatorMock);
+        $serviceLocatorMock       = $this->getMock('Interop\Container\ContainerInterface');
         $serviceLocatorMock->expects($this->at(0))->method('get')->with('config')->willReturn($config);
 
         $adapter           = new NullAdapter();
-        $adapterPluginMock = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
+        $adapterPluginMock = $this->getMock('Interop\Container\ContainerInterface');
         $serviceLocatorMock->expects($this->at(1))->method('get')->with('BsbFlysystemAdapterManager')->willReturn($adapterPluginMock);
         $adapterPluginMock->expects($this->once())->method('get')->with('named_adapter')->willReturn($adapter);
 
@@ -180,7 +150,7 @@ class FilesystemAbstractFactoryTest extends TestCase
         $serviceLocatorMock->expects($this->at(2))->method('get')->with('named/cache')->willReturn($cacheMock);
 
         /** @var Filesystem $service */
-        $service = $factory->createServiceWithName($pluginServiceLocatorMock, 'namedfs', 'named_fs');
+        $service = $factory($serviceLocatorMock, 'named_fs');
 
         $this->assertInstanceOf('League\Flysystem\Cached\CachedAdapter', $service->getAdapter());
 
@@ -194,7 +164,7 @@ class FilesystemAbstractFactoryTest extends TestCase
 
     public function testCreateServiceWithNameReturnsFilesystemWithPluginsAdded()
     {
-        $factory = new FilesystemAbstractFactory();
+        $factory = new FilesystemFactory();
 
         $config = [
             'bsb_flysystem' => [
@@ -209,17 +179,15 @@ class FilesystemAbstractFactoryTest extends TestCase
             ]
         ];
 
-        $pluginServiceLocatorMock = $this->getMock('Zend\ServiceManager\AbstractPluginManager');
-        $serviceLocatorMock       = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
-        $pluginServiceLocatorMock->expects($this->once())->method('getServiceLocator')->willReturn($serviceLocatorMock);
+        $serviceLocatorMock       = $this->getMock('Interop\Container\ContainerInterface');
         $serviceLocatorMock->expects($this->at(0))->method('get')->with('config')->willReturn($config);
 
         $adapter           = new NullAdapter();
-        $adapterPluginMock = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
+        $adapterPluginMock = $this->getMock('Interop\Container\ContainerInterface');
         $serviceLocatorMock->expects($this->at(1))->method('get')->with('BsbFlysystemAdapterManager')->willReturn($adapterPluginMock);
         $adapterPluginMock->expects($this->once())->method('get')->with('named_adapter')->willReturn($adapter);
 
-        $service = $factory->createServiceWithName($pluginServiceLocatorMock, 'namedfs', 'named_fs');
+        $service = $factory($serviceLocatorMock, 'named_fs');
 
         //works becuase plugin is registered
         $this->assertEmpty($service->listPaths());

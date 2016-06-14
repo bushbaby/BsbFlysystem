@@ -33,11 +33,9 @@ class AwsS3AdapterFactoryTest extends TestCase
         $this->markTestSkipped('Skipped because Aws3Sv2 and Aws3Sv3 are not compatible.');
 
         $sm      = Bootstrap::getServiceManager();
-        $manager = $sm->get('BsbFlysystemAdapterManager');
-
         $factory = new AwsS3AdapterFactory();
 
-        $adapter = $factory->createService($manager, 'awss3default', 'awss3_default');
+        $adapter = $factory($sm, 'awss3_default');
 
         $this->assertInstanceOf('League\Flysystem\AwsS3v2\AwsS3Adapter', $adapter);
     }

@@ -31,11 +31,9 @@ class ZipArchiveAdapterFactoryTest extends TestCase
     public function testCreateService()
     {
         $sm      = Bootstrap::getServiceManager();
-        $manager = $sm->get('BsbFlysystemAdapterManager');
-
         $factory = new ZipArchiveAdapterFactory();
 
-        $adapter = $factory->createService($manager, 'zipdefault', 'zip_default');
+        $adapter = $factory($sm, 'zip_default');
 
         $this->assertInstanceOf('League\Flysystem\ZipArchive\ZipArchiveAdapter', $adapter);
     }

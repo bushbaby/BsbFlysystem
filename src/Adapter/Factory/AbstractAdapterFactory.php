@@ -2,24 +2,29 @@
 
 namespace BsbFlysystem\Adapter\Factory;
 
+use Interop\Container\ContainerInterface;
 use InvalidArgumentException;
-use UnexpectedValueException;
 use League\Flysystem\AdapterInterface;
 use ProxyManager\Configuration;
 use ProxyManager\Factory\LazyLoadingValueHolderFactory;
 use ProxyManager\GeneratorStrategy\EvaluatingGeneratorStrategy;
 use ProxyManager\Proxy\VirtualProxyInterface;
-use Zend\ServiceManager\MutableCreationOptionsInterface;
+use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\ArrayUtils;
 
-abstract class AbstractAdapterFactory implements MutableCreationOptionsInterface
+abstract class AbstractAdapterFactory implements FactoryInterface
 {
     /**
      * @var array
      */
     protected $options;
 
+    /**
+     * AbstractAdapterFactory constructor.
+     *
+     * @param array $options
+     */
     public function __construct(array $options = [])
     {
         $this->setCreationOptions($options);
@@ -37,6 +42,27 @@ abstract class AbstractAdapterFactory implements MutableCreationOptionsInterface
     }
 
     /**
+     * @param ContainerInterface $container
+     * @param                    $requestedName
+     * @param array|null         $options
+     * @return AdapterInterface|VirtualProxyInterface
+     */
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
+        if (null !== $options) {
+            $this->setCreationOptions($options);
+        }
+
+        $this->mergeMvcConfig($container, $requestedName);
+
+        $this->validateConfig();
+
+        $service = $this->doCreateService($container);
+
+        return $service;
+    }
+
+    /**
      * Create service
      *
      * @param ServiceLocatorInterface $serviceLocator
@@ -44,22 +70,18 @@ abstract class AbstractAdapterFactory implements MutableCreationOptionsInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $serviceLocator = $serviceLocator->getServiceLocator();
+        if (method_exists($serviceLocator, 'getServiceLocator')) {
+            $serviceLocator = $serviceLocator->getServiceLocator();
+        }
 
-        $this->mergeMvcConfig($serviceLocator, func_get_arg(2));
-
-        $this->validateConfig();
-
-        $service = $this->doCreateService($serviceLocator);
-
-        return $service;
+        return $this($serviceLocator, func_get_arg(2));
     }
 
     /**
      * Merges the options given from the ServiceLocator Config object with the create options of the class.
      *
      * @param ServiceLocatorInterface $serviceLocator
-     * @param                         $requestedName
+     * @param                         string $requestedName
      */
     protected function mergeMvcConfig(ServiceLocatorInterface $serviceLocator, $requestedName)
     {

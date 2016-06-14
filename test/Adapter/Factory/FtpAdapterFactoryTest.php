@@ -31,11 +31,9 @@ class FtpAdapterFactoryTest extends TestCase
     public function testCreateService()
     {
         $sm      = Bootstrap::getServiceManager();
-        $manager = $sm->get('BsbFlysystemAdapterManager');
-
         $factory = new FtpAdapterFactory();
 
-        $adapter = $factory->createService($manager, 'ftpdefault', 'ftp_default');
+        $adapter = $factory($sm, 'ftp_default');
 
         $this->assertInstanceOf('League\Flysystem\Adapter\Ftp', $adapter);
     }
