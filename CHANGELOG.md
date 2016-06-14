@@ -1,6 +1,6 @@
 # CHANGELOG
 
-unreleased
+v2.0.0-RC1
 - adds compatibility with zend-servicemanager 3.0 and therefore zend-servicemanager 2.7.3 is the lowest version you can use
 - support for php5.4 was dropped and for php7.0 added
 - Possibly BC: where previously \UnexpectedValueException was thrown a BsbFlysystem\Exception\UnexpectedValueException is thrown

@@ -202,7 +202,7 @@ In its simplest form this is how we would retrieve a filesystem. We get the file
 example: Fetch a 'default' filesystem. In this case a 'local' filesystem with a root of 'data'.
 
 ```
-$filesystem = $serviceLocator->get('BsbFlysystemManager')->get('default');
+$filesystem = $serviceLocator->get(\BsbFlysystem\Service\FilesystemManager::class)->get('default');
 $contents   = $filesystem->read('file.txt');
 ```
 
@@ -213,7 +213,7 @@ If we at some point decide we need to store these files on a different system. R
 Direct access to the Adapter service is possible by via the `BsbFlysystemAdapterManager` service registered in the main service locator. This is useful to setup `Mount` Filesystems or to use runtime configuration. See the advanced section below.
 
 ```
-$adapter    = $serviceLocator->get('BsbFlysystemAdapterManager')->get('local_data');
+$adapter    = $serviceLocator->get(\BsbFlysystem\Service\AdapterManager::class)->get('local_data');
 $filesystem = new Filesystem($adapter);
 $contents   = $filesystem->read('file.txt');
 ```
@@ -278,7 +278,7 @@ Consider the following configuration; Retrieve multiple configured dropbox files
 ```
 $accessTokens = [...];
 foreach ($accessTokens as $accessToken) {
-    $adapter    = $serviceLocator->get('BsbFlysystemAdapterManager')
+    $adapter    = $serviceLocator->get(\BsbFlysystem\Service\AdapterManager::class)
                                  ->get('dropbox_user', [
                                      'access_token' => $accessToken
                                  ]);
@@ -293,7 +293,7 @@ Using the same createOptions feature but now directly from the Filesystem Manage
 ```
 $accessTokens = [...];
 foreach ($accessTokens as $accessToken) {
-    $filesystem    = $serviceLocator->get('BsbFlysystemManager')
+    $filesystem    = $serviceLocator->get(\BsbFlysystem\Service\FilesystemManager::class)
                                     ->get('dropbox_user', [
                                         'adapter_options' => [
                                            'access_token' => $accessToken
@@ -308,8 +308,8 @@ foreach ($accessTokens as $accessToken) {
 ### Mount Manager
 
 ```
-$sourceFilesystem    = $serviceLocator->get('BsbFlysystemManager')->get('default'); // local adapter ./data
-$targetFilesystem    = $serviceLocator->get('BsbFlysystemManager')->get('archive'); // eg. zip archive
+$sourceFilesystem    = $serviceLocator->get(\BsbFlysystem\Service\FilesystemManager::class)->get('default'); // local adapter ./data
+$targetFilesystem    = $serviceLocator->get(\BsbFlysystem\Service\FilesystemManager::class)->get('archive'); // eg. zip archive
 
 $manager = new League\Flysystem\MountManager(array(
     'source' => $sourceFilesystem,
@@ -339,7 +339,7 @@ $files   = $request->getFiles();
 // i.e. $files['my-upload']['name'] === 'myfile.txt'
 
 // get a filesystem from the BsbFlysystemManager (or construct one manually)
-$filesystem = $serviceLocator->get('BsbFlysystemManager')->get('default');
+$filesystem = $serviceLocator->get(\BsbFlysystem\Service\FilesystemManager::class)->get('default');
 
 $filter = new \BsbFlysystem\Filter\File\RenameUpload([
     'target' => 'path/to/file.txt',
