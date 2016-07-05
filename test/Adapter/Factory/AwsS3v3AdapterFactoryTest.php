@@ -56,7 +56,6 @@ class AwsS3v3AdapterFactoryTest extends TestCase
         $expectedException = false,
         $expectedExceptionMessage = false
     ) {
-        //var_dump($options);exit;
         $factory = new AwsS3v3AdapterFactory($options);
 
         if ($expectedException) {
@@ -76,69 +75,99 @@ class AwsS3v3AdapterFactoryTest extends TestCase
             [
                 [],
                 [],
+                "UnexpectedValueException",
+                "Missing 'credentials' as array",
+            ],
+            [
+                [
+                    'iam' => false,
+                ],
+                [],
+                "UnexpectedValueException",
+                "Missing 'credentials' as array",
+            ],
+            [
+                [
+                    'iam' => true,
+                ],
+                [],
+                "UnexpectedValueException",
+                "Missing 'region' as option",
+            ],
+            [
+                [
+                    'credentials' => [],
+                ],
+                [],
                 'UnexpectedValueException',
                 "Missing 'key' as option"
-            ], // #0
+            ],
             [
-                ['key' => 'foo'],
+                [
+                    'credentials' => [
+                        'key' => 'foo',
+                    ],
+                ],
                 [],
                 'UnexpectedValueException',
                 "Missing 'secret' as option"
-            ], // #1
+            ],
             [
                 [
-                    'key'    => 'foo',
-                    'secret' => 'secret',
+                    'credentials' => [
+                        'key' => 'foo',
+                        'secret' => 'bar',
+                    ],
                 ],
                 [],
                 'UnexpectedValueException',
                 "Missing 'region' as option"
-            ], // #2
+            ],
             [
                 [
-                    'key'    => 'foo',
-                    'secret' => 'secret',
-                    'region' => 'region',
+                    'iam' => true,
+                    'credentials' => [
+                        'key' => 'foo',
+                        'secret' => 'bar',
+                    ],
+                ],
+                [],
+                'UnexpectedValueException',
+                "Missing 'region' as option"
+            ],
+            [
+                [
+                    'credentials' => [
+                        'key' => 'foo',
+                        'secret' => 'bar',
+                    ],
+                    'region' => 'baz',
                 ],
                 [],
                 'UnexpectedValueException',
                 "Missing 'bucket' as option"
-            ], // #3
+            ],
             [
                 [
-                    'key'    => 'abc',
-                    'secret' => 'def',
+                    'credentials' => [
+                        'key'    => 'abc',
+                        'secret' => 'def',
+                    ],
                     'region' => 'ghi',
                     'bucket' => 'jkl',
                 ],
                 [
-                    'key'    => 'abc',
-                    'secret' => 'def',
+                    'credentials' => [
+                        'key'    => 'abc',
+                        'secret' => 'def',
+                    ],
                     'region' => 'ghi',
                     'bucket' => 'jkl',
-                    'prefix' => null,
-                    'request.options' => []
+                    'prefix' => '',
+                    'request.options' => [],
+                    'version' => 'latest',
                 ]
-            ], // #4
-            [
-                [
-                    'iam' => true,
-                    'region' => 'region',
-                    'bucket' => 'bucket',
-                ],
-                [],
-            ], // #5
-            [
-                [
-                    'iam' => false,
-                    'key'    => 'foo',
-                    'region' => 'region',
-                    'bucket' => 'bucket',
-                ],
-                [],
-                'UnexpectedValueException',
-                "Missing 'region' as option"
-            ], // #6
+            ],
         ];
     }
 }

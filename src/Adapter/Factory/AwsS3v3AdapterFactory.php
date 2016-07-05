@@ -28,7 +28,7 @@ class AwsS3v3AdapterFactory extends AbstractAdapterFactory
             'request.options' => $this->options['request.options'],
         ];
 
-        if (!isset($this->options['iam']) || (false === $this->options['iam'])) {
+        if (!isset($this->options['iam']) || (isset($this->options['iam']) && (false === $this->options['iam']))) {
             $credentials = [
                 'key'    => $this->options['credentials']['key'],
                 'secret' => $this->options['credentials']['secret'],
