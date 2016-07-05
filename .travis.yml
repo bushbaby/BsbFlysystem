@@ -18,6 +18,7 @@ before_script:
   - mkdir -p test/_build
 
 script:
+  - cp phpunit.xml.dist phpunit.xml
   - vendor/bin/phpunit -c ./phpunit.xml
   - vendor/bin/phpcs --standard=PSR2 ./src/
 
