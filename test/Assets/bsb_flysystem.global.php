@@ -16,15 +16,6 @@ return [
                     'root' => './test/_build/files'
                 ],
             ],
-            'copy_default'           => [
-                'type'    => 'copy',
-                'options' => [
-                    'consumer_key'    => 'xxxxx',
-                    'consumer_secret' => 'xxxxx',
-                    'access_token'    => 'xxxxx',
-                    'token_secret'    => 'xxxxx',
-                ],
-            ],
             'null_default'           => [
                 'type'    => 'null',
                 'options' => [],

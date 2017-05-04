@@ -19,7 +19,6 @@ class AdapterManagerFactory implements FactoryInterface
             'awss3'      => \BsbFlysystem\Adapter\Factory\AwsS3AdapterFactory::class,
             'awss3v3'    => \BsbFlysystem\Adapter\Factory\AwsS3v3AdapterFactory::class,
             'azure'      => \BsbFlysystem\Adapter\Factory\AzureAdapterFactory::class,
-            'copy'       => \BsbFlysystem\Adapter\Factory\CopyAdapterFactory::class,
             'dropbox'    => \BsbFlysystem\Adapter\Factory\DropboxAdapterFactory::class,
             'ftp'        => \BsbFlysystem\Adapter\Factory\FtpAdapterFactory::class,
             'local'      => \BsbFlysystem\Adapter\Factory\LocalAdapterFactory::class,
