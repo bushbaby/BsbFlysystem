@@ -4,7 +4,7 @@ namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\RequirementsException;
 use BsbFlysystem\Exception\UnexpectedValueException;
-use League\Flysystem\Dropbox\DropboxAdapter as Adapter;
+use Spatie\FlysystemDropbox\DropboxAdapter as Adapter;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -15,17 +15,15 @@ class DropboxAdapterFactory extends AbstractAdapterFactory
      */
     public function doCreateService(ServiceLocatorInterface $serviceLocator)
     {
-        if (!class_exists(\League\Flysystem\Dropbox\DropboxAdapter::class)) {
+        if (!class_exists(\Spatie\FlysystemDropbox\DropboxAdapter::class)) {
             throw new RequirementsException(
-                ['league/flysystem-dropbox'],
+                ['spatie/flysystem-dropbox'],
                 'Dropbox'
             );
         }
 
-        $client = new \Dropbox\Client(
-            $this->options['access_token'],
-            $this->options['client_identifier'],
-            $this->options['user_locale']
+        $client = new \Spatie\Dropbox\Client(
+            $this->options['authorization_token']
         );
 
         $adapter = new Adapter($client, $this->options['prefix']);
@@ -38,16 +36,12 @@ class DropboxAdapterFactory extends AbstractAdapterFactory
      */
     protected function validateConfig()
     {
-        if (!isset($this->options['access_token'])) {
-            throw new UnexpectedValueException("Missing 'access_token' as option");
+        if (isset($this->options['access_token']) || isset($this->options['client_identifier'])) {
+            throw new UnexpectedValueException("Options 'access_token' and 'client_identifier' should be replaced with an 'authorization_token' for the dropbox adapter");
         }
 
-        if (!isset($this->options['client_identifier'])) {
-            throw new UnexpectedValueException("Missing 'client_identifier' as option");
-        }
-
-        if (!isset($this->options['user_locale'])) {
-            $this->options['user_locale'] = null;
+        if (!isset($this->options['authorization_token'])) {
+            throw new UnexpectedValueException("Missing 'authorization_token' as option");
         }
 
         if (!isset($this->options['prefix'])) {

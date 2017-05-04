@@ -1,5 +1,12 @@
 # CHANGELOG
 
+v3.0.0
+- adds a replacement for the deprecated `league/flysystem-dropbox` adapter via [`spatie/flysystem-dropbox`](https://github.com/spatie/flysystem-dropbox) which internally uses dropbox api version 2.
+- remove support for `league/flysystem-copy` as that service is EOL
+
+v2.0.0
+- adds aim option for aws-sdk-v3 adapter
+
 v2.0.0-RC1
 - adds compatibility with zend-servicemanager 3.0 and therefore zend-servicemanager 2.7.3 is the lowest version you can use
 - support for php5.4 was dropped and for php7.0 added
