@@ -89,7 +89,7 @@ return [
                 'type'    => 'dropbox',
                 'shared'  => 'off', /* optional */
                 'options' => [
-                    'authorization_token' => 'xxxxx',
+                    'access_token' => 'xxxxx',
                 ],
             ],
             'awss3_default'          => [

@@ -23,7 +23,7 @@ class DropboxAdapterFactory extends AbstractAdapterFactory
         }
 
         $client = new \Spatie\Dropbox\Client(
-            $this->options['authorization_token']
+            $this->options['access_token']
         );
 
         $adapter = new Adapter($client, $this->options['prefix']);
@@ -36,12 +36,8 @@ class DropboxAdapterFactory extends AbstractAdapterFactory
      */
     protected function validateConfig()
     {
-        if (isset($this->options['access_token']) || isset($this->options['client_identifier'])) {
-            throw new UnexpectedValueException("Options 'access_token' and 'client_identifier' should be replaced with an 'authorization_token' for the dropbox adapter");
-        }
-
-        if (!isset($this->options['authorization_token'])) {
-            throw new UnexpectedValueException("Missing 'authorization_token' as option");
+        if (!isset($this->options['access_token'])) {
+            throw new UnexpectedValueException("Missing 'access_token' as option");
         }
 
         if (!isset($this->options['prefix'])) {

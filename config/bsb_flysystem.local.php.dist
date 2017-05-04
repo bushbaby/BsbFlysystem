@@ -48,8 +48,8 @@ return [
             'dropbox_default'   => [
                 'type'    => 'dropbox',
                 'options' => [
-                    'authorization_token'  => 'xxxxx',
-                    'prefix'               => '/'
+                    'access_token' => 'xxxxx',
+                    'prefix'       => '/'
                 ],
             ],
             'awss3_default'     => [

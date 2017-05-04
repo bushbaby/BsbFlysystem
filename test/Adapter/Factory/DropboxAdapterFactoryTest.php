@@ -67,17 +67,11 @@ class DropboxAdapterFactoryTest extends TestCase
                 [],
                 [],
                 'UnexpectedValueException',
-                "Missing 'authorization_token' as option"
+                "Missing 'access_token' as option"
             ],
             [
-                ['authorization_token' => 'foo', 'access_token' => 'foo'],
-                [],
-                'UnexpectedValueException',
-                "Options 'access_token' and 'client_identifier' should be replaced with an 'authorization_token' for the dropbox adapter"
-            ],
-            [
-                ['authorization_token' => 'foo'],
-                ['authorization_token' => 'foo', 'prefix' => null]
+                ['access_token' => 'foo'],
+                ['access_token' => 'foo', 'prefix' => null]
             ],
         ];
     }
