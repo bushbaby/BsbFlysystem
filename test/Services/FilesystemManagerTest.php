@@ -78,7 +78,7 @@ class FilesystemManagerTest extends TestCase
         $pathPrefix = $adapter->getPathPrefix();
         $pathPrefix = str_replace(realpath('.'), '', $pathPrefix);
 
-        $this->assertEquals('/test/_build/files/', $pathPrefix);
+        $this->assertEquals('./test/_build/files/', $pathPrefix);
 
         /** @var Filesystem $filesystem */
         $filesystem = $manager->get('default_unshared',
@@ -90,7 +90,7 @@ class FilesystemManagerTest extends TestCase
         $pathPrefix = $adapter->getPathPrefix();
         $pathPrefix = str_replace(realpath('.'), '', $pathPrefix);
 
-        $this->assertEquals('/test/_build/documents/', $pathPrefix);
+        $this->assertEquals('./test/_build/documents/', $pathPrefix);
     }
 
     public function testCanGetCachedFilesystem()

@@ -39,7 +39,6 @@
         "zendframework/zend-serializer": "~2.2",
         "zendframework/zend-view": "~2.2",
         "league/flysystem-vfs": "^1.0",
-        "pear-pear.php.net/http_request2" : ">=2.3",
         "league/flysystem-aws-s3-v3": "~1.0"
     },
     "suggest": {
