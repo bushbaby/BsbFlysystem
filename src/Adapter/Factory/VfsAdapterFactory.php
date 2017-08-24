@@ -32,6 +32,5 @@ class VfsAdapterFactory extends AbstractAdapterFactory
      */
     protected function validateConfig()
     {
-
     }
 }
