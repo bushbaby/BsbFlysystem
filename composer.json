@@ -1,6 +1,12 @@
 {
     "name": "bushbaby/flysystem",
-    "description": "Zend Framework 2 module bridge for flysystem filesystem.",
+    "description": "Zend Framework module bridge for flysystem filesystem.",
+    "keywords": [
+        "filesystem",
+        "flysystem",
+        "zendframework",
+        "zend-expressive"
+    ],
     "license": "MIT",
     "type": "library",
     "authors": [
@@ -14,8 +20,7 @@
         "league/flysystem": "~1.0",
         "zendframework/zend-servicemanager": "^2.7.6 || ^3.0",
         "zendframework/zend-cache": "^2.2 || ^3.0",
-        "zendframework/zend-stdlib": "^2.2 || ^3.0",
-        "zendframework/zend-modulemanager": "^2.2 || ^3.0"
+        "zendframework/zend-stdlib": "^2.2 || ^3.0"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "~2.0",
@@ -39,7 +44,8 @@
         "zendframework/zend-serializer": "~2.2",
         "zendframework/zend-view": "~2.2",
         "league/flysystem-vfs": "^1.0",
-        "league/flysystem-aws-s3-v3": "~1.0"
+        "league/flysystem-aws-s3-v3": "~1.0",
+        "zendframework/zend-modulemanager": "^2.2 || ^3.0"
     },
     "suggest": {
         "zendframework/zend-filter": "zend-filter component ~2.2, if you need RenameUpload filter"
@@ -59,7 +65,8 @@
             "dev-master": "2.0.x-dev"
         },
         "zf": {
-            "component": "BsbFlysystem"
+            "component": "BsbFlysystem",
+            "config-provider": "BsbFlysystem\\ConfigProvider"
         }
     },
     "repositories": [
