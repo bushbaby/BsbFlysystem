@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystemTest\Adapter\Factory;
 
 use BsbFlysystem\Adapter\Factory\AwsS3v3AdapterFactory;
@@ -7,10 +9,10 @@ use BsbFlysystemTest\Bootstrap;
 use BsbFlysystemTest\Framework\TestCase;
 
 /**
- * Class AwsS3v3AdapterFactoryTest
+ * Class AwsS3v3AdapterFactoryTest.
  *
- * @package     BsbFlysystemTest\Adapter\Factory
  * @version     1.0
+ *
  * @author      Julien Guittard <julien.guittard@mme.com>
  */
 class AwsS3v3AdapterFactoryTest extends TestCase
@@ -75,7 +77,7 @@ class AwsS3v3AdapterFactoryTest extends TestCase
             [
                 [],
                 [],
-                "UnexpectedValueException",
+                'UnexpectedValueException',
                 "Missing 'credentials' as array",
             ],
             [
@@ -83,7 +85,7 @@ class AwsS3v3AdapterFactoryTest extends TestCase
                     'iam' => false,
                 ],
                 [],
-                "UnexpectedValueException",
+                'UnexpectedValueException',
                 "Missing 'credentials' as array",
             ],
             [
@@ -91,7 +93,7 @@ class AwsS3v3AdapterFactoryTest extends TestCase
                     'iam' => true,
                 ],
                 [],
-                "UnexpectedValueException",
+                'UnexpectedValueException',
                 "Missing 'region' as option",
             ],
             [
@@ -100,7 +102,7 @@ class AwsS3v3AdapterFactoryTest extends TestCase
                 ],
                 [],
                 'UnexpectedValueException',
-                "Missing 'key' as option"
+                "Missing 'key' as option",
             ],
             [
                 [
@@ -110,42 +112,42 @@ class AwsS3v3AdapterFactoryTest extends TestCase
                 ],
                 [],
                 'UnexpectedValueException',
-                "Missing 'secret' as option"
+                "Missing 'secret' as option",
             ],
             [
                 [
                     'credentials' => [
-                        'key' => 'foo',
+                        'key'    => 'foo',
                         'secret' => 'bar',
                     ],
                 ],
                 [],
                 'UnexpectedValueException',
-                "Missing 'region' as option"
+                "Missing 'region' as option",
             ],
             [
                 [
-                    'iam' => true,
+                    'iam'         => true,
                     'credentials' => [
-                        'key' => 'foo',
+                        'key'    => 'foo',
                         'secret' => 'bar',
                     ],
                 ],
                 [],
                 'UnexpectedValueException',
-                "Missing 'region' as option"
+                "Missing 'region' as option",
             ],
             [
                 [
                     'credentials' => [
-                        'key' => 'foo',
+                        'key'    => 'foo',
                         'secret' => 'bar',
                     ],
                     'region' => 'baz',
                 ],
                 [],
                 'UnexpectedValueException',
-                "Missing 'bucket' as option"
+                "Missing 'bucket' as option",
             ],
             [
                 [
@@ -161,12 +163,12 @@ class AwsS3v3AdapterFactoryTest extends TestCase
                         'key'    => 'abc',
                         'secret' => 'def',
                     ],
-                    'region' => 'ghi',
-                    'bucket' => 'jkl',
-                    'prefix' => '',
+                    'region'          => 'ghi',
+                    'bucket'          => 'jkl',
+                    'prefix'          => '',
                     'request.options' => [],
-                    'version' => 'latest',
-                ]
+                    'version'         => 'latest',
+                ],
             ],
         ];
     }

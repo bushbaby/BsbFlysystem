@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystemTest\Adapter\Factory;
 
 use BsbFlysystem\Adapter\Factory\RackspaceAdapterFactory;
@@ -33,13 +35,14 @@ class RackspaceAdapterFactoryTest extends TestCase
         $sm      = Bootstrap::getServiceManager();
         $factory = new RackspaceAdapterFactory();
 
-        $adapter = $factory($sm,'rackspace_default');
+        $adapter = $factory($sm, 'rackspace_default');
 
         $this->assertInstanceOf('League\Flysystem\Rackspace\RackspaceAdapter', $adapter);
     }
 
     /**
      * @dataProvider validateConfigProvider
+     *
      * @param      $options
      * @param bool $expectedOptions
      * @param bool $expectedException
@@ -74,22 +77,22 @@ class RackspaceAdapterFactoryTest extends TestCase
                 [],
                 [],
                 'UnexpectedValueException',
-                "Missing 'url' as option"
+                "Missing 'url' as option",
             ],
             [
                 ['url' => 'some_url'],
                 [],
                 'UnexpectedValueException',
-                "Missing 'secret' as option"
+                "Missing 'secret' as option",
             ],
             [
                 [
                     'url'    => 'some_url',
-                    'secret' => 'secret'
+                    'secret' => 'secret',
                 ],
                 [],
                 'UnexpectedValueException',
-                "Missing 'secret' as option"
+                "Missing 'secret' as option",
             ],
             [
                 [
@@ -98,7 +101,7 @@ class RackspaceAdapterFactoryTest extends TestCase
                 ],
                 [],
                 'UnexpectedValueException',
-                "Missing 'objectstore' as option"
+                "Missing 'objectstore' as option",
             ],
             [
                 [
@@ -106,13 +109,13 @@ class RackspaceAdapterFactoryTest extends TestCase
                     'secret'      => [
                         'username'    => 'foo',
                         'password'    => 'foo',
-                        'tenant_name' => 'foo'
+                        'tenant_name' => 'foo',
                     ],
-                    'objectstore' => 'bar'
+                    'objectstore' => 'bar',
                 ],
                 [],
                 'UnexpectedValueException',
-                "Missing 'objectstore' as option"
+                "Missing 'objectstore' as option",
             ],
             [
                 [
@@ -120,13 +123,13 @@ class RackspaceAdapterFactoryTest extends TestCase
                     'secret'      => [
                         'username'    => 'foo',
                         'password'    => 'foo',
-                        'tenant_name' => 'foo'
+                        'tenant_name' => 'foo',
                     ],
-                    'objectstore' => []
+                    'objectstore' => [],
                 ],
                 [],
                 'UnexpectedValueException',
-                "Missing 'objectstore.name' as option"
+                "Missing 'objectstore.name' as option",
             ],
             [
                 [
@@ -134,15 +137,15 @@ class RackspaceAdapterFactoryTest extends TestCase
                     'secret'      => [
                         'username'    => 'foo',
                         'password'    => 'foo',
-                        'tenant_name' => 'foo'
+                        'tenant_name' => 'foo',
                     ],
                     'objectstore' => [
                         'name' => 'foo',
-                    ]
+                    ],
                 ],
                 [],
                 'UnexpectedValueException',
-                "Missing 'objectstore.region' as option"
+                "Missing 'objectstore.region' as option",
             ],
             [
                 [
@@ -151,11 +154,11 @@ class RackspaceAdapterFactoryTest extends TestCase
                     'objectstore' => [
                         'name'   => 'foo',
                         'region' => 'foo',
-                    ]
+                    ],
                 ],
                 [],
                 'UnexpectedValueException',
-                "Missing 'objectstore.container' as option"
+                "Missing 'objectstore.container' as option",
             ],
             [
                 [
@@ -165,7 +168,7 @@ class RackspaceAdapterFactoryTest extends TestCase
                         'name'      => 'foo',
                         'region'    => 'foo',
                         'container' => 'foo',
-                    ]
+                    ],
                 ],
                 [
                     'url'         => 'some_url',

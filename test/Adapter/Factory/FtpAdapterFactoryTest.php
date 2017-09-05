@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystemTest\Adapter\Factory;
 
 use BsbFlysystem\Adapter\Factory\FtpAdapterFactory;
@@ -67,25 +69,25 @@ class FtpAdapterFactoryTest extends TestCase
                 [],
                 false,
                 'UnexpectedValueException',
-                "Missing 'host' as option"
+                "Missing 'host' as option",
             ],
             [
                 ['host' => 'foo'],
                 false,
                 'UnexpectedValueException',
-                "Missing 'port' as option"
+                "Missing 'port' as option",
             ],
             [
                 ['host' => 'foo', 'port' => 'foo'],
                 false,
                 'UnexpectedValueException',
-                "Missing 'username' as option"
+                "Missing 'username' as option",
             ],
             [
                 ['host' => 'foo', 'port' => 'foo', 'username' => 'foo'],
                 false,
                 'UnexpectedValueException',
-                "Missing 'password' as option"
+                "Missing 'password' as option",
             ],
             [
                 ['host' => 'foo', 'port' => 'foo', 'username' => 'foo', 'password' => 'foo'],

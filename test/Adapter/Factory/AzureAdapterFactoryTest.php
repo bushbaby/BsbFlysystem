@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystemTest\Adapter\Factory;
 
 use BsbFlysystem\Adapter\Factory\AzureAdapterFactory;
@@ -20,7 +22,7 @@ class AzureAdapterFactoryTest extends TestCase
 
     public function setup()
     {
-        $class = new \ReflectionClass('BsbFlysystem\Adapter\Factory\AzureAdapterFactory');
+        $class          = new \ReflectionClass('BsbFlysystem\Adapter\Factory\AzureAdapterFactory');
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -30,14 +32,14 @@ class AzureAdapterFactoryTest extends TestCase
 
     public function testCreateService()
     {
-        $this->markTestSkipped("Skipped due to https://github.com/thephpleague/flysystem-azure/pull/16");
+        $this->markTestSkipped('Skipped due to https://github.com/thephpleague/flysystem-azure/pull/16');
 
         $sm      = Bootstrap::getServiceManager();
         $factory = new AzureAdapterFactory(
             [
                 'account-name' => 'foo',
-                'account-key' => 'bar',
-                'container' => 'container',
+                'account-key'  => 'bar',
+                'container'    => 'container',
             ]
         );
 
@@ -75,34 +77,34 @@ class AzureAdapterFactoryTest extends TestCase
                 [],
                 [],
                 'UnexpectedValueException',
-                "Missing 'account-name' as option"
+                "Missing 'account-name' as option",
             ],
             [
                 ['account-name' => 'foo'],
                 [],
                 'UnexpectedValueException',
-                "Missing 'account-key' as option"
+                "Missing 'account-key' as option",
             ],
             [
                 [
                     'account-name' => 'foo',
-                    'account-key' => 'bar',
+                    'account-key'  => 'bar',
                 ],
                 [],
                 'UnexpectedValueException',
-                "Missing 'container' as option"
+                "Missing 'container' as option",
             ],
             [
                 [
                     'account-name' => 'foo',
-                    'account-key' => 'bar',
-                    'container' => 'container',
+                    'account-key'  => 'bar',
+                    'container'    => 'container',
                 ],
                 [
                     'account-name' => 'foo',
-                    'account-key' => 'bar',
-                    'container' => 'container',
-                ]
+                    'account-key'  => 'bar',
+                    'container'    => 'container',
+                ],
             ],
         ];
     }

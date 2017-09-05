@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystemTest\Adapter\Factory;
 
 use BsbFlysystem\Adapter\Factory\DropboxAdapterFactory;
@@ -32,9 +34,9 @@ class DropboxAdapterFactoryTest extends TestCase
 //    {
 //        $sm      = Bootstrap::getServiceManager();
 //        $factory = new DropboxAdapterFactory();
-//
+    //
 //        $adapter = $factory($sm, 'dropbox_default');
-//
+    //
 //        $this->assertInstanceOf('Spatie\FlysystemDropbox\DropboxAdapter', $adapter);
 //    }
 
@@ -67,11 +69,11 @@ class DropboxAdapterFactoryTest extends TestCase
                 [],
                 [],
                 'UnexpectedValueException',
-                "Missing 'access_token' as option"
+                "Missing 'access_token' as option",
             ],
             [
                 ['access_token' => 'foo'],
-                ['access_token' => 'foo', 'prefix' => null]
+                ['access_token' => 'foo', 'prefix' => null],
             ],
         ];
     }

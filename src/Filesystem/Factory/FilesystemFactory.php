@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystem\Filesystem\Factory;
 
 use BsbFlysystem\Cache\ZendStorageCache;
@@ -32,22 +34,22 @@ class FilesystemFactory implements FactoryInterface
     }
 
     /**
-     * Set creation options
+     * Set creation options.
      *
-     * @param  array $options
-     * @return void
+     * @param array $options
      */
     public function setCreationOptions(array $options)
     {
         $this->options = $options;
 
-        if (!isset($this->options['adapter_options'])) {
+        if (! isset($this->options['adapter_options'])) {
             $this->options['adapter_options'] = [];
         }
     }
 
     /**
      * @param ServiceLocatorInterface $serviceLocator
+     *
      * @return mixed
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
@@ -57,7 +59,7 @@ class FilesystemFactory implements FactoryInterface
         }
 
         $requestedName = func_get_arg(2);
-        
+
         return $this($serviceLocator, $requestedName);
     }
 
@@ -65,13 +67,14 @@ class FilesystemFactory implements FactoryInterface
      * @param ContainerInterface $container
      * @param string             $requestedName
      * @param array|null         $options
+     *
      * @return EventableFilesystem|Filesystem
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $config         = $container->get('config');
         $fsConfig       = $config['bsb_flysystem']['filesystems'][$requestedName];
-        if (!isset($fsConfig['adapter'])) {
+        if (! isset($fsConfig['adapter'])) {
             throw new UnexpectedValueException(sprintf(
                 "Missing 'adapter' key for the filesystem '%s' configuration",
                 $requestedName
@@ -89,7 +92,7 @@ class FilesystemFactory implements FactoryInterface
         $options = isset($fsConfig['options']) && is_array($fsConfig['options']) ? $fsConfig['options'] : [];
 
         if (isset($fsConfig['cache']) && is_string($fsConfig['cache'])) {
-            if (!class_exists(\League\Flysystem\Cached\CachedAdapter::class)) {
+            if (! class_exists(\League\Flysystem\Cached\CachedAdapter::class)) {
                 throw new RequirementsException(['league/flysystem-cached-adapter'], 'CachedAdapter');
             }
 
@@ -107,7 +110,7 @@ class FilesystemFactory implements FactoryInterface
         }
 
         if (isset($fsConfig['eventable']) && filter_var($fsConfig['eventable'], FILTER_VALIDATE_BOOLEAN)) {
-            if (!class_exists(\League\Flysystem\EventableFilesystem\EventableFilesystem::class)) {
+            if (! class_exists(\League\Flysystem\EventableFilesystem\EventableFilesystem::class)) {
                 throw new RequirementsException(['league/flysystem-eventable-filesystem'], 'EventableFilesystem');
             }
 

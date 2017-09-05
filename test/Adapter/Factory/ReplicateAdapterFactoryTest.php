@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystemTest\Adapter\Factory;
 
 use BsbFlysystem\Adapter\Factory\ReplicateAdapterFactory;
 use BsbFlysystemTest\Bootstrap;
 use BsbFlysystemTest\Framework\TestCase;
 
-class ReplicaAdapterFactoryTest extends TestCase
+class ReplicateAdapterFactoryTest extends TestCase
 {
     /**
      * @var \ReflectionProperty
@@ -75,13 +77,13 @@ class ReplicaAdapterFactoryTest extends TestCase
                 [],
                 false,
                 'UnexpectedValueException',
-                "Missing 'source' as option"
+                "Missing 'source' as option",
             ],
             [
                 ['source' => 'local->default'],
                 false,
                 'UnexpectedValueException',
-                "Missing 'replicate' as option"
+                "Missing 'replicate' as option",
             ],
             [
                 ['source' => 'local->default', 'replicate' => 'zip->default'],

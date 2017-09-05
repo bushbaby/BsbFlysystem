@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystemTest\Filter\File;
 
 use BsbFlysystem\Filter\File\RenameUpload;
 use BsbFlysystemTest\Framework\TestCase;
 use Prophecy\Argument;
+
 require_once __DIR__ . '/../../Assets/Functions.php';
 
 class RenameUploadTest extends TestCase
@@ -26,8 +29,8 @@ class RenameUploadTest extends TestCase
             ->willReturn(false);
 
         $filter = new RenameUpload([
-            'target' => $path,
-            'filesystem' => $this->filesystem->reveal()
+            'target'     => $path,
+            'filesystem' => $this->filesystem->reveal(),
         ]);
 
         $key = $filter->filter(__DIR__ . '/../../Assets/test.txt');
@@ -44,13 +47,13 @@ class RenameUploadTest extends TestCase
             ->willReturn(false);
 
         $filter = new RenameUpload([
-            'target' => $path,
-            'filesystem' => $this->filesystem->reveal()
+            'target'     => $path,
+            'filesystem' => $this->filesystem->reveal(),
         ]);
 
         $file = [
             'tmp_name' => __DIR__ . '/../../Assets/test.txt',
-            'name' => 'test.txt'
+            'name'     => 'test.txt',
         ];
         $temp = $filter->filter($file);
 
@@ -80,8 +83,8 @@ class RenameUploadTest extends TestCase
             ->willReturn(false);
 
         $filter = new RenameUpload([
-            'target' => $path,
-            'filesystem' => $this->filesystem->reveal()
+            'target'     => $path,
+            'filesystem' => $this->filesystem->reveal(),
         ]);
 
         $this->expectException(
@@ -99,9 +102,9 @@ class RenameUploadTest extends TestCase
             ->shouldBeCalled();
 
         $filter = new RenameUpload([
-            'target' => $path,
-            'overwrite' => false,
-            'filesystem' => $this->filesystem->reveal()
+            'target'     => $path,
+            'overwrite'  => false,
+            'filesystem' => $this->filesystem->reveal(),
         ]);
 
         $this->expectException('Zend\Filter\Exception\InvalidArgumentException', "File 'path/to/file.txt' could not be uploaded. It already exists.");
@@ -118,8 +121,8 @@ class RenameUploadTest extends TestCase
             ->willReturn(false);
 
         $filter = new RenameUpload([
-            'target' => $path,
-            'filesystem' => $this->filesystem->reveal()
+            'target'     => $path,
+            'filesystem' => $this->filesystem->reveal(),
         ]);
 
         $this->expectException(

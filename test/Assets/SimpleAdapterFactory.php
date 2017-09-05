@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystemTest\Assets;
 
 use BsbFlysystem\Adapter\Factory\AbstractAdapterFactory;
@@ -9,7 +11,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class SimpleAdapterFactory extends AbstractAdapterFactory implements FactoryInterface
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function doCreateService(ServiceLocatorInterface $serviceLocator)
     {
@@ -19,10 +21,9 @@ class SimpleAdapterFactory extends AbstractAdapterFactory implements FactoryInte
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function validateConfig()
     {
-
     }
 }

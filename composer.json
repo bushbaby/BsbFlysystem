@@ -18,11 +18,12 @@
     "require": {
         "php": "^7.0",
         "league/flysystem": "^1.0.41",
-        "zendframework/zend-servicemanager": "^2.7.6 || ^3.0",
         "zendframework/zend-cache": "^2.2",
+        "zendframework/zend-servicemanager": "^2.7.6 || ^3.0",
         "zendframework/zend-stdlib": "^2.2 || ^3.0"
     },
     "require-dev": {
+        "bushbaby/php-cs-fixer-config": "^1.0",
         "league/flysystem-aws-s3-v3": "~1.0",
         "league/flysystem-azure": "~1.0,>=1.0.2",
         "league/flysystem-cached-adapter": "~1.0",
@@ -36,7 +37,6 @@
         "ocramius/proxy-manager": "~1.0",
         "phpunit/phpunit": "^6.0",
         "spatie/flysystem-dropbox": "~1.0",
-        "squizlabs/php_codesniffer": "~2.0",
         "zendframework/zend-config": "~2.2",
         "zendframework/zend-filter": "~2.2",
         "zendframework/zend-i18n": "~2.2",
@@ -62,7 +62,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.0.x-dev"
+            "dev-master": "4.0.x-dev"
         },
         "zf": {
             "component": "BsbFlysystem",

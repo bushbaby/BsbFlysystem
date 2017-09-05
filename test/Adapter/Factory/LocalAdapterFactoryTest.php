@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystemTest\Adapter\Factory;
 
 use BsbFlysystem\Adapter\Factory\LocalAdapterFactory;
@@ -67,11 +69,11 @@ class LocalAdapterFactoryTest extends TestCase
                 [],
                 false,
                 'UnexpectedValueException',
-                "Missing 'root' as option"
+                "Missing 'root' as option",
             ],
             [
                 ['root' => '.'],
-                ['root' => '.']
+                ['root' => '.'],
             ],
         ];
     }

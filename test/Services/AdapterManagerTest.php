@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystemTest\Service;
 
 use BsbFlysystem\Service\AdapterManager;
@@ -9,7 +11,6 @@ use Zend\ServiceManager\ServiceManager;
 
 class AdapterManagerTest extends TestCase
 {
-
     public function testCreateViaServiceManager()
     {
         $sm      = Bootstrap::getServiceManager();

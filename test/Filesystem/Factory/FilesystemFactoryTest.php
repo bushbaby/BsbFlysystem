@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystemTest\Filesystem\Factory;
 
 use BsbFlysystem\Filesystem\Factory\FilesystemFactory;
@@ -9,7 +11,6 @@ use League\Flysystem\Filesystem;
 
 class FilesystemFactoryTest extends TestCase
 {
-
     public function testThrowsExceptionForMissingAdapter()
     {
         $factory = new FilesystemFactory();
@@ -17,9 +18,9 @@ class FilesystemFactoryTest extends TestCase
         $config = [
             'bsb_flysystem' => [
                 'filesystems' => [
-                    'named_fs' => []
-                ]
-            ]
+                    'named_fs' => [],
+                ],
+            ],
         ];
 
         $serviceLocatorMock       = $this->getMockBuilder('Interop\Container\ContainerInterface')->getMock();
@@ -42,9 +43,9 @@ class FilesystemFactoryTest extends TestCase
                 'filesystems' => [
                     'named_fs' => [
                         'adapter' => 'named_adapter',
-                    ]
+                    ],
                 ],
-            ]
+            ],
         ];
 
         $serviceLocatorMock       = $this->getMockBuilder('Interop\Container\ContainerInterface')->getMock();
@@ -71,10 +72,10 @@ class FilesystemFactoryTest extends TestCase
                 'filesystems' => [
                     'named_fs' => [
                         'adapter'   => 'named_adapter',
-                        'eventable' => true
-                    ]
+                        'eventable' => true,
+                    ],
                 ],
-            ]
+            ],
         ];
 
         $serviceLocatorMock       = $this->getMockBuilder('Interop\Container\ContainerInterface')->getMock();
@@ -100,10 +101,10 @@ class FilesystemFactoryTest extends TestCase
                 'filesystems' => [
                     'named_fs' => [
                         'adapter' => 'named_adapter',
-                        'cache'   => 'named/cache'
-                    ]
+                        'cache'   => 'named/cache',
+                    ],
                 ],
-            ]
+            ],
         ];
 
         $serviceLocatorMock       = $this->getMockBuilder('Interop\Container\ContainerInterface')->getMock();
@@ -132,10 +133,10 @@ class FilesystemFactoryTest extends TestCase
                 'filesystems' => [
                     'named_fs' => [
                         'adapter' => 'named_adapter',
-                        'cache'   => 'named/cache'
-                    ]
+                        'cache'   => 'named/cache',
+                    ],
                 ],
-            ]
+            ],
         ];
 
         $serviceLocatorMock       = $this->getMockBuilder('Interop\Container\ContainerInterface')->getMock();
@@ -155,7 +156,7 @@ class FilesystemFactoryTest extends TestCase
         $this->assertInstanceOf('League\Flysystem\Cached\CachedAdapter', $service->getAdapter());
 
         $class    = new \ReflectionClass('League\Flysystem\Cached\CachedAdapter');
-        $property = $class->getProperty("cache");
+        $property = $class->getProperty('cache');
         $property->setAccessible(true);
 
         $cacheInstance = $property->getValue($service->getAdapter());
@@ -173,10 +174,10 @@ class FilesystemFactoryTest extends TestCase
                         'adapter' => 'named_adapter',
                         'plugins' => [
                             'League\Flysystem\Plugin\ListPaths',
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
-            ]
+            ],
         ];
 
         $serviceLocatorMock       = $this->getMockBuilder('Interop\Container\ContainerInterface')->getMock();

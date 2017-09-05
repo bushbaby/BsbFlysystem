@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystemTest\Adapter\Factory;
 
 use BsbFlysystem\Adapter\Factory\WebDAVAdapterFactory;
@@ -70,7 +72,7 @@ class WebDAVAdapterFactoryTest extends TestCase
                 [],
                 false,
                 'UnexpectedValueException',
-                "Missing 'baseUri' as option"
+                "Missing 'baseUri' as option",
             ],
             [
                 ['baseUri' => 'foo'],

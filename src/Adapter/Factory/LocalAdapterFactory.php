@@ -1,16 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\Adapter\Local as Adapter;
-use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class LocalAdapterFactory extends AbstractAdapterFactory
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function doCreateService(ServiceLocatorInterface $serviceLocator)
     {
@@ -20,11 +21,11 @@ class LocalAdapterFactory extends AbstractAdapterFactory
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function validateConfig()
     {
-        if (!isset($this->options['root'])) {
+        if (! isset($this->options['root'])) {
             throw new UnexpectedValueException("Missing 'root' as option");
         }
     }

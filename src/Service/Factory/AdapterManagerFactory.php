@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystem\Service\Factory;
 
 use BsbFlysystem\Exception\UnexpectedValueException;
@@ -32,13 +34,14 @@ class AdapterManagerFactory implements FactoryInterface
         ],
         'aliases' => [
             'null' => \League\Flysystem\Adapter\NullAdapter::class,
-        ]
+        ],
     ];
 
     /**
-     * Create service
+     * Create service.
      *
      * @param ServiceLocatorInterface $serviceLocator
+     *
      * @return AdapterManager
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
@@ -51,13 +54,13 @@ class AdapterManagerFactory implements FactoryInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $config        = $container->get('config');
         $config        = $config['bsb_flysystem'];
-        $serviceConfig = isset($config['adapter_manager']['config']) ? $config['adapter_manager']['config'] : [];
+        $serviceConfig = $config['adapter_manager']['config'] ?? [];
         $adapterMap    = $this->adapterMap;
 
         if (isset($config['adapter_map'])) {
@@ -65,7 +68,7 @@ class AdapterManagerFactory implements FactoryInterface
         }
 
         foreach ($config['adapters'] as $name => $adapterConfig) {
-            if (!isset($adapterConfig['type'])) {
+            if (! isset($adapterConfig['type'])) {
                 throw new UnexpectedValueException(sprintf(
                     "Missing 'type' key for the adapter '%s' configuration",
                     $name
@@ -74,7 +77,7 @@ class AdapterManagerFactory implements FactoryInterface
 
             $type = strtolower($adapterConfig['type']);
 
-            if (!in_array($type, array_keys($adapterMap['factories']), false)) {
+            if (! in_array($type, array_keys($adapterMap['factories']), false)) {
                 throw new UnexpectedValueException(sprintf("Unknown adapter type '%s'", $type));
             }
 

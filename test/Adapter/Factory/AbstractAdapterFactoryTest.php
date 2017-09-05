@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystemTest\Adapter\Factory;
 
 use BsbFlysystemTest\Assets\SimpleAdapterFactory;
@@ -49,10 +51,10 @@ class AbstractAdapterFactoryTest extends TestCase
                 'bsb_flysystem' => [
                     'adapters' => [
                         'simple_default' => [
-                            'options' => $options
-                        ]
-                    ]
-                ]
+                            'options' => $options,
+                        ],
+                    ],
+                ],
             ]
         );
 
@@ -72,8 +74,8 @@ class AbstractAdapterFactoryTest extends TestCase
             'config',
             [
                 'bsb_flysystem' => [
-                    'adapters' => ['simple_default' => ['options' => $config_options]]
-                ]
+                    'adapters' => ['simple_default' => ['options' => $config_options]],
+                ],
             ]
         );
 
@@ -121,9 +123,9 @@ class AbstractAdapterFactoryTest extends TestCase
             [
                 'bsb_flysystem' => [
                     'adapters' => [
-                        'simple_default' => []
-                    ]
-                ]
+                        'simple_default' => [],
+                    ],
+                ],
             ]
         );
 

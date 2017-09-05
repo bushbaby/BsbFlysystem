@@ -1,16 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystemTest\Cache;
 
 use BsbFlysystem\Cache\ZendStorageCache;
 use BsbFlysystemTest\Framework\TestCase;
 
 /**
- * Tests for the zend cache wrapper
+ * Tests for the zend cache wrapper.
  */
 class ZendStorageCacheTest extends TestCase
 {
-
     public function testLoadDefault()
     {
         $mock = $this->getMockBuilder('Zend\Cache\Storage\StorageInterface')->getMock();

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystemTest\Adapter\Factory;
 
 use BsbFlysystem\Adapter\Factory\ZipArchiveAdapterFactory;
@@ -70,11 +72,11 @@ class ZipArchiveAdapterFactoryTest extends TestCase
                 [],
                 false,
                 'UnexpectedValueException',
-                "Missing 'archive' as option"
+                "Missing 'archive' as option",
             ],
             [
                 ['archive' => 'foo'],
-                ['archive' => 'foo', 'prefix' => null]
+                ['archive' => 'foo', 'prefix' => null],
             ],
         ];
     }

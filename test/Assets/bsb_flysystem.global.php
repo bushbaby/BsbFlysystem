@@ -1,19 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'bsb_flysystem'   => [
         'adapters'        => [
             'local_default'          => [
                 'type'    => 'local',
                 'options' => [
-                    'root' => './test/_build/files'
+                    'root' => './test/_build/files',
                 ],
             ],
             'local_default_unshared' => [
                 'type'    => 'local',
                 'shared'  => false,
                 'options' => [
-                    'root' => './test/_build/files'
+                    'root' => './test/_build/files',
                 ],
             ],
             'null_default'           => [
@@ -36,7 +38,7 @@ return [
                     'host'     => 'xxxxx',
                     'username' => 'xxxxx',
                     'password' => 'xxxxx',
-                    /** optional config settings */
+                    /* optional config settings */
                     'port'     => 21,
                     'root'     => '/',
                     'passive'  => true,
@@ -47,41 +49,41 @@ return [
             'zip_default'            => [
                 'type'    => 'ziparchive',
                 'options' => [
-                    'archive' => './test/_build/files.zip'
+                    'archive' => './test/_build/files.zip',
 
                 ],
             ],
             'rackspace_default'      => [
                 'type'    => 'rackspace',
                 'options' => [
-                    'url'         => "http.xxxxx.xxx",
+                    'url'         => 'http.xxxxx.xxx',
                     'secret'      => [
-                        'username'    => "xxxxx",
-                        'password'    => "xxxxx",
-                        'tenant_name' => "xxxxx"
+                        'username'    => 'xxxxx',
+                        'password'    => 'xxxxx',
+                        'tenant_name' => 'xxxxx',
                     ],
                     'objectstore' => [
                         'name'      => 'xxxxx',
                         'region'    => 'XX',
                         'url_type'  => 'publicURL',
-                        'container' => 'xxxxx'
+                        'container' => 'xxxxx',
                     ],
                 ],
             ],
             'rackspace_lazy'         => [
                 'type'    => 'rackspace',
                 'options' => [
-                    'url'         => "http.xxxxx.xxx",
+                    'url'         => 'http.xxxxx.xxx',
                     'secret'      => [
-                        'username'    => "xxxxx",
-                        'password'    => "xxxxx",
-                        'tenant_name' => "xxxxx"
+                        'username'    => 'xxxxx',
+                        'password'    => 'xxxxx',
+                        'tenant_name' => 'xxxxx',
                     ],
                     'objectstore' => [
                         'name'      => 'xxxxx',
                         'region'    => 'XX',
                         'url_type'  => 'publicURL',
-                        'container' => 'xxxxx'
+                        'container' => 'xxxxx',
                     ],
                 ],
             ],
@@ -98,14 +100,14 @@ return [
                     'key'    => 'xxxxx',
                     'secret' => 'xxxxx',
                     'region' => 'eu-west-1',
-                    'bucket' => 'xxxxx'
+                    'bucket' => 'xxxxx',
                 ],
             ],
             'replicate_default'      => [
                 'type'    => 'replicate',
                 'options' => [
                     'source'    => 'local_default',
-                    'replicate' => 'zip_default'
+                    'replicate' => 'zip_default',
                 ],
             ],
             'webdav_default'         => [
@@ -113,7 +115,7 @@ return [
                 'options' => [
                     'baseUri'  => 'http.xxxxx.xxx',
                     'userName' => 'xxxxx',
-                    'password' => 'xxxxx'
+                    'password' => 'xxxxx',
                 ],
             ],
         ],
@@ -127,7 +129,7 @@ return [
             ],
             'default_cached'   => [
                 'adapter' => 'local_default',
-                'cache'   => 'Cache\BsbFlysystem\Memory'
+                'cache'   => 'Cache\BsbFlysystem\Memory',
             ],
         ],
         'adapter_manager' => [],

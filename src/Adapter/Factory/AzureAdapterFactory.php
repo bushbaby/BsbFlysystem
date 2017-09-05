@@ -1,23 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\RequirementsException;
 use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\Azure\AzureAdapter as Adapter;
 use WindowsAzure\Common\ServicesBuilder;
-use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class AzureAdapterFactory extends AbstractAdapterFactory
 {
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function doCreateService(ServiceLocatorInterface $serviceLocator)
     {
-        if (!class_exists(\League\Flysystem\Azure\AzureAdapter::class)) {
+        if (! class_exists(\League\Flysystem\Azure\AzureAdapter::class)) {
             throw new RequirementsException(
                 ['league/flysystem-azure'],
                 'Azure'
@@ -36,19 +36,19 @@ class AzureAdapterFactory extends AbstractAdapterFactory
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function validateConfig()
     {
-        if (!isset($this->options['account-name'])) {
+        if (! isset($this->options['account-name'])) {
             throw new UnexpectedValueException("Missing 'account-name' as option");
         }
 
-        if (!isset($this->options['account-key'])) {
+        if (! isset($this->options['account-key'])) {
             throw new UnexpectedValueException("Missing 'account-key' as option");
         }
 
-        if (!isset($this->options['container'])) {
+        if (! isset($this->options['container'])) {
             throw new UnexpectedValueException("Missing 'container' as option");
         }
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystemTest;
 
 use BsbFlysystem\Module;
@@ -17,7 +19,7 @@ class ConfigProviderTest extends TestCase
     public function testConfigEqualsToModuleConfig()
     {
         $moduleConfig = (new Module())->getConfig();
-        $config = (new \BsbFlysystem\ConfigProvider())();
+        $config       = (new \BsbFlysystem\ConfigProvider())();
 
         $this->assertEquals($moduleConfig['service_manager'], $config['dependencies']);
         $this->assertEquals($moduleConfig['bsb_flysystem'], $config['bsb_flysystem']);

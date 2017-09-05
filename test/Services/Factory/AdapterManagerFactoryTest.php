@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystemTest\Service\Factory;
 
 use BsbFlysystem\Service\AdapterManager;
@@ -8,15 +10,14 @@ use BsbFlysystemTest\Framework\TestCase;
 
 class AdapterManagerFactoryTest extends TestCase
 {
-
     public function testCreateService()
     {
         $factory = new AdapterManagerFactory();
 
         $config = [
             'bsb_flysystem' => [
-                'adapters' => []
-            ]
+                'adapters' => [],
+            ],
         ];
 
         $serviceLocatorMock = $this->getMockBuilder('Interop\Container\ContainerInterface')->getMock();
@@ -34,17 +35,17 @@ class AdapterManagerFactoryTest extends TestCase
                     'named_adapter' => [
                         'type'   => 'someadapter',
                         'shared' => true,
-                    ]
+                    ],
                 ],
                 'adapter_map' => [
                     'factories' => [
-                        'someadapter' => 'Zend\ServiceManager\Factory\InvokableFactory'
+                        'someadapter' => 'Zend\ServiceManager\Factory\InvokableFactory',
                     ],
                     'aliases' => [
-                        'someadapter' => 'Some/Adapter'
-                    ]
-                ]
-            ]
+                        'someadapter' => 'Some/Adapter',
+                    ],
+                ],
+            ],
         ];
 
         $serviceLocatorMock = $this->getMockBuilder('Interop\Container\ContainerInterface')->getMock();
@@ -62,8 +63,8 @@ class AdapterManagerFactoryTest extends TestCase
             'bsb_flysystem' => [
                 'adapters' => [
                     'named_adapter' => [],
-                ]
-            ]
+                ],
+            ],
         ];
 
         $serviceLocatorMock = $this->getMockBuilder('Interop\Container\ContainerInterface')->getMock();
@@ -84,10 +85,10 @@ class AdapterManagerFactoryTest extends TestCase
             'bsb_flysystem' => [
                 'adapters' => [
                     'named_adapter' => [
-                        'type' => 'unknown_adapter'
+                        'type' => 'unknown_adapter',
                     ],
-                ]
-            ]
+                ],
+            ],
         ];
 
         $serviceLocatorMock = $this->getMockBuilder('Interop\Container\ContainerInterface')->getMock();

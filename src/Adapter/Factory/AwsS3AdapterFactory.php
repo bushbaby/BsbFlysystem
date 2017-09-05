@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystem\Adapter\Factory;
 
 use Aws\S3\S3Client;
@@ -10,13 +12,12 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class AwsS3AdapterFactory extends AbstractAdapterFactory
 {
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function doCreateService(ServiceLocatorInterface $serviceLocator)
     {
-        if (!class_exists(\League\Flysystem\AwsS3v2\AwsS3Adapter::class)) {
+        if (! class_exists(\League\Flysystem\AwsS3v2\AwsS3Adapter::class)) {
             throw new RequirementsException(
                 ['league/flysystem-aws-s3-v2'],
                 'AwsS3'
@@ -24,9 +25,9 @@ class AwsS3AdapterFactory extends AbstractAdapterFactory
         }
 
         $client = S3Client::factory([
-            'key'    => $this->options['key'],
-            'secret' => $this->options['secret'],
-            'region' => $this->options['region'],
+            'key'             => $this->options['key'],
+            'secret'          => $this->options['secret'],
+            'region'          => $this->options['region'],
             'request.options' => $this->options['request.options'],
         ]);
 
@@ -36,31 +37,31 @@ class AwsS3AdapterFactory extends AbstractAdapterFactory
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function validateConfig()
     {
-        if (!isset($this->options['key'])) {
+        if (! isset($this->options['key'])) {
             throw new UnexpectedValueException("Missing 'key' as option");
         }
 
-        if (!isset($this->options['secret'])) {
+        if (! isset($this->options['secret'])) {
             throw new UnexpectedValueException("Missing 'secret' as option");
         }
 
-        if (!isset($this->options['region'])) {
+        if (! isset($this->options['region'])) {
             throw new UnexpectedValueException("Missing 'region' as option");
         }
 
-        if (!isset($this->options['bucket'])) {
+        if (! isset($this->options['bucket'])) {
             throw new UnexpectedValueException("Missing 'bucket' as option");
         }
 
-        if (!isset($this->options['prefix'])) {
+        if (! isset($this->options['prefix'])) {
             $this->options['prefix'] = null;
         }
 
-        if (!isset($this->options['request.options'])) {
+        if (! isset($this->options['request.options'])) {
             $this->options['request.options'] = [];
         }
     }

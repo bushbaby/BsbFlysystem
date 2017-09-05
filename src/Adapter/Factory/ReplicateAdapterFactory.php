@@ -1,21 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\RequirementsException;
 use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\Replicate\ReplicateAdapter as Adapter;
-use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class ReplicateAdapterFactory extends AbstractAdapterFactory
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function doCreateService(ServiceLocatorInterface $serviceLocator)
     {
-        if (!class_exists(\League\Flysystem\Replicate\ReplicateAdapter::class)) {
+        if (! class_exists(\League\Flysystem\Replicate\ReplicateAdapter::class)) {
             throw new RequirementsException(
                 ['league/flysystem-replicate-adapter'],
                 'Replicate'
@@ -33,15 +34,15 @@ class ReplicateAdapterFactory extends AbstractAdapterFactory
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function validateConfig()
     {
-        if (!isset($this->options['source'])) {
+        if (! isset($this->options['source'])) {
             throw new UnexpectedValueException("Missing 'source' as option");
         }
 
-        if (!isset($this->options['replicate'])) {
+        if (! isset($this->options['replicate'])) {
             throw new UnexpectedValueException("Missing 'replicate' as option");
         }
     }

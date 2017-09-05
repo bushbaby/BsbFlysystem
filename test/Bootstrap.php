@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystemTest;
 
 use RuntimeException;
@@ -7,7 +9,7 @@ use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\ServiceManager;
 
 /**
- * Test bootstrap
+ * Test bootstrap.
  */
 class Bootstrap
 {
@@ -23,8 +25,8 @@ class Bootstrap
 
         static::initAutoloader();
 
-        $serviceManager = new ServiceManager();
-        $config = self::getApplicationConfig();
+        $serviceManager       = new ServiceManager();
+        $config               = self::getApplicationConfig();
         $serviceManagerConfig = new ServiceManagerConfig($config);
         $serviceManagerConfig->configureServiceManager($serviceManager);
         $serviceManager->setService('ApplicationConfig', $config);
@@ -50,7 +52,7 @@ class Bootstrap
     public static function getApplicationConfig()
     {
         $config = [];
-        if (!$config = @include __DIR__ . '/TestConfiguration.php') {
+        if (! $config = @include __DIR__ . '/TestConfiguration.php') {
             $config = require __DIR__ . '/TestConfiguration.php.dist';
         }
 
@@ -75,7 +77,7 @@ class Bootstrap
     {
         $dir         = __DIR__;
         $previousDir = '.';
-        while (!is_dir($dir . '/' . $path)) {
+        while (! is_dir($dir . '/' . $path)) {
             $dir = dirname($dir);
             if ($previousDir === $dir) {
                 return false;

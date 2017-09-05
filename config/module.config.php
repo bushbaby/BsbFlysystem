@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'bsb_flysystem'   => [
         'adapters'           => [
             'local_data' => [
                 'type'    => 'local',
                 'options' => [
-                    'root' => './data'
-                ]
+                    'root' => './data',
+                ],
             ],
         ],
         'cache'              => [
@@ -15,12 +17,12 @@ return [
                 'type' => 'adapter',
                 'file' => 'file.cache',
                 'ttl'  => 300,
-            ]
+            ],
         ],
         'filesystems'        => [
             'default' => [
                 'adapter' => 'local_data',
-            ]
+            ],
         ],
         'adapter_manager'    => [
             'config'        => [],

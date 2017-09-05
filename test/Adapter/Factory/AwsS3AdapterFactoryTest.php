@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystemTest\Adapter\Factory;
 
 use BsbFlysystem\Adapter\Factory\AwsS3AdapterFactory;
@@ -69,13 +71,13 @@ class AwsS3AdapterFactoryTest extends TestCase
                 [],
                 [],
                 'UnexpectedValueException',
-                "Missing 'key' as option"
+                "Missing 'key' as option",
             ],
             [
                 ['key' => 'foo'],
                 [],
                 'UnexpectedValueException',
-                "Missing 'secret' as option"
+                "Missing 'secret' as option",
             ],
             [
                 [
@@ -84,7 +86,7 @@ class AwsS3AdapterFactoryTest extends TestCase
                 ],
                 [],
                 'UnexpectedValueException',
-                "Missing 'region' as option"
+                "Missing 'region' as option",
             ],
             [
                 [
@@ -94,7 +96,7 @@ class AwsS3AdapterFactoryTest extends TestCase
                 ],
                 [],
                 'UnexpectedValueException',
-                "Missing 'bucket' as option"
+                "Missing 'bucket' as option",
             ],
             [
                 [
@@ -104,13 +106,13 @@ class AwsS3AdapterFactoryTest extends TestCase
                     'bucket' => 'jkl',
                 ],
                 [
-                    'key'    => 'abc',
-                    'secret' => 'def',
-                    'region' => 'ghi',
-                    'bucket' => 'jkl',
-                    'prefix' => null,
-                    'request.options' => []
-                ]
+                    'key'             => 'abc',
+                    'secret'          => 'def',
+                    'region'          => 'ghi',
+                    'bucket'          => 'jkl',
+                    'prefix'          => null,
+                    'request.options' => [],
+                ],
             ],
         ];
     }

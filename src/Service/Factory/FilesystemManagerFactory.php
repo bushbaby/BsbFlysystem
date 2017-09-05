@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystem\Service\Factory;
 
 use BsbFlysystem\Filesystem\Factory\FilesystemFactory;
@@ -11,7 +13,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class FilesystemManagerFactory implements FactoryInterface
 {
     /**
-     * Create service
+     * Create service.
      *
      * @param ServiceLocatorInterface $serviceLocator
      *
@@ -23,7 +25,7 @@ class FilesystemManagerFactory implements FactoryInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {

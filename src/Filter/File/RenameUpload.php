@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystem\Filter\File;
 
 use League\Flysystem\FilesystemInterface;
 use UnexpectedValueException;
-use Zend\Filter\File\RenameUpload as RenameUploadFilter;
 use Zend\Filter\Exception;
+use Zend\Filter\File\RenameUpload as RenameUploadFilter;
 
 class RenameUpload extends RenameUploadFilter
 {
@@ -15,13 +17,13 @@ class RenameUpload extends RenameUploadFilter
     protected $filesystem;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array $options
      */
     public function __construct($options)
     {
-        if (!is_array($options)) {
+        if (! is_array($options)) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '"%s" expects an array; received "%s"',
                 __METHOD__,
@@ -33,11 +35,12 @@ class RenameUpload extends RenameUploadFilter
 
     /**
      * @throws UnexpectedValueException
+     *
      * @return FilesystemInterface
      */
     public function getFilesystem()
     {
-        if (!$this->filesystem) {
+        if (! $this->filesystem) {
             throw new UnexpectedValueException('Missing required filesystem.');
         }
 
@@ -53,7 +56,7 @@ class RenameUpload extends RenameUploadFilter
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getFinalTarget($uploadData)
     {
@@ -61,11 +64,11 @@ class RenameUpload extends RenameUploadFilter
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function checkFileExists($targetFile)
     {
-        if (!$this->getOverwrite() && $this->getFilesystem()->has($targetFile)) {
+        if (! $this->getOverwrite() && $this->getFilesystem()->has($targetFile)) {
             throw new Exception\InvalidArgumentException(
                 sprintf("File '%s' could not be uploaded. It already exists.", $targetFile)
             );
@@ -73,11 +76,11 @@ class RenameUpload extends RenameUploadFilter
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function moveUploadedFile($sourceFile, $targetFile)
     {
-        if (!is_uploaded_file($sourceFile)) {
+        if (! is_uploaded_file($sourceFile)) {
             throw new Exception\RuntimeException(
                 sprintf("File '%s' could not be uploaded. Filter can move only uploaded files.", $sourceFile),
                 0
@@ -87,7 +90,7 @@ class RenameUpload extends RenameUploadFilter
         $result = $this->getFilesystem()->putStream($targetFile, $stream);
         fclose($stream);
 
-        if (!$result) {
+        if (! $result) {
             throw new Exception\RuntimeException(
                 sprintf("File '%s' could not be uploaded. An error occurred while processing the file.", $sourceFile),
                 0

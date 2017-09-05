@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystem\Adapter\Factory;
 
 use Interop\Container\ContainerInterface;
@@ -31,10 +33,9 @@ abstract class AbstractAdapterFactory implements FactoryInterface
     }
 
     /**
-     * Set creation options
+     * Set creation options.
      *
-     * @param  array $options
-     * @return void
+     * @param array $options
      */
     public function setCreationOptions(array $options)
     {
@@ -45,6 +46,7 @@ abstract class AbstractAdapterFactory implements FactoryInterface
      * @param ContainerInterface $container
      * @param                    $requestedName
      * @param array|null         $options
+     *
      * @return AdapterInterface|VirtualProxyInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
@@ -63,9 +65,10 @@ abstract class AbstractAdapterFactory implements FactoryInterface
     }
 
     /**
-     * Create service
+     * Create service.
      *
      * @param ServiceLocatorInterface $serviceLocator
+     *
      * @return AdapterInterface|VirtualProxyInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
@@ -81,14 +84,14 @@ abstract class AbstractAdapterFactory implements FactoryInterface
      * Merges the options given from the ServiceLocator Config object with the create options of the class.
      *
      * @param ServiceLocatorInterface $serviceLocator
-     * @param                         string $requestedName
+     * @param string                  $requestedName
      */
     protected function mergeMvcConfig(ServiceLocatorInterface $serviceLocator, $requestedName)
     {
         $config = $serviceLocator->has('config') ? $serviceLocator->get('config') : [];
 
-        if (!isset($config['bsb_flysystem']['adapters'][$requestedName]['options']) ||
-            !is_array(($config['bsb_flysystem']['adapters'][$requestedName]['options']))
+        if (! isset($config['bsb_flysystem']['adapters'][$requestedName]['options']) ||
+            ! is_array(($config['bsb_flysystem']['adapters'][$requestedName]['options']))
         ) {
             return;
         }
@@ -101,7 +104,9 @@ abstract class AbstractAdapterFactory implements FactoryInterface
 
     /**
      * @param ServiceLocatorInterface $serviceLocator
+     *
      * @return LazyLoadingValueHolderFactory
+     *
      * @throws InvalidArgumentException
      */
     public function getLazyFactory(ServiceLocatorInterface $serviceLocator)
@@ -109,11 +114,11 @@ abstract class AbstractAdapterFactory implements FactoryInterface
         $config = $serviceLocator->has('config') ? $serviceLocator->get('config') : [];
 
         $config['lazy_services'] = ArrayUtils::merge(
-            isset($config['lazy_services']) ? $config['lazy_services'] : [],
+            $config['lazy_services'] ?? [],
             $config['bsb_flysystem']['adapter_manager']['lazy_services']
         );
 
-        if (!isset($config['lazy_services'])) {
+        if (! isset($config['lazy_services'])) {
             throw new \InvalidArgumentException('Missing "lazy_services" config key');
         }
 
@@ -129,7 +134,7 @@ abstract class AbstractAdapterFactory implements FactoryInterface
             $factoryConfig->setProxiesTargetDir($lazyServices['proxies_target_dir']);
         }
 
-        if (!isset($lazyServices['write_proxy_files']) || !$lazyServices['write_proxy_files']) {
+        if (! isset($lazyServices['write_proxy_files']) || ! $lazyServices['write_proxy_files']) {
             $factoryConfig->setGeneratorStrategy(new EvaluatingGeneratorStrategy());
         }
 
@@ -139,18 +144,18 @@ abstract class AbstractAdapterFactory implements FactoryInterface
     }
 
     /**
-     * Create service
+     * Create service.
      *
      * @param ServiceLocatorInterface $serviceLocator
+     *
      * @return AdapterInterface|VirtualProxyInterface
      */
     abstract protected function doCreateService(ServiceLocatorInterface $serviceLocator);
 
     /**
-     * Implement in adapter
+     * Implement in adapter.
      *
      * @throw UnexpectedValueException
-     * @return null
      */
     abstract protected function validateConfig();
 }

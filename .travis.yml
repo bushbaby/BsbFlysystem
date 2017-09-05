@@ -11,6 +11,10 @@ env:
     - PREFER_LOWEST="--prefer-lowest"
     - PREFER_LOWEST=""
 
+cache:
+  directories:
+    - $HOME/.php-cs-fixer
+
 before_script:
   - composer self-update
   - composer update --prefer-source $PREFER_LOWEST
@@ -18,7 +22,7 @@ before_script:
 
 script:
   - vendor/bin/phpunit
-  - vendor/bin/phpcs --standard=PSR2 ./src/
+  - vendor/bin/php-cs-fixer fix --config=.php_cs --verbose --diff --dry-run
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar

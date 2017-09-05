@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\RequirementsException;
@@ -11,12 +13,12 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class RackspaceAdapterFactory extends AbstractAdapterFactory
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function doCreateService(ServiceLocatorInterface $serviceLocator)
     {
-        if (!class_exists(\League\Flysystem\Rackspace\RackspaceAdapter::class) ||
-            !class_exists(\ProxyManager\Factory\LazyLoadingValueHolderFactory::class)
+        if (! class_exists(\League\Flysystem\Rackspace\RackspaceAdapter::class) ||
+            ! class_exists(\ProxyManager\Factory\LazyLoadingValueHolderFactory::class)
         ) {
             throw new RequirementsException(
                 ['league/flysystem-rackspace', 'ocramius/proxy-manager'],
@@ -51,37 +53,37 @@ class RackspaceAdapterFactory extends AbstractAdapterFactory
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function validateConfig()
     {
-        if (!isset($this->options['url'])) {
+        if (! isset($this->options['url'])) {
             throw new UnexpectedValueException("Missing 'url' as option");
         }
 
-        if (!isset($this->options['secret']) || !is_array($this->options['secret'])) {
+        if (! isset($this->options['secret']) || ! is_array($this->options['secret'])) {
             throw new UnexpectedValueException("Missing 'secret' as option");
         }
 
-        if (!isset($this->options['objectstore']) || !is_array($this->options['objectstore'])) {
+        if (! isset($this->options['objectstore']) || ! is_array($this->options['objectstore'])) {
             throw new UnexpectedValueException("Missing 'objectstore' as option");
-        } elseif (!isset($this->options['objectstore']['name'])) {
+        } elseif (! isset($this->options['objectstore']['name'])) {
             throw new UnexpectedValueException("Missing 'objectstore.name' as option");
-        } elseif (!isset($this->options['objectstore']['region'])) {
+        } elseif (! isset($this->options['objectstore']['region'])) {
             throw new UnexpectedValueException("Missing 'objectstore.region' as option");
-        } elseif (!isset($this->options['objectstore']['container'])) {
+        } elseif (! isset($this->options['objectstore']['container'])) {
             throw new UnexpectedValueException("Missing 'objectstore.container' as option");
         }
 
-        if (!isset($this->options['objectstore']['url_type'])) {
+        if (! isset($this->options['objectstore']['url_type'])) {
             $this->options['objectstore']['url_type'] = null;
         }
 
-        if (!isset($this->options['options'])) {
+        if (! isset($this->options['options'])) {
             $this->options['options'] = [];
         }
 
-        if (!isset($this->options['prefix'])) {
+        if (! isset($this->options['prefix'])) {
             $this->options['prefix'] = null;
         }
     }
