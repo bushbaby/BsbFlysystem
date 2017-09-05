@@ -6,23 +6,18 @@ namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\Adapter\Ftp as Adapter;
+use League\Flysystem\AdapterInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class FtpAdapterFactory extends AbstractAdapterFactory
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function doCreateService(ServiceLocatorInterface $serviceLocator)
+    public function doCreateService(ServiceLocatorInterface $serviceLocator): AdapterInterface
     {
         $adapter = new Adapter($this->options);
 
         return $adapter;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function validateConfig()
     {
         if (! isset($this->options['host'])) {

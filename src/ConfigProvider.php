@@ -6,12 +6,7 @@ namespace BsbFlysystem;
 
 class ConfigProvider
 {
-    /**
-     * Return configuration for this component.
-     *
-     * @return array
-     */
-    public function __invoke()
+    public function __invoke(): array
     {
         $config = (new Module())->getConfig();
 

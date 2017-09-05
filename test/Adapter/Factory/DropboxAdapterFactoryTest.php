@@ -7,6 +7,7 @@ namespace BsbFlysystemTest\Adapter\Factory;
 use BsbFlysystem\Adapter\Factory\DropboxAdapterFactory;
 use BsbFlysystemTest\Bootstrap;
 use BsbFlysystemTest\Framework\TestCase;
+use Spatie\FlysystemDropbox\DropboxAdapter;
 
 class DropboxAdapterFactoryTest extends TestCase
 {
@@ -22,7 +23,7 @@ class DropboxAdapterFactoryTest extends TestCase
 
     public function setup()
     {
-        $class          = new \ReflectionClass('BsbFlysystem\Adapter\Factory\DropboxAdapterFactory');
+        $class          = new \ReflectionClass(DropboxAdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -30,15 +31,15 @@ class DropboxAdapterFactoryTest extends TestCase
         $this->method->setAccessible(true);
     }
 
-//    public function testCreateService()
-//    {
-//        $sm      = Bootstrap::getServiceManager();
-//        $factory = new DropboxAdapterFactory();
-    //
-//        $adapter = $factory($sm, 'dropbox_default');
-    //
-//        $this->assertInstanceOf('Spatie\FlysystemDropbox\DropboxAdapter', $adapter);
-//    }
+    public function testCreateService()
+    {
+        $sm      = Bootstrap::getServiceManager();
+        $factory = new DropboxAdapterFactory();
+
+        $adapter = $factory($sm, 'dropbox_default');
+
+        $this->assertInstanceOf(DropboxAdapter::class, $adapter);
+    }
 
     /**
      * @dataProvider validateConfigProvider
@@ -52,7 +53,8 @@ class DropboxAdapterFactoryTest extends TestCase
         $factory = new DropboxAdapterFactory($options);
 
         if ($expectedException) {
-            $this->expectException($expectedException, $expectedExceptionMessage);
+            $this->expectException($expectedException);
+            $this->expectExceptionMessage($expectedExceptionMessage);
         }
 
         $this->method->invokeArgs($factory, []);
@@ -62,7 +64,7 @@ class DropboxAdapterFactoryTest extends TestCase
         }
     }
 
-    public function validateConfigProvider()
+    public function validateConfigProvider(): array
     {
         return [
             [

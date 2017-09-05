@@ -17,28 +17,9 @@ class RenameUpload extends RenameUploadFilter
     protected $filesystem;
 
     /**
-     * Constructor.
-     *
-     * @param array $options
-     */
-    public function __construct($options)
-    {
-        if (! is_array($options)) {
-            throw new Exception\InvalidArgumentException(sprintf(
-                '"%s" expects an array; received "%s"',
-                __METHOD__,
-                (is_object($options) ? get_class($options) : gettype($options))
-            ));
-        }
-        parent::__construct($options);
-    }
-
-    /**
      * @throws UnexpectedValueException
-     *
-     * @return FilesystemInterface
      */
-    public function getFilesystem()
+    public function getFilesystem(): FilesystemInterface
     {
         if (! $this->filesystem) {
             throw new UnexpectedValueException('Missing required filesystem.');
@@ -47,25 +28,16 @@ class RenameUpload extends RenameUploadFilter
         return $this->filesystem;
     }
 
-    /**
-     * @param FilesystemInterface $filesystem
-     */
     public function setFilesystem(FilesystemInterface $filesystem)
     {
         $this->filesystem = $filesystem;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getFinalTarget($uploadData)
+    protected function getFinalTarget($uploadData): string
     {
         return trim(str_replace('\\', '/', parent::getFinalTarget($uploadData)), '/');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function checkFileExists($targetFile)
     {
         if (! $this->getOverwrite() && $this->getFilesystem()->has($targetFile)) {
@@ -75,9 +47,6 @@ class RenameUpload extends RenameUploadFilter
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function moveUploadedFile($sourceFile, $targetFile)
     {
         if (! is_uploaded_file($sourceFile)) {

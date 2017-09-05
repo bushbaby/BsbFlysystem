@@ -11,31 +11,28 @@ use Zend\ServiceManager\Exception;
 class AdapterManager extends AbstractPluginManager
 {
     /**
-     * {@inheritdoc}
+     * @var string
      */
     protected $instanceOf = \League\Flysystem\AdapterInterface::class;
 
     /**
-     * {@inheritdoc}
+     * @var bool
      */
     protected $shareByDefault = true;
 
     /**
-     * {@inheritdoc}
+     * @var bool
      */
     protected $sharedByDefault = true;
 
     /**
-     * {@inheritdoc}
+     * @var array
      */
     protected $factories = [
         'League\Flysystem\Adapter\NullAdapter' => \Zend\ServiceManager\Factory\InvokableFactory::class,
         'leagueflysystemadapternulladapter'    => \Zend\ServiceManager\Factory\InvokableFactory::class,
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     public function validate($instance)
     {
         if (! $instance instanceof $this->instanceOf) {
@@ -47,9 +44,6 @@ class AdapterManager extends AbstractPluginManager
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function validatePlugin($instance)
     {
         try {

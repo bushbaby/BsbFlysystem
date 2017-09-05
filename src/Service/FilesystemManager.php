@@ -11,23 +11,20 @@ use Zend\ServiceManager\Exception;
 class FilesystemManager extends AbstractPluginManager
 {
     /**
-     * {@inheritdoc}
+     * @var string
      */
     protected $instanceOf = \League\Flysystem\FilesystemInterface::class;
 
     /**
-     * {@inheritdoc}
+     * @var bool
      */
     protected $shareByDefault = true;
 
     /**
-     * {@inheritdoc}
+     * @var bool
      */
     protected $sharedByDefault = true;
 
-    /**
-     * {@inheritdoc}
-     */
     public function validate($instance)
     {
         if (! $instance instanceof $this->instanceOf) {
@@ -39,9 +36,6 @@ class FilesystemManager extends AbstractPluginManager
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function validatePlugin($instance)
     {
         try {

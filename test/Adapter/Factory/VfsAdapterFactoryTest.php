@@ -7,6 +7,7 @@ namespace BsbFlysystemTest\Adapter\Factory;
 use BsbFlysystem\Adapter\Factory\VfsAdapterFactory;
 use BsbFlysystemTest\Bootstrap;
 use BsbFlysystemTest\Framework\TestCase;
+use League\Flysystem\Vfs\VfsAdapter;
 
 class VfsAdapterFactoryTest extends TestCase
 {
@@ -17,6 +18,6 @@ class VfsAdapterFactoryTest extends TestCase
 
         $adapter = $factory($sm, null);
 
-        $this->assertInstanceOf('League\Flysystem\Vfs\VfsAdapter', $adapter);
+        $this->assertInstanceOf(VfsAdapter::class, $adapter);
     }
 }

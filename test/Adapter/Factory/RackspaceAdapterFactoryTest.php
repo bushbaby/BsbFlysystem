@@ -7,6 +7,7 @@ namespace BsbFlysystemTest\Adapter\Factory;
 use BsbFlysystem\Adapter\Factory\RackspaceAdapterFactory;
 use BsbFlysystemTest\Bootstrap;
 use BsbFlysystemTest\Framework\TestCase;
+use League\Flysystem\Rackspace\RackspaceAdapter;
 
 class RackspaceAdapterFactoryTest extends TestCase
 {
@@ -22,7 +23,7 @@ class RackspaceAdapterFactoryTest extends TestCase
 
     public function setup()
     {
-        $class          = new \ReflectionClass('BsbFlysystem\Adapter\Factory\RackspaceAdapterFactory');
+        $class          = new \ReflectionClass(RackspaceAdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -37,16 +38,11 @@ class RackspaceAdapterFactoryTest extends TestCase
 
         $adapter = $factory($sm, 'rackspace_default');
 
-        $this->assertInstanceOf('League\Flysystem\Rackspace\RackspaceAdapter', $adapter);
+        $this->assertInstanceOf(RackspaceAdapter::class, $adapter);
     }
 
     /**
      * @dataProvider validateConfigProvider
-     *
-     * @param      $options
-     * @param bool $expectedOptions
-     * @param bool $expectedException
-     * @param bool $expectedExceptionMessage
      */
     public function testValidateConfig(
         $options,
@@ -57,7 +53,8 @@ class RackspaceAdapterFactoryTest extends TestCase
         $factory = new RackspaceAdapterFactory($options);
 
         if ($expectedException) {
-            $this->expectException($expectedException, $expectedExceptionMessage);
+            $this->expectException($expectedException);
+            $this->expectExceptionMessage($expectedExceptionMessage);
         }
 
         $this->method->invokeArgs($factory, []);
@@ -67,10 +64,7 @@ class RackspaceAdapterFactoryTest extends TestCase
         }
     }
 
-    /**
-     * @return array
-     */
-    public function validateConfigProvider()
+    public function validateConfigProvider(): array
     {
         return [
             [

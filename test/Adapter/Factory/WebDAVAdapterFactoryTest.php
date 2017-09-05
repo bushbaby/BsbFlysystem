@@ -7,6 +7,7 @@ namespace BsbFlysystemTest\Adapter\Factory;
 use BsbFlysystem\Adapter\Factory\WebDAVAdapterFactory;
 use BsbFlysystemTest\Bootstrap;
 use BsbFlysystemTest\Framework\TestCase;
+use League\Flysystem\WebDAV\WebDAVAdapter;
 
 class WebDAVAdapterFactoryTest extends TestCase
 {
@@ -22,7 +23,7 @@ class WebDAVAdapterFactoryTest extends TestCase
 
     public function setup()
     {
-        $class          = new \ReflectionClass('BsbFlysystem\Adapter\Factory\WebDAVAdapterFactory');
+        $class          = new \ReflectionClass(WebDAVAdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -37,7 +38,7 @@ class WebDAVAdapterFactoryTest extends TestCase
 
         $adapter = $factory($sm, 'webdav_default');
 
-        $this->assertInstanceOf('League\Flysystem\WebDAV\WebDAVAdapter', $adapter);
+        $this->assertInstanceOf(WebDAVAdapter::class, $adapter);
     }
 
     /**
@@ -52,7 +53,8 @@ class WebDAVAdapterFactoryTest extends TestCase
         $factory = new WebDAVAdapterFactory($options);
 
         if ($expectedException) {
-            $this->expectException($expectedException, $expectedExceptionMessage);
+            $this->expectException($expectedException);
+            $this->expectExceptionMessage($expectedExceptionMessage);
         }
 
         $this->method->invokeArgs($factory, []);
@@ -62,10 +64,7 @@ class WebDAVAdapterFactoryTest extends TestCase
         }
     }
 
-    /**
-     * @return array
-     */
-    public function validateConfigProvider()
+    public function validateConfigProvider(): array
     {
         return [
             [

@@ -22,7 +22,7 @@ class AbstractAdapterFactoryTest extends TestCase
 
     public function setup()
     {
-        $class          = new \ReflectionClass('BsbFlysystemTest\Assets\SimpleAdapterFactory');
+        $class          = new \ReflectionClass(SimpleAdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 

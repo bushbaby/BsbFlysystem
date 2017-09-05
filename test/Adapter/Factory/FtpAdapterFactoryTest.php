@@ -7,6 +7,7 @@ namespace BsbFlysystemTest\Adapter\Factory;
 use BsbFlysystem\Adapter\Factory\FtpAdapterFactory;
 use BsbFlysystemTest\Bootstrap;
 use BsbFlysystemTest\Framework\TestCase;
+use League\Flysystem\Adapter\Ftp;
 
 class FtpAdapterFactoryTest extends TestCase
 {
@@ -22,7 +23,7 @@ class FtpAdapterFactoryTest extends TestCase
 
     public function setup()
     {
-        $class          = new \ReflectionClass('BsbFlysystem\Adapter\Factory\FtpAdapterFactory');
+        $class          = new \ReflectionClass(FtpAdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -37,7 +38,7 @@ class FtpAdapterFactoryTest extends TestCase
 
         $adapter = $factory($sm, 'ftp_default');
 
-        $this->assertInstanceOf('League\Flysystem\Adapter\Ftp', $adapter);
+        $this->assertInstanceOf(Ftp::class, $adapter);
     }
 
     /**
@@ -52,7 +53,8 @@ class FtpAdapterFactoryTest extends TestCase
         $factory = new FtpAdapterFactory($options);
 
         if ($expectedException) {
-            $this->expectException($expectedException, $expectedExceptionMessage);
+            $this->expectException($expectedException);
+            $this->expectExceptionMessage($expectedExceptionMessage);
         }
 
         $this->method->invokeArgs($factory, []);
@@ -62,7 +64,7 @@ class FtpAdapterFactoryTest extends TestCase
         }
     }
 
-    public function validateConfigProvider()
+    public function validateConfigProvider(): array
     {
         return [
             [

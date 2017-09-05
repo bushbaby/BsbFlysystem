@@ -7,6 +7,7 @@ namespace BsbFlysystemTest\Adapter\Factory;
 use BsbFlysystem\Adapter\Factory\ZipArchiveAdapterFactory;
 use BsbFlysystemTest\Bootstrap;
 use BsbFlysystemTest\Framework\TestCase;
+use League\Flysystem\ZipArchive\ZipArchiveAdapter;
 
 class ZipArchiveAdapterFactoryTest extends TestCase
 {
@@ -22,7 +23,7 @@ class ZipArchiveAdapterFactoryTest extends TestCase
 
     public function setup()
     {
-        $class          = new \ReflectionClass('BsbFlysystem\Adapter\Factory\ZipArchiveAdapterFactory');
+        $class          = new \ReflectionClass(ZipArchiveAdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -37,7 +38,7 @@ class ZipArchiveAdapterFactoryTest extends TestCase
 
         $adapter = $factory($sm, 'zip_default');
 
-        $this->assertInstanceOf('League\Flysystem\ZipArchive\ZipArchiveAdapter', $adapter);
+        $this->assertInstanceOf(ZipArchiveAdapter::class, $adapter);
     }
 
     /**
@@ -52,7 +53,8 @@ class ZipArchiveAdapterFactoryTest extends TestCase
         $factory = new ZipArchiveAdapterFactory($options);
 
         if ($expectedException) {
-            $this->expectException($expectedException, $expectedExceptionMessage);
+            $this->expectException($expectedException);
+            $this->expectExceptionMessage($expectedExceptionMessage);
         }
 
         $this->method->invokeArgs($factory, []);
@@ -62,10 +64,7 @@ class ZipArchiveAdapterFactoryTest extends TestCase
         }
     }
 
-    /**
-     * @return array
-     */
-    public function validateConfigProvider()
+    public function validateConfigProvider(): array
     {
         return [
             [

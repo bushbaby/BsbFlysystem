@@ -12,6 +12,7 @@ use League\Flysystem\Cached\CachedAdapter;
 use League\Flysystem\Cached\CacheInterface;
 use League\Flysystem\EventableFilesystem\EventableFilesystem;
 use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemInterface;
 use Zend\Cache\Storage\StorageInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -23,21 +24,11 @@ class FilesystemFactory implements FactoryInterface
      */
     protected $options;
 
-    /**
-     * FilesystemFactory constructor.
-     *
-     * @param array $options
-     */
     public function __construct(array $options = [])
     {
         $this->setCreationOptions($options);
     }
 
-    /**
-     * Set creation options.
-     *
-     * @param array $options
-     */
     public function setCreationOptions(array $options)
     {
         $this->options = $options;
@@ -47,12 +38,7 @@ class FilesystemFactory implements FactoryInterface
         }
     }
 
-    /**
-     * @param ServiceLocatorInterface $serviceLocator
-     *
-     * @return mixed
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function createService(ServiceLocatorInterface $serviceLocator): FilesystemInterface
     {
         if (method_exists($serviceLocator, 'getServiceLocator')) {
             $serviceLocator = $serviceLocator->getServiceLocator();
@@ -63,14 +49,7 @@ class FilesystemFactory implements FactoryInterface
         return $this($serviceLocator, $requestedName);
     }
 
-    /**
-     * @param ContainerInterface $container
-     * @param string             $requestedName
-     * @param array|null         $options
-     *
-     * @return EventableFilesystem|Filesystem
-     */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): FilesystemInterface
     {
         $config         = $container->get('config');
         $fsConfig       = $config['bsb_flysystem']['filesystems'][$requestedName];

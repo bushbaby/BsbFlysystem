@@ -7,6 +7,7 @@ namespace BsbFlysystemTest\Adapter\Factory;
 use BsbFlysystem\Adapter\Factory\SftpAdapterFactory;
 use BsbFlysystemTest\Bootstrap;
 use BsbFlysystemTest\Framework\TestCase;
+use League\Flysystem\Sftp\SftpAdapter;
 
 class SftpAdapterFactoryTest extends TestCase
 {
@@ -22,7 +23,7 @@ class SftpAdapterFactoryTest extends TestCase
 
     public function setup()
     {
-        $class          = new \ReflectionClass('BsbFlysystem\Adapter\Factory\SftpAdapterFactory');
+        $class          = new \ReflectionClass(SftpAdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -37,7 +38,7 @@ class SftpAdapterFactoryTest extends TestCase
 
         $adapter = $factory($sm, 'sftp_default');
 
-        $this->assertInstanceOf('League\Flysystem\Sftp\SftpAdapter', $adapter);
+        $this->assertInstanceOf(SftpAdapter::class, $adapter);
     }
 
     /**
@@ -52,7 +53,8 @@ class SftpAdapterFactoryTest extends TestCase
         $factory = new SftpAdapterFactory($options);
 
         if ($expectedException) {
-            $this->expectException($expectedException, $expectedExceptionMessage);
+            $this->expectException($expectedException);
+            $this->expectExceptionMessage($expectedExceptionMessage);
         }
 
         $this->method->invokeArgs($factory, []);
@@ -62,10 +64,7 @@ class SftpAdapterFactoryTest extends TestCase
         }
     }
 
-    /**
-     * @return array
-     */
-    public function validateConfigProvider()
+    public function validateConfigProvider(): array
     {
         return [
             [

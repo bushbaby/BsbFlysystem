@@ -22,7 +22,7 @@ class AzureAdapterFactoryTest extends TestCase
 
     public function setup()
     {
-        $class          = new \ReflectionClass('BsbFlysystem\Adapter\Factory\AzureAdapterFactory');
+        $class          = new \ReflectionClass(AzureAdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -45,7 +45,7 @@ class AzureAdapterFactoryTest extends TestCase
 
         $adapter = $factory($sm, 'azure_default');
 
-        $this->assertInstanceOf('League\Flysystem\Azure\AzureAdapter', $adapter);
+        $this->assertInstanceOf(\League\Flysystem\Azure\AzureAdapter::class, $adapter);
     }
 
     /**
@@ -60,7 +60,8 @@ class AzureAdapterFactoryTest extends TestCase
         $factory = new AzureAdapterFactory($options);
 
         if ($expectedException) {
-            $this->expectException($expectedException, $expectedExceptionMessage);
+            $this->expectException($expectedException);
+            $this->expectExceptionMessage($expectedExceptionMessage);
         }
 
         $this->method->invokeArgs($factory, []);
@@ -70,7 +71,7 @@ class AzureAdapterFactoryTest extends TestCase
         }
     }
 
-    public function validateConfigProvider()
+    public function validateConfigProvider(): array
     {
         return [
             [

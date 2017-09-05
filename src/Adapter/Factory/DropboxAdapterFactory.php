@@ -6,15 +6,13 @@ namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\RequirementsException;
 use BsbFlysystem\Exception\UnexpectedValueException;
+use League\Flysystem\AdapterInterface;
 use Spatie\FlysystemDropbox\DropboxAdapter as Adapter;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class DropboxAdapterFactory extends AbstractAdapterFactory
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function doCreateService(ServiceLocatorInterface $serviceLocator)
+    public function doCreateService(ServiceLocatorInterface $serviceLocator): AdapterInterface
     {
         if (! class_exists(\Spatie\FlysystemDropbox\DropboxAdapter::class)) {
             throw new RequirementsException(
@@ -32,9 +30,6 @@ class DropboxAdapterFactory extends AbstractAdapterFactory
         return $adapter;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function validateConfig()
     {
         if (! isset($this->options['access_token'])) {
@@ -42,7 +37,7 @@ class DropboxAdapterFactory extends AbstractAdapterFactory
         }
 
         if (! isset($this->options['prefix'])) {
-            $this->options['prefix'] = null;
+            $this->options['prefix'] = '';
         }
     }
 }

@@ -10,7 +10,6 @@ use League\Flysystem\AdapterInterface;
 use ProxyManager\Configuration;
 use ProxyManager\Factory\LazyLoadingValueHolderFactory;
 use ProxyManager\GeneratorStrategy\EvaluatingGeneratorStrategy;
-use ProxyManager\Proxy\VirtualProxyInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\ArrayUtils;
@@ -34,22 +33,13 @@ abstract class AbstractAdapterFactory implements FactoryInterface
 
     /**
      * Set creation options.
-     *
-     * @param array $options
      */
     public function setCreationOptions(array $options)
     {
         $this->options = $options;
     }
 
-    /**
-     * @param ContainerInterface $container
-     * @param                    $requestedName
-     * @param array|null         $options
-     *
-     * @return AdapterInterface|VirtualProxyInterface
-     */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): AdapterInterface
     {
         if (null !== $options) {
             $this->setCreationOptions($options);
@@ -64,14 +54,7 @@ abstract class AbstractAdapterFactory implements FactoryInterface
         return $service;
     }
 
-    /**
-     * Create service.
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     *
-     * @return AdapterInterface|VirtualProxyInterface
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function createService(ServiceLocatorInterface $serviceLocator): AdapterInterface
     {
         if (method_exists($serviceLocator, 'getServiceLocator')) {
             $serviceLocator = $serviceLocator->getServiceLocator();
@@ -82,11 +65,8 @@ abstract class AbstractAdapterFactory implements FactoryInterface
 
     /**
      * Merges the options given from the ServiceLocator Config object with the create options of the class.
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @param string                  $requestedName
      */
-    protected function mergeMvcConfig(ServiceLocatorInterface $serviceLocator, $requestedName)
+    protected function mergeMvcConfig(ServiceLocatorInterface $serviceLocator, string $requestedName = null)
     {
         $config = $serviceLocator->has('config') ? $serviceLocator->get('config') : [];
 
@@ -103,13 +83,9 @@ abstract class AbstractAdapterFactory implements FactoryInterface
     }
 
     /**
-     * @param ServiceLocatorInterface $serviceLocator
-     *
-     * @return LazyLoadingValueHolderFactory
-     *
      * @throws InvalidArgumentException
      */
-    public function getLazyFactory(ServiceLocatorInterface $serviceLocator)
+    public function getLazyFactory(ServiceLocatorInterface $serviceLocator): LazyLoadingValueHolderFactory
     {
         $config = $serviceLocator->has('config') ? $serviceLocator->get('config') : [];
 
@@ -145,12 +121,8 @@ abstract class AbstractAdapterFactory implements FactoryInterface
 
     /**
      * Create service.
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     *
-     * @return AdapterInterface|VirtualProxyInterface
      */
-    abstract protected function doCreateService(ServiceLocatorInterface $serviceLocator);
+    abstract protected function doCreateService(ServiceLocatorInterface $serviceLocator): AdapterInterface;
 
     /**
      * Implement in adapter.

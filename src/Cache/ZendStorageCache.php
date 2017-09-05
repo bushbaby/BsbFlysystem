@@ -22,18 +22,12 @@ class ZendStorageCache extends AbstractCache
      */
     protected $storage;
 
-    /**
-     * @param StorageInterface $storage
-     */
-    public function __construct(StorageInterface $storage, $key = 'bsbflysystem')
+    public function __construct(StorageInterface $storage, string $key = 'bsbflysystem')
     {
         $this->storage = $storage;
         $this->key     = $key;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load()
     {
         $contents = $this->storage->getItem($this->key);
@@ -43,9 +37,6 @@ class ZendStorageCache extends AbstractCache
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function save()
     {
         $contents = $this->getForStorage();

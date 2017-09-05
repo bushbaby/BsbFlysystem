@@ -7,6 +7,7 @@ namespace BsbFlysystemTest\Adapter\Factory;
 use BsbFlysystem\Adapter\Factory\LocalAdapterFactory;
 use BsbFlysystemTest\Bootstrap;
 use BsbFlysystemTest\Framework\TestCase;
+use League\Flysystem\Adapter\Local;
 
 class LocalAdapterFactoryTest extends TestCase
 {
@@ -22,7 +23,7 @@ class LocalAdapterFactoryTest extends TestCase
 
     public function setup()
     {
-        $class          = new \ReflectionClass('BsbFlysystem\Adapter\Factory\LocalAdapterFactory');
+        $class          = new \ReflectionClass(LocalAdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -37,7 +38,7 @@ class LocalAdapterFactoryTest extends TestCase
 
         $adapter = $factory($sm, 'local_default');
 
-        $this->assertInstanceOf('League\Flysystem\Adapter\Local', $adapter);
+        $this->assertInstanceOf(Local::class, $adapter);
     }
 
     /**
@@ -52,7 +53,8 @@ class LocalAdapterFactoryTest extends TestCase
         $factory = new LocalAdapterFactory($options);
 
         if ($expectedException) {
-            $this->expectException($expectedException, $expectedExceptionMessage);
+            $this->expectException($expectedException);
+            $this->expectExceptionMessage($expectedExceptionMessage);
         }
 
         $this->method->invokeArgs($factory, []);
@@ -62,7 +64,7 @@ class LocalAdapterFactoryTest extends TestCase
         }
     }
 
-    public function validateConfigProvider()
+    public function validateConfigProvider(): array
     {
         return [
             [

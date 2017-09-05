@@ -18,23 +18,23 @@ class FilesystemManagerTest extends TestCase
     public function testCreateViaServiceManager()
     {
         $sm      = Bootstrap::getServiceManager();
-        $manager = $sm->get('BsbFlysystemManager');
+        $manager = $sm->get(\BsbFlysystem\Service\FilesystemManager::class);
 
-        $this->assertInstanceOf('BsbFlysystem\Service\FilesystemManager', $manager);
+        $this->assertInstanceOf(\BsbFlysystem\Service\FilesystemManager::class, $manager);
     }
 
     public function testCreateByAliasViaServiceManager()
     {
         $sm      = Bootstrap::getServiceManager();
-        $manager = $sm->get('BsbFlysystem\Service\FilesystemManager');
+        $manager = $sm->get('BsbFlysystemManager');
 
-        $this->assertInstanceOf('BsbFlysystem\Service\FilesystemManager', $manager);
+        $this->assertInstanceOf(\BsbFlysystem\Service\FilesystemManager::class, $manager);
     }
 
     public function testManagerValidatesPlugin()
     {
         $manager = new FilesystemManager(new ServiceManager());
-        $plugin  = $this->getMockBuilder('League\Flysystem\Filesystem')
+        $plugin  = $this->getMockBuilder(\League\Flysystem\FilesystemInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -51,14 +51,14 @@ class FilesystemManagerTest extends TestCase
         $sm      = Bootstrap::getServiceManager();
         $manager = $sm->get('BsbFlysystemManager');
 
-        $this->assertInstanceOf('League\Flysystem\Filesystem', $manager->get('default'));
+        $this->assertInstanceOf(\League\Flysystem\FilesystemInterface::class, $manager->get('default'));
     }
 
     public function testServicesSharedByDefault()
     {
         $sm = Bootstrap::getServiceManager();
         /** @var AbstractPluginManager $manager */
-        $manager = $sm->get('BsbFlysystemManager');
+        $manager = $sm->get(\BsbFlysystem\Service\FilesystemManager::class);
 
         $localA = $manager->get('default');
         $localB = $manager->get('default');
@@ -69,7 +69,7 @@ class FilesystemManagerTest extends TestCase
     {
         $sm = Bootstrap::getServiceManager();
         /** @var FilesystemManager $manager */
-        $manager = $sm->get('BsbFlysystemManager');
+        $manager = $sm->get(\BsbFlysystem\Service\FilesystemManager::class);
 
         /** @var Filesystem $filesystem */
         $filesystem = $manager->get('default_unshared');
@@ -100,7 +100,7 @@ class FilesystemManagerTest extends TestCase
         $sm = Bootstrap::getServiceManager();
 
         /** @var FilesystemManager $manager */
-        $manager = $sm->get('BsbFlysystemManager');
+        $manager = $sm->get(\BsbFlysystem\Service\FilesystemManager::class);
 
         /** @var Filesystem $filesystem */
         $filesystem = $manager->get('default_cached');
@@ -108,6 +108,6 @@ class FilesystemManagerTest extends TestCase
         /** @var CachedAdapter $adapter */
         $adapter = $filesystem->getAdapter();
 
-        $this->assertInstanceOf('League\Flysystem\Cached\CachedAdapter', $adapter);
+        $this->assertInstanceOf(\League\Flysystem\Cached\CachedAdapter::class, $adapter);
     }
 }

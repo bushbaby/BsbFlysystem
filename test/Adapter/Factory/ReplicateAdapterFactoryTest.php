@@ -7,6 +7,7 @@ namespace BsbFlysystemTest\Adapter\Factory;
 use BsbFlysystem\Adapter\Factory\ReplicateAdapterFactory;
 use BsbFlysystemTest\Bootstrap;
 use BsbFlysystemTest\Framework\TestCase;
+use League\Flysystem\Replicate\ReplicateAdapter;
 
 class ReplicateAdapterFactoryTest extends TestCase
 {
@@ -22,7 +23,7 @@ class ReplicateAdapterFactoryTest extends TestCase
 
     public function setup()
     {
-        $class          = new \ReflectionClass('BsbFlysystem\Adapter\Factory\ReplicateAdapterFactory');
+        $class          = new \ReflectionClass(ReplicateAdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -37,16 +38,11 @@ class ReplicateAdapterFactoryTest extends TestCase
 
         $adapter = $factory($sm, 'replicate_default');
 
-        $this->assertInstanceOf('League\Flysystem\Replicate\ReplicateAdapter', $adapter);
+        $this->assertInstanceOf(ReplicateAdapter::class, $adapter);
     }
 
     /**
      * @dataProvider validateConfigProvider
-     *
-     * @param      $options
-     * @param bool $expectedOptions
-     * @param bool $expectedException
-     * @param bool $expectedExceptionMessage
      */
     public function testValidateConfig(
         $options,
@@ -57,7 +53,8 @@ class ReplicateAdapterFactoryTest extends TestCase
         $factory = new ReplicateAdapterFactory($options);
 
         if ($expectedException) {
-            $this->expectException($expectedException, $expectedExceptionMessage);
+            $this->expectException($expectedException);
+            $this->expectExceptionMessage($expectedExceptionMessage);
         }
 
         $this->method->invokeArgs($factory, []);
@@ -67,10 +64,7 @@ class ReplicateAdapterFactoryTest extends TestCase
         }
     }
 
-    /**
-     * @return array
-     */
-    public function validateConfigProvider()
+    public function validateConfigProvider(): array
     {
         return [
             [

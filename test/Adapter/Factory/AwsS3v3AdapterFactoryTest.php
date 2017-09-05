@@ -61,7 +61,8 @@ class AwsS3v3AdapterFactoryTest extends TestCase
         $factory = new AwsS3v3AdapterFactory($options);
 
         if ($expectedException) {
-            $this->expectException($expectedException, $expectedExceptionMessage);
+            $this->expectException($expectedException);
+            $this->expectExceptionMessage($expectedExceptionMessage);
         }
 
         $this->method->invokeArgs($factory, []);
@@ -71,7 +72,7 @@ class AwsS3v3AdapterFactoryTest extends TestCase
         }
     }
 
-    public function validateConfigProvider()
+    public function validateConfigProvider(): array
     {
         return [
             [

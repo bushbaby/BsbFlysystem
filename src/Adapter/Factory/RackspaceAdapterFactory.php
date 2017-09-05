@@ -6,16 +6,14 @@ namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\RequirementsException;
 use BsbFlysystem\Exception\UnexpectedValueException;
+use League\Flysystem\AdapterInterface;
 use League\Flysystem\Rackspace\RackspaceAdapter as Adapter;
 use OpenCloud\OpenStack;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class RackspaceAdapterFactory extends AbstractAdapterFactory
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function doCreateService(ServiceLocatorInterface $serviceLocator)
+    public function doCreateService(ServiceLocatorInterface $serviceLocator): AdapterInterface
     {
         if (! class_exists(\League\Flysystem\Rackspace\RackspaceAdapter::class) ||
             ! class_exists(\ProxyManager\Factory\LazyLoadingValueHolderFactory::class)
@@ -26,6 +24,7 @@ class RackspaceAdapterFactory extends AbstractAdapterFactory
             );
         }
 
+        /** @var AdapterInterface $proxy */
         $proxy = $this->getLazyFactory($serviceLocator)->createProxy(
             \League\Flysystem\Rackspace\RackspaceAdapter::class,
             function (&$wrappedObject, $proxy, $method, $parameters, &$initializer) {
@@ -52,9 +51,6 @@ class RackspaceAdapterFactory extends AbstractAdapterFactory
         return $proxy;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function validateConfig()
     {
         if (! isset($this->options['url'])) {

@@ -12,22 +12,12 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class FilesystemManagerFactory implements FactoryInterface
 {
-    /**
-     * Create service.
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     *
-     * @return mixed
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function createService(ServiceLocatorInterface $serviceLocator): FilesystemManager
     {
         return $this($serviceLocator, null);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): FilesystemManager
     {
         $config        = $container->get('config');
         $config        = $config['bsb_flysystem']['filesystems'];

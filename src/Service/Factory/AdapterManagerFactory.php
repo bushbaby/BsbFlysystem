@@ -36,14 +36,7 @@ class AdapterManagerFactory implements FactoryInterface
         ],
     ];
 
-    /**
-     * Create service.
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     *
-     * @return AdapterManager
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function createService(ServiceLocatorInterface $serviceLocator): AdapterManager
     {
         if (method_exists($serviceLocator, 'getServiceLocator')) {
             $serviceLocator = $serviceLocator->getServiceLocator();
@@ -52,10 +45,7 @@ class AdapterManagerFactory implements FactoryInterface
         return $this($serviceLocator, null);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): AdapterManager
     {
         $config        = $container->get('config');
         $config        = $config['bsb_flysystem'];

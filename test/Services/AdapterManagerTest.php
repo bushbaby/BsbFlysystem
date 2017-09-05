@@ -14,9 +14,17 @@ class AdapterManagerTest extends TestCase
     public function testCreateViaServiceManager()
     {
         $sm      = Bootstrap::getServiceManager();
+        $manager = $sm->get(\BsbFlysystem\Service\AdapterManager::class);
+
+        $this->assertInstanceOf(\BsbFlysystem\Service\AdapterManager::class, $manager);
+    }
+
+    public function testCreateByAliasViaServiceManager()
+    {
+        $sm      = Bootstrap::getServiceManager();
         $manager = $sm->get('BsbFlysystemAdapterManager');
 
-        $this->assertInstanceOf('BsbFlysystem\Service\AdapterManager', $manager);
+        $this->assertInstanceOf(\BsbFlysystem\Service\AdapterManager::class, $manager);
     }
 
     public function testManagerValidatesPlugin()
@@ -28,7 +36,7 @@ class AdapterManagerTest extends TestCase
 
         $manager->validatePlugin($plugin);
 
-        $this->expectException('BsbFlysystem\Exception\RuntimeException');
+        $this->expectException(\BsbFlysystem\Exception\RuntimeException::class);
 
         $plugin = new \stdClass();
         $manager->validatePlugin($plugin);
@@ -45,7 +53,7 @@ class AdapterManagerTest extends TestCase
     public function testCreateViaServiceManagerNull()
     {
         $sm      = Bootstrap::getServiceManager();
-        $manager = $sm->get('BsbFlysystemAdapterManager');
+        $manager = $sm->get(\BsbFlysystem\Service\AdapterManager::class);
 
         $this->assertInstanceOf('League\Flysystem\Adapter\NullAdapter', $manager->get('null_default'));
     }

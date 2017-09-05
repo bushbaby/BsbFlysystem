@@ -6,15 +6,13 @@ namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\RequirementsException;
 use BsbFlysystem\Exception\UnexpectedValueException;
+use League\Flysystem\AdapterInterface;
 use League\Flysystem\Sftp\SftpAdapter as Adapter;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class SftpAdapterFactory extends AbstractAdapterFactory
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function doCreateService(ServiceLocatorInterface $serviceLocator)
+    public function doCreateService(ServiceLocatorInterface $serviceLocator): AdapterInterface
     {
         if (! class_exists(\League\Flysystem\Sftp\SftpAdapter::class)) {
             throw new RequirementsException(
@@ -28,9 +26,6 @@ class SftpAdapterFactory extends AbstractAdapterFactory
         return $adapter;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function validateConfig()
     {
         if (! isset($this->options['host'])) {

@@ -6,16 +6,14 @@ namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\RequirementsException;
 use BsbFlysystem\Exception\UnexpectedValueException;
+use League\Flysystem\AdapterInterface;
 use League\Flysystem\Azure\AzureAdapter as Adapter;
 use WindowsAzure\Common\ServicesBuilder;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class AzureAdapterFactory extends AbstractAdapterFactory
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function doCreateService(ServiceLocatorInterface $serviceLocator)
+    public function doCreateService(ServiceLocatorInterface $serviceLocator): AdapterInterface
     {
         if (! class_exists(\League\Flysystem\Azure\AzureAdapter::class)) {
             throw new RequirementsException(
@@ -35,9 +33,6 @@ class AzureAdapterFactory extends AbstractAdapterFactory
         return $adapter;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function validateConfig()
     {
         if (! isset($this->options['account-name'])) {
