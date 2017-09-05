@@ -34,7 +34,7 @@
         "league/flysystem-webdav": "~1.0",
         "league/flysystem-ziparchive": "~1.0",
         "ocramius/proxy-manager": "~1.0",
-        "phpunit/phpunit": "~4.5",
+        "phpunit/phpunit": "^6.0",
         "spatie/flysystem-dropbox": "~1.0",
         "squizlabs/php_codesniffer": "~2.0",
         "zendframework/zend-config": "~2.2",
