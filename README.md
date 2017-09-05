@@ -225,8 +225,7 @@ I have tried to provide factories (and tests) for each of the adapters that come
 ### Adapters
 
 - Azure
-- Aws3S
-- Aws3Sv3
+- Aws3S (v3 only)
 - Dropbox
 - Ftp
 - Local

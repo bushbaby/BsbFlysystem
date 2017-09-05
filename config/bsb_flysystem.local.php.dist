@@ -52,15 +52,6 @@ return [
                     'prefix'       => '/'
                 ],
             ],
-            'awss3_default'     => [
-                'type'    => 'awss3',
-                'options' => [
-                    'key'    => 'your-app-id',
-                    'secret' => 'xxxxx',
-                    'bucket' => 'xxxxx',
-                    'request.options' => [], // Guzzle request options; see http://guzzle3.readthedocs.org/http-client/client.html#request-options
-                ],
-            ],
             'awss3v3_default'     => [
                 'type'       => 'awss3v3',
                 'options'    => [

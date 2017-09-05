@@ -94,13 +94,17 @@ return [
                     'access_token' => 'xxxxx',
                 ],
             ],
-            'awss3_default'          => [
-                'type'    => 'awss3',
-                'options' => [
-                    'key'    => 'xxxxx',
-                    'secret' => 'xxxxx',
-                    'region' => 'eu-west-1',
-                    'bucket' => 'xxxxx',
+            'awss3v3_default'     => [
+                'type'       => 'awss3v3',
+                'options'    => [
+                    'credentials' => [
+                        'key'    => 'your-app-id',
+                        'secret' => 'xxxxx',
+                    ],
+                    'region'          => 'eu-west-1',
+                    'bucket'          => 'xxxxx',
+                    'version'         => 'latest', // default: 'latest'
+                    'request.options' => [], // Guzzle request options; see http://docs.guzzlephp.org/en/latest/request-options.html#proxy
                 ],
             ],
             'replicate_default'      => [
