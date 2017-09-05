@@ -50,7 +50,7 @@ class ZipArchiveAdapterFactoryTest extends TestCase
         $factory = new ZipArchiveAdapterFactory($options);
 
         if ($expectedException) {
-            $this->setExpectedException($expectedException, $expectedExceptionMessage);
+            $this->expectException($expectedException, $expectedExceptionMessage);
         }
 
         $this->method->invokeArgs($factory, []);

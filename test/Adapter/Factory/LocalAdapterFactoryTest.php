@@ -50,7 +50,7 @@ class LocalAdapterFactoryTest extends TestCase
         $factory = new LocalAdapterFactory($options);
 
         if ($expectedException) {
-            $this->setExpectedException($expectedException, $expectedExceptionMessage);
+            $this->expectException($expectedException, $expectedExceptionMessage);
         }
 
         $this->method->invokeArgs($factory, []);

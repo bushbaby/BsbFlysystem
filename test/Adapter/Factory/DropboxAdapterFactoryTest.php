@@ -50,7 +50,7 @@ class DropboxAdapterFactoryTest extends TestCase
         $factory = new DropboxAdapterFactory($options);
 
         if ($expectedException) {
-            $this->setExpectedException($expectedException, $expectedExceptionMessage);
+            $this->expectException($expectedException, $expectedExceptionMessage);
         }
 
         $this->method->invokeArgs($factory, []);

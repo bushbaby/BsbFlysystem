@@ -50,7 +50,7 @@ class SftpAdapterFactoryTest extends TestCase
         $factory = new SftpAdapterFactory($options);
 
         if ($expectedException) {
-            $this->setExpectedException($expectedException, $expectedExceptionMessage);
+            $this->expectException($expectedException, $expectedExceptionMessage);
         }
 
         $this->method->invokeArgs($factory, []);

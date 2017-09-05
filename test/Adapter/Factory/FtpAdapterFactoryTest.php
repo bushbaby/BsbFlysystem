@@ -50,7 +50,7 @@ class FtpAdapterFactoryTest extends TestCase
         $factory = new FtpAdapterFactory($options);
 
         if ($expectedException) {
-            $this->setExpectedException($expectedException, $expectedExceptionMessage);
+            $this->expectException($expectedException, $expectedExceptionMessage);
         }
 
         $this->method->invokeArgs($factory, []);

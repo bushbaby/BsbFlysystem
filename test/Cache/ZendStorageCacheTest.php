@@ -13,7 +13,7 @@ class ZendStorageCacheTest extends TestCase
 
     public function testLoadDefault()
     {
-        $mock = $this->getMock('Zend\Cache\Storage\StorageInterface');
+        $mock = $this->getMockBuilder('Zend\Cache\Storage\StorageInterface')->getMock();
         $mock->expects($this->once())->method('getItem');
 
         $zendStorageCache = new ZendStorageCache($mock);
@@ -22,7 +22,7 @@ class ZendStorageCacheTest extends TestCase
 
     public function testLoadDefaultCallsSetFromStorage()
     {
-        $mock = $this->getMock('Zend\Cache\Storage\StorageInterface');
+        $mock = $this->getMockBuilder('Zend\Cache\Storage\StorageInterface')->getMock();
         // setFromStorage expects json in this form
         $mock->expects($this->once())->method('getItem')->willReturn('this-is-not-valid-json');
 
@@ -34,7 +34,7 @@ class ZendStorageCacheTest extends TestCase
 
     public function testLoadWithCustomKey()
     {
-        $mock = $this->getMock('Zend\Cache\Storage\StorageInterface');
+        $mock = $this->getMockBuilder('Zend\Cache\Storage\StorageInterface')->getMock();
         $mock->expects($this->once())->method('getItem')->with('akey');
         $zendStorageCache = new ZendStorageCache($mock, 'akey');
 
@@ -43,7 +43,7 @@ class ZendStorageCacheTest extends TestCase
 
     public function testSaveDefault()
     {
-        $mock = $this->getMock('Zend\Cache\Storage\StorageInterface');
+        $mock = $this->getMockBuilder('Zend\Cache\Storage\StorageInterface')->getMock();
         $mock->expects($this->once())->method('setItem');
 
         $zendStorageCache = new ZendStorageCache($mock);
@@ -52,7 +52,7 @@ class ZendStorageCacheTest extends TestCase
 
     public function testSaveWithCustomKey()
     {
-        $mock = $this->getMock('Zend\Cache\Storage\StorageInterface');
+        $mock = $this->getMockBuilder('Zend\Cache\Storage\StorageInterface')->getMock();
         $mock->expects($this->once())->method('setItem')->with('akey');
 
         $zendStorageCache = new ZendStorageCache($mock, 'akey');

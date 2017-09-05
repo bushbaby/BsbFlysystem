@@ -38,7 +38,7 @@ class FilesystemManagerTest extends TestCase
 
         $this->assertNull($manager->validatePlugin($plugin));
 
-        $this->setExpectedException('RuntimeException');
+        $this->expectException('RuntimeException');
 
         $plugin = new \stdClass();
         $this->assertNull($manager->validatePlugin($plugin));

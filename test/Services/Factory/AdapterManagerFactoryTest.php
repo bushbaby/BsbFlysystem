@@ -19,7 +19,7 @@ class AdapterManagerFactoryTest extends TestCase
             ]
         ];
 
-        $serviceLocatorMock = $this->getMock('Interop\Container\ContainerInterface');
+        $serviceLocatorMock = $this->getMockBuilder('Interop\Container\ContainerInterface')->getMock();
         $serviceLocatorMock->expects($this->once())->method('get')->with('config')->willReturn($config);
 
         $this->assertInstanceOf('BsbFlysystem\Service\AdapterManager', $factory($serviceLocatorMock, null));
@@ -47,7 +47,7 @@ class AdapterManagerFactoryTest extends TestCase
             ]
         ];
 
-        $serviceLocatorMock = $this->getMock('Interop\Container\ContainerInterface');
+        $serviceLocatorMock = $this->getMockBuilder('Interop\Container\ContainerInterface')->getMock();
         $serviceLocatorMock->expects($this->once())->method('get')->with('config')->willReturn($config);
 
         /** @var AdapterManager $adapterManager */
@@ -66,10 +66,10 @@ class AdapterManagerFactoryTest extends TestCase
             ]
         ];
 
-        $serviceLocatorMock = $this->getMock('Interop\Container\ContainerInterface');
+        $serviceLocatorMock = $this->getMockBuilder('Interop\Container\ContainerInterface')->getMock();
         $serviceLocatorMock->expects($this->once())->method('get')->with('config')->willReturn($config);
 
-        $this->setExpectedException(
+        $this->expectException(
             'UnexpectedValueException',
             "Missing 'type' key for the adapter 'named_adapter' configuration"
         );
@@ -90,10 +90,10 @@ class AdapterManagerFactoryTest extends TestCase
             ]
         ];
 
-        $serviceLocatorMock = $this->getMock('Interop\Container\ContainerInterface');
+        $serviceLocatorMock = $this->getMockBuilder('Interop\Container\ContainerInterface')->getMock();
         $serviceLocatorMock->expects($this->once())->method('get')->with('config')->willReturn($config);
 
-        $this->setExpectedException('BsbFlysystem\Exception\UnexpectedValueException');
+        $this->expectException('BsbFlysystem\Exception\UnexpectedValueException');
         $factory($serviceLocatorMock, null);
     }
 }

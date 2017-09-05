@@ -55,7 +55,7 @@ class ReplicaAdapterFactoryTest extends TestCase
         $factory = new ReplicateAdapterFactory($options);
 
         if ($expectedException) {
-            $this->setExpectedException($expectedException, $expectedExceptionMessage);
+            $this->expectException($expectedException, $expectedExceptionMessage);
         }
 
         $this->method->invokeArgs($factory, []);

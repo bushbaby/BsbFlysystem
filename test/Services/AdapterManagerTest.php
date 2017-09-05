@@ -27,7 +27,7 @@ class AdapterManagerTest extends TestCase
 
         $manager->validatePlugin($plugin);
 
-        $this->setExpectedException('BsbFlysystem\Exception\RuntimeException');
+        $this->expectException('BsbFlysystem\Exception\RuntimeException');
 
         $plugin = new \stdClass();
         $manager->validatePlugin($plugin);

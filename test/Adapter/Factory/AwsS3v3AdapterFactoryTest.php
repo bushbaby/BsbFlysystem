@@ -59,7 +59,7 @@ class AwsS3v3AdapterFactoryTest extends TestCase
         $factory = new AwsS3v3AdapterFactory($options);
 
         if ($expectedException) {
-            $this->setExpectedException($expectedException, $expectedExceptionMessage);
+            $this->expectException($expectedException, $expectedExceptionMessage);
         }
 
         $this->method->invokeArgs($factory, []);

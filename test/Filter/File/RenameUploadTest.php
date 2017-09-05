@@ -59,7 +59,7 @@ class RenameUploadTest extends TestCase
 
     public function testWillThrowExceptionWithInvalidConstructorParams()
     {
-        $this->setExpectedException('Zend\Filter\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Filter\Exception\InvalidArgumentException');
         new RenameUpload('something');
     }
 
@@ -69,7 +69,7 @@ class RenameUploadTest extends TestCase
             'target' => 'path/to/file.txt',
         ]);
 
-        $this->setExpectedException('UnexpectedValueException');
+        $this->expectException('UnexpectedValueException');
         $filter->filter(__DIR__ . '/../../Assets/test.txt');
     }
 
@@ -84,7 +84,7 @@ class RenameUploadTest extends TestCase
             'filesystem' => $this->filesystem->reveal()
         ]);
 
-        $this->setExpectedException(
+        $this->expectException(
             'Zend\Filter\Exception\RuntimeException',
             "File '".__DIR__ . '/../../Assets/Functions.php'."' could not be uploaded. Filter can move only uploaded files."
         );
@@ -104,7 +104,7 @@ class RenameUploadTest extends TestCase
             'filesystem' => $this->filesystem->reveal()
         ]);
 
-        $this->setExpectedException('Zend\Filter\Exception\InvalidArgumentException', "File 'path/to/file.txt' could not be uploaded. It already exists.");
+        $this->expectException('Zend\Filter\Exception\InvalidArgumentException', "File 'path/to/file.txt' could not be uploaded. It already exists.");
         $filter->filter(__DIR__ . '/../../Assets/test.txt');
     }
 
@@ -122,7 +122,7 @@ class RenameUploadTest extends TestCase
             'filesystem' => $this->filesystem->reveal()
         ]);
 
-        $this->setExpectedException(
+        $this->expectException(
             'Zend\Filter\Exception\RuntimeException',
             sprintf(
                 "File '%s' could not be uploaded. An error occurred while processing the file.",

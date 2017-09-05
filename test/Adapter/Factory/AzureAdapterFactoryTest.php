@@ -58,7 +58,7 @@ class AzureAdapterFactoryTest extends TestCase
         $factory = new AzureAdapterFactory($options);
 
         if ($expectedException) {
-            $this->setExpectedException($expectedException, $expectedExceptionMessage);
+            $this->expectException($expectedException, $expectedExceptionMessage);
         }
 
         $this->method->invokeArgs($factory, []);

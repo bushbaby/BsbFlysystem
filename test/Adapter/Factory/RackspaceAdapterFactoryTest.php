@@ -54,7 +54,7 @@ class RackspaceAdapterFactoryTest extends TestCase
         $factory = new RackspaceAdapterFactory($options);
 
         if ($expectedException) {
-            $this->setExpectedException($expectedException, $expectedExceptionMessage);
+            $this->expectException($expectedException, $expectedExceptionMessage);
         }
 
         $this->method->invokeArgs($factory, []);

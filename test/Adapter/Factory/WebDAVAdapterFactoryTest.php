@@ -50,7 +50,7 @@ class WebDAVAdapterFactoryTest extends TestCase
         $factory = new WebDAVAdapterFactory($options);
 
         if ($expectedException) {
-            $this->setExpectedException($expectedException, $expectedExceptionMessage);
+            $this->expectException($expectedException, $expectedExceptionMessage);
         }
 
         $this->method->invokeArgs($factory, []);
