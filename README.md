@@ -53,7 +53,7 @@ example: a local adapter pointing to ./data/files
 ```
 'bsb_flysystem' => [
     'adapters' => [
-        'local_files' => [
+        'local_data' => [
             'type' => 'local',
             'options' => [
                 'root' => './data/files'
@@ -72,13 +72,13 @@ Configure a filesystems by adding to `bsb_flysystem->filesystems`. Each filesyst
 - eventable \<boolean\> When true returns an EventableFilesystem instance. (see [flysystem](http://flysystem.thephpleague.com)).
 - plugins \<array\> List of FQCN to the plugin you wish to register for this filesystem
 
-example: Filesystem called 'files' with the previously defined 'local_files' adapter and the 'listFiles' plugin registered.
+example: Filesystem called 'files' with the previously defined 'local_data' adapter and the 'listFiles' plugin registered.
 
 ```
 'bsb_flysystem' => [
     'filesystems' => [
         'files' => [
-	        'adapter' => 'local_files',
+	        'adapter' => 'local_data',
 	        'cache' => false,
 	        'eventable' => false,
 	        'plugins' => [
