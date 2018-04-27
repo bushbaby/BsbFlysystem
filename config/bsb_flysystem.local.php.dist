@@ -54,6 +54,7 @@ return [
             ],
             'awss3v3_default'     => [
                 'type'       => 'awss3v3',
+                'endpoint'   => 'http://minio:9000', // optional: Override endpoint: when using another s3 compatible host, remove line if not using
                 'options'    => [
                     'credentials' => [
                         'key'    => 'your-app-id',
