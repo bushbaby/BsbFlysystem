@@ -30,7 +30,7 @@ class ZendStorageCacheTest extends TestCase
         $zendStorageCache = new ZendStorageCache($mock);
         $zendStorageCache->load();
 
-        $this->assertTrue(json_last_error() !== JSON_ERROR_NONE);
+        $this->assertTrue(JSON_ERROR_NONE !== json_last_error());
     }
 
     public function testLoadWithCustomKey()

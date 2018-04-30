@@ -50,7 +50,6 @@ return [
                 'type'    => 'ziparchive',
                 'options' => [
                     'archive' => './test/_build/files.zip',
-
                 ],
             ],
             'rackspace_default'      => [

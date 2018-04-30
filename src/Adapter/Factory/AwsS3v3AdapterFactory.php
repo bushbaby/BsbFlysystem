@@ -28,7 +28,7 @@ class AwsS3v3AdapterFactory extends AbstractAdapterFactory
         ];
 
         // Override the endpoint for example: when using an s3 compatible host
-        if (!empty($this->options['endpoint'])) {
+        if (! empty($this->options['endpoint'])) {
             $config['endpoint'] = $this->options['endpoint'];
         }
 
