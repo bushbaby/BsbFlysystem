@@ -32,7 +32,7 @@ class ZendStorageCache extends AbstractCache
     {
         $contents = $this->storage->getItem($this->key);
 
-        if ($contents !== null) {
+        if (null !== $contents) {
             $this->setFromStorage($contents);
         }
     }

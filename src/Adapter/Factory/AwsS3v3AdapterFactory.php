@@ -27,6 +27,11 @@ class AwsS3v3AdapterFactory extends AbstractAdapterFactory
             'request.options' => $this->options['request.options'],
         ];
 
+        // Override the endpoint for example: when using an s3 compatible host
+        if (! empty($this->options['endpoint'])) {
+            $config['endpoint'] = $this->options['endpoint'];
+        }
+
         if (! isset($this->options['iam']) || (isset($this->options['iam']) && (false === $this->options['iam']))) {
             $credentials = [
                 'key'    => $this->options['credentials']['key'],
