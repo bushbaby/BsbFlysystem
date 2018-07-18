@@ -21,8 +21,8 @@ before_script:
   - mkdir -p test/_build
 
 script:
-  - vendor/bin/phpunit
-  - vendor/bin/php-cs-fixer fix --config=.php_cs --verbose --diff --dry-run
+  - composer cs
+  - composer test
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar

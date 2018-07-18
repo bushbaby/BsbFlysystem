@@ -1,6 +1,11 @@
 <?php
 
-$config = new Bsb\CS\Config();
+$config = new Bsb\CS\Config([
+    'binary_operator_spaces' => [
+        'default' => 'single_space',
+    ],
+]);
+
 $config->getFinder()->in(__DIR__);
 
 $cacheDir = getenv('TRAVIS') ? getenv('HOME') . '/.php-cs-fixer' : __DIR__;

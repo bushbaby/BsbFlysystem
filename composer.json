@@ -12,13 +12,13 @@
     "authors": [
         {
             "name": "Bas Kamer",
-            "email": "bas@bushbaby.nl"
+            "email": "baskamer@gmail.com"
         }
     ],
     "require": {
         "php": "^7.0",
         "league/flysystem": "^1.0.41",
-        "zendframework/zend-cache": "^2.2",
+        "zendframework/zend-cache": "^2.7",
         "zendframework/zend-servicemanager": "^2.7.6 || ^3.0",
         "zendframework/zend-stdlib": "^2.2 || ^3.0"
     },
@@ -34,21 +34,16 @@
         "league/flysystem-vfs": "^1.0",
         "league/flysystem-webdav": "~1.0",
         "league/flysystem-ziparchive": "~1.0",
-        "ocramius/proxy-manager": "~1.0",
+        "ocramius/proxy-manager": "~1.0 || ~2.0",
         "phpunit/phpunit": "^6.0",
         "spatie/flysystem-dropbox": "~1.0",
-        "zendframework/zend-config": "~2.2",
-        "zendframework/zend-filter": "~2.2",
-        "zendframework/zend-i18n": "~2.2",
-        "zendframework/zend-loader": "~2.2",
-        "zendframework/zend-log": "~2.2",
-        "zendframework/zend-modulemanager": "^2.2",
-        "zendframework/zend-mvc": "~2.2",
-        "zendframework/zend-serializer": "~2.2",
-        "zendframework/zend-view": "~2.2"
+        "zendframework/zend-config": "^2.2 || ^3.0",
+        "zendframework/zend-filter": "^2.8",
+        "zendframework/zend-modulemanager": "^2.8 || ^3.0",
+        "zendframework/zend-mvc": "^2.8 || ^3.0"
     },
     "suggest": {
-        "zendframework/zend-filter": "zend-filter component ~2.2, if you need RenameUpload filter"
+        "zendframework/zend-filter": "zend-filter component ~2.8, if you need RenameUpload filter"
     },
     "autoload": {
         "psr-4": {
@@ -69,13 +64,16 @@
             "config-provider": "BsbFlysystem\\ConfigProvider"
         }
     },
-    "repositories": [
-      {
-        "type": "pear",
-        "url": "https://pear.php.net"
-      }
-    ],
     "config": {
         "sort-packages": true
+    },
+    "scripts":           {
+        "check":            [
+          "@cs",
+          "@test"
+        ],
+        "cs":               "php-cs-fixer fix -v --diff --dry-run",
+        "cs-fix":           "php-cs-fixer fix -v --diff",
+        "test":             "phpunit"
     }
 }
