@@ -29,7 +29,7 @@ class AwsS3v3AdapterFactoryTest extends TestCase
 
     public function setup()
     {
-        $class          = new \ReflectionClass('BsbFlysystem\Adapter\Factory\AwsS3v3AdapterFactory');
+        $class = new \ReflectionClass('BsbFlysystem\Adapter\Factory\AwsS3v3AdapterFactory');
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -41,7 +41,7 @@ class AwsS3v3AdapterFactoryTest extends TestCase
     {
         $this->markTestSkipped('Skipped because Aws3Sv2 and Aws3Sv3 are not compatible.');
 
-        $sm      = Bootstrap::getServiceManager();
+        $sm = Bootstrap::getServiceManager();
         $factory = new AwsS3v3AdapterFactory();
 
         $adapter = $factory($sm, 'awss3_default');
@@ -118,7 +118,7 @@ class AwsS3v3AdapterFactoryTest extends TestCase
             [
                 [
                     'credentials' => [
-                        'key'    => 'foo',
+                        'key' => 'foo',
                         'secret' => 'bar',
                     ],
                 ],
@@ -128,9 +128,9 @@ class AwsS3v3AdapterFactoryTest extends TestCase
             ],
             [
                 [
-                    'iam'         => true,
+                    'iam' => true,
                     'credentials' => [
-                        'key'    => 'foo',
+                        'key' => 'foo',
                         'secret' => 'bar',
                     ],
                 ],
@@ -141,7 +141,7 @@ class AwsS3v3AdapterFactoryTest extends TestCase
             [
                 [
                     'credentials' => [
-                        'key'    => 'foo',
+                        'key' => 'foo',
                         'secret' => 'bar',
                     ],
                     'region' => 'baz',
@@ -153,7 +153,7 @@ class AwsS3v3AdapterFactoryTest extends TestCase
             [
                 [
                     'credentials' => [
-                        'key'    => 'abc',
+                        'key' => 'abc',
                         'secret' => 'def',
                     ],
                     'region' => 'ghi',
@@ -161,14 +161,14 @@ class AwsS3v3AdapterFactoryTest extends TestCase
                 ],
                 [
                     'credentials' => [
-                        'key'    => 'abc',
+                        'key' => 'abc',
                         'secret' => 'def',
                     ],
-                    'region'          => 'ghi',
-                    'bucket'          => 'jkl',
-                    'prefix'          => '',
+                    'region' => 'ghi',
+                    'bucket' => 'jkl',
+                    'prefix' => '',
                     'request.options' => [],
-                    'version'         => 'latest',
+                    'version' => 'latest',
                 ],
             ],
         ];

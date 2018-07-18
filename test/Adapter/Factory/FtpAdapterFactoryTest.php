@@ -23,7 +23,7 @@ class FtpAdapterFactoryTest extends TestCase
 
     public function setup()
     {
-        $class          = new \ReflectionClass(FtpAdapterFactory::class);
+        $class = new \ReflectionClass(FtpAdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -33,7 +33,7 @@ class FtpAdapterFactoryTest extends TestCase
 
     public function testCreateService()
     {
-        $sm      = Bootstrap::getServiceManager();
+        $sm = Bootstrap::getServiceManager();
         $factory = new FtpAdapterFactory();
 
         $adapter = $factory($sm, 'ftp_default');

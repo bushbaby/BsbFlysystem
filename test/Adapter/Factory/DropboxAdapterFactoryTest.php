@@ -23,7 +23,7 @@ class DropboxAdapterFactoryTest extends TestCase
 
     public function setup()
     {
-        $class          = new \ReflectionClass(DropboxAdapterFactory::class);
+        $class = new \ReflectionClass(DropboxAdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -33,7 +33,7 @@ class DropboxAdapterFactoryTest extends TestCase
 
     public function testCreateService()
     {
-        $sm      = Bootstrap::getServiceManager();
+        $sm = Bootstrap::getServiceManager();
         $factory = new DropboxAdapterFactory();
 
         $adapter = $factory($sm, 'dropbox_default');

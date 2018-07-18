@@ -19,12 +19,12 @@ class FilesystemManagerFactory implements FactoryInterface
 
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null): FilesystemManager
     {
-        $config        = $container->get('config');
-        $config        = $config['bsb_flysystem']['filesystems'];
+        $config = $container->get('config');
+        $config = $config['bsb_flysystem']['filesystems'];
         $serviceConfig = [];
         foreach ($config as $key => $filesystems) {
             $serviceConfig['factories'][$key] = FilesystemFactory::class;
-            $serviceConfig['shared'][$key]    = isset($filesystems['shared']) ? (bool) $filesystems['shared'] : true;
+            $serviceConfig['shared'][$key] = isset($filesystems['shared']) ? (bool) $filesystems['shared'] : true;
         }
 
         return new FilesystemManager($container, $serviceConfig);

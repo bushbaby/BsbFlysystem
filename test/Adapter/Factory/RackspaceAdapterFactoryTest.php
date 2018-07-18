@@ -23,7 +23,7 @@ class RackspaceAdapterFactoryTest extends TestCase
 
     public function setup()
     {
-        $class          = new \ReflectionClass(RackspaceAdapterFactory::class);
+        $class = new \ReflectionClass(RackspaceAdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -33,7 +33,7 @@ class RackspaceAdapterFactoryTest extends TestCase
 
     public function testCreateService()
     {
-        $sm      = Bootstrap::getServiceManager();
+        $sm = Bootstrap::getServiceManager();
         $factory = new RackspaceAdapterFactory();
 
         $adapter = $factory($sm, 'rackspace_default');
@@ -81,7 +81,7 @@ class RackspaceAdapterFactoryTest extends TestCase
             ],
             [
                 [
-                    'url'    => 'some_url',
+                    'url' => 'some_url',
                     'secret' => 'secret',
                 ],
                 [],
@@ -90,7 +90,7 @@ class RackspaceAdapterFactoryTest extends TestCase
             ],
             [
                 [
-                    'url'    => 'some_url',
+                    'url' => 'some_url',
                     'secret' => [],
                 ],
                 [],
@@ -99,10 +99,10 @@ class RackspaceAdapterFactoryTest extends TestCase
             ],
             [
                 [
-                    'url'         => 'some_url',
-                    'secret'      => [
-                        'username'    => 'foo',
-                        'password'    => 'foo',
+                    'url' => 'some_url',
+                    'secret' => [
+                        'username' => 'foo',
+                        'password' => 'foo',
                         'tenant_name' => 'foo',
                     ],
                     'objectstore' => 'bar',
@@ -113,10 +113,10 @@ class RackspaceAdapterFactoryTest extends TestCase
             ],
             [
                 [
-                    'url'         => 'some_url',
-                    'secret'      => [
-                        'username'    => 'foo',
-                        'password'    => 'foo',
+                    'url' => 'some_url',
+                    'secret' => [
+                        'username' => 'foo',
+                        'password' => 'foo',
                         'tenant_name' => 'foo',
                     ],
                     'objectstore' => [],
@@ -127,10 +127,10 @@ class RackspaceAdapterFactoryTest extends TestCase
             ],
             [
                 [
-                    'url'         => 'some_url',
-                    'secret'      => [
-                        'username'    => 'foo',
-                        'password'    => 'foo',
+                    'url' => 'some_url',
+                    'secret' => [
+                        'username' => 'foo',
+                        'password' => 'foo',
                         'tenant_name' => 'foo',
                     ],
                     'objectstore' => [
@@ -143,10 +143,10 @@ class RackspaceAdapterFactoryTest extends TestCase
             ],
             [
                 [
-                    'url'         => 'some_url',
-                    'secret'      => [],
+                    'url' => 'some_url',
+                    'secret' => [],
                     'objectstore' => [
-                        'name'   => 'foo',
+                        'name' => 'foo',
                         'region' => 'foo',
                     ],
                 ],
@@ -156,25 +156,25 @@ class RackspaceAdapterFactoryTest extends TestCase
             ],
             [
                 [
-                    'url'         => 'some_url',
-                    'secret'      => [],
+                    'url' => 'some_url',
+                    'secret' => [],
                     'objectstore' => [
-                        'name'      => 'foo',
-                        'region'    => 'foo',
+                        'name' => 'foo',
+                        'region' => 'foo',
                         'container' => 'foo',
                     ],
                 ],
                 [
-                    'url'         => 'some_url',
-                    'secret'      => [],
+                    'url' => 'some_url',
+                    'secret' => [],
                     'objectstore' => [
-                        'name'      => 'foo',
-                        'region'    => 'foo',
+                        'name' => 'foo',
+                        'region' => 'foo',
                         'container' => 'foo',
-                        'url_type'  => null, // added
+                        'url_type' => null, // added
                     ],
-                    'options'     => [], // added
-                    'prefix'      => null, // added
+                    'options' => [], // added
+                    'prefix' => null, // added
                 ],
             ],
         ];

@@ -28,12 +28,12 @@ class AdapterManagerFactoryTest extends TestCase
 
     public function testServicesSharedByDefault()
     {
-        $factory    = new AdapterManagerFactory();
-        $config     = [
+        $factory = new AdapterManagerFactory();
+        $config = [
             'bsb_flysystem' => [
                 'adapters' => [
                     'named_adapter' => [
-                        'type'   => 'someadapter',
+                        'type' => 'someadapter',
                         'shared' => true,
                     ],
                 ],

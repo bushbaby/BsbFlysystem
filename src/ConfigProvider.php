@@ -11,7 +11,7 @@ class ConfigProvider
         $config = (new Module())->getConfig();
 
         return [
-            'dependencies'  => $config['service_manager'],
+            'dependencies' => $config['service_manager'],
             'bsb_flysystem' => $config['bsb_flysystem'],
         ];
     }

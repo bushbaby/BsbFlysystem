@@ -25,7 +25,7 @@ class ZendStorageCache extends AbstractCache
     public function __construct(StorageInterface $storage, string $key = 'bsbflysystem')
     {
         $this->storage = $storage;
-        $this->key     = $key;
+        $this->key = $key;
     }
 
     public function load()

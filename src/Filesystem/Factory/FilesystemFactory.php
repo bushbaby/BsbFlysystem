@@ -51,8 +51,8 @@ class FilesystemFactory implements FactoryInterface
 
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null): FilesystemInterface
     {
-        $config         = $container->get('config');
-        $fsConfig       = $config['bsb_flysystem']['filesystems'][$requestedName];
+        $config = $container->get('config');
+        $fsConfig = $config['bsb_flysystem']['filesystems'][$requestedName];
         if (! isset($fsConfig['adapter'])) {
             throw new UnexpectedValueException(sprintf(
                 "Missing 'adapter' key for the filesystem '%s' configuration",

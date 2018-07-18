@@ -25,8 +25,8 @@ class Bootstrap
 
         static::initAutoloader();
 
-        $serviceManager       = new ServiceManager();
-        $config               = self::getApplicationConfig();
+        $serviceManager = new ServiceManager();
+        $config = self::getApplicationConfig();
         $serviceManagerConfig = new ServiceManagerConfig($config);
         $serviceManagerConfig->configureServiceManager($serviceManager);
         $serviceManager->setService('ApplicationConfig', $config);
@@ -75,7 +75,7 @@ class Bootstrap
 
     protected static function findParentPath($path)
     {
-        $dir         = __DIR__;
+        $dir = __DIR__;
         $previousDir = '.';
         while (! is_dir($dir . '/' . $path)) {
             $dir = dirname($dir);

@@ -24,7 +24,7 @@ class FilesystemFactoryTest extends TestCase
             ],
         ];
 
-        $serviceLocatorMock       = $this->getMockBuilder(ContainerInterface::class)->getMock();
+        $serviceLocatorMock = $this->getMockBuilder(ContainerInterface::class)->getMock();
         $serviceLocatorMock->expects($this->at(0))->method('get')->with('config')->willReturn($config);
 
         $this->expectException(\BsbFlysystem\Exception\UnexpectedValueException::class);
@@ -47,10 +47,10 @@ class FilesystemFactoryTest extends TestCase
             ],
         ];
 
-        $serviceLocatorMock       = $this->getMockBuilder(ContainerInterface::class)->getMock();
+        $serviceLocatorMock = $this->getMockBuilder(ContainerInterface::class)->getMock();
         $serviceLocatorMock->expects($this->at(0))->method('get')->with('config')->willReturn($config);
 
-        $adapter           = new NullAdapter();
+        $adapter = new NullAdapter();
         $adapterPluginMock = $this->getMockBuilder(ContainerInterface::class)->getMock();
         $serviceLocatorMock->expects($this->at(1))->method('get')->with('BsbFlysystemAdapterManager')->willReturn($adapterPluginMock);
         $adapterPluginMock->expects($this->once())->method('get')->with('named_adapter')->willReturn($adapter);
@@ -70,17 +70,17 @@ class FilesystemFactoryTest extends TestCase
             'bsb_flysystem' => [
                 'filesystems' => [
                     'named_fs' => [
-                        'adapter'   => 'named_adapter',
+                        'adapter' => 'named_adapter',
                         'eventable' => true,
                     ],
                 ],
             ],
         ];
 
-        $serviceLocatorMock       = $this->getMockBuilder(ContainerInterface::class)->getMock();
+        $serviceLocatorMock = $this->getMockBuilder(ContainerInterface::class)->getMock();
         $serviceLocatorMock->expects($this->at(0))->method('get')->with('config')->willReturn($config);
 
-        $adapter           = new NullAdapter();
+        $adapter = new NullAdapter();
         $adapterPluginMock = $this->getMockBuilder(ContainerInterface::class)->getMock();
         $serviceLocatorMock->expects($this->at(1))->method('get')->with('BsbFlysystemAdapterManager')->willReturn($adapterPluginMock);
         $adapterPluginMock->expects($this->once())->method('get')->with('named_adapter')->willReturn($adapter);
@@ -100,16 +100,16 @@ class FilesystemFactoryTest extends TestCase
                 'filesystems' => [
                     'named_fs' => [
                         'adapter' => 'named_adapter',
-                        'cache'   => 'named/cache',
+                        'cache' => 'named/cache',
                     ],
                 ],
             ],
         ];
 
-        $serviceLocatorMock       = $this->getMockBuilder(ContainerInterface::class)->getMock();
+        $serviceLocatorMock = $this->getMockBuilder(ContainerInterface::class)->getMock();
         $serviceLocatorMock->expects($this->at(0))->method('get')->with('config')->willReturn($config);
 
-        $adapter           = new NullAdapter();
+        $adapter = new NullAdapter();
         $adapterPluginMock = $this->getMockBuilder(ContainerInterface::class)->getMock();
         $serviceLocatorMock->expects($this->at(1))->method('get')->with('BsbFlysystemAdapterManager')->willReturn($adapterPluginMock);
         $adapterPluginMock->expects($this->once())->method('get')->with('named_adapter')->willReturn($adapter);
@@ -132,16 +132,16 @@ class FilesystemFactoryTest extends TestCase
                 'filesystems' => [
                     'named_fs' => [
                         'adapter' => 'named_adapter',
-                        'cache'   => 'named/cache',
+                        'cache' => 'named/cache',
                     ],
                 ],
             ],
         ];
 
-        $serviceLocatorMock       = $this->getMockBuilder(ContainerInterface::class)->getMock();
+        $serviceLocatorMock = $this->getMockBuilder(ContainerInterface::class)->getMock();
         $serviceLocatorMock->expects($this->at(0))->method('get')->with('config')->willReturn($config);
 
-        $adapter           = new NullAdapter();
+        $adapter = new NullAdapter();
         $adapterPluginMock = $this->getMockBuilder(ContainerInterface::class)->getMock();
         $serviceLocatorMock->expects($this->at(1))->method('get')->with('BsbFlysystemAdapterManager')->willReturn($adapterPluginMock);
         $adapterPluginMock->expects($this->once())->method('get')->with('named_adapter')->willReturn($adapter);
@@ -154,7 +154,7 @@ class FilesystemFactoryTest extends TestCase
 
         $this->assertInstanceOf(\League\Flysystem\Cached\CachedAdapter::class, $service->getAdapter());
 
-        $class    = new \ReflectionClass(\League\Flysystem\Cached\CachedAdapter::class);
+        $class = new \ReflectionClass(\League\Flysystem\Cached\CachedAdapter::class);
         $property = $class->getProperty('cache');
         $property->setAccessible(true);
 
@@ -179,10 +179,10 @@ class FilesystemFactoryTest extends TestCase
             ],
         ];
 
-        $serviceLocatorMock       = $this->getMockBuilder(ContainerInterface::class)->getMock();
+        $serviceLocatorMock = $this->getMockBuilder(ContainerInterface::class)->getMock();
         $serviceLocatorMock->expects($this->at(0))->method('get')->with('config')->willReturn($config);
 
-        $adapter           = new NullAdapter();
+        $adapter = new NullAdapter();
         $adapterPluginMock = $this->getMockBuilder(ContainerInterface::class)->getMock();
         $serviceLocatorMock->expects($this->at(1))->method('get')->with('BsbFlysystemAdapterManager')->willReturn($adapterPluginMock);
         $adapterPluginMock->expects($this->once())->method('get')->with('named_adapter')->willReturn($adapter);

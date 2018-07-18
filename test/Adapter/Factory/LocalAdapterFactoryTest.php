@@ -23,7 +23,7 @@ class LocalAdapterFactoryTest extends TestCase
 
     public function setup()
     {
-        $class          = new \ReflectionClass(LocalAdapterFactory::class);
+        $class = new \ReflectionClass(LocalAdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -33,7 +33,7 @@ class LocalAdapterFactoryTest extends TestCase
 
     public function testCreateService()
     {
-        $sm      = Bootstrap::getServiceManager();
+        $sm = Bootstrap::getServiceManager();
         $factory = new LocalAdapterFactory();
 
         $adapter = $factory($sm, 'local_default');

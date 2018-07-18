@@ -23,7 +23,7 @@ class WebDAVAdapterFactoryTest extends TestCase
 
     public function setup()
     {
-        $class          = new \ReflectionClass(WebDAVAdapterFactory::class);
+        $class = new \ReflectionClass(WebDAVAdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -33,7 +33,7 @@ class WebDAVAdapterFactoryTest extends TestCase
 
     public function testCreateService()
     {
-        $sm      = Bootstrap::getServiceManager();
+        $sm = Bootstrap::getServiceManager();
         $factory = new WebDAVAdapterFactory();
 
         $adapter = $factory($sm, 'webdav_default');

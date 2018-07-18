@@ -23,7 +23,7 @@ class ReplicateAdapterFactoryTest extends TestCase
 
     public function setup()
     {
-        $class          = new \ReflectionClass(ReplicateAdapterFactory::class);
+        $class = new \ReflectionClass(ReplicateAdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -33,7 +33,7 @@ class ReplicateAdapterFactoryTest extends TestCase
 
     public function testCreateService()
     {
-        $sm      = Bootstrap::getServiceManager();
+        $sm = Bootstrap::getServiceManager();
         $factory = new ReplicateAdapterFactory();
 
         $adapter = $factory($sm, 'replicate_default');

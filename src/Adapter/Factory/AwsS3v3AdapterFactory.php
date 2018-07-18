@@ -22,8 +22,8 @@ class AwsS3v3AdapterFactory extends AbstractAdapterFactory
             );
         }
         $config = [
-            'region'          => $this->options['region'],
-            'version'         => $this->options['version'],
+            'region' => $this->options['region'],
+            'version' => $this->options['version'],
             'request.options' => $this->options['request.options'],
         ];
 
@@ -34,7 +34,7 @@ class AwsS3v3AdapterFactory extends AbstractAdapterFactory
 
         if (! isset($this->options['iam']) || (isset($this->options['iam']) && (false === $this->options['iam']))) {
             $credentials = [
-                'key'    => $this->options['credentials']['key'],
+                'key' => $this->options['credentials']['key'],
                 'secret' => $this->options['credentials']['secret'],
             ];
             $config = array_merge(compact('credentials'), $config);

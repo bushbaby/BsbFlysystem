@@ -22,7 +22,7 @@ class AzureAdapterFactoryTest extends TestCase
 
     public function setup()
     {
-        $class          = new \ReflectionClass(AzureAdapterFactory::class);
+        $class = new \ReflectionClass(AzureAdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -34,12 +34,12 @@ class AzureAdapterFactoryTest extends TestCase
     {
         $this->markTestSkipped('Skipped due to https://github.com/thephpleague/flysystem-azure/pull/16');
 
-        $sm      = Bootstrap::getServiceManager();
+        $sm = Bootstrap::getServiceManager();
         $factory = new AzureAdapterFactory(
             [
                 'account-name' => 'foo',
-                'account-key'  => 'bar',
-                'container'    => 'container',
+                'account-key' => 'bar',
+                'container' => 'container',
             ]
         );
 
@@ -89,7 +89,7 @@ class AzureAdapterFactoryTest extends TestCase
             [
                 [
                     'account-name' => 'foo',
-                    'account-key'  => 'bar',
+                    'account-key' => 'bar',
                 ],
                 [],
                 'UnexpectedValueException',
@@ -98,13 +98,13 @@ class AzureAdapterFactoryTest extends TestCase
             [
                 [
                     'account-name' => 'foo',
-                    'account-key'  => 'bar',
-                    'container'    => 'container',
+                    'account-key' => 'bar',
+                    'container' => 'container',
                 ],
                 [
                     'account-name' => 'foo',
-                    'account-key'  => 'bar',
-                    'container'    => 'container',
+                    'account-key' => 'bar',
+                    'container' => 'container',
                 ],
             ],
         ];

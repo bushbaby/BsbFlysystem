@@ -13,7 +13,7 @@ class VfsAdapterFactoryTest extends TestCase
 {
     public function testCreateService()
     {
-        $sm      = Bootstrap::getServiceManager();
+        $sm = Bootstrap::getServiceManager();
         $factory = new VfsAdapterFactory();
 
         $adapter = $factory($sm, null);

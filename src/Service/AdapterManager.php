@@ -30,7 +30,7 @@ class AdapterManager extends AbstractPluginManager
      */
     protected $factories = [
         'League\Flysystem\Adapter\NullAdapter' => \Zend\ServiceManager\Factory\InvokableFactory::class,
-        'leagueflysystemadapternulladapter'    => \Zend\ServiceManager\Factory\InvokableFactory::class,
+        'leagueflysystemadapternulladapter' => \Zend\ServiceManager\Factory\InvokableFactory::class,
     ];
 
     public function validate($instance)

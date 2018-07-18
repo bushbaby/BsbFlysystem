@@ -18,18 +18,18 @@ class AdapterManagerFactory implements FactoryInterface
      */
     protected $adapterMap = [
         'factories' => [
-            'awss3v3'    => \BsbFlysystem\Adapter\Factory\AwsS3v3AdapterFactory::class,
-            'azure'      => \BsbFlysystem\Adapter\Factory\AzureAdapterFactory::class,
-            'dropbox'    => \BsbFlysystem\Adapter\Factory\DropboxAdapterFactory::class,
-            'ftp'        => \BsbFlysystem\Adapter\Factory\FtpAdapterFactory::class,
-            'local'      => \BsbFlysystem\Adapter\Factory\LocalAdapterFactory::class,
-            'rackspace'  => \BsbFlysystem\Adapter\Factory\RackspaceAdapterFactory::class,
-            'replicate'  => \BsbFlysystem\Adapter\Factory\ReplicateAdapterFactory::class,
-            'sftp'       => \BsbFlysystem\Adapter\Factory\SftpAdapterFactory::class,
-            'webdav'     => \BsbFlysystem\Adapter\Factory\WebDAVAdapterFactory::class,
+            'awss3v3' => \BsbFlysystem\Adapter\Factory\AwsS3v3AdapterFactory::class,
+            'azure' => \BsbFlysystem\Adapter\Factory\AzureAdapterFactory::class,
+            'dropbox' => \BsbFlysystem\Adapter\Factory\DropboxAdapterFactory::class,
+            'ftp' => \BsbFlysystem\Adapter\Factory\FtpAdapterFactory::class,
+            'local' => \BsbFlysystem\Adapter\Factory\LocalAdapterFactory::class,
+            'rackspace' => \BsbFlysystem\Adapter\Factory\RackspaceAdapterFactory::class,
+            'replicate' => \BsbFlysystem\Adapter\Factory\ReplicateAdapterFactory::class,
+            'sftp' => \BsbFlysystem\Adapter\Factory\SftpAdapterFactory::class,
+            'webdav' => \BsbFlysystem\Adapter\Factory\WebDAVAdapterFactory::class,
             'ziparchive' => \BsbFlysystem\Adapter\Factory\ZipArchiveAdapterFactory::class,
-            'vfs'        => \BsbFlysystem\Adapter\Factory\VfsAdapterFactory::class,
-            'null'       => \Zend\ServiceManager\Factory\InvokableFactory::class,
+            'vfs' => \BsbFlysystem\Adapter\Factory\VfsAdapterFactory::class,
+            'null' => \Zend\ServiceManager\Factory\InvokableFactory::class,
         ],
         'aliases' => [
             'null' => \League\Flysystem\Adapter\NullAdapter::class,
@@ -47,10 +47,10 @@ class AdapterManagerFactory implements FactoryInterface
 
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null): AdapterManager
     {
-        $config        = $container->get('config');
-        $config        = $config['bsb_flysystem'];
+        $config = $container->get('config');
+        $config = $config['bsb_flysystem'];
         $serviceConfig = $config['adapter_manager']['config'] ?? [];
-        $adapterMap    = $this->adapterMap;
+        $adapterMap = $this->adapterMap;
 
         if (isset($config['adapter_map'])) {
             $adapterMap = ArrayUtils::merge($this->adapterMap, $config['adapter_map']);

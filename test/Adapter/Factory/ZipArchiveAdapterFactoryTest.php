@@ -23,7 +23,7 @@ class ZipArchiveAdapterFactoryTest extends TestCase
 
     public function setup()
     {
-        $class          = new \ReflectionClass(ZipArchiveAdapterFactory::class);
+        $class = new \ReflectionClass(ZipArchiveAdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -33,7 +33,7 @@ class ZipArchiveAdapterFactoryTest extends TestCase
 
     public function testCreateService()
     {
-        $sm      = Bootstrap::getServiceManager();
+        $sm = Bootstrap::getServiceManager();
         $factory = new ZipArchiveAdapterFactory();
 
         $adapter = $factory($sm, 'zip_default');

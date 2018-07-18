@@ -21,14 +21,14 @@ class AzureAdapterFactory extends AbstractAdapterFactory
                 'Azure'
             );
         }
-        $endpoint      = sprintf(
+        $endpoint = sprintf(
             'DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s',
             $this->options['account-name'],
             $this->options['account-key']
         );
 
         $blobRestProxy = ServicesBuilder::getInstance()->createBlobService($endpoint);
-        $adapter       = new Adapter($blobRestProxy, $this->options['container']);
+        $adapter = new Adapter($blobRestProxy, $this->options['container']);
 
         return $adapter;
     }

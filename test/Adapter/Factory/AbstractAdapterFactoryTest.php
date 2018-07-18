@@ -22,7 +22,7 @@ class AbstractAdapterFactoryTest extends TestCase
 
     public function setup()
     {
-        $class          = new \ReflectionClass(SimpleAdapterFactory::class);
+        $class = new \ReflectionClass(SimpleAdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -44,7 +44,7 @@ class AbstractAdapterFactoryTest extends TestCase
     {
         $options = ['option' => 1];
         $factory = new SimpleAdapterFactory();
-        $sm      = new ServiceManager();
+        $sm = new ServiceManager();
         $sm->setService(
             'config',
             [
@@ -67,9 +67,9 @@ class AbstractAdapterFactoryTest extends TestCase
     public function testConstructOptionsOverridesOptionsFromConfigService()
     {
         $constructor_options = ['option' => 1, 'option2' => 2];
-        $config_options      = ['option' => 0, 'option3' => 3];
-        $factory             = new SimpleAdapterFactory($constructor_options);
-        $sm                  = new ServiceManager();
+        $config_options = ['option' => 0, 'option3' => 3];
+        $factory = new SimpleAdapterFactory($constructor_options);
+        $sm = new ServiceManager();
         $sm->setService(
             'config',
             [
@@ -89,8 +89,8 @@ class AbstractAdapterFactoryTest extends TestCase
     public function testIncompleteConfigPathsDoesNotChangeOptions()
     {
         $constructor_options = ['option' => 1, 'option2' => 2];
-        $factory             = new SimpleAdapterFactory($constructor_options);
-        $sm                  = new ServiceManager();
+        $factory = new SimpleAdapterFactory($constructor_options);
+        $sm = new ServiceManager();
         $sm->setService('config', []);
 
         $this->method->invokeArgs($factory, [$sm, 'simple_default']);

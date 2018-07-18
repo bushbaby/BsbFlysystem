@@ -17,7 +17,7 @@ class FilesystemManagerTest extends TestCase
 {
     public function testCreateViaServiceManager()
     {
-        $sm      = Bootstrap::getServiceManager();
+        $sm = Bootstrap::getServiceManager();
         $manager = $sm->get(\BsbFlysystem\Service\FilesystemManager::class);
 
         $this->assertInstanceOf(\BsbFlysystem\Service\FilesystemManager::class, $manager);
@@ -25,7 +25,7 @@ class FilesystemManagerTest extends TestCase
 
     public function testCreateByAliasViaServiceManager()
     {
-        $sm      = Bootstrap::getServiceManager();
+        $sm = Bootstrap::getServiceManager();
         $manager = $sm->get('BsbFlysystemManager');
 
         $this->assertInstanceOf(\BsbFlysystem\Service\FilesystemManager::class, $manager);
@@ -34,7 +34,7 @@ class FilesystemManagerTest extends TestCase
     public function testManagerValidatesPlugin()
     {
         $manager = new FilesystemManager(new ServiceManager());
-        $plugin  = $this->getMockBuilder(\League\Flysystem\FilesystemInterface::class)
+        $plugin = $this->getMockBuilder(\League\Flysystem\FilesystemInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -48,7 +48,7 @@ class FilesystemManagerTest extends TestCase
 
     public function testCanGetSpecificFilesystem()
     {
-        $sm      = Bootstrap::getServiceManager();
+        $sm = Bootstrap::getServiceManager();
         $manager = $sm->get('BsbFlysystemManager');
 
         $this->assertInstanceOf(\League\Flysystem\FilesystemInterface::class, $manager->get('default'));

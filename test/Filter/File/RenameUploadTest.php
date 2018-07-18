@@ -33,7 +33,7 @@ class RenameUploadTest extends TestCase
             ->willReturn(false);
 
         $filter = new RenameUpload([
-            'target'     => $path,
+            'target' => $path,
             'filesystem' => $this->filesystem->reveal(),
         ]);
 
@@ -51,13 +51,13 @@ class RenameUploadTest extends TestCase
             ->willReturn(false);
 
         $filter = new RenameUpload([
-            'target'     => $path,
+            'target' => $path,
             'filesystem' => $this->filesystem->reveal(),
         ]);
 
         $file = [
             'tmp_name' => __DIR__ . '/../../Assets/test.txt',
-            'name'     => 'test.txt',
+            'name' => 'test.txt',
         ];
         $temp = $filter->filter($file);
 
@@ -81,7 +81,7 @@ class RenameUploadTest extends TestCase
             ->willReturn(false);
 
         $filter = new RenameUpload([
-            'target'     => $path,
+            'target' => $path,
             'filesystem' => $this->filesystem->reveal(),
         ]);
 
@@ -98,8 +98,8 @@ class RenameUploadTest extends TestCase
             ->shouldBeCalled();
 
         $filter = new RenameUpload([
-            'target'     => $path,
-            'overwrite'  => false,
+            'target' => $path,
+            'overwrite' => false,
             'filesystem' => $this->filesystem->reveal(),
         ]);
 
@@ -118,7 +118,7 @@ class RenameUploadTest extends TestCase
             ->willReturn(false);
 
         $filter = new RenameUpload([
-            'target'     => $path,
+            'target' => $path,
             'filesystem' => $this->filesystem->reveal(),
         ]);
 
