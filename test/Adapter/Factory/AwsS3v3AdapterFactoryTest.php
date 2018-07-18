@@ -7,6 +7,7 @@ namespace BsbFlysystemTest\Adapter\Factory;
 use BsbFlysystem\Adapter\Factory\AwsS3v3AdapterFactory;
 use BsbFlysystemTest\Bootstrap;
 use BsbFlysystemTest\Framework\TestCase;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class AwsS3v3AdapterFactoryTest.
@@ -172,5 +173,58 @@ class AwsS3v3AdapterFactoryTest extends TestCase
                 ],
             ],
         ];
+    }
+
+    public function testDoCreateService() {
+        $options = [
+            'credentials'     => [
+                'key'    => 'abc',
+                'secret' => 'def',
+            ],
+            'region'          => 'ghi',
+            'bucket'          => 'jkl',
+        ];
+        $factory = new AwsS3v3AdapterFactory($options);
+
+        $this->method->invokeArgs($factory, []);
+
+        /** @var ServiceLocatorInterface $container */
+        $container = $this->getMockBuilder(ServiceLocatorInterface::class)
+            ->getMock();
+        $adapter = $factory->doCreateService($container);
+        self::assertInstanceOf(\League\Flysystem\AwsS3v3\AwsS3Adapter::class, $adapter);
+
+        /** @var \League\Flysystem\AwsS3v3\AwsS3Adapter $adapter */
+        $command = $adapter->getClient()->getCommand('GetObject');
+        self::assertInstanceOf(\Aws\Command::class, $command);
+    }
+
+    public function testDoCreateServiceWithRequestOptions() {
+        $options = [
+            'credentials'     => [
+                'key'    => 'abc',
+                'secret' => 'def',
+            ],
+            'region'          => 'ghi',
+            'bucket'          => 'jkl',
+            'request.options' => [
+                'timeout' => 1,
+            ],
+        ];
+        $factory = new AwsS3v3AdapterFactory($options);
+
+        $this->method->invokeArgs($factory, []);
+
+        /** @var ServiceLocatorInterface $container */
+        $container = $this->getMockBuilder(ServiceLocatorInterface::class)
+            ->getMock();
+        /** @var \League\Flysystem\AwsS3v3\AwsS3Adapter $adapter */
+        $adapter = $factory->doCreateService($container);
+
+        /** @var \Aws\Command $command */
+        $command = $adapter->getClient()->getCommand('GetObject');
+
+        self::assertTrue($command->hasParam('@http'));
+        self::assertEquals(['timeout' => 1], $command['@http']);
     }
 }

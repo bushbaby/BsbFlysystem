@@ -24,7 +24,7 @@ class AwsS3v3AdapterFactory extends AbstractAdapterFactory
         $config = [
             'region' => $this->options['region'],
             'version' => $this->options['version'],
-            'request.options' => $this->options['request.options'],
+            'http' => $this->options['request.options'],
         ];
 
         // Override the endpoint for example: when using an s3 compatible host
