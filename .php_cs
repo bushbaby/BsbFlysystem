@@ -2,7 +2,8 @@
 
 $config = new Bsb\CS\Config([
     'binary_operator_spaces' => [
-        'default' => 'single_space',
+        'align_double_arrow' => false,
+        'align_equals' => false,
     ],
 ]);
 
