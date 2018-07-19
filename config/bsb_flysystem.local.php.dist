@@ -3,7 +3,7 @@
 return [
     'bsb_flysystem' => [
         'adapters' => [
-            'local_files'     => [
+            'local_data'     => [
                 'type'    => 'local',
                 'options' => [
                     'root' => './data/files'
