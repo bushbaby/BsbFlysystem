@@ -173,4 +173,33 @@ class AwsS3v3AdapterFactoryTest extends TestCase
             ],
         ];
     }
+
+    public function testCreateServiceWithRequestOptions()
+    {
+        $this->markTestSkipped('Skipped because Aws3Sv2 and Aws3Sv3 are not compatible.');
+
+        $options = [
+            'credentials' => [
+                'key' => 'abc',
+                'secret' => 'def',
+            ],
+            'region' => 'ghi',
+            'bucket' => 'jkl',
+            'request.options' => [
+                'timeout' => 1,
+            ],
+        ];
+
+        $sm = Bootstrap::getServiceManager();
+        $factory = new AwsS3v3AdapterFactory($options);
+
+        /** @var \League\Flysystem\AwsS3v3\AwsS3Adapter $adapter */
+        $adapter = $factory($sm, 'awss3_default');
+
+        /** @var \Aws\Command $command */
+        $command = $adapter->getClient()->getCommand('GetObject');
+
+        self::assertTrue($command->hasParam('@http'));
+        self::assertEquals(['timeout' => 1], $command['@http']);
+    }
 }
