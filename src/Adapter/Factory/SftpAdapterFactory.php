@@ -8,11 +8,11 @@ use BsbFlysystem\Exception\RequirementsException;
 use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Sftp\SftpAdapter as Adapter;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Psr\Container\ContainerInterface;
 
 class SftpAdapterFactory extends AbstractAdapterFactory
 {
-    public function doCreateService(ServiceLocatorInterface $serviceLocator): AdapterInterface
+    public function doCreateService(ContainerInterface $container): AdapterInterface
     {
         if (! class_exists(\League\Flysystem\Sftp\SftpAdapter::class)) {
             throw new RequirementsException(

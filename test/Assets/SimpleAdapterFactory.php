@@ -7,14 +7,13 @@ namespace BsbFlysystemTest\Assets;
 use BsbFlysystem\Adapter\Factory\AbstractAdapterFactory;
 use League\Flysystem\Adapter\NullAdapter;
 use League\Flysystem\AdapterInterface;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Psr\Container\ContainerInterface;
 
-class SimpleAdapterFactory extends AbstractAdapterFactory implements FactoryInterface
+class SimpleAdapterFactory extends AbstractAdapterFactory
 {
-    public function doCreateService(ServiceLocatorInterface $serviceLocator): AdapterInterface
+    public function doCreateService(ContainerInterface $container): AdapterInterface
     {
-        $this->mergeMvcConfig($serviceLocator, func_get_arg(2));
+        $this->mergeMvcConfig($container, func_get_arg(2));
 
         $this->validateConfig();
 

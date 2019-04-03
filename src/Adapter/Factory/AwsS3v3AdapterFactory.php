@@ -9,11 +9,11 @@ use BsbFlysystem\Exception\RequirementsException;
 use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\AwsS3v3\AwsS3Adapter as Adapter;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Psr\Container\ContainerInterface;
 
 class AwsS3v3AdapterFactory extends AbstractAdapterFactory
 {
-    public function doCreateService(ServiceLocatorInterface $serviceLocator): AdapterInterface
+    public function doCreateService(ContainerInterface $container): AdapterInterface
     {
         if (! class_exists(\League\Flysystem\AwsS3v3\AwsS3Adapter::class)) {
             throw new RequirementsException(

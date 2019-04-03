@@ -7,12 +7,12 @@ namespace BsbFlysystem\Adapter\Factory;
 use BsbFlysystem\Exception\RequirementsException;
 use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\AdapterInterface;
+use Psr\Container\ContainerInterface;
 use Spatie\FlysystemDropbox\DropboxAdapter as Adapter;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 class DropboxAdapterFactory extends AbstractAdapterFactory
 {
-    public function doCreateService(ServiceLocatorInterface $serviceLocator): AdapterInterface
+    public function doCreateService(ContainerInterface $container): AdapterInterface
     {
         if (! class_exists(\Spatie\FlysystemDropbox\DropboxAdapter::class)) {
             throw new RequirementsException(

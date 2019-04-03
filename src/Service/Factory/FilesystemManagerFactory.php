@@ -6,15 +6,13 @@ namespace BsbFlysystem\Service\Factory;
 
 use BsbFlysystem\Filesystem\Factory\FilesystemFactory;
 use BsbFlysystem\Service\FilesystemManager;
-use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Psr\Container\ContainerInterface;
 
-class FilesystemManagerFactory implements FactoryInterface
+class FilesystemManagerFactory
 {
-    public function createService(ServiceLocatorInterface $serviceLocator): FilesystemManager
+    public function createService(ContainerInterface $container): FilesystemManager
     {
-        return $this($serviceLocator, null);
+        return $this($container, null);
     }
 
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null): FilesystemManager

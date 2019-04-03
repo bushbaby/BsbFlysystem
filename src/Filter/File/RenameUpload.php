@@ -33,9 +33,9 @@ class RenameUpload extends RenameUploadFilter
         $this->filesystem = $filesystem;
     }
 
-    protected function getFinalTarget($uploadData): string
+    protected function getFinalTarget($uploadData, $clientFileName): string
     {
-        return trim(str_replace('\\', '/', parent::getFinalTarget($uploadData)), '/');
+        return trim(str_replace('\\', '/', parent::getFinalTarget($uploadData, $clientFileName)), '/');
     }
 
     protected function checkFileExists($targetFile)

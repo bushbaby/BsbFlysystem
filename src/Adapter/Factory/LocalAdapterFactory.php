@@ -7,11 +7,11 @@ namespace BsbFlysystem\Adapter\Factory;
 use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\Adapter\Local as Adapter;
 use League\Flysystem\AdapterInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Psr\Container\ContainerInterface;
 
 class LocalAdapterFactory extends AbstractAdapterFactory
 {
-    public function doCreateService(ServiceLocatorInterface $serviceLocator): AdapterInterface
+    public function doCreateService(ContainerInterface $container): AdapterInterface
     {
         $adapter = new Adapter($this->options['root']);
 

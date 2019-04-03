@@ -7,12 +7,12 @@ namespace BsbFlysystem\Adapter\Factory;
 use BsbFlysystem\Exception\RequirementsException;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Vfs\VfsAdapter as Adapter;
+use Psr\Container\ContainerInterface;
 use VirtualFileSystem\FileSystem as Vfs;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 class VfsAdapterFactory extends AbstractAdapterFactory
 {
-    public function doCreateService(ServiceLocatorInterface $serviceLocator): AdapterInterface
+    public function doCreateService(ContainerInterface $container): AdapterInterface
     {
         if (! class_exists(\League\Flysystem\Vfs\VfsAdapter::class)) {
             throw new RequirementsException(

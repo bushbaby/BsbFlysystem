@@ -6,12 +6,10 @@ namespace BsbFlysystem\Service\Factory;
 
 use BsbFlysystem\Exception\UnexpectedValueException;
 use BsbFlysystem\Service\AdapterManager;
-use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Psr\Container\ContainerInterface;
 use Zend\Stdlib\ArrayUtils;
 
-class AdapterManagerFactory implements FactoryInterface
+class AdapterManagerFactory
 {
     /**
      * @var array mapping adapter types to plugin configuration
@@ -36,13 +34,13 @@ class AdapterManagerFactory implements FactoryInterface
         ],
     ];
 
-    public function createService(ServiceLocatorInterface $serviceLocator): AdapterManager
+    public function createService(ContainerInterface $container): AdapterManager
     {
-        if (method_exists($serviceLocator, 'getServiceLocator')) {
-            $serviceLocator = $serviceLocator->getServiceLocator();
+        if (method_exists($container, 'getServiceLocator')) {
+            $container = $container->getServiceLocator();
         }
 
-        return $this($serviceLocator, null);
+        return $this($container, null);
     }
 
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null): AdapterManager

@@ -8,12 +8,12 @@ use BsbFlysystem\Exception\RequirementsException;
 use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Azure\AzureAdapter as Adapter;
+use Psr\Container\ContainerInterface;
 use WindowsAzure\Common\ServicesBuilder;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 class AzureAdapterFactory extends AbstractAdapterFactory
 {
-    public function doCreateService(ServiceLocatorInterface $serviceLocator): AdapterInterface
+    public function doCreateService(ContainerInterface $container): AdapterInterface
     {
         if (! class_exists(\League\Flysystem\Azure\AzureAdapter::class)) {
             throw new RequirementsException(

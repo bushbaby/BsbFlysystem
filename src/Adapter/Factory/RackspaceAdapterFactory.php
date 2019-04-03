@@ -9,11 +9,11 @@ use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Rackspace\RackspaceAdapter as Adapter;
 use OpenCloud\OpenStack;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Psr\Container\ContainerInterface;
 
 class RackspaceAdapterFactory extends AbstractAdapterFactory
 {
-    public function doCreateService(ServiceLocatorInterface $serviceLocator): AdapterInterface
+    public function doCreateService(ContainerInterface $container): AdapterInterface
     {
         if (! class_exists(\League\Flysystem\Rackspace\RackspaceAdapter::class) ||
             ! class_exists(\ProxyManager\Factory\LazyLoadingValueHolderFactory::class)
@@ -25,7 +25,7 @@ class RackspaceAdapterFactory extends AbstractAdapterFactory
         }
 
         /** @var AdapterInterface $proxy */
-        $proxy = $this->getLazyFactory($serviceLocator)->createProxy(
+        $proxy = $this->getLazyFactory($container)->createProxy(
             \League\Flysystem\Rackspace\RackspaceAdapter::class,
             function (&$wrappedObject, $proxy, $method, $parameters, &$initializer) {
                 $client = new OpenStack(
