@@ -32,6 +32,10 @@ class AwsS3v3AdapterFactory extends AbstractAdapterFactory
             $config['endpoint'] = $this->options['endpoint'];
         }
 
+        if (! empty($this->options['use_path_style_endpoint'])) {
+            $config['use_path_style_endpoint'] = $this->options['use_path_style_endpoint'];
+        }
+
         if (! isset($this->options['iam']) || (isset($this->options['iam']) && (false === $this->options['iam']))) {
             $credentials = [
                 'key' => $this->options['credentials']['key'],
