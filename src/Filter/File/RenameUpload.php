@@ -64,7 +64,7 @@ class RenameUpload extends RenameUploadFilter
 
     protected function moveUploadedFile($sourceFile, $targetFile)
     {
-        if (! \is_uploaded_file($sourceFile)) {
+        if (! is_uploaded_file($sourceFile)) {
             throw new Exception\RuntimeException(
                 \sprintf("File '%s' could not be uploaded. Filter can move only uploaded files.", $sourceFile),
                 0

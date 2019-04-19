@@ -17,7 +17,9 @@
 
 declare(strict_types=1);
 
-$config = new Bsb\CS\Config([]);
+$config = new Bsb\CS\Config([
+    'native_function_invocation' => ['exclude' => ['is_uploaded_file']],
+]);
 
 $config->getFinder()->in(__DIR__)->append([__FILE__]);
 
