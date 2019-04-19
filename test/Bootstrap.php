@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * BsbFlystem
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @see       https://bushbaby.nl/
+ *
+ * @copyright Copyright (c) 2014-2019 bushbaby multimedia. (https://bushbaby.nl)
+ * @author    Bas Kamer <baskamer@gmail.com>
+ * @license   MIT
+ *
+ * @package   bushbaby/flysystem
+ */
+
 declare(strict_types=1);
 
 namespace BsbFlysystemTest;
@@ -8,9 +23,6 @@ use RuntimeException;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\ServiceManager;
 
-/**
- * Test bootstrap.
- */
 class Bootstrap
 {
     /**
@@ -20,8 +32,8 @@ class Bootstrap
 
     public static function init()
     {
-        error_reporting(E_ALL | E_STRICT);
-        chdir(__DIR__);
+        \error_reporting(E_ALL | E_STRICT);
+        \chdir(__DIR__);
 
         static::initAutoloader();
 
@@ -38,7 +50,7 @@ class Bootstrap
     {
         $vendorPath = static::findParentPath('vendor');
 
-        if (is_readable($vendorPath . '/autoload.php')) {
+        if (\is_readable($vendorPath . '/autoload.php')) {
             $loader = include $vendorPath . '/autoload.php';
 
             return;
@@ -61,8 +73,8 @@ class Bootstrap
 
     public static function chroot()
     {
-        $rootPath = dirname(static::findParentPath('vendor'));
-        chdir($rootPath);
+        $rootPath = \dirname(static::findParentPath('vendor'));
+        \chdir($rootPath);
     }
 
     /**
@@ -77,8 +89,8 @@ class Bootstrap
     {
         $dir = __DIR__;
         $previousDir = '.';
-        while (! is_dir($dir . '/' . $path)) {
-            $dir = dirname($dir);
+        while (! \is_dir($dir . '/' . $path)) {
+            $dir = \dirname($dir);
             if ($previousDir === $dir) {
                 return false;
             }

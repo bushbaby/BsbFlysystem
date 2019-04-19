@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * BsbFlystem
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @see       https://bushbaby.nl/
+ *
+ * @copyright Copyright (c) 2014-2019 bushbaby multimedia. (https://bushbaby.nl)
+ * @author    Bas Kamer <baskamer@gmail.com>
+ * @license   MIT
+ *
+ * @package   bushbaby/flysystem
+ */
+
 declare(strict_types=1);
 
 namespace BsbFlysystem\Adapter\Factory;
@@ -54,11 +69,11 @@ abstract class AbstractAdapterFactory
 
     public function createService(ContainerInterface $container): AdapterInterface
     {
-        if (method_exists($container, 'getServiceLocator')) {
+        if (\method_exists($container, 'getServiceLocator')) {
             $container = $container->getServiceLocator();
         }
 
-        return $this($container, func_get_arg(2));
+        return $this($container, \func_get_arg(2));
     }
 
     /**
@@ -69,7 +84,7 @@ abstract class AbstractAdapterFactory
         $config = $container->has('config') ? $container->get('config') : [];
 
         if (! isset($config['bsb_flysystem']['adapters'][$requestedName]['options']) ||
-            ! is_array(($config['bsb_flysystem']['adapters'][$requestedName]['options']))
+            ! \is_array(($config['bsb_flysystem']['adapters'][$requestedName]['options']))
         ) {
             return;
         }
@@ -112,7 +127,7 @@ abstract class AbstractAdapterFactory
             $factoryConfig->setGeneratorStrategy(new EvaluatingGeneratorStrategy());
         }
 
-        spl_autoload_register($factoryConfig->getProxyAutoloader());
+        \spl_autoload_register($factoryConfig->getProxyAutoloader());
 
         return new LazyLoadingValueHolderFactory($factoryConfig);
     }

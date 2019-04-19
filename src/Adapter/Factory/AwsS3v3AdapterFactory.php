@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * BsbFlystem
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @see       https://bushbaby.nl/
+ *
+ * @copyright Copyright (c) 2014-2019 bushbaby multimedia. (https://bushbaby.nl)
+ * @author    Bas Kamer <baskamer@gmail.com>
+ * @license   MIT
+ *
+ * @package   bushbaby/flysystem
+ */
+
 declare(strict_types=1);
 
 namespace BsbFlysystem\Adapter\Factory;
@@ -15,7 +30,7 @@ class AwsS3v3AdapterFactory extends AbstractAdapterFactory
 {
     public function doCreateService(ContainerInterface $container): AdapterInterface
     {
-        if (! class_exists(\League\Flysystem\AwsS3v3\AwsS3Adapter::class)) {
+        if (! \class_exists(\League\Flysystem\AwsS3v3\AwsS3Adapter::class)) {
             throw new RequirementsException(
                 ['league/flysystem-aws-s3-v3'],
                 'AwsS3v3'
@@ -37,7 +52,7 @@ class AwsS3v3AdapterFactory extends AbstractAdapterFactory
                 'key' => $this->options['credentials']['key'],
                 'secret' => $this->options['credentials']['secret'],
             ];
-            $config = array_merge(compact('credentials'), $config);
+            $config = \array_merge(\compact('credentials'), $config);
         }
 
         $client = new S3Client($config);
@@ -50,7 +65,7 @@ class AwsS3v3AdapterFactory extends AbstractAdapterFactory
     protected function validateConfig()
     {
         if (! isset($this->options['iam']) || (isset($this->options['iam']) && (false === $this->options['iam']))) {
-            if (! isset($this->options['credentials']) || ! is_array($this->options['credentials'])) {
+            if (! isset($this->options['credentials']) || ! \is_array($this->options['credentials'])) {
                 throw new UnexpectedValueException("Missing 'credentials' as array");
             }
 

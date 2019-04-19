@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * BsbFlystem
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @see       https://bushbaby.nl/
+ *
+ * @copyright Copyright (c) 2014-2019 bushbaby multimedia. (https://bushbaby.nl)
+ * @author    Bas Kamer <baskamer@gmail.com>
+ * @license   MIT
+ *
+ * @package   bushbaby/flysystem
+ */
+
 declare(strict_types=1);
 
 namespace BsbFlysystem\Filesystem\Factory;
@@ -38,11 +53,11 @@ class FilesystemFactory
 
     public function createService(ContainerInterface $container): FilesystemInterface
     {
-        if (method_exists($container, 'getServiceLocator')) {
+        if (\method_exists($container, 'getServiceLocator')) {
             $serviceLocator = $container->getServiceLocator();
         }
 
-        $requestedName = func_get_arg(2);
+        $requestedName = \func_get_arg(2);
 
         return $this($container, $requestedName);
     }
@@ -52,7 +67,7 @@ class FilesystemFactory
         $config = $container->get('config');
         $fsConfig = $config['bsb_flysystem']['filesystems'][$requestedName];
         if (! isset($fsConfig['adapter'])) {
-            throw new UnexpectedValueException(sprintf(
+            throw new UnexpectedValueException(\sprintf(
                 "Missing 'adapter' key for the filesystem '%s' configuration",
                 $requestedName
             ));
@@ -66,10 +81,10 @@ class FilesystemFactory
             ->get('BsbFlysystemAdapterManager')
             ->get($fsConfig['adapter'], $this->options['adapter_options']);
 
-        $options = isset($fsConfig['options']) && is_array($fsConfig['options']) ? $fsConfig['options'] : [];
+        $options = isset($fsConfig['options']) && \is_array($fsConfig['options']) ? $fsConfig['options'] : [];
 
-        if (isset($fsConfig['cache']) && is_string($fsConfig['cache'])) {
-            if (! class_exists(CachedAdapter::class)) {
+        if (isset($fsConfig['cache']) && \is_string($fsConfig['cache'])) {
+            if (! \class_exists(CachedAdapter::class)) {
                 throw new RequirementsException(['league/flysystem-cached-adapter'], 'CachedAdapter');
             }
 
@@ -86,8 +101,8 @@ class FilesystemFactory
             }
         }
 
-        if (isset($fsConfig['eventable']) && filter_var($fsConfig['eventable'], FILTER_VALIDATE_BOOLEAN)) {
-            if (! class_exists(EventableFilesystem::class)) {
+        if (isset($fsConfig['eventable']) && \filter_var($fsConfig['eventable'], FILTER_VALIDATE_BOOLEAN)) {
+            if (! \class_exists(EventableFilesystem::class)) {
                 throw new RequirementsException(['league/flysystem-eventable-filesystem'], 'EventableFilesystem');
             }
 
@@ -96,7 +111,7 @@ class FilesystemFactory
             $filesystem = new Filesystem($adapter, $options);
         }
 
-        if (isset($fsConfig['plugins']) && is_array($fsConfig['plugins'])) {
+        if (isset($fsConfig['plugins']) && \is_array($fsConfig['plugins'])) {
             foreach ($fsConfig['plugins'] as $plugin) {
                 $plugin = new $plugin();
                 $filesystem->addPlugin($plugin);
