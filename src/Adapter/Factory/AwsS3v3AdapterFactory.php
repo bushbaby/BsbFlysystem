@@ -44,9 +44,11 @@ class AwsS3v3AdapterFactory extends AbstractAdapterFactory
             $config = array_merge(compact('credentials'), $config);
         }
 
+        $adapterOptions = $this->options['options'] ?? [];
+
         $client = new S3Client($config);
 
-        $adapter = new Adapter($client, $this->options['bucket'], $this->options['prefix']);
+        $adapter = new Adapter($client, $this->options['bucket'], $this->options['prefix'], $adapterOptions);
 
         return $adapter;
     }
