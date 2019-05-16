@@ -38,7 +38,7 @@
         "phpunit/phpunit": "^7.0",
         "spatie/flysystem-dropbox": "~1.0",
         "zendframework/zend-config": "^2.2 || ^3.0",
-        "zendframework/zend-filter": "^2.8",
+        "zendframework/zend-filter": "^2.9.1",
         "zendframework/zend-modulemanager": "^2.8 || ^3.0",
         "zendframework/zend-mvc": "^2.8 || ^3.0",
         "zendframework/zend-servicemanager": "^3.3"
