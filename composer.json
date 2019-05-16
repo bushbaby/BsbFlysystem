@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-        "php": "^7.0",
+        "php": "^7.1",
         "league/flysystem": "^1.0.41",
         "zendframework/zend-cache": "^2.7",
         "zendframework/zend-servicemanager": "^2.7.6 || ^3.0",
@@ -36,7 +36,7 @@
         "league/flysystem-ziparchive": "~1.0",
         "ocramius/proxy-manager": "~1.0 || ~2.0",
         "php-coveralls/php-coveralls": "^2.1",
-        "phpunit/phpunit": "^6.0",
+        "phpunit/phpunit": "^7.0",
         "spatie/flysystem-dropbox": "~1.0",
         "zendframework/zend-config": "^2.2 || ^3.0",
         "zendframework/zend-filter": "^2.8",

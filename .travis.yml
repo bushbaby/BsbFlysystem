@@ -3,12 +3,6 @@ language: php
 matrix:
   fast_finish: true
   include:
-    - php: 7.0
-      env:
-        - DEPENDENCIES=""
-    - php: 7.0
-      env:
-        - DEPENDENCIES="--prefer-lowest --prefer-stable"
     - php: 7.1
       env:
         - DEPENDENCIES=""
