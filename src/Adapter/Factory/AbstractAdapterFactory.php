@@ -1,20 +1,33 @@
 <?php
 
+/**
+ * BsbFlystem
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @see       https://bushbaby.nl/
+ *
+ * @copyright Copyright (c) 2014-2019 bushbaby multimedia. (https://bushbaby.nl)
+ * @author    Bas Kamer <baskamer@gmail.com>
+ * @license   MIT
+ *
+ * @package   bushbaby/flysystem
+ */
+
 declare(strict_types=1);
 
 namespace BsbFlysystem\Adapter\Factory;
 
-use Interop\Container\ContainerInterface;
 use InvalidArgumentException;
 use League\Flysystem\AdapterInterface;
 use ProxyManager\Configuration;
 use ProxyManager\Factory\LazyLoadingValueHolderFactory;
 use ProxyManager\GeneratorStrategy\EvaluatingGeneratorStrategy;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Psr\Container\ContainerInterface;
 use Zend\Stdlib\ArrayUtils;
 
-abstract class AbstractAdapterFactory implements FactoryInterface
+abstract class AbstractAdapterFactory
 {
     /**
      * @var array
@@ -54,24 +67,24 @@ abstract class AbstractAdapterFactory implements FactoryInterface
         return $service;
     }
 
-    public function createService(ServiceLocatorInterface $serviceLocator): AdapterInterface
+    public function createService(ContainerInterface $container): AdapterInterface
     {
-        if (method_exists($serviceLocator, 'getServiceLocator')) {
-            $serviceLocator = $serviceLocator->getServiceLocator();
+        if (\method_exists($container, 'getServiceLocator')) {
+            $container = $container->getServiceLocator();
         }
 
-        return $this($serviceLocator, func_get_arg(2));
+        return $this($container, \func_get_arg(2));
     }
 
     /**
      * Merges the options given from the ServiceLocator Config object with the create options of the class.
      */
-    protected function mergeMvcConfig(ServiceLocatorInterface $serviceLocator, string $requestedName = null)
+    protected function mergeMvcConfig(ContainerInterface $container, string $requestedName = null)
     {
-        $config = $serviceLocator->has('config') ? $serviceLocator->get('config') : [];
+        $config = $container->has('config') ? $container->get('config') : [];
 
         if (! isset($config['bsb_flysystem']['adapters'][$requestedName]['options']) ||
-            ! is_array(($config['bsb_flysystem']['adapters'][$requestedName]['options']))
+            ! \is_array(($config['bsb_flysystem']['adapters'][$requestedName]['options']))
         ) {
             return;
         }
@@ -85,9 +98,9 @@ abstract class AbstractAdapterFactory implements FactoryInterface
     /**
      * @throws InvalidArgumentException
      */
-    public function getLazyFactory(ServiceLocatorInterface $serviceLocator): LazyLoadingValueHolderFactory
+    public function getLazyFactory(ContainerInterface $container): LazyLoadingValueHolderFactory
     {
-        $config = $serviceLocator->has('config') ? $serviceLocator->get('config') : [];
+        $config = $container->has('config') ? $container->get('config') : [];
 
         $config['lazy_services'] = ArrayUtils::merge(
             $config['lazy_services'] ?? [],
@@ -114,7 +127,7 @@ abstract class AbstractAdapterFactory implements FactoryInterface
             $factoryConfig->setGeneratorStrategy(new EvaluatingGeneratorStrategy());
         }
 
-        spl_autoload_register($factoryConfig->getProxyAutoloader());
+        \spl_autoload_register($factoryConfig->getProxyAutoloader());
 
         return new LazyLoadingValueHolderFactory($factoryConfig);
     }
@@ -122,7 +135,7 @@ abstract class AbstractAdapterFactory implements FactoryInterface
     /**
      * Create service.
      */
-    abstract protected function doCreateService(ServiceLocatorInterface $serviceLocator): AdapterInterface;
+    abstract protected function doCreateService(ContainerInterface $container): AdapterInterface;
 
     /**
      * Implement in adapter.

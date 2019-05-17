@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * BsbFlystem
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @see       https://bushbaby.nl/
+ *
+ * @copyright Copyright (c) 2014-2019 bushbaby multimedia. (https://bushbaby.nl)
+ * @author    Bas Kamer <baskamer@gmail.com>
+ * @license   MIT
+ *
+ * @package   bushbaby/flysystem
+ */
+
 declare(strict_types=1);
 
 namespace BsbFlysystemTest\Cache;
@@ -7,9 +22,6 @@ namespace BsbFlysystemTest\Cache;
 use BsbFlysystem\Cache\ZendStorageCache;
 use BsbFlysystemTest\Framework\TestCase;
 
-/**
- * Tests for the zend cache wrapper.
- */
 class ZendStorageCacheTest extends TestCase
 {
     public function testLoadDefault()
@@ -30,7 +42,7 @@ class ZendStorageCacheTest extends TestCase
         $zendStorageCache = new ZendStorageCache($mock);
         $zendStorageCache->load();
 
-        $this->assertTrue(JSON_ERROR_NONE !== json_last_error());
+        $this->assertTrue(JSON_ERROR_NONE !== \json_last_error());
     }
 
     public function testLoadWithCustomKey()

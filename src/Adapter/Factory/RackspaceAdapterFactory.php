@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * BsbFlystem
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @see       https://bushbaby.nl/
+ *
+ * @copyright Copyright (c) 2014-2019 bushbaby multimedia. (https://bushbaby.nl)
+ * @author    Bas Kamer <baskamer@gmail.com>
+ * @license   MIT
+ *
+ * @package   bushbaby/flysystem
+ */
+
 declare(strict_types=1);
 
 namespace BsbFlysystem\Adapter\Factory;
@@ -9,14 +24,14 @@ use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Rackspace\RackspaceAdapter as Adapter;
 use OpenCloud\OpenStack;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Psr\Container\ContainerInterface;
 
 class RackspaceAdapterFactory extends AbstractAdapterFactory
 {
-    public function doCreateService(ServiceLocatorInterface $serviceLocator): AdapterInterface
+    public function doCreateService(ContainerInterface $container): AdapterInterface
     {
-        if (! class_exists(\League\Flysystem\Rackspace\RackspaceAdapter::class) ||
-            ! class_exists(\ProxyManager\Factory\LazyLoadingValueHolderFactory::class)
+        if (! \class_exists(\League\Flysystem\Rackspace\RackspaceAdapter::class) ||
+            ! \class_exists(\ProxyManager\Factory\LazyLoadingValueHolderFactory::class)
         ) {
             throw new RequirementsException(
                 ['league/flysystem-rackspace', 'ocramius/proxy-manager'],
@@ -25,7 +40,7 @@ class RackspaceAdapterFactory extends AbstractAdapterFactory
         }
 
         /** @var AdapterInterface $proxy */
-        $proxy = $this->getLazyFactory($serviceLocator)->createProxy(
+        $proxy = $this->getLazyFactory($container)->createProxy(
             \League\Flysystem\Rackspace\RackspaceAdapter::class,
             function (&$wrappedObject, $proxy, $method, $parameters, &$initializer) {
                 $client = new OpenStack(
@@ -57,11 +72,11 @@ class RackspaceAdapterFactory extends AbstractAdapterFactory
             throw new UnexpectedValueException("Missing 'url' as option");
         }
 
-        if (! isset($this->options['secret']) || ! is_array($this->options['secret'])) {
+        if (! isset($this->options['secret']) || ! \is_array($this->options['secret'])) {
             throw new UnexpectedValueException("Missing 'secret' as option");
         }
 
-        if (! isset($this->options['objectstore']) || ! is_array($this->options['objectstore'])) {
+        if (! isset($this->options['objectstore']) || ! \is_array($this->options['objectstore'])) {
             throw new UnexpectedValueException("Missing 'objectstore' as option");
         } elseif (! isset($this->options['objectstore']['name'])) {
             throw new UnexpectedValueException("Missing 'objectstore.name' as option");

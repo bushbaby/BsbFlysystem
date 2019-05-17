@@ -1,30 +1,43 @@
 language: php
 
-sudo: false
-
-php:
-  - 7.0
-  - 7.1
-  - 7.2
-
-env:
-  matrix:
-    - PREFER_LOWEST="--prefer-lowest"
-    - PREFER_LOWEST=""
+matrix:
+  fast_finish: true
+  include:
+    - php: 7.1
+      env:
+        - DEPENDENCIES=""
+    - php: 7.1
+      env:
+        - DEPENDENCIES="--prefer-lowest --prefer-stable"
+    - php: 7.2
+      env:
+        - DEPENDENCIES=""
+        - EXECUTE_CS_CHECK=true
+        - TEST_COVERAGE=true
+    - php: 7.2
+      env:
+        - DEPENDENCIES="--prefer-lowest --prefer-stable"
+    - php: 7.3
+      env:
+        - DEPENDENCIES=""
+    - php: 7.3
+      env:
+        - DEPENDENCIES="--prefer-lowest --prefer-stable"
 
 cache:
   directories:
-    - $HOME/.php-cs-fixer
+    - $HOME/.composer/cache
+    - $HOME/.php-cs-fixer/
 
 before_script:
   - composer self-update
-  - composer update --prefer-source $PREFER_LOWEST
-  - mkdir -p test/_build
+  - composer update --prefer-source $DEPENDENCIES
+  - mkdir -p test/_build/logs
+  - mkdir -p .php-cs-fixer
 
 script:
-  - composer cs
-  - composer test
+  - if [[ $TEST_COVERAGE == 'true' ]]; then php -dzend_extension=xdebug.so ./vendor/bin/phpunit --coverage-text --coverage-clover ./test/_build/logs/clover.xml --configuration ./phpunit.xml.dist; else ./vendor/bin/phpunit --configuration ./phpunit.xml.dist; fi
+  - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then ./vendor/bin/php-cs-fixer fix -v --diff --dry-run; fi
 
-after_script:
-  - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover test/_build/logs/clover.xml
+after_success:
+  - if [[ $TEST_COVERAGE == 'true' ]]; then php vendor/bin/php-coveralls -v; fi

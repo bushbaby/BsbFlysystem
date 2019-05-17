@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * BsbFlystem
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @see       https://bushbaby.nl/
+ *
+ * @copyright Copyright (c) 2014-2019 bushbaby multimedia. (https://bushbaby.nl)
+ * @author    Bas Kamer <baskamer@gmail.com>
+ * @license   MIT
+ *
+ * @package   bushbaby/flysystem
+ */
+
 declare(strict_types=1);
 
 namespace BsbFlysystemTest\Service;
@@ -78,7 +93,7 @@ class FilesystemManagerTest extends TestCase
         $adapter = $filesystem->getAdapter();
 
         $pathPrefix = $adapter->getPathPrefix();
-        $pathPrefix = str_replace(realpath('.'), '', $pathPrefix);
+        $pathPrefix = \str_replace(\realpath('.'), '', $pathPrefix);
 
         $this->assertEquals('./test/_build/files/', $pathPrefix);
 
@@ -90,7 +105,7 @@ class FilesystemManagerTest extends TestCase
         $adapter = $filesystem->getAdapter();
 
         $pathPrefix = $adapter->getPathPrefix();
-        $pathPrefix = str_replace(realpath('.'), '', $pathPrefix);
+        $pathPrefix = \str_replace(\realpath('.'), '', $pathPrefix);
 
         $this->assertEquals('./test/_build/documents/', $pathPrefix);
     }
