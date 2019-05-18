@@ -21,19 +21,29 @@ namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\Adapter\Local as Adapter;
-use League\Flysystem\AdapterInterface;
+use League\Flysystem\AdapterInterface;use const LOCK_EX;
 use Psr\Container\ContainerInterface;
 
 class LocalAdapterFactory extends AbstractAdapterFactory
 {
     public function doCreateService(ContainerInterface $container): AdapterInterface
     {
-        $adapter = new Adapter($this->options['root']);
+        $options = [];
+        $options[] = $this->options['root'];
+        $options[] = $this->options['writeFlags'] ?? null;
 
-        return $adapter;
+        if (isset($this->options['linkHandling'])) { // since 1.0.8
+            $options[] = $this->options['linkHandling'];
+
+            if (isset($this->options['permissions'])) { // since 1.0.14
+                $options[] = $this->options['permissions'];
+            }
+        }
+
+        return new Adapter(...$options);
     }
 
-    protected function validateConfig()
+    protected function validateConfig(): void
     {
         if (! isset($this->options['root'])) {
             throw new UnexpectedValueException("Missing 'root' as option");

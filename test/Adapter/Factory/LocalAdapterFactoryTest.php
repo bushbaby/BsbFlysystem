@@ -84,13 +84,15 @@ class LocalAdapterFactoryTest extends TestCase
         return [
             [
                 [],
-                false,
+                null,
                 'UnexpectedValueException',
                 "Missing 'root' as option",
             ],
             [
                 ['root' => '.'],
                 ['root' => '.'],
+                null,
+                null,
             ],
         ];
     }
