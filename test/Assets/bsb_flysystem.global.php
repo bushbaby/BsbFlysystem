@@ -61,6 +61,27 @@ return [
                     'timeout' => 30,
                 ],
             ],
+            'ftpd_default' => [
+                'type' => 'ftpd',
+                'options' => [
+                    'host' => 'xxxxx',
+                    'username' => 'xxxxx',
+                    'password' => 'xxxxx',
+                    /* optional config settings */
+                    'port' => 21,
+                    'root' => '/',
+                    'passive' => true,
+                    'ssl' => false,
+                    'timeout' => 30,
+                ],
+            ],
+            'googleclouddrive_default' => [
+                'type' => 'ftpd',
+                'options' => [
+                    'project_id' => 'xxxxx',
+                    'bucket' => 'xxxxx',
+                ],
+            ],
             'zip_default' => [
                 'type' => 'ziparchive',
                 'options' => [

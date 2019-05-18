@@ -19,6 +19,8 @@ declare(strict_types=1);
 
 namespace BsbFlysystem\Service\Factory;
 
+use BsbFlysystem\Adapter\Factory\FtpdAdapterFactory;
+use BsbFlysystem\Adapter\Factory\GoogleCloudDriveAdapterFactory;
 use BsbFlysystem\Exception\UnexpectedValueException;
 use BsbFlysystem\Service\AdapterManager;
 use Psr\Container\ContainerInterface;
@@ -43,6 +45,8 @@ class AdapterManagerFactory
             'ziparchive' => \BsbFlysystem\Adapter\Factory\ZipArchiveAdapterFactory::class,
             'vfs' => \BsbFlysystem\Adapter\Factory\VfsAdapterFactory::class,
             'null' => \Zend\ServiceManager\Factory\InvokableFactory::class,
+            'ftpd' => FtpdAdapterFactory::class,
+            'googlecloudstorage' => GoogleCloudDriveAdapterFactory::class,
         ],
         'aliases' => [
             'null' => \League\Flysystem\Adapter\NullAdapter::class,
