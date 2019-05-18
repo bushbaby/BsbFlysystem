@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-        "php": "^7.1",
+        "php": "^7.2",
         "league/flysystem": "^1.0.41",
         "zendframework/zend-cache": "^2.7",
         "zendframework/zend-stdlib": "^2.2 || ^3.0"
