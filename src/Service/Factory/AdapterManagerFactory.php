@@ -19,9 +19,24 @@ declare(strict_types=1);
 
 namespace BsbFlysystem\Service\Factory;
 
+use BsbFlysystem\Adapter\Factory\AwsS3v3AdapterFactory;
+use BsbFlysystem\Adapter\Factory\AzureAdapterFactory;
+use BsbFlysystem\Adapter\Factory\DropboxAdapterFactory;
+use BsbFlysystem\Adapter\Factory\FtpAdapterFactory;
+use BsbFlysystem\Adapter\Factory\FtpdAdapterFactory;
+use BsbFlysystem\Adapter\Factory\GoogleCloudDriveAdapterFactory;
+use BsbFlysystem\Adapter\Factory\LocalAdapterFactory;
+use BsbFlysystem\Adapter\Factory\RackspaceAdapterFactory;
+use BsbFlysystem\Adapter\Factory\ReplicateAdapterFactory;
+use BsbFlysystem\Adapter\Factory\SftpAdapterFactory;
+use BsbFlysystem\Adapter\Factory\VfsAdapterFactory;
+use BsbFlysystem\Adapter\Factory\WebDAVAdapterFactory;
+use BsbFlysystem\Adapter\Factory\ZipArchiveAdapterFactory;
 use BsbFlysystem\Exception\UnexpectedValueException;
 use BsbFlysystem\Service\AdapterManager;
+use League\Flysystem\Adapter\NullAdapter;
 use Psr\Container\ContainerInterface;
+use Zend\ServiceManager\Factory\InvokableFactory;
 use Zend\Stdlib\ArrayUtils;
 
 class AdapterManagerFactory
@@ -31,21 +46,23 @@ class AdapterManagerFactory
      */
     protected $adapterMap = [
         'factories' => [
-            'awss3v3' => \BsbFlysystem\Adapter\Factory\AwsS3v3AdapterFactory::class,
-            'azure' => \BsbFlysystem\Adapter\Factory\AzureAdapterFactory::class,
-            'dropbox' => \BsbFlysystem\Adapter\Factory\DropboxAdapterFactory::class,
-            'ftp' => \BsbFlysystem\Adapter\Factory\FtpAdapterFactory::class,
-            'local' => \BsbFlysystem\Adapter\Factory\LocalAdapterFactory::class,
-            'rackspace' => \BsbFlysystem\Adapter\Factory\RackspaceAdapterFactory::class,
-            'replicate' => \BsbFlysystem\Adapter\Factory\ReplicateAdapterFactory::class,
-            'sftp' => \BsbFlysystem\Adapter\Factory\SftpAdapterFactory::class,
-            'webdav' => \BsbFlysystem\Adapter\Factory\WebDAVAdapterFactory::class,
-            'ziparchive' => \BsbFlysystem\Adapter\Factory\ZipArchiveAdapterFactory::class,
-            'vfs' => \BsbFlysystem\Adapter\Factory\VfsAdapterFactory::class,
-            'null' => \Zend\ServiceManager\Factory\InvokableFactory::class,
+            'awss3v3' => AwsS3v3AdapterFactory::class,
+            'azure' => AzureAdapterFactory::class,
+            'dropbox' => DropboxAdapterFactory::class,
+            'ftp' => FtpAdapterFactory::class,
+            'ftpd' => FtpdAdapterFactory::class,
+            'googlecloudstorage' => GoogleCloudDriveAdapterFactory::class,
+            'local' => LocalAdapterFactory::class,
+            'rackspace' => RackspaceAdapterFactory::class,
+            'replicate' => ReplicateAdapterFactory::class,
+            'sftp' => SftpAdapterFactory::class,
+            'webdav' => WebDAVAdapterFactory::class,
+            'ziparchive' => ZipArchiveAdapterFactory::class,
+            'vfs' => VfsAdapterFactory::class,
+            'null' => InvokableFactory::class,
         ],
         'aliases' => [
-            'null' => \League\Flysystem\Adapter\NullAdapter::class,
+            'null' => NullAdapter::class,
         ],
     ];
 

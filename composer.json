@@ -16,8 +16,9 @@
         }
     ],
     "require": {
-        "php": "^7.1",
+        "php": "^7.2",
         "league/flysystem": "^1.0.41",
+        "psr/container": "^1.0",
         "zendframework/zend-cache": "^2.7",
         "zendframework/zend-stdlib": "^2.2 || ^3.0"
     },
@@ -37,6 +38,7 @@
         "php-coveralls/php-coveralls": "^2.1",
         "phpunit/phpunit": "^7.0",
         "spatie/flysystem-dropbox": "~1.0",
+        "superbalist/flysystem-google-storage": "^7.2",
         "zendframework/zend-code": "^3.3.1",
         "zendframework/zend-config": "^2.2 || ^3.0",
         "zendframework/zend-filter": "^2.9.1",

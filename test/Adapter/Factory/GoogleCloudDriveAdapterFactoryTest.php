@@ -19,15 +19,15 @@ declare(strict_types=1);
 
 namespace BsbFlysystemTest\Adapter\Factory;
 
-use BsbFlysystem\Adapter\Factory\DropboxAdapterFactory;
+use BsbFlysystem\Adapter\Factory\GoogleCloudDriveAdapterFactory;
 use BsbFlysystemTest\Bootstrap;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionProperty;
-use Spatie\FlysystemDropbox\DropboxAdapter;
+use Superbalist\Flysystem\GoogleStorage\GoogleStorageAdapter;
 
-class DropboxAdapterFactoryTest extends TestCase
+class GoogleCloudDriveAdapterFactoryTest extends TestCase
 {
     /**
      * @var ReflectionProperty
@@ -41,7 +41,7 @@ class DropboxAdapterFactoryTest extends TestCase
 
     public function setup(): void
     {
-        $class = new ReflectionClass(DropboxAdapterFactory::class);
+        $class = new ReflectionClass(GoogleCloudDriveAdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -52,11 +52,11 @@ class DropboxAdapterFactoryTest extends TestCase
     public function testCreateService(): void
     {
         $sm = Bootstrap::getServiceManager();
-        $factory = new DropboxAdapterFactory();
+        $factory = new GoogleCloudDriveAdapterFactory();
 
-        $adapter = $factory($sm, 'dropbox_default');
+        $adapter = $factory($sm, 'googleclouddrive_default');
 
-        $this->assertInstanceOf(DropboxAdapter::class, $adapter);
+        $this->assertInstanceOf(GoogleStorageAdapter::class, $adapter);
     }
 
     /**
@@ -68,7 +68,7 @@ class DropboxAdapterFactoryTest extends TestCase
         ?string $expectedException,
         ?string $expectedExceptionMessage
     ): void {
-        $factory = new DropboxAdapterFactory($options);
+        $factory = new GoogleCloudDriveAdapterFactory($options);
 
         if ($expectedException) {
             $this->expectException($expectedException);
@@ -87,13 +87,19 @@ class DropboxAdapterFactoryTest extends TestCase
         return [
             [
                 [],
-                [],
+                null,
                 'UnexpectedValueException',
-                "Missing 'access_token' as option",
+                "Missing 'project_id' as option",
             ],
             [
-                ['access_token' => 'foo'],
-                ['access_token' => 'foo', 'prefix' => null],
+                ['project_id' => 'foo'],
+                null,
+                'UnexpectedValueException',
+                "Missing 'bucket' as option",
+            ],
+            [
+                ['project_id' => 'foo', 'bucket' => 'bar'],
+                ['project_id' => 'foo', 'bucket' => 'bar'],
                 null,
                 null,
             ],

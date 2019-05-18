@@ -21,24 +21,27 @@ namespace BsbFlysystemTest\Adapter\Factory;
 
 use BsbFlysystem\Adapter\Factory\LocalAdapterFactory;
 use BsbFlysystemTest\Bootstrap;
-use BsbFlysystemTest\Framework\TestCase;
 use League\Flysystem\Adapter\Local;
+use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use ReflectionMethod;
+use ReflectionProperty;
 
 class LocalAdapterFactoryTest extends TestCase
 {
     /**
-     * @var \ReflectionProperty
+     * @var ReflectionProperty
      */
     protected $property;
 
     /**
-     * @var \ReflectionMethod
+     * @var ReflectionMethod
      */
     protected $method;
 
-    public function setup()
+    public function setup(): void
     {
-        $class = new \ReflectionClass(LocalAdapterFactory::class);
+        $class = new ReflectionClass(LocalAdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -46,7 +49,7 @@ class LocalAdapterFactoryTest extends TestCase
         $this->method->setAccessible(true);
     }
 
-    public function testCreateService()
+    public function testCreateService(): void
     {
         $sm = Bootstrap::getServiceManager();
         $factory = new LocalAdapterFactory();
@@ -60,11 +63,11 @@ class LocalAdapterFactoryTest extends TestCase
      * @dataProvider validateConfigProvider
      */
     public function testValidateConfig(
-        $options,
-        $expectedOptions = false,
-        $expectedException = false,
-        $expectedExceptionMessage = false
-    ) {
+        array $options,
+        ?array $expectedOptions,
+        ?string $expectedException,
+        ?string $expectedExceptionMessage
+    ): void {
         $factory = new LocalAdapterFactory($options);
 
         if ($expectedException) {
@@ -84,13 +87,15 @@ class LocalAdapterFactoryTest extends TestCase
         return [
             [
                 [],
-                false,
+                null,
                 'UnexpectedValueException',
                 "Missing 'root' as option",
             ],
             [
                 ['root' => '.'],
                 ['root' => '.'],
+                null,
+                null,
             ],
         ];
     }

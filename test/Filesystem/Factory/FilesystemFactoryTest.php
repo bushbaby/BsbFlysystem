@@ -19,15 +19,22 @@ declare(strict_types=1);
 
 namespace BsbFlysystemTest\Filesystem\Factory;
 
+use BsbFlysystem\Cache\ZendStorageCache;
+use BsbFlysystem\Exception\UnexpectedValueException;
 use BsbFlysystem\Filesystem\Factory\FilesystemFactory;
-use BsbFlysystemTest\Framework\TestCase;
 use Interop\Container\ContainerInterface;
 use League\Flysystem\Adapter\NullAdapter;
+use League\Flysystem\Cached\CachedAdapter;
+use League\Flysystem\Cached\CacheInterface;
+use League\Flysystem\EventableFilesystem\EventableFilesystem;
 use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemInterface;
+use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 
 class FilesystemFactoryTest extends TestCase
 {
-    public function testThrowsExceptionForMissingAdapter()
+    public function testThrowsExceptionForMissingAdapter(): void
     {
         $factory = new FilesystemFactory();
 
@@ -42,13 +49,13 @@ class FilesystemFactoryTest extends TestCase
         $serviceLocatorMock = $this->getMockBuilder(ContainerInterface::class)->getMock();
         $serviceLocatorMock->expects($this->at(0))->method('get')->with('config')->willReturn($config);
 
-        $this->expectException(\BsbFlysystem\Exception\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage("Missing 'adapter' key for the filesystem 'named_fs' configuration");
 
         $factory($serviceLocatorMock, 'named_fs');
     }
 
-    public function testCreateServiceWithNameReturnsFilesystem()
+    public function testCreateServiceWithNameReturnsFilesystem(): void
     {
         $factory = new FilesystemFactory();
 
@@ -72,12 +79,12 @@ class FilesystemFactoryTest extends TestCase
 
         $service = $factory($serviceLocatorMock, 'named_fs');
 
-        $this->assertInstanceOf(\League\Flysystem\FilesystemInterface::class, $service);
-        $this->assertInstanceOf(\League\Flysystem\Filesystem::class, $service);
-        $this->assertNotInstanceOf(\League\Flysystem\EventableFilesystem\EventableFilesystem::class, $service);
+        $this->assertInstanceOf(FilesystemInterface::class, $service);
+        $this->assertInstanceOf(Filesystem::class, $service);
+        $this->assertNotInstanceOf(EventableFilesystem::class, $service);
     }
 
-    public function testCreateServiceWithNameReturnsEventableFilesystem()
+    public function testCreateServiceWithNameReturnsEventableFilesystem(): void
     {
         $factory = new FilesystemFactory();
 
@@ -102,11 +109,11 @@ class FilesystemFactoryTest extends TestCase
 
         $service = $factory($serviceLocatorMock, 'named_fs');
 
-        $this->assertInstanceOf(\League\Flysystem\FilesystemInterface::class, $service);
-        $this->assertInstanceOf(\League\Flysystem\EventableFilesystem\EventableFilesystem::class, $service);
+        $this->assertInstanceOf(FilesystemInterface::class, $service);
+        $this->assertInstanceOf(EventableFilesystem::class, $service);
     }
 
-    public function testCreateServiceWithNameCachedAdapter()
+    public function testCreateServiceWithNameCachedAdapter(): void
     {
         $factory = new FilesystemFactory();
 
@@ -129,16 +136,16 @@ class FilesystemFactoryTest extends TestCase
         $serviceLocatorMock->expects($this->at(1))->method('get')->with('BsbFlysystemAdapterManager')->willReturn($adapterPluginMock);
         $adapterPluginMock->expects($this->once())->method('get')->with('named_adapter')->willReturn($adapter);
 
-        $cacheMock = $this->getMockBuilder(\League\Flysystem\Cached\CacheInterface::class)->getMock();
+        $cacheMock = $this->getMockBuilder(CacheInterface::class)->getMock();
         $serviceLocatorMock->expects($this->at(2))->method('get')->with('named/cache')->willReturn($cacheMock);
 
         /** @var Filesystem $service */
         $service = $factory($serviceLocatorMock, 'named_fs');
 
-        $this->assertInstanceOf(\League\Flysystem\Cached\CachedAdapter::class, $service->getAdapter());
+        $this->assertInstanceOf(CachedAdapter::class, $service->getAdapter());
     }
 
-    public function testCreateServiceWithNameCachedAdapterZendCacheStorage()
+    public function testCreateServiceWithNameCachedAdapterZendCacheStorage(): void
     {
         $factory = new FilesystemFactory();
 
@@ -167,17 +174,17 @@ class FilesystemFactoryTest extends TestCase
         /** @var Filesystem $service */
         $service = $factory($serviceLocatorMock, 'named_fs');
 
-        $this->assertInstanceOf(\League\Flysystem\Cached\CachedAdapter::class, $service->getAdapter());
+        $this->assertInstanceOf(CachedAdapter::class, $service->getAdapter());
 
-        $class = new \ReflectionClass(\League\Flysystem\Cached\CachedAdapter::class);
+        $class = new ReflectionClass(CachedAdapter::class);
         $property = $class->getProperty('cache');
         $property->setAccessible(true);
 
         $cacheInstance = $property->getValue($service->getAdapter());
-        $this->assertInstanceOf(\BsbFlysystem\Cache\ZendStorageCache::class, $cacheInstance);
+        $this->assertInstanceOf(ZendStorageCache::class, $cacheInstance);
     }
 
-    public function testCreateServiceWithNameReturnsFilesystemWithPluginsAdded()
+    public function testCreateServiceWithNameReturnsFilesystemWithPluginsAdded(): void
     {
         $factory = new FilesystemFactory();
 

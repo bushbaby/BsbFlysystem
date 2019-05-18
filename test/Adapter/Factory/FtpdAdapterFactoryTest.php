@@ -19,15 +19,15 @@ declare(strict_types=1);
 
 namespace BsbFlysystemTest\Adapter\Factory;
 
-use BsbFlysystem\Adapter\Factory\DropboxAdapterFactory;
+use BsbFlysystem\Adapter\Factory\FtpdAdapterFactory;
 use BsbFlysystemTest\Bootstrap;
+use League\Flysystem\Adapter\Ftp;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionProperty;
-use Spatie\FlysystemDropbox\DropboxAdapter;
 
-class DropboxAdapterFactoryTest extends TestCase
+class FtpdAdapterFactoryTest extends TestCase
 {
     /**
      * @var ReflectionProperty
@@ -41,7 +41,7 @@ class DropboxAdapterFactoryTest extends TestCase
 
     public function setup(): void
     {
-        $class = new ReflectionClass(DropboxAdapterFactory::class);
+        $class = new ReflectionClass(FtpdAdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -52,11 +52,11 @@ class DropboxAdapterFactoryTest extends TestCase
     public function testCreateService(): void
     {
         $sm = Bootstrap::getServiceManager();
-        $factory = new DropboxAdapterFactory();
+        $factory = new FtpdAdapterFactory();
 
-        $adapter = $factory($sm, 'dropbox_default');
+        $adapter = $factory($sm, 'ftpd_default');
 
-        $this->assertInstanceOf(DropboxAdapter::class, $adapter);
+        $this->assertInstanceOf(Ftp::class, $adapter);
     }
 
     /**
@@ -68,7 +68,7 @@ class DropboxAdapterFactoryTest extends TestCase
         ?string $expectedException,
         ?string $expectedExceptionMessage
     ): void {
-        $factory = new DropboxAdapterFactory($options);
+        $factory = new FtpdAdapterFactory($options);
 
         if ($expectedException) {
             $this->expectException($expectedException);
@@ -87,13 +87,31 @@ class DropboxAdapterFactoryTest extends TestCase
         return [
             [
                 [],
-                [],
+                null,
                 'UnexpectedValueException',
-                "Missing 'access_token' as option",
+                "Missing 'host' as option",
             ],
             [
-                ['access_token' => 'foo'],
-                ['access_token' => 'foo', 'prefix' => null],
+                ['host' => 'foo'],
+                null,
+                'UnexpectedValueException',
+                "Missing 'port' as option",
+            ],
+            [
+                ['host' => 'foo', 'port' => 'foo'],
+                null,
+                'UnexpectedValueException',
+                "Missing 'username' as option",
+            ],
+            [
+                ['host' => 'foo', 'port' => 'foo', 'username' => 'foo'],
+                null,
+                'UnexpectedValueException',
+                "Missing 'password' as option",
+            ],
+            [
+                ['host' => 'foo', 'port' => 'foo', 'username' => 'foo', 'password' => 'foo'],
+                ['host' => 'foo', 'port' => 'foo', 'username' => 'foo', 'password' => 'foo'],
                 null,
                 null,
             ],

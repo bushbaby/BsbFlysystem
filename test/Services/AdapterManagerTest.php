@@ -19,57 +19,59 @@ declare(strict_types=1);
 
 namespace BsbFlysystemTest\Service;
 
+use BsbFlysystem\Exception\RuntimeException;
 use BsbFlysystem\Service\AdapterManager;
 use BsbFlysystemTest\Bootstrap;
-use BsbFlysystemTest\Framework\TestCase;
+use PHPUnit\Framework\TestCase;
+use stdClass;
 use Zend\ServiceManager\ServiceManager;
 
 class AdapterManagerTest extends TestCase
 {
-    public function testCreateViaServiceManager()
+    public function testCreateViaServiceManager(): void
     {
         $sm = Bootstrap::getServiceManager();
-        $manager = $sm->get(\BsbFlysystem\Service\AdapterManager::class);
+        $manager = $sm->get(AdapterManager::class);
 
-        $this->assertInstanceOf(\BsbFlysystem\Service\AdapterManager::class, $manager);
+        $this->assertInstanceOf(AdapterManager::class, $manager);
     }
 
-    public function testCreateByAliasViaServiceManager()
+    public function testCreateByAliasViaServiceManager(): void
     {
         $sm = Bootstrap::getServiceManager();
         $manager = $sm->get('BsbFlysystemAdapterManager');
 
-        $this->assertInstanceOf(\BsbFlysystem\Service\AdapterManager::class, $manager);
+        $this->assertInstanceOf(AdapterManager::class, $manager);
     }
 
-    public function testManagerValidatesPlugin()
+    public function testManagerValidatesPlugin(): void
     {
         $manager = new AdapterManager(new ServiceManager());
-        $plugin = $this->getMockBuilder('League\Flysystem\Adapter\AbstractAdapter')
+        $plugin = $this->getMockBuilder(\League\Flysystem\Adapter\AbstractAdapter::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $manager->validatePlugin($plugin);
 
-        $this->expectException(\BsbFlysystem\Exception\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
 
-        $plugin = new \stdClass();
+        $plugin = new stdClass();
         $manager->validatePlugin($plugin);
     }
 
-    public function testCreateViaServiceManagerLocal()
+    public function testCreateViaServiceManagerLocal(): void
     {
         $sm = Bootstrap::getServiceManager();
         $manager = $sm->get('BsbFlysystemAdapterManager');
 
-        $this->assertInstanceOf('League\Flysystem\Adapter\AbstractAdapter', $manager->get('local_default'));
+        $this->assertInstanceOf(\League\Flysystem\Adapter\AbstractAdapter::class, $manager->get('local_default'));
     }
 
-    public function testCreateViaServiceManagerNull()
+    public function testCreateViaServiceManagerNull(): void
     {
         $sm = Bootstrap::getServiceManager();
-        $manager = $sm->get(\BsbFlysystem\Service\AdapterManager::class);
+        $manager = $sm->get(AdapterManager::class);
 
-        $this->assertInstanceOf('League\Flysystem\Adapter\NullAdapter', $manager->get('null_default'));
+        $this->assertInstanceOf(\League\Flysystem\Adapter\NullAdapter::class, $manager->get('null_default'));
     }
 }

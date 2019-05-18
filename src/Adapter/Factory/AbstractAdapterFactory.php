@@ -47,7 +47,7 @@ abstract class AbstractAdapterFactory
     /**
      * Set creation options.
      */
-    public function setCreationOptions(array $options)
+    public function setCreationOptions(array $options): void
     {
         $this->options = $options;
     }
@@ -79,7 +79,7 @@ abstract class AbstractAdapterFactory
     /**
      * Merges the options given from the ServiceLocator Config object with the create options of the class.
      */
-    protected function mergeMvcConfig(ContainerInterface $container, string $requestedName = null)
+    protected function mergeMvcConfig(ContainerInterface $container, string $requestedName = null): void
     {
         $config = $container->has('config') ? $container->get('config') : [];
 
@@ -108,7 +108,7 @@ abstract class AbstractAdapterFactory
         );
 
         if (! isset($config['lazy_services'])) {
-            throw new \InvalidArgumentException('Missing "lazy_services" config key');
+            throw new InvalidArgumentException('Missing "lazy_services" config key');
         }
 
         $lazyServices = $config['lazy_services'];
@@ -142,5 +142,5 @@ abstract class AbstractAdapterFactory
      *
      * @throw UnexpectedValueException
      */
-    abstract protected function validateConfig();
+    abstract protected function validateConfig(): void;
 }

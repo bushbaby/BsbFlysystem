@@ -35,7 +35,7 @@ class SimpleAdapterFactory extends AbstractAdapterFactory
         return new NullAdapter();
     }
 
-    public function validateConfig()
+    public function validateConfig(): void
     {
     }
 }

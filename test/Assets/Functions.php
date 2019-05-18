@@ -19,7 +19,7 @@ declare(strict_types=1);
 
 namespace BsbFlysystem\Filter\File
 {
-    function is_uploaded_file($filepath)
+    function is_uploaded_file($filepath): bool
     {
         return \realpath($filepath) === \realpath(__DIR__ . '/test.txt');
     }

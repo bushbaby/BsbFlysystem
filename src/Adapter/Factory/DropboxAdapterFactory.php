@@ -23,29 +23,28 @@ use BsbFlysystem\Exception\RequirementsException;
 use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\AdapterInterface;
 use Psr\Container\ContainerInterface;
+use Spatie\Dropbox\Client;
 use Spatie\FlysystemDropbox\DropboxAdapter as Adapter;
 
 class DropboxAdapterFactory extends AbstractAdapterFactory
 {
     public function doCreateService(ContainerInterface $container): AdapterInterface
     {
-        if (! \class_exists(\Spatie\FlysystemDropbox\DropboxAdapter::class)) {
+        if (! \class_exists(Adapter::class)) {
             throw new RequirementsException(
                 ['spatie/flysystem-dropbox'],
                 'Dropbox'
             );
         }
 
-        $client = new \Spatie\Dropbox\Client(
+        $client = new Client(
             $this->options['access_token']
         );
 
-        $adapter = new Adapter($client, $this->options['prefix']);
-
-        return $adapter;
+        return new Adapter($client, $this->options['prefix']);
     }
 
-    protected function validateConfig()
+    protected function validateConfig(): void
     {
         if (! isset($this->options['access_token'])) {
             throw new UnexpectedValueException("Missing 'access_token' as option");

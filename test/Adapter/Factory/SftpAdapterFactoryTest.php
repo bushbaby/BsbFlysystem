@@ -21,24 +21,27 @@ namespace BsbFlysystemTest\Adapter\Factory;
 
 use BsbFlysystem\Adapter\Factory\SftpAdapterFactory;
 use BsbFlysystemTest\Bootstrap;
-use BsbFlysystemTest\Framework\TestCase;
 use League\Flysystem\Sftp\SftpAdapter;
+use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use ReflectionMethod;
+use ReflectionProperty;
 
 class SftpAdapterFactoryTest extends TestCase
 {
     /**
-     * @var \ReflectionProperty
+     * @var ReflectionProperty
      */
     protected $property;
 
     /**
-     * @var \ReflectionMethod
+     * @var ReflectionMethod
      */
     protected $method;
 
-    public function setup()
+    public function setup(): void
     {
-        $class = new \ReflectionClass(SftpAdapterFactory::class);
+        $class = new ReflectionClass(SftpAdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -46,7 +49,7 @@ class SftpAdapterFactoryTest extends TestCase
         $this->method->setAccessible(true);
     }
 
-    public function testCreateService()
+    public function testCreateService(): void
     {
         $sm = Bootstrap::getServiceManager();
         $factory = new SftpAdapterFactory();
@@ -60,11 +63,11 @@ class SftpAdapterFactoryTest extends TestCase
      * @dataProvider validateConfigProvider
      */
     public function testValidateConfig(
-        $options,
-        $expectedOptions = false,
-        $expectedException = false,
-        $expectedExceptionMessage = false
-    ) {
+        array $options,
+        ?array $expectedOptions,
+        ?string $expectedException,
+        ?string $expectedExceptionMessage
+    ): void {
         $factory = new SftpAdapterFactory($options);
 
         if ($expectedException) {
@@ -84,35 +87,39 @@ class SftpAdapterFactoryTest extends TestCase
         return [
             [
                 [],
-                false,
+                null,
                 'UnexpectedValueException',
                 "Missing 'host' as option",
             ],
             [
                 ['host' => 'foo'],
-                false,
+                null,
                 'UnexpectedValueException',
                 "Missing 'port' as option",
             ],
             [
                 ['host' => 'foo', 'port' => 'foo'],
-                false,
+                null,
                 'UnexpectedValueException',
                 "Missing 'username' as option",
             ],
             [
                 ['host' => 'foo', 'port' => 'foo', 'username' => 'foo'],
-                false,
+                null,
                 'UnexpectedValueException',
                 "Missing either 'password' or 'privateKey' as option",
             ],
             [
                 ['host' => 'foo', 'port' => 'foo', 'username' => 'foo', 'password' => 'foo'],
                 ['host' => 'foo', 'port' => 'foo', 'username' => 'foo', 'password' => 'foo'],
+                null,
+                null,
             ],
             [
                 ['host' => 'foo', 'port' => 'foo', 'username' => 'foo', 'privateKey' => 'foo'],
                 ['host' => 'foo', 'port' => 'foo', 'username' => 'foo', 'privateKey' => 'foo'],
+                null,
+                null,
             ],
         ];
     }

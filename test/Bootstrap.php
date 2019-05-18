@@ -19,6 +19,7 @@ declare(strict_types=1);
 
 namespace BsbFlysystemTest;
 
+use Psr\Container\ContainerInterface;
 use RuntimeException;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\ServiceManager;
@@ -30,7 +31,7 @@ class Bootstrap
      */
     protected static $serviceManager;
 
-    public static function init()
+    public static function init(): void
     {
         \error_reporting(E_ALL | E_STRICT);
         \chdir(__DIR__);
@@ -46,7 +47,7 @@ class Bootstrap
         static::$serviceManager = $serviceManager;
     }
 
-    protected static function initAutoloader()
+    protected static function initAutoloader(): void
     {
         $vendorPath = static::findParentPath('vendor');
 
@@ -61,7 +62,7 @@ class Bootstrap
         );
     }
 
-    public static function getApplicationConfig()
+    public static function getApplicationConfig(): array
     {
         $config = [];
         if (! $config = @include __DIR__ . '/TestConfiguration.php') {
@@ -71,28 +72,25 @@ class Bootstrap
         return $config;
     }
 
-    public static function chroot()
+    public static function chroot(): void
     {
         $rootPath = \dirname(static::findParentPath('vendor'));
         \chdir($rootPath);
     }
 
-    /**
-     * @return ServiceManager
-     */
-    public static function getServiceManager()
+    public static function getServiceManager(): ContainerInterface
     {
         return static::$serviceManager;
     }
 
-    protected static function findParentPath($path)
+    protected static function findParentPath($path): ?string
     {
         $dir = __DIR__;
         $previousDir = '.';
         while (! \is_dir($dir . '/' . $path)) {
             $dir = \dirname($dir);
             if ($previousDir === $dir) {
-                return false;
+                return null;
             }
             $previousDir = $dir;
         }

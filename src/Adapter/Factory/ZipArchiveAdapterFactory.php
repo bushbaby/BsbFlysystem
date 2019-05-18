@@ -29,19 +29,17 @@ class ZipArchiveAdapterFactory extends AbstractAdapterFactory
 {
     public function doCreateService(ContainerInterface $container): AdapterInterface
     {
-        if (! \class_exists(\League\Flysystem\ZipArchive\ZipArchiveAdapter::class)) {
+        if (! \class_exists(Adapter::class)) {
             throw new RequirementsException(
                 ['league/ziparchive'],
                 'ZipArchive'
             );
         }
 
-        $adapter = new Adapter($this->options['archive'], null, $this->options['prefix']);
-
-        return $adapter;
+        return new Adapter($this->options['archive'], null, $this->options['prefix']);
     }
 
-    protected function validateConfig()
+    protected function validateConfig(): void
     {
         if (! isset($this->options['archive'])) {
             throw new UnexpectedValueException("Missing 'archive' as option");

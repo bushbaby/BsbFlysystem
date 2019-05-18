@@ -21,40 +21,39 @@ namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\RequirementsException;
 use BsbFlysystem\Exception\UnexpectedValueException;
+use Google\Cloud\Storage\StorageClient;
 use League\Flysystem\AdapterInterface;
-use League\Flysystem\Sftp\SftpAdapter as Adapter;
 use Psr\Container\ContainerInterface;
+use Superbalist\Flysystem\GoogleStorage\GoogleStorageAdapter as Adapter;
 
-class SftpAdapterFactory extends AbstractAdapterFactory
+class GoogleCloudDriveAdapterFactory extends AbstractAdapterFactory
 {
     public function doCreateService(ContainerInterface $container): AdapterInterface
     {
         if (! \class_exists(Adapter::class)) {
             throw new RequirementsException(
-                ['league/flysystem-sftp'],
-                'Sftp'
+                ['superbalist/flysystem-google-storage'],
+                'GoogleCloudDrive'
             );
         }
 
-        return new Adapter($this->options);
+        $storageClient = new StorageClient([
+            'projectId' => $this->options['project_id'],
+        ]);
+
+        $bucket = $storageClient->bucket($this->options['bucket']);
+
+        return new Adapter($storageClient, $bucket);
     }
 
     protected function validateConfig(): void
     {
-        if (! isset($this->options['host'])) {
-            throw new UnexpectedValueException("Missing 'host' as option");
+        if (! isset($this->options['project_id'])) {
+            throw new UnexpectedValueException("Missing 'project_id' as option");
         }
 
-        if (! isset($this->options['port'])) {
-            throw new UnexpectedValueException("Missing 'port' as option");
-        }
-
-        if (! isset($this->options['username'])) {
-            throw new UnexpectedValueException("Missing 'username' as option");
-        }
-
-        if (! isset($this->options['password']) && ! isset($this->options['privateKey'])) {
-            throw new UnexpectedValueException("Missing either 'password' or 'privateKey' as option");
+        if (! isset($this->options['bucket'])) {
+            throw new UnexpectedValueException("Missing 'bucket' as option");
         }
     }
 }

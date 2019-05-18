@@ -23,14 +23,14 @@ use BsbFlysystem\Exception\RequirementsException;
 use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Azure\AzureAdapter as Adapter;
+use MicrosoftAzure\Storage\Common\ServicesBuilder;
 use Psr\Container\ContainerInterface;
-use WindowsAzure\Common\ServicesBuilder;
 
 class AzureAdapterFactory extends AbstractAdapterFactory
 {
     public function doCreateService(ContainerInterface $container): AdapterInterface
     {
-        if (! \class_exists(\League\Flysystem\Azure\AzureAdapter::class)) {
+        if (! \class_exists(Adapter::class)) {
             throw new RequirementsException(
                 ['league/flysystem-azure'],
                 'Azure'
@@ -43,12 +43,11 @@ class AzureAdapterFactory extends AbstractAdapterFactory
         );
 
         $blobRestProxy = ServicesBuilder::getInstance()->createBlobService($endpoint);
-        $adapter = new Adapter($blobRestProxy, $this->options['container']);
 
-        return $adapter;
+        return new Adapter($blobRestProxy, $this->options['container']);
     }
 
-    protected function validateConfig()
+    protected function validateConfig(): void
     {
         if (! isset($this->options['account-name'])) {
             throw new UnexpectedValueException("Missing 'account-name' as option");

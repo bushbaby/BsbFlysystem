@@ -20,15 +20,17 @@ declare(strict_types=1);
 namespace BsbFlysystem\Service;
 
 use BsbFlysystem\Exception\RuntimeException;
+use League\Flysystem\AdapterInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\Exception;
+use Zend\ServiceManager\Factory\InvokableFactory;
 
 class AdapterManager extends AbstractPluginManager
 {
     /**
      * @var string
      */
-    protected $instanceOf = \League\Flysystem\AdapterInterface::class;
+    protected $instanceOf = AdapterInterface::class;
 
     /**
      * @var bool
@@ -44,11 +46,11 @@ class AdapterManager extends AbstractPluginManager
      * @var array
      */
     protected $factories = [
-        'League\Flysystem\Adapter\NullAdapter' => \Zend\ServiceManager\Factory\InvokableFactory::class,
-        'leagueflysystemadapternulladapter' => \Zend\ServiceManager\Factory\InvokableFactory::class,
+        \League\Flysystem\Adapter\NullAdapter::class => InvokableFactory::class,
+        'leagueflysystemadapternulladapter' => InvokableFactory::class,
     ];
 
-    public function validate($instance)
+    public function validate($instance): void
     {
         if (! $instance instanceof $this->instanceOf) {
             throw new Exception\InvalidServiceException(\sprintf(
@@ -59,7 +61,7 @@ class AdapterManager extends AbstractPluginManager
         }
     }
 
-    public function validatePlugin($instance)
+    public function validatePlugin($instance): void
     {
         try {
             $this->validate($instance);

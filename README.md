@@ -227,6 +227,8 @@ I have tried to provide factories (and tests) for each of the adapters that come
 - Aws3S (v3 only)
 - Dropbox
 - Ftp
+- Ftpd
+- GoogleCloudDrive
 - Local
   - BsbFlysystem is preconfigured with an adapter named 'local_data' to expose the ./data directory of a ZF2 application.
 - Null

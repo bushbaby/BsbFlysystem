@@ -42,7 +42,7 @@ class FilesystemFactory
         $this->setCreationOptions($options);
     }
 
-    public function setCreationOptions(array $options)
+    public function setCreationOptions(array $options): void
     {
         $this->options = $options;
 
@@ -81,7 +81,7 @@ class FilesystemFactory
             ->get('BsbFlysystemAdapterManager')
             ->get($fsConfig['adapter'], $this->options['adapter_options']);
 
-        $options = isset($fsConfig['options']) && \is_array($fsConfig['options']) ? $fsConfig['options'] : [];
+        $options = $fsConfig['options'] ?? [];
 
         if (isset($fsConfig['cache']) && \is_string($fsConfig['cache'])) {
             if (! \class_exists(CachedAdapter::class)) {

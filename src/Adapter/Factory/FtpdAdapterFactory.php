@@ -19,23 +19,15 @@ declare(strict_types=1);
 
 namespace BsbFlysystem\Adapter\Factory;
 
-use BsbFlysystem\Exception\RequirementsException;
 use BsbFlysystem\Exception\UnexpectedValueException;
+use League\Flysystem\Adapter\Ftpd as Adapter;
 use League\Flysystem\AdapterInterface;
-use League\Flysystem\Sftp\SftpAdapter as Adapter;
 use Psr\Container\ContainerInterface;
 
-class SftpAdapterFactory extends AbstractAdapterFactory
+class FtpdAdapterFactory extends AbstractAdapterFactory
 {
     public function doCreateService(ContainerInterface $container): AdapterInterface
     {
-        if (! \class_exists(Adapter::class)) {
-            throw new RequirementsException(
-                ['league/flysystem-sftp'],
-                'Sftp'
-            );
-        }
-
         return new Adapter($this->options);
     }
 
@@ -53,8 +45,8 @@ class SftpAdapterFactory extends AbstractAdapterFactory
             throw new UnexpectedValueException("Missing 'username' as option");
         }
 
-        if (! isset($this->options['password']) && ! isset($this->options['privateKey'])) {
-            throw new UnexpectedValueException("Missing either 'password' or 'privateKey' as option");
+        if (! isset($this->options['password'])) {
+            throw new UnexpectedValueException("Missing 'password' as option");
         }
     }
 }
