@@ -23,8 +23,8 @@ use BsbFlysystem\Exception\RequirementsException;
 use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Azure\AzureAdapter as Adapter;
+use MicrosoftAzure\Storage\Common\ServicesBuilder;
 use Psr\Container\ContainerInterface;
-use WindowsAzure\Common\ServicesBuilder;
 
 class AzureAdapterFactory extends AbstractAdapterFactory
 {
