@@ -20,9 +20,12 @@ declare(strict_types=1);
 namespace BsbFlysystemTest\Filter\File;
 
 use BsbFlysystem\Filter\File\RenameUpload;
-use BsbFlysystemTest\Framework\TestCase;
 use League\Flysystem\FilesystemInterface;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use UnexpectedValueException;
+use Zend\Filter\Exception\InvalidArgumentException;
+use Zend\Filter\Exception\RuntimeException;
 
 require_once __DIR__ . '/../../Assets/Functions.php';
 
@@ -33,12 +36,12 @@ class RenameUploadTest extends TestCase
      */
     protected $filesystem;
 
-    public function setup()
+    public function setup(): void
     {
         $this->filesystem = $this->prophesize(FilesystemInterface::class);
     }
 
-    public function testCanUploadFile()
+    public function testCanUploadFile(): void
     {
         $path = 'path/to/file.txt';
         $this->filesystem->putStream($path, Argument::any())
@@ -56,7 +59,7 @@ class RenameUploadTest extends TestCase
         $this->assertEquals($path, $key);
     }
 
-    public function testCanUploadFileWhenUploading()
+    public function testCanUploadFileWhenUploading(): void
     {
         $path = 'path/to/file.txt';
         $this->filesystem->putStream($path, Argument::any())
@@ -79,17 +82,17 @@ class RenameUploadTest extends TestCase
         $this->assertEquals($path, $temp['tmp_name']);
     }
 
-    public function testWillThrowExceptionWhenFilesystemNotSet()
+    public function testWillThrowExceptionWhenFilesystemNotSet(): void
     {
         $filter = new RenameUpload([
             'target' => 'path/to/file.txt',
         ]);
 
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $filter->filter(__DIR__ . '/../../Assets/test.txt');
     }
 
-    public function testWillThrowExceptionWhenFileIsNotPostUploaded()
+    public function testWillThrowExceptionWhenFileIsNotPostUploaded(): void
     {
         $path = 'path/to/file.txt';
         $this->filesystem->has($path)
@@ -100,12 +103,12 @@ class RenameUploadTest extends TestCase
             'filesystem' => $this->filesystem->reveal(),
         ]);
 
-        $this->expectException(\Zend\Filter\Exception\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage("File '".__DIR__ . '/../../Assets/Functions.php'."' could not be uploaded. Filter can move only uploaded files.");
         $filter->filter(__DIR__ . '/../../Assets/Functions.php');
     }
 
-    public function testWillThrowExceptionWhenFileExists()
+    public function testWillThrowExceptionWhenFileExists(): void
     {
         $path = 'path/to/file.txt';
         $this->filesystem->has($path)
@@ -118,12 +121,12 @@ class RenameUploadTest extends TestCase
             'filesystem' => $this->filesystem->reveal(),
         ]);
 
-        $this->expectException(\Zend\Filter\Exception\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("File 'path/to/file.txt' could not be uploaded. It already exists.");
         $filter->filter(__DIR__ . '/../../Assets/test.txt');
     }
 
-    public function testWillThrowExceptionWhenFilesystemFails()
+    public function testWillThrowExceptionWhenFilesystemFails(): void
     {
         $path = 'path/to/file.txt';
         $this->filesystem->putStream($path, Argument::any())
@@ -137,7 +140,7 @@ class RenameUploadTest extends TestCase
             'filesystem' => $this->filesystem->reveal(),
         ]);
 
-        $this->expectException(\Zend\Filter\Exception\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage(\sprintf(
             "File '%s' could not be uploaded. An error occurred while processing the file.",
             __DIR__ . '/../../Assets/test.txt'

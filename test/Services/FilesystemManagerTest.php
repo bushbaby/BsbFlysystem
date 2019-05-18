@@ -21,70 +21,72 @@ namespace BsbFlysystemTest\Service;
 
 use BsbFlysystem\Service\FilesystemManager;
 use BsbFlysystemTest\Bootstrap;
-use BsbFlysystemTest\Framework\TestCase;
 use League\Flysystem\Adapter\AbstractAdapter;
 use League\Flysystem\Cached\CachedAdapter;
 use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemInterface;
+use PHPUnit\Framework\TestCase;
+use stdClass;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ServiceManager;
 
 class FilesystemManagerTest extends TestCase
 {
-    public function testCreateViaServiceManager()
+    public function testCreateViaServiceManager(): void
     {
         $sm = Bootstrap::getServiceManager();
-        $manager = $sm->get(\BsbFlysystem\Service\FilesystemManager::class);
+        $manager = $sm->get(FilesystemManager::class);
 
-        $this->assertInstanceOf(\BsbFlysystem\Service\FilesystemManager::class, $manager);
+        $this->assertInstanceOf(FilesystemManager::class, $manager);
     }
 
-    public function testCreateByAliasViaServiceManager()
+    public function testCreateByAliasViaServiceManager(): void
     {
         $sm = Bootstrap::getServiceManager();
         $manager = $sm->get('BsbFlysystemManager');
 
-        $this->assertInstanceOf(\BsbFlysystem\Service\FilesystemManager::class, $manager);
+        $this->assertInstanceOf(FilesystemManager::class, $manager);
     }
 
-    public function testManagerValidatesPlugin()
+    public function testManagerValidatesPlugin(): void
     {
         $manager = new FilesystemManager(new ServiceManager());
-        $plugin = $this->getMockBuilder(\League\Flysystem\FilesystemInterface::class)
+        $plugin = $this->getMockBuilder(FilesystemInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->assertNull($manager->validatePlugin($plugin));
+        $manager->validatePlugin($plugin);
 
         $this->expectException('RuntimeException');
 
-        $plugin = new \stdClass();
-        $this->assertNull($manager->validatePlugin($plugin));
+        $plugin = new stdClass();
+        $manager->validatePlugin($plugin);
     }
 
-    public function testCanGetSpecificFilesystem()
+    public function testCanGetSpecificFilesystem(): void
     {
         $sm = Bootstrap::getServiceManager();
         $manager = $sm->get('BsbFlysystemManager');
 
-        $this->assertInstanceOf(\League\Flysystem\FilesystemInterface::class, $manager->get('default'));
+        $this->assertInstanceOf(FilesystemInterface::class, $manager->get('default'));
     }
 
-    public function testServicesSharedByDefault()
+    public function testServicesSharedByDefault(): void
     {
         $sm = Bootstrap::getServiceManager();
         /** @var AbstractPluginManager $manager */
-        $manager = $sm->get(\BsbFlysystem\Service\FilesystemManager::class);
+        $manager = $sm->get(FilesystemManager::class);
 
         $localA = $manager->get('default');
         $localB = $manager->get('default');
         $this->assertTrue($localA === $localB);
     }
 
-    public function testConfigurationOverrideableForNotSharedServices()
+    public function testConfigurationOverrideableForNotSharedServices(): void
     {
         $sm = Bootstrap::getServiceManager();
         /** @var FilesystemManager $manager */
-        $manager = $sm->get(\BsbFlysystem\Service\FilesystemManager::class);
+        $manager = $sm->get(FilesystemManager::class);
 
         /** @var Filesystem $filesystem */
         $filesystem = $manager->get('default_unshared');
@@ -110,12 +112,12 @@ class FilesystemManagerTest extends TestCase
         $this->assertEquals('./test/_build/documents/', $pathPrefix);
     }
 
-    public function testCanGetCachedFilesystem()
+    public function testCanGetCachedFilesystem(): void
     {
         $sm = Bootstrap::getServiceManager();
 
         /** @var FilesystemManager $manager */
-        $manager = $sm->get(\BsbFlysystem\Service\FilesystemManager::class);
+        $manager = $sm->get(FilesystemManager::class);
 
         /** @var Filesystem $filesystem */
         $filesystem = $manager->get('default_cached');
@@ -123,6 +125,6 @@ class FilesystemManagerTest extends TestCase
         /** @var CachedAdapter $adapter */
         $adapter = $filesystem->getAdapter();
 
-        $this->assertInstanceOf(\League\Flysystem\Cached\CachedAdapter::class, $adapter);
+        $this->assertInstanceOf(CachedAdapter::class, $adapter);
     }
 }

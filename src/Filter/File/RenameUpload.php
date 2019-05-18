@@ -43,7 +43,7 @@ class RenameUpload extends RenameUploadFilter
         return $this->filesystem;
     }
 
-    public function setFilesystem(FilesystemInterface $filesystem)
+    public function setFilesystem(FilesystemInterface $filesystem): void
     {
         $this->filesystem = $filesystem;
     }
@@ -53,7 +53,7 @@ class RenameUpload extends RenameUploadFilter
         return \trim(\str_replace('\\', '/', parent::getFinalTarget($uploadData, $clientFileName)), '/');
     }
 
-    protected function checkFileExists($targetFile)
+    protected function checkFileExists($targetFile): void
     {
         if (! $this->getOverwrite() && $this->getFilesystem()->has($targetFile)) {
             throw new Exception\InvalidArgumentException(
@@ -62,7 +62,7 @@ class RenameUpload extends RenameUploadFilter
         }
     }
 
-    protected function moveUploadedFile($sourceFile, $targetFile)
+    protected function moveUploadedFile($sourceFile, $targetFile): bool
     {
         if (! is_uploaded_file($sourceFile)) {
             throw new Exception\RuntimeException(

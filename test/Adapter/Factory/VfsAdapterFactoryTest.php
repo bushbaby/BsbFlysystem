@@ -21,12 +21,12 @@ namespace BsbFlysystemTest\Adapter\Factory;
 
 use BsbFlysystem\Adapter\Factory\VfsAdapterFactory;
 use BsbFlysystemTest\Bootstrap;
-use BsbFlysystemTest\Framework\TestCase;
 use League\Flysystem\Vfs\VfsAdapter;
+use PHPUnit\Framework\TestCase;
 
 class VfsAdapterFactoryTest extends TestCase
 {
-    public function testCreateService()
+    public function testCreateService(): void
     {
         $sm = Bootstrap::getServiceManager();
         $factory = new VfsAdapterFactory();

@@ -29,7 +29,7 @@ class ReplicateAdapterFactory extends AbstractAdapterFactory
 {
     public function doCreateService(ContainerInterface $container): AdapterInterface
     {
-        if (! \class_exists(\League\Flysystem\Replicate\ReplicateAdapter::class)) {
+        if (! \class_exists(Adapter::class)) {
             throw new RequirementsException(
                 ['league/flysystem-replicate-adapter'],
                 'Replicate'
@@ -38,15 +38,13 @@ class ReplicateAdapterFactory extends AbstractAdapterFactory
 
         $connectionManager = $container->get('BsbFlysystemAdapterManager');
 
-        $adapter = new Adapter(
+        return new Adapter(
             $connectionManager->get($this->options['source']),
             $connectionManager->get($this->options['replicate'])
         );
-
-        return $adapter;
     }
 
-    protected function validateConfig()
+    protected function validateConfig(): void
     {
         if (! isset($this->options['source'])) {
             throw new UnexpectedValueException("Missing 'source' as option");

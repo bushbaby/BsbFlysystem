@@ -21,24 +21,27 @@ namespace BsbFlysystemTest\Adapter\Factory;
 
 use BsbFlysystem\Adapter\Factory\DropboxAdapterFactory;
 use BsbFlysystemTest\Bootstrap;
-use BsbFlysystemTest\Framework\TestCase;
+use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use ReflectionMethod;
+use ReflectionProperty;
 use Spatie\FlysystemDropbox\DropboxAdapter;
 
 class DropboxAdapterFactoryTest extends TestCase
 {
     /**
-     * @var \ReflectionProperty
+     * @var ReflectionProperty
      */
     protected $property;
 
     /**
-     * @var \ReflectionMethod
+     * @var ReflectionMethod
      */
     protected $method;
 
-    public function setup()
+    public function setup(): void
     {
-        $class = new \ReflectionClass(DropboxAdapterFactory::class);
+        $class = new ReflectionClass(DropboxAdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -46,7 +49,7 @@ class DropboxAdapterFactoryTest extends TestCase
         $this->method->setAccessible(true);
     }
 
-    public function testCreateService()
+    public function testCreateService(): void
     {
         $sm = Bootstrap::getServiceManager();
         $factory = new DropboxAdapterFactory();
@@ -60,11 +63,11 @@ class DropboxAdapterFactoryTest extends TestCase
      * @dataProvider validateConfigProvider
      */
     public function testValidateConfig(
-        $options,
-        $expectedOptions = false,
-        $expectedException = false,
-        $expectedExceptionMessage = false
-    ) {
+        array $options,
+        ?array $expectedOptions,
+        ?string $expectedException,
+        ?string $expectedExceptionMessage
+    ): void {
         $factory = new DropboxAdapterFactory($options);
 
         if ($expectedException) {
@@ -91,6 +94,8 @@ class DropboxAdapterFactoryTest extends TestCase
             [
                 ['access_token' => 'foo'],
                 ['access_token' => 'foo', 'prefix' => null],
+                null,
+                null,
             ],
         ];
     }

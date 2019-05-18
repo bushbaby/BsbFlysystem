@@ -43,7 +43,7 @@ class ZendStorageCache extends AbstractCache
         $this->key = $key;
     }
 
-    public function load()
+    public function load(): void
     {
         $contents = $this->storage->getItem($this->key);
 
@@ -52,7 +52,7 @@ class ZendStorageCache extends AbstractCache
         }
     }
 
-    public function save()
+    public function save(): void
     {
         $contents = $this->getForStorage();
         $this->storage->setItem($this->key, $contents);

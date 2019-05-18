@@ -19,7 +19,6 @@ declare(strict_types=1);
 
 namespace BsbFlysystemTest\Adapter\Factory;
 
-use BsbFlysystem\Adapter\Factory\FtpAdapterFactory;
 use BsbFlysystem\Adapter\Factory\FtpdAdapterFactory;
 use BsbFlysystemTest\Bootstrap;
 use League\Flysystem\Adapter\Ftp;

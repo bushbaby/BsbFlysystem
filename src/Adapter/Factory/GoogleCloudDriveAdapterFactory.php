@@ -38,7 +38,7 @@ class GoogleCloudDriveAdapterFactory extends AbstractAdapterFactory
         }
 
         $storageClient = new StorageClient([
-            'projectId' => $this->options['project_id']
+            'projectId' => $this->options['project_id'],
         ]);
 
         $bucket = $storageClient->bucket($this->options['bucket']);

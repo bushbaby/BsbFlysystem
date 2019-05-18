@@ -19,14 +19,15 @@ declare(strict_types=1);
 
 namespace BsbFlysystemTest;
 
+use BsbFlysystem\ConfigProvider;
 use BsbFlysystem\Module;
-use BsbFlysystemTest\Framework\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class ConfigProviderTest extends TestCase
 {
     public function testConfigProviderGetConfig()
     {
-        $config = (new \BsbFlysystem\ConfigProvider())();
+        $config = (new ConfigProvider())();
 
         $this->assertNotEmpty($config);
     }
@@ -34,7 +35,7 @@ class ConfigProviderTest extends TestCase
     public function testConfigEqualsToModuleConfig()
     {
         $moduleConfig = (new Module())->getConfig();
-        $config = (new \BsbFlysystem\ConfigProvider())();
+        $config = (new ConfigProvider())();
 
         $this->assertEquals($moduleConfig['service_manager'], $config['dependencies']);
         $this->assertEquals($moduleConfig['bsb_flysystem'], $config['bsb_flysystem']);

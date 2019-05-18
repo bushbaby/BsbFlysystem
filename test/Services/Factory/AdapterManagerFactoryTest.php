@@ -21,11 +21,11 @@ namespace BsbFlysystemTest\Service\Factory;
 
 use BsbFlysystem\Service\AdapterManager;
 use BsbFlysystem\Service\Factory\AdapterManagerFactory;
-use BsbFlysystemTest\Framework\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class AdapterManagerFactoryTest extends TestCase
 {
-    public function testCreateService()
+    public function testCreateService(): void
     {
         $factory = new AdapterManagerFactory();
 
@@ -41,7 +41,7 @@ class AdapterManagerFactoryTest extends TestCase
         $this->assertInstanceOf('BsbFlysystem\Service\AdapterManager', $factory($serviceLocatorMock, null));
     }
 
-    public function testServicesSharedByDefault()
+    public function testServicesSharedByDefault(): void
     {
         $factory = new AdapterManagerFactory();
         $config = [
@@ -70,7 +70,7 @@ class AdapterManagerFactoryTest extends TestCase
         $adapterManager = $factory($serviceLocatorMock, null);
     }
 
-    public function testThrowsExceptionForMissingAdapterType()
+    public function testThrowsExceptionForMissingAdapterType(): void
     {
         $factory = new AdapterManagerFactory();
 
@@ -92,7 +92,7 @@ class AdapterManagerFactoryTest extends TestCase
         $factory($serviceLocatorMock, null);
     }
 
-    public function testThrowsExceptionForUnknownAdapterType()
+    public function testThrowsExceptionForUnknownAdapterType(): void
     {
         $factory = new AdapterManagerFactory();
 

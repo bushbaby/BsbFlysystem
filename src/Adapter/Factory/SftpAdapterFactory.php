@@ -29,19 +29,17 @@ class SftpAdapterFactory extends AbstractAdapterFactory
 {
     public function doCreateService(ContainerInterface $container): AdapterInterface
     {
-        if (! \class_exists(\League\Flysystem\Sftp\SftpAdapter::class)) {
+        if (! \class_exists(Adapter::class)) {
             throw new RequirementsException(
                 ['league/flysystem-sftp'],
                 'Sftp'
             );
         }
 
-        $adapter = new Adapter($this->options);
-
-        return $adapter;
+        return new Adapter($this->options);
     }
 
-    protected function validateConfig()
+    protected function validateConfig(): void
     {
         if (! isset($this->options['host'])) {
             throw new UnexpectedValueException("Missing 'host' as option");

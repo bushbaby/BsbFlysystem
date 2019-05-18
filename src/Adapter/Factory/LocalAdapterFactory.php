@@ -21,7 +21,7 @@ namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\Adapter\Local as Adapter;
-use League\Flysystem\AdapterInterface;use const LOCK_EX;
+use League\Flysystem\AdapterInterface;
 use Psr\Container\ContainerInterface;
 
 class LocalAdapterFactory extends AbstractAdapterFactory

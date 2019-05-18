@@ -19,14 +19,12 @@ declare(strict_types=1);
 
 namespace BsbFlysystemTest\Adapter\Factory;
 
-use BsbFlysystem\Adapter\Factory\DropboxAdapterFactory;
 use BsbFlysystem\Adapter\Factory\GoogleCloudDriveAdapterFactory;
 use BsbFlysystemTest\Bootstrap;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionProperty;
-use Spatie\FlysystemDropbox\DropboxAdapter;
 use Superbalist\Flysystem\GoogleStorage\GoogleStorageAdapter;
 
 class GoogleCloudDriveAdapterFactoryTest extends TestCase

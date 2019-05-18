@@ -30,7 +30,7 @@ class AwsS3v3AdapterFactory extends AbstractAdapterFactory
 {
     public function doCreateService(ContainerInterface $container): AdapterInterface
     {
-        if (! \class_exists(\League\Flysystem\AwsS3v3\AwsS3Adapter::class)) {
+        if (! \class_exists(Adapter::class)) {
             throw new RequirementsException(
                 ['league/flysystem-aws-s3-v3'],
                 'AwsS3v3'
@@ -63,12 +63,10 @@ class AwsS3v3AdapterFactory extends AbstractAdapterFactory
 
         $client = new S3Client($config);
 
-        $adapter = new Adapter($client, $this->options['bucket'], $this->options['prefix'], $adapterOptions);
-
-        return $adapter;
+        return new Adapter($client, $this->options['bucket'], $this->options['prefix'], $adapterOptions);
     }
 
-    protected function validateConfig()
+    protected function validateConfig(): void
     {
         if (! isset($this->options['iam']) || (isset($this->options['iam']) && (false === $this->options['iam']))) {
             if (! isset($this->options['credentials']) || ! \is_array($this->options['credentials'])) {

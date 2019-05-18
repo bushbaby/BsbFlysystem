@@ -20,11 +20,11 @@ declare(strict_types=1);
 namespace BsbFlysystemTest\Exception;
 
 use BsbFlysystem\Exception\RequirementsException;
-use BsbFlysystemTest\Framework\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class RequirementsExceptionTest extends TestCase
 {
-    public function testConstructorSetMessage()
+    public function testConstructorSetMessage(): void
     {
         $exception = new RequirementsException(['xxxx', 'yyyy'], 'zzzz');
 

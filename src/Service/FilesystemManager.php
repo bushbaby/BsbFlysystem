@@ -20,6 +20,7 @@ declare(strict_types=1);
 namespace BsbFlysystem\Service;
 
 use BsbFlysystem\Exception\RuntimeException;
+use League\Flysystem\FilesystemInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\Exception;
 
@@ -28,7 +29,7 @@ class FilesystemManager extends AbstractPluginManager
     /**
      * @var string
      */
-    protected $instanceOf = \League\Flysystem\FilesystemInterface::class;
+    protected $instanceOf = FilesystemInterface::class;
 
     /**
      * @var bool
@@ -40,7 +41,7 @@ class FilesystemManager extends AbstractPluginManager
      */
     protected $sharedByDefault = true;
 
-    public function validate($instance)
+    public function validate($instance): void
     {
         if (! $instance instanceof $this->instanceOf) {
             throw new Exception\InvalidServiceException(\sprintf(
@@ -51,7 +52,7 @@ class FilesystemManager extends AbstractPluginManager
         }
     }
 
-    public function validatePlugin($instance)
+    public function validatePlugin($instance): void
     {
         try {
             $this->validate($instance);

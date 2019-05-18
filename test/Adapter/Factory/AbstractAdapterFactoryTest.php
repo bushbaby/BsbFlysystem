@@ -20,24 +20,27 @@ declare(strict_types=1);
 namespace BsbFlysystemTest\Adapter\Factory;
 
 use BsbFlysystemTest\Assets\SimpleAdapterFactory;
-use BsbFlysystemTest\Framework\TestCase;
+use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use ReflectionMethod;
+use ReflectionProperty;
 use Zend\ServiceManager\ServiceManager;
 
 class AbstractAdapterFactoryTest extends TestCase
 {
     /**
-     * @var \ReflectionProperty
+     * @var ReflectionProperty
      */
     protected $property;
 
     /**
-     * @var \ReflectionMethod
+     * @var ReflectionMethod
      */
     protected $method;
 
-    public function setup()
+    public function setup(): void
     {
-        $class = new \ReflectionClass(SimpleAdapterFactory::class);
+        $class = new ReflectionClass(SimpleAdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -45,7 +48,7 @@ class AbstractAdapterFactoryTest extends TestCase
         $this->method->setAccessible(true);
     }
 
-    public function testOptionsViaContructor()
+    public function testOptionsViaContructor(): void
     {
         $options = ['option' => 1];
         $factory = new SimpleAdapterFactory($options);
@@ -55,7 +58,7 @@ class AbstractAdapterFactoryTest extends TestCase
         $this->assertEquals($expected, $this->property->getValue($factory));
     }
 
-    public function testOptionsFromConfigService()
+    public function testOptionsFromConfigService(): void
     {
         $options = ['option' => 1];
         $factory = new SimpleAdapterFactory();
@@ -79,7 +82,7 @@ class AbstractAdapterFactoryTest extends TestCase
         $this->assertEquals($expected, $this->property->getValue($factory));
     }
 
-    public function testConstructOptionsOverridesOptionsFromConfigService()
+    public function testConstructOptionsOverridesOptionsFromConfigService(): void
     {
         $constructor_options = ['option' => 1, 'option2' => 2];
         $config_options = ['option' => 0, 'option3' => 3];
@@ -101,7 +104,7 @@ class AbstractAdapterFactoryTest extends TestCase
         $this->assertEquals($expected, $this->property->getValue($factory));
     }
 
-    public function testIncompleteConfigPathsDoesNotChangeOptions()
+    public function testIncompleteConfigPathsDoesNotChangeOptions(): void
     {
         $constructor_options = ['option' => 1, 'option2' => 2];
         $factory = new SimpleAdapterFactory($constructor_options);

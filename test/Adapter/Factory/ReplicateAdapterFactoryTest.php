@@ -21,24 +21,27 @@ namespace BsbFlysystemTest\Adapter\Factory;
 
 use BsbFlysystem\Adapter\Factory\ReplicateAdapterFactory;
 use BsbFlysystemTest\Bootstrap;
-use BsbFlysystemTest\Framework\TestCase;
 use League\Flysystem\Replicate\ReplicateAdapter;
+use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use ReflectionMethod;
+use ReflectionProperty;
 
 class ReplicateAdapterFactoryTest extends TestCase
 {
     /**
-     * @var \ReflectionProperty
+     * @var ReflectionProperty
      */
     protected $property;
 
     /**
-     * @var \ReflectionMethod
+     * @var ReflectionMethod
      */
     protected $method;
 
-    public function setup()
+    public function setup(): void
     {
-        $class = new \ReflectionClass(ReplicateAdapterFactory::class);
+        $class = new ReflectionClass(ReplicateAdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -46,7 +49,7 @@ class ReplicateAdapterFactoryTest extends TestCase
         $this->method->setAccessible(true);
     }
 
-    public function testCreateService()
+    public function testCreateService(): void
     {
         $sm = Bootstrap::getServiceManager();
         $factory = new ReplicateAdapterFactory();
@@ -60,11 +63,11 @@ class ReplicateAdapterFactoryTest extends TestCase
      * @dataProvider validateConfigProvider
      */
     public function testValidateConfig(
-        $options,
-        $expectedOptions = false,
-        $expectedException = false,
-        $expectedExceptionMessage = false
-    ) {
+        array $options,
+        ?array $expectedOptions,
+        ?string $expectedException,
+        ?string $expectedExceptionMessage
+    ): void {
         $factory = new ReplicateAdapterFactory($options);
 
         if ($expectedException) {
@@ -84,19 +87,21 @@ class ReplicateAdapterFactoryTest extends TestCase
         return [
             [
                 [],
-                false,
+                null,
                 'UnexpectedValueException',
                 "Missing 'source' as option",
             ],
             [
                 ['source' => 'local->default'],
-                false,
+                null,
                 'UnexpectedValueException',
                 "Missing 'replicate' as option",
             ],
             [
                 ['source' => 'local->default', 'replicate' => 'zip->default'],
                 ['source' => 'local->default', 'replicate' => 'zip->default'],
+                null,
+                null,
             ],
         ];
     }

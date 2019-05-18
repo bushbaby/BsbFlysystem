@@ -17,6 +17,11 @@
 
 declare(strict_types=1);
 
+use BsbFlysystem\Service\AdapterManager;
+use BsbFlysystem\Service\Factory\AdapterManagerFactory;
+use BsbFlysystem\Service\Factory\FilesystemManagerFactory;
+use BsbFlysystem\Service\FilesystemManager;
+
 return [
     'bsb_flysystem' => [
         'adapters' => [
@@ -56,12 +61,12 @@ return [
     ],
     'service_manager' => [
         'aliases' => [
-            'BsbFlysystemManager' => \BsbFlysystem\Service\FilesystemManager::class,
-            'BsbFlysystemAdapterManager' => \BsbFlysystem\Service\AdapterManager::class,
+            'BsbFlysystemManager' => FilesystemManager::class,
+            'BsbFlysystemAdapterManager' => AdapterManager::class,
         ],
         'factories' => [
-            \BsbFlysystem\Service\AdapterManager::class => \BsbFlysystem\Service\Factory\AdapterManagerFactory::class,
-            \BsbFlysystem\Service\FilesystemManager::class => \BsbFlysystem\Service\Factory\FilesystemManagerFactory::class,
+            AdapterManager::class => AdapterManagerFactory::class,
+            FilesystemManager::class => FilesystemManagerFactory::class,
         ],
     ],
 ];

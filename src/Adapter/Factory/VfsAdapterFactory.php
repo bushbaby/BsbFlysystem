@@ -29,7 +29,7 @@ class VfsAdapterFactory extends AbstractAdapterFactory
 {
     public function doCreateService(ContainerInterface $container): AdapterInterface
     {
-        if (! \class_exists(\League\Flysystem\Vfs\VfsAdapter::class)) {
+        if (! \class_exists(Adapter::class)) {
             throw new RequirementsException(
                 ['league/flysystem-vfs'],
                 'Vfs'
@@ -42,7 +42,7 @@ class VfsAdapterFactory extends AbstractAdapterFactory
     /**
      * This adapter has no options.
      */
-    protected function validateConfig()
+    protected function validateConfig(): void
     {
     }
 }

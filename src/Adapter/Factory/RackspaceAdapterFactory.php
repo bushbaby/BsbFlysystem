@@ -24,14 +24,15 @@ use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Rackspace\RackspaceAdapter as Adapter;
 use OpenCloud\OpenStack;
+use ProxyManager\Factory\LazyLoadingValueHolderFactory;
 use Psr\Container\ContainerInterface;
 
 class RackspaceAdapterFactory extends AbstractAdapterFactory
 {
     public function doCreateService(ContainerInterface $container): AdapterInterface
     {
-        if (! \class_exists(\League\Flysystem\Rackspace\RackspaceAdapter::class) ||
-            ! \class_exists(\ProxyManager\Factory\LazyLoadingValueHolderFactory::class)
+        if (! \class_exists(Adapter::class) ||
+            ! \class_exists(LazyLoadingValueHolderFactory::class)
         ) {
             throw new RequirementsException(
                 ['league/flysystem-rackspace', 'ocramius/proxy-manager'],
@@ -41,7 +42,7 @@ class RackspaceAdapterFactory extends AbstractAdapterFactory
 
         /** @var AdapterInterface $proxy */
         $proxy = $this->getLazyFactory($container)->createProxy(
-            \League\Flysystem\Rackspace\RackspaceAdapter::class,
+            Adapter::class,
             function (&$wrappedObject, $proxy, $method, $parameters, &$initializer) {
                 $client = new OpenStack(
                     $this->options['url'],
@@ -66,7 +67,7 @@ class RackspaceAdapterFactory extends AbstractAdapterFactory
         return $proxy;
     }
 
-    protected function validateConfig()
+    protected function validateConfig(): void
     {
         if (! isset($this->options['url'])) {
             throw new UnexpectedValueException("Missing 'url' as option");

@@ -30,7 +30,7 @@ class WebDAVAdapterFactory extends AbstractAdapterFactory
 {
     public function doCreateService(ContainerInterface $container): AdapterInterface
     {
-        if (! \class_exists(\League\Flysystem\WebDAV\WebDAVAdapter::class)) {
+        if (! \class_exists(Adapter::class)) {
             throw new RequirementsException(
                 ['league/flysystem-webdav'],
                 'WebDAV'
@@ -39,12 +39,10 @@ class WebDAVAdapterFactory extends AbstractAdapterFactory
 
         $client = new Client($this->options);
 
-        $adapter = new Adapter($client, $this->options['prefix']);
-
-        return $adapter;
+        return new Adapter($client, $this->options['prefix']);
     }
 
-    protected function validateConfig()
+    protected function validateConfig(): void
     {
         if (! isset($this->options['baseUri'])) {
             throw new UnexpectedValueException("Missing 'baseUri' as option");

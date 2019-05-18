@@ -21,23 +21,27 @@ namespace BsbFlysystemTest\Adapter\Factory;
 
 use BsbFlysystem\Adapter\Factory\AzureAdapterFactory;
 use BsbFlysystemTest\Bootstrap;
-use BsbFlysystemTest\Framework\TestCase;
+use League\Flysystem\Azure\AzureAdapter;
+use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use ReflectionMethod;
+use ReflectionProperty;
 
 class AzureAdapterFactoryTest extends TestCase
 {
     /**
-     * @var \ReflectionProperty
+     * @var ReflectionProperty
      */
     protected $property;
 
     /**
-     * @var \ReflectionMethod
+     * @var ReflectionMethod
      */
     protected $method;
 
-    public function setup()
+    public function setup(): void
     {
-        $class = new \ReflectionClass(AzureAdapterFactory::class);
+        $class = new ReflectionClass(AzureAdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -45,7 +49,7 @@ class AzureAdapterFactoryTest extends TestCase
         $this->method->setAccessible(true);
     }
 
-    public function testCreateService()
+    public function testCreateService(): void
     {
         $this->markTestSkipped('Skipped due to https://github.com/thephpleague/flysystem-azure/pull/16');
 
@@ -60,18 +64,18 @@ class AzureAdapterFactoryTest extends TestCase
 
         $adapter = $factory($sm, 'azure_default');
 
-        $this->assertInstanceOf(\League\Flysystem\Azure\AzureAdapter::class, $adapter);
+        $this->assertInstanceOf(AzureAdapter::class, $adapter);
     }
 
     /**
      * @dataProvider validateConfigProvider
      */
     public function testValidateConfig(
-        $options,
-        $expectedOptions = false,
-        $expectedException = false,
-        $expectedExceptionMessage = false
-    ) {
+        array $options,
+        ?array $expectedOptions,
+        ?string $expectedException,
+        ?string $expectedExceptionMessage
+    ): void {
         $factory = new AzureAdapterFactory($options);
 
         if ($expectedException) {
@@ -121,6 +125,8 @@ class AzureAdapterFactoryTest extends TestCase
                     'account-key' => 'bar',
                     'container' => 'container',
                 ],
+                null,
+                null,
             ],
         ];
     }

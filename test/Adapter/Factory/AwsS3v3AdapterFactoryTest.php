@@ -19,25 +19,30 @@ declare(strict_types=1);
 
 namespace BsbFlysystemTest\Adapter\Factory;
 
+use Aws\Command;
 use BsbFlysystem\Adapter\Factory\AwsS3v3AdapterFactory;
 use BsbFlysystemTest\Bootstrap;
-use BsbFlysystemTest\Framework\TestCase;
+use League\Flysystem\AwsS3v3\AwsS3Adapter;
+use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use ReflectionMethod;
+use ReflectionProperty;
 
 class AwsS3v3AdapterFactoryTest extends TestCase
 {
     /**
-     * @var \ReflectionProperty
+     * @var ReflectionProperty
      */
     protected $property;
 
     /**
-     * @var \ReflectionMethod
+     * @var ReflectionMethod
      */
     protected $method;
 
-    public function setup()
+    public function setup(): void
     {
-        $class = new \ReflectionClass('BsbFlysystem\Adapter\Factory\AwsS3v3AdapterFactory');
+        $class = new ReflectionClass('BsbFlysystem\Adapter\Factory\AwsS3v3AdapterFactory');
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -45,7 +50,7 @@ class AwsS3v3AdapterFactoryTest extends TestCase
         $this->method->setAccessible(true);
     }
 
-    public function testCreateService()
+    public function testCreateService(): void
     {
         $this->markTestSkipped('Skipped because Aws3Sv2 and Aws3Sv3 are not compatible.');
 
@@ -61,11 +66,11 @@ class AwsS3v3AdapterFactoryTest extends TestCase
      * @dataProvider validateConfigProvider
      */
     public function testValidateConfig(
-        $options,
-        $expectedOptions = false,
-        $expectedException = false,
-        $expectedExceptionMessage = false
-    ) {
+        array $options,
+        ?array $expectedOptions,
+        ?string $expectedException,
+        ?string $expectedExceptionMessage
+    ): void {
         $factory = new AwsS3v3AdapterFactory($options);
 
         if ($expectedException) {
@@ -178,11 +183,13 @@ class AwsS3v3AdapterFactoryTest extends TestCase
                     'request.options' => [],
                     'version' => 'latest',
                 ],
+                null,
+                null,
             ],
         ];
     }
 
-    public function testCreateServiceWithRequestOptions()
+    public function testCreateServiceWithRequestOptions(): void
     {
         $this->markTestSkipped('Skipped because Aws3Sv2 and Aws3Sv3 are not compatible.');
 
@@ -201,10 +208,10 @@ class AwsS3v3AdapterFactoryTest extends TestCase
         $sm = Bootstrap::getServiceManager();
         $factory = new AwsS3v3AdapterFactory($options);
 
-        /** @var \League\Flysystem\AwsS3v3\AwsS3Adapter $adapter */
+        /** @var AwsS3Adapter $adapter */
         $adapter = $factory($sm, 'awss3_default');
 
-        /** @var \Aws\Command $command */
+        /** @var Command $command */
         $command = $adapter->getClient()->getCommand('GetObject');
 
         self::assertTrue($command->hasParam('@http'));

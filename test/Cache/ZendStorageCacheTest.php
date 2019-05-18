@@ -20,11 +20,11 @@ declare(strict_types=1);
 namespace BsbFlysystemTest\Cache;
 
 use BsbFlysystem\Cache\ZendStorageCache;
-use BsbFlysystemTest\Framework\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class ZendStorageCacheTest extends TestCase
 {
-    public function testLoadDefault()
+    public function testLoadDefault(): void
     {
         $mock = $this->getMockBuilder('Zend\Cache\Storage\StorageInterface')->getMock();
         $mock->expects($this->once())->method('getItem');
@@ -33,7 +33,7 @@ class ZendStorageCacheTest extends TestCase
         $zendStorageCache->load();
     }
 
-    public function testLoadDefaultCallsSetFromStorage()
+    public function testLoadDefaultCallsSetFromStorage(): void
     {
         $mock = $this->getMockBuilder('Zend\Cache\Storage\StorageInterface')->getMock();
         // setFromStorage expects json in this form
@@ -45,7 +45,7 @@ class ZendStorageCacheTest extends TestCase
         $this->assertTrue(JSON_ERROR_NONE !== \json_last_error());
     }
 
-    public function testLoadWithCustomKey()
+    public function testLoadWithCustomKey(): void
     {
         $mock = $this->getMockBuilder('Zend\Cache\Storage\StorageInterface')->getMock();
         $mock->expects($this->once())->method('getItem')->with('akey');
@@ -54,7 +54,7 @@ class ZendStorageCacheTest extends TestCase
         $zendStorageCache->load();
     }
 
-    public function testSaveDefault()
+    public function testSaveDefault(): void
     {
         $mock = $this->getMockBuilder('Zend\Cache\Storage\StorageInterface')->getMock();
         $mock->expects($this->once())->method('setItem');
@@ -63,7 +63,7 @@ class ZendStorageCacheTest extends TestCase
         $zendStorageCache->save();
     }
 
-    public function testSaveWithCustomKey()
+    public function testSaveWithCustomKey(): void
     {
         $mock = $this->getMockBuilder('Zend\Cache\Storage\StorageInterface')->getMock();
         $mock->expects($this->once())->method('setItem')->with('akey');
