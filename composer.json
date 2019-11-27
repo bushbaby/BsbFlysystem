@@ -36,7 +36,7 @@
         "league/flysystem-ziparchive": "~1.0",
         "ocramius/proxy-manager": "~1.0 || ~2.0",
         "php-coveralls/php-coveralls": "^2.1",
-        "phpunit/phpunit": "^7.0",
+        "phpunit/phpunit": "^7.5.17",
         "spatie/flysystem-dropbox": "~1.0",
         "superbalist/flysystem-google-storage": "^7.2",
         "zendframework/zend-code": "^3.3.1",
