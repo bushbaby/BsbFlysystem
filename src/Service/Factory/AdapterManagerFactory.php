@@ -88,10 +88,7 @@ class AdapterManagerFactory
 
         foreach ($config['adapters'] as $name => $adapterConfig) {
             if (! isset($adapterConfig['type'])) {
-                throw new UnexpectedValueException(\sprintf(
-                    "Missing 'type' key for the adapter '%s' configuration",
-                    $name
-                ));
+                throw new UnexpectedValueException(\sprintf("Missing 'type' key for the adapter '%s' configuration", $name));
             }
 
             $type = \strtolower($adapterConfig['type']);

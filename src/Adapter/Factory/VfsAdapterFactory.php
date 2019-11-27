@@ -30,10 +30,7 @@ class VfsAdapterFactory extends AbstractAdapterFactory
     public function doCreateService(ContainerInterface $container): AdapterInterface
     {
         if (! \class_exists(Adapter::class)) {
-            throw new RequirementsException(
-                ['league/flysystem-vfs'],
-                'Vfs'
-            );
+            throw new RequirementsException(['league/flysystem-vfs'], 'Vfs');
         }
 
         return new Adapter(new Vfs());

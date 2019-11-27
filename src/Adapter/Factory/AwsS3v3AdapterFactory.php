@@ -31,10 +31,7 @@ class AwsS3v3AdapterFactory extends AbstractAdapterFactory
     public function doCreateService(ContainerInterface $container): AdapterInterface
     {
         if (! \class_exists(Adapter::class)) {
-            throw new RequirementsException(
-                ['league/flysystem-aws-s3-v3'],
-                'AwsS3v3'
-            );
+            throw new RequirementsException(['league/flysystem-aws-s3-v3'], 'AwsS3v3');
         }
         $config = [
             'region' => $this->options['region'],

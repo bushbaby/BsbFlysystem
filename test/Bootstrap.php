@@ -57,9 +57,7 @@ class Bootstrap
             return;
         }
 
-        throw new RuntimeException(
-            'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.'
-        );
+        throw new RuntimeException('Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.');
     }
 
     public static function getApplicationConfig(): array
