@@ -31,10 +31,7 @@ class GoogleCloudDriveAdapterFactory extends AbstractAdapterFactory
     public function doCreateService(ContainerInterface $container): AdapterInterface
     {
         if (! \class_exists(Adapter::class)) {
-            throw new RequirementsException(
-                ['superbalist/flysystem-google-storage'],
-                'GoogleCloudDrive'
-            );
+            throw new RequirementsException(['superbalist/flysystem-google-storage'], 'GoogleCloudDrive');
         }
 
         $storageClient = new StorageClient([

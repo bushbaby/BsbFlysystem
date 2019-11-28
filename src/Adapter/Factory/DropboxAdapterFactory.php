@@ -31,10 +31,7 @@ class DropboxAdapterFactory extends AbstractAdapterFactory
     public function doCreateService(ContainerInterface $container): AdapterInterface
     {
         if (! \class_exists(Adapter::class)) {
-            throw new RequirementsException(
-                ['spatie/flysystem-dropbox'],
-                'Dropbox'
-            );
+            throw new RequirementsException(['spatie/flysystem-dropbox'], 'Dropbox');
         }
 
         $client = new Client(

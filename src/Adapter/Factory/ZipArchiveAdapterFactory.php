@@ -30,10 +30,7 @@ class ZipArchiveAdapterFactory extends AbstractAdapterFactory
     public function doCreateService(ContainerInterface $container): AdapterInterface
     {
         if (! \class_exists(Adapter::class)) {
-            throw new RequirementsException(
-                ['league/ziparchive'],
-                'ZipArchive'
-            );
+            throw new RequirementsException(['league/ziparchive'], 'ZipArchive');
         }
 
         return new Adapter($this->options['archive'], null, $this->options['prefix']);

@@ -30,10 +30,7 @@ class ReplicateAdapterFactory extends AbstractAdapterFactory
     public function doCreateService(ContainerInterface $container): AdapterInterface
     {
         if (! \class_exists(Adapter::class)) {
-            throw new RequirementsException(
-                ['league/flysystem-replicate-adapter'],
-                'Replicate'
-            );
+            throw new RequirementsException(['league/flysystem-replicate-adapter'], 'Replicate');
         }
 
         $connectionManager = $container->get('BsbFlysystemAdapterManager');

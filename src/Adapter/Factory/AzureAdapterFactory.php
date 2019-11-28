@@ -31,10 +31,7 @@ class AzureAdapterFactory extends AbstractAdapterFactory
     public function doCreateService(ContainerInterface $container): AdapterInterface
     {
         if (! \class_exists(Adapter::class)) {
-            throw new RequirementsException(
-                ['league/flysystem-azure'],
-                'Azure'
-            );
+            throw new RequirementsException(['league/flysystem-azure'], 'Azure');
         }
         $endpoint = \sprintf(
             'DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s',

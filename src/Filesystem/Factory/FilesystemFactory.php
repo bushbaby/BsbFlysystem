@@ -67,10 +67,7 @@ class FilesystemFactory
         $config = $container->get('config');
         $fsConfig = $config['bsb_flysystem']['filesystems'][$requestedName];
         if (! isset($fsConfig['adapter'])) {
-            throw new UnexpectedValueException(\sprintf(
-                "Missing 'adapter' key for the filesystem '%s' configuration",
-                $requestedName
-            ));
+            throw new UnexpectedValueException(\sprintf("Missing 'adapter' key for the filesystem '%s' configuration", $requestedName));
         }
 
         if (null !== $options) {
