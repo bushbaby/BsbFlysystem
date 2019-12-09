@@ -16,7 +16,7 @@ Provides a way to configure the various filesystem adapters provided by thephple
 ## Installation
 
 ```
-php composer.phar require "bushbaby/flysystem:^4.0"
+php composer.phar require "bushbaby/flysystem:^5.0"
 ```
 
 Then add `BsbFlysystem` to the `config/application.config.php` modules list.
@@ -25,7 +25,7 @@ Copy the `config/bsb_flysystem.local.php.dist` to the `config/autoload` director
 
 ## Requirements
 
-- \>=PHP7.0
+- \>=PHP7.2
 - \>=ZF2.7
 
 ## Configuration
