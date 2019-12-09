@@ -25,7 +25,7 @@ Copy the `config/bsb_flysystem.local.php.dist` to the `config/autoload` director
 
 ## Requirements
 
-- \>=PHP7.0
+- \>=PHP7.2
 - \>=ZF2.7
 
 ## Configuration
