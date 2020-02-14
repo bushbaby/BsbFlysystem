@@ -134,7 +134,7 @@ No cache factories are provided by BsbFlysystem. You should write them yourself 
 
 BsbFilesystem is able to automaticly wrap a ZF2 caching service in a in such way that a Flysystem instance is able to consume it.
 
-This means that BsbFlysystem can work with both flysystem caches (implementing `League\Flysystem\Cached\CacheInterface`) and ZF2 caches (implementing `Zend\Cache\Storage\StorageInterface`).
+This means that BsbFlysystem can work with both flysystem caches (implementing `League\Flysystem\Cached\CacheInterface`) and ZF2 caches (implementing `Laminas\Cache\Storage\StorageInterface`).
 
 example: caching options as are common in a ZF2 application
 
@@ -158,7 +158,7 @@ example: caching options as are common in a ZF2 application
 ],
 'service_manager' => [
     'abstract_factories' => [
-    	\Zend\Cache\Service\StorageCacheAbstractServiceFactory::class
+    	\Laminas\Cache\Service\StorageCacheAbstractServiceFactory::class
     ],
 ],
 ```
@@ -329,7 +329,7 @@ foreach ($contents as $entry) {
 
 This class takes an `filesystem` constructor option which must implement `League\Flysystem\FilesystemInterface`.
 
-The `BsbFlysystem\Filter\File\RenameUpload` extends `Zend\Filter\File\RenameUpload` class so I refer to the Flysystem [documentation](http://framework.zend.com/manual/current/en/modules/zend.filter.file.rename-upload.html#zend-filter-file-rename-upload) for more information.
+The `BsbFlysystem\Filter\File\RenameUpload` extends `Laminas\Filter\File\RenameUpload` class so I refer to the Flysystem [documentation](http://framework.zend.com/manual/current/en/modules/zend.filter.file.rename-upload.html#zend-filter-file-rename-upload) for more information.
 
 ```
 $request = new Request();

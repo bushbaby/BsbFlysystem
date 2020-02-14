@@ -24,8 +24,8 @@ use League\Flysystem\FilesystemInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use UnexpectedValueException;
-use Zend\Filter\Exception\InvalidArgumentException;
-use Zend\Filter\Exception\RuntimeException;
+use Laminas\Filter\Exception\InvalidArgumentException;
+use Laminas\Filter\Exception\RuntimeException;
 
 require_once __DIR__ . '/../../Assets/Functions.php';
 

@@ -27,8 +27,8 @@ use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use Zend\ServiceManager\AbstractPluginManager;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\AbstractPluginManager;
+use Laminas\ServiceManager\ServiceManager;
 
 class FilesystemManagerTest extends TestCase
 {

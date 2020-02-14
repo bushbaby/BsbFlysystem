@@ -36,8 +36,8 @@ use BsbFlysystem\Exception\UnexpectedValueException;
 use BsbFlysystem\Service\AdapterManager;
 use League\Flysystem\Adapter\NullAdapter;
 use Psr\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\InvokableFactory;
-use Zend\Stdlib\ArrayUtils;
+use Laminas\ServiceManager\Factory\InvokableFactory;
+use Laminas\Stdlib\ArrayUtils;
 
 class AdapterManagerFactory
 {

@@ -21,8 +21,8 @@ namespace BsbFlysystem\Service;
 
 use BsbFlysystem\Exception\RuntimeException;
 use League\Flysystem\FilesystemInterface;
-use Zend\ServiceManager\AbstractPluginManager;
-use Zend\ServiceManager\Exception;
+use Laminas\ServiceManager\AbstractPluginManager;
+use Laminas\ServiceManager\Exception;
 
 class FilesystemManager extends AbstractPluginManager
 {

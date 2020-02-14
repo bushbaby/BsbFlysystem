@@ -28,7 +28,7 @@ use League\Flysystem\EventableFilesystem\EventableFilesystem;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
 use Psr\Container\ContainerInterface;
-use Zend\Cache\Storage\StorageInterface;
+use Laminas\Cache\Storage\StorageInterface;
 
 class FilesystemFactory
 {

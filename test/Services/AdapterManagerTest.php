@@ -24,7 +24,7 @@ use BsbFlysystem\Service\AdapterManager;
 use BsbFlysystemTest\Bootstrap;
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 class AdapterManagerTest extends TestCase
 {

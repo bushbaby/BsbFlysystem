@@ -21,8 +21,8 @@ namespace BsbFlysystem\Filter\File;
 
 use League\Flysystem\FilesystemInterface;
 use UnexpectedValueException;
-use Zend\Filter\Exception;
-use Zend\Filter\File\RenameUpload as RenameUploadFilter;
+use Laminas\Filter\Exception;
+use Laminas\Filter\File\RenameUpload as RenameUploadFilter;
 
 class RenameUpload extends RenameUploadFilter
 {

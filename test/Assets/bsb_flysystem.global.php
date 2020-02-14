@@ -186,7 +186,7 @@ return [
     ],
     'service_manager' => [
         'abstract_factories' => [
-            'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
+            'Laminas\Cache\Service\StorageCacheAbstractServiceFactory',
         ],
     ],
 ];

@@ -145,7 +145,7 @@ class FilesystemFactoryTest extends TestCase
         $this->assertInstanceOf(CachedAdapter::class, $service->getAdapter());
     }
 
-    public function testCreateServiceWithNameCachedAdapterZendCacheStorage(): void
+    public function testCreateServiceWithNameCachedAdapterLaminasCacheStorage(): void
     {
         $factory = new FilesystemFactory();
 
@@ -168,7 +168,7 @@ class FilesystemFactoryTest extends TestCase
         $serviceLocatorMock->expects($this->at(1))->method('get')->with('BsbFlysystemAdapterManager')->willReturn($adapterPluginMock);
         $adapterPluginMock->expects($this->once())->method('get')->with('named_adapter')->willReturn($adapter);
 
-        $cacheMock = $this->getMockBuilder('Zend\Cache\Storage\StorageInterface')->getMock();
+        $cacheMock = $this->getMockBuilder('Laminas\Cache\Storage\StorageInterface')->getMock();
         $serviceLocatorMock->expects($this->at(2))->method('get')->with('named/cache')->willReturn($cacheMock);
 
         /** @var Filesystem $service */

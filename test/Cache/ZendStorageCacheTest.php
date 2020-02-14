@@ -26,7 +26,7 @@ class ZendStorageCacheTest extends TestCase
 {
     public function testLoadDefault(): void
     {
-        $mock = $this->getMockBuilder('Zend\Cache\Storage\StorageInterface')->getMock();
+        $mock = $this->getMockBuilder('Laminas\Cache\Storage\StorageInterface')->getMock();
         $mock->expects($this->once())->method('getItem');
 
         $zendStorageCache = new ZendStorageCache($mock);
@@ -35,7 +35,7 @@ class ZendStorageCacheTest extends TestCase
 
     public function testLoadDefaultCallsSetFromStorage(): void
     {
-        $mock = $this->getMockBuilder('Zend\Cache\Storage\StorageInterface')->getMock();
+        $mock = $this->getMockBuilder('Laminas\Cache\Storage\StorageInterface')->getMock();
         // setFromStorage expects json in this form
         $mock->expects($this->once())->method('getItem')->willReturn('this-is-not-valid-json');
 
@@ -47,7 +47,7 @@ class ZendStorageCacheTest extends TestCase
 
     public function testLoadWithCustomKey(): void
     {
-        $mock = $this->getMockBuilder('Zend\Cache\Storage\StorageInterface')->getMock();
+        $mock = $this->getMockBuilder('Laminas\Cache\Storage\StorageInterface')->getMock();
         $mock->expects($this->once())->method('getItem')->with('akey');
         $zendStorageCache = new ZendStorageCache($mock, 'akey');
 
@@ -56,7 +56,7 @@ class ZendStorageCacheTest extends TestCase
 
     public function testSaveDefault(): void
     {
-        $mock = $this->getMockBuilder('Zend\Cache\Storage\StorageInterface')->getMock();
+        $mock = $this->getMockBuilder('Laminas\Cache\Storage\StorageInterface')->getMock();
         $mock->expects($this->once())->method('setItem');
 
         $zendStorageCache = new ZendStorageCache($mock);
@@ -65,7 +65,7 @@ class ZendStorageCacheTest extends TestCase
 
     public function testSaveWithCustomKey(): void
     {
-        $mock = $this->getMockBuilder('Zend\Cache\Storage\StorageInterface')->getMock();
+        $mock = $this->getMockBuilder('Laminas\Cache\Storage\StorageInterface')->getMock();
         $mock->expects($this->once())->method('setItem')->with('akey');
 
         $zendStorageCache = new ZendStorageCache($mock, 'akey');

@@ -54,7 +54,7 @@ class AdapterManagerFactoryTest extends TestCase
                 ],
                 'adapter_map' => [
                     'factories' => [
-                        'someadapter' => 'Zend\ServiceManager\Factory\InvokableFactory',
+                        'someadapter' => 'Laminas\ServiceManager\Factory\InvokableFactory',
                     ],
                     'aliases' => [
                         'someadapter' => 'Some/Adapter',

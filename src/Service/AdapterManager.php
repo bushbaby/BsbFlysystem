@@ -21,9 +21,9 @@ namespace BsbFlysystem\Service;
 
 use BsbFlysystem\Exception\RuntimeException;
 use League\Flysystem\AdapterInterface;
-use Zend\ServiceManager\AbstractPluginManager;
-use Zend\ServiceManager\Exception;
-use Zend\ServiceManager\Factory\InvokableFactory;
+use Laminas\ServiceManager\AbstractPluginManager;
+use Laminas\ServiceManager\Exception;
+use Laminas\ServiceManager\Factory\InvokableFactory;
 
 class AdapterManager extends AbstractPluginManager
 {
