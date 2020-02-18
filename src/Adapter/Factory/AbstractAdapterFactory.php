@@ -20,12 +20,12 @@ declare(strict_types=1);
 namespace BsbFlysystem\Adapter\Factory;
 
 use InvalidArgumentException;
+use Laminas\Stdlib\ArrayUtils;
 use League\Flysystem\AdapterInterface;
 use ProxyManager\Configuration;
 use ProxyManager\Factory\LazyLoadingValueHolderFactory;
 use ProxyManager\GeneratorStrategy\EvaluatingGeneratorStrategy;
 use Psr\Container\ContainerInterface;
-use Laminas\Stdlib\ArrayUtils;
 
 abstract class AbstractAdapterFactory
 {

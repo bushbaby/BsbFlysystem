@@ -22,9 +22,9 @@ namespace BsbFlysystemTest\Service;
 use BsbFlysystem\Exception\RuntimeException;
 use BsbFlysystem\Service\AdapterManager;
 use BsbFlysystemTest\Bootstrap;
+use Laminas\ServiceManager\ServiceManager;
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use Laminas\ServiceManager\ServiceManager;
 
 class AdapterManagerTest extends TestCase
 {

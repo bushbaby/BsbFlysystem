@@ -20,10 +20,10 @@ declare(strict_types=1);
 namespace BsbFlysystem\Service;
 
 use BsbFlysystem\Exception\RuntimeException;
-use League\Flysystem\AdapterInterface;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception;
 use Laminas\ServiceManager\Factory\InvokableFactory;
+use League\Flysystem\AdapterInterface;
 
 class AdapterManager extends AbstractPluginManager
 {

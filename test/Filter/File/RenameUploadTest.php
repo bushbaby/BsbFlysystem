@@ -20,12 +20,12 @@ declare(strict_types=1);
 namespace BsbFlysystemTest\Filter\File;
 
 use BsbFlysystem\Filter\File\RenameUpload;
+use Laminas\Filter\Exception\InvalidArgumentException;
+use Laminas\Filter\Exception\RuntimeException;
 use League\Flysystem\FilesystemInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use UnexpectedValueException;
-use Laminas\Filter\Exception\InvalidArgumentException;
-use Laminas\Filter\Exception\RuntimeException;
 
 require_once __DIR__ . '/../../Assets/Functions.php';
 

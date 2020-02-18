@@ -19,8 +19,8 @@ declare(strict_types=1);
 
 namespace BsbFlysystem\Cache;
 
-use League\Flysystem\Cached\Storage\AbstractCache;
 use Laminas\Cache\Storage\StorageInterface;
+use League\Flysystem\Cached\Storage\AbstractCache;
 
 /**
  * Wrapper class that allows usage of a Zend Cache as a Flysystem Cache.

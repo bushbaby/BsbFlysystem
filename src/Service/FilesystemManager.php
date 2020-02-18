@@ -20,9 +20,9 @@ declare(strict_types=1);
 namespace BsbFlysystem\Service;
 
 use BsbFlysystem\Exception\RuntimeException;
-use League\Flysystem\FilesystemInterface;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception;
+use League\Flysystem\FilesystemInterface;
 
 class FilesystemManager extends AbstractPluginManager
 {

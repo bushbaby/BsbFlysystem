@@ -19,10 +19,10 @@ declare(strict_types=1);
 
 namespace BsbFlysystem\Filter\File;
 
-use League\Flysystem\FilesystemInterface;
-use UnexpectedValueException;
 use Laminas\Filter\Exception;
 use Laminas\Filter\File\RenameUpload as RenameUploadFilter;
+use League\Flysystem\FilesystemInterface;
+use UnexpectedValueException;
 
 class RenameUpload extends RenameUploadFilter
 {

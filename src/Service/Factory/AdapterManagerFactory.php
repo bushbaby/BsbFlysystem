@@ -34,10 +34,10 @@ use BsbFlysystem\Adapter\Factory\WebDAVAdapterFactory;
 use BsbFlysystem\Adapter\Factory\ZipArchiveAdapterFactory;
 use BsbFlysystem\Exception\UnexpectedValueException;
 use BsbFlysystem\Service\AdapterManager;
-use League\Flysystem\Adapter\NullAdapter;
-use Psr\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 use Laminas\Stdlib\ArrayUtils;
+use League\Flysystem\Adapter\NullAdapter;
+use Psr\Container\ContainerInterface;
 
 class AdapterManagerFactory
 {

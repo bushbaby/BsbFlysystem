@@ -21,14 +21,14 @@ namespace BsbFlysystemTest\Service;
 
 use BsbFlysystem\Service\FilesystemManager;
 use BsbFlysystemTest\Bootstrap;
+use Laminas\ServiceManager\AbstractPluginManager;
+use Laminas\ServiceManager\ServiceManager;
 use League\Flysystem\Adapter\AbstractAdapter;
 use League\Flysystem\Cached\CachedAdapter;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use Laminas\ServiceManager\AbstractPluginManager;
-use Laminas\ServiceManager\ServiceManager;
 
 class FilesystemManagerTest extends TestCase
 {

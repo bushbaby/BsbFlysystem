@@ -20,11 +20,11 @@ declare(strict_types=1);
 namespace BsbFlysystemTest\Adapter\Factory;
 
 use BsbFlysystemTest\Assets\SimpleAdapterFactory;
+use Laminas\ServiceManager\ServiceManager;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionProperty;
-use Laminas\ServiceManager\ServiceManager;
 
 class AbstractAdapterFactoryTest extends TestCase
 {

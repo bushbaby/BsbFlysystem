@@ -19,10 +19,10 @@ declare(strict_types=1);
 
 namespace BsbFlysystemTest;
 
-use Psr\Container\ContainerInterface;
-use RuntimeException;
 use Laminas\Mvc\Service\ServiceManagerConfig;
 use Laminas\ServiceManager\ServiceManager;
+use Psr\Container\ContainerInterface;
+use RuntimeException;
 
 class Bootstrap
 {
