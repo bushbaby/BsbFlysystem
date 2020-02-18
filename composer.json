@@ -17,10 +17,11 @@
     ],
     "require": {
         "php": "^7.2",
-        "league/flysystem": "^1.0.41",
-        "psr/container": "^1.0",
         "laminas/laminas-cache": "^2.7",
-        "laminas/laminas-stdlib": "^2.2 || ^3.0"
+        "laminas/laminas-dependency-plugin": "^1.0",
+        "laminas/laminas-stdlib": "^2.2 || ^3.0",
+        "league/flysystem": "^1.0.41",
+        "psr/container": "^1.0"
     },
     "require-dev": {
         "bushbaby/php-cs-fixer-config": "^1.0,>=1.0.5",
@@ -47,7 +48,7 @@
         "laminas/laminas-servicemanager": "^3.3"
     },
     "suggest": {
-        "laminas/laminas-filter": "zend-filter component ~2.8, if you need RenameUpload filter"
+        "laminas/laminas-filter": "laminas-filter component ~2.8, if you need RenameUpload filter"
     },
     "autoload": {
         "psr-4": {
