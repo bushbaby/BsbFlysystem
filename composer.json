@@ -18,7 +18,6 @@
     "require": {
         "php": "^7.2",
         "laminas/laminas-cache": "^2.7",
-        "laminas/laminas-dependency-plugin": "^1.0",
         "laminas/laminas-stdlib": "^2.2 || ^3.0",
         "league/flysystem": "^1.0.41",
         "psr/container": "^1.0"
