@@ -63,7 +63,7 @@
         "branch-alias": {
             "dev-master": "4.0.x-dev"
         },
-        "zf": {
+        "laminas": {
             "component": "BsbFlysystem",
             "config-provider": "BsbFlysystem\\ConfigProvider"
         }
