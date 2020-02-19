@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2019 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014-2020 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -22,9 +22,9 @@ namespace BsbFlysystemTest\Service;
 use BsbFlysystem\Exception\RuntimeException;
 use BsbFlysystem\Service\AdapterManager;
 use BsbFlysystemTest\Bootstrap;
+use Laminas\ServiceManager\ServiceManager;
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use Zend\ServiceManager\ServiceManager;
 
 class AdapterManagerTest extends TestCase
 {

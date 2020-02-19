@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2019 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014-2020 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -20,11 +20,11 @@ declare(strict_types=1);
 namespace BsbFlysystemTest\Adapter\Factory;
 
 use BsbFlysystemTest\Assets\SimpleAdapterFactory;
+use Laminas\ServiceManager\ServiceManager;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionProperty;
-use Zend\ServiceManager\ServiceManager;
 
 class AbstractAdapterFactoryTest extends TestCase
 {

@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2019 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014-2020 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -19,10 +19,10 @@ declare(strict_types=1);
 
 namespace BsbFlysystem\Filter\File;
 
+use Laminas\Filter\Exception;
+use Laminas\Filter\File\RenameUpload as RenameUploadFilter;
 use League\Flysystem\FilesystemInterface;
 use UnexpectedValueException;
-use Zend\Filter\Exception;
-use Zend\Filter\File\RenameUpload as RenameUploadFilter;
 
 class RenameUpload extends RenameUploadFilter
 {

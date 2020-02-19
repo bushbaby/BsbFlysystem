@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2019 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014-2020 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -19,10 +19,10 @@ declare(strict_types=1);
 
 namespace BsbFlysystemTest;
 
+use Laminas\Mvc\Service\ServiceManagerConfig;
+use Laminas\ServiceManager\ServiceManager;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
-use Zend\Mvc\Service\ServiceManagerConfig;
-use Zend\ServiceManager\ServiceManager;
 
 class Bootstrap
 {
@@ -57,7 +57,7 @@ class Bootstrap
             return;
         }
 
-        throw new RuntimeException('Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.');
+        throw new RuntimeException('Unable to load Laminas. Run `php composer.phar install` or define a LAMINAS_PATH environment variable.');
     }
 
     public static function getApplicationConfig(): array

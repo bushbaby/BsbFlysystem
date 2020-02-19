@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2019 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014-2020 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -54,7 +54,7 @@ class AdapterManagerFactoryTest extends TestCase
                 ],
                 'adapter_map' => [
                     'factories' => [
-                        'someadapter' => 'Zend\ServiceManager\Factory\InvokableFactory',
+                        'someadapter' => 'Laminas\ServiceManager\Factory\InvokableFactory',
                     ],
                     'aliases' => [
                         'someadapter' => 'Some/Adapter',

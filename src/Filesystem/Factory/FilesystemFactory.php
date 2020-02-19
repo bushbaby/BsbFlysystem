@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2019 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014-2020 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -22,13 +22,13 @@ namespace BsbFlysystem\Filesystem\Factory;
 use BsbFlysystem\Cache\ZendStorageCache;
 use BsbFlysystem\Exception\RequirementsException;
 use BsbFlysystem\Exception\UnexpectedValueException;
+use Laminas\Cache\Storage\StorageInterface;
 use League\Flysystem\Cached\CachedAdapter;
 use League\Flysystem\Cached\CacheInterface;
 use League\Flysystem\EventableFilesystem\EventableFilesystem;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
 use Psr\Container\ContainerInterface;
-use Zend\Cache\Storage\StorageInterface;
 
 class FilesystemFactory
 {

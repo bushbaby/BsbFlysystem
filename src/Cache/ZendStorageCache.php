@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2019 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014-2020 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -19,8 +19,8 @@ declare(strict_types=1);
 
 namespace BsbFlysystem\Cache;
 
+use Laminas\Cache\Storage\StorageInterface;
 use League\Flysystem\Cached\Storage\AbstractCache;
-use Zend\Cache\Storage\StorageInterface;
 
 /**
  * Wrapper class that allows usage of a Zend Cache as a Flysystem Cache.

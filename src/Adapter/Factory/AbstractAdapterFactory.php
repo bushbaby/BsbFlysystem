@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2019 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014-2020 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -20,12 +20,12 @@ declare(strict_types=1);
 namespace BsbFlysystem\Adapter\Factory;
 
 use InvalidArgumentException;
+use Laminas\Stdlib\ArrayUtils;
 use League\Flysystem\AdapterInterface;
 use ProxyManager\Configuration;
 use ProxyManager\Factory\LazyLoadingValueHolderFactory;
 use ProxyManager\GeneratorStrategy\EvaluatingGeneratorStrategy;
 use Psr\Container\ContainerInterface;
-use Zend\Stdlib\ArrayUtils;
 
 abstract class AbstractAdapterFactory
 {

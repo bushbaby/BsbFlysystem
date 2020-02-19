@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2019 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014-2020 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -34,10 +34,10 @@ use BsbFlysystem\Adapter\Factory\WebDAVAdapterFactory;
 use BsbFlysystem\Adapter\Factory\ZipArchiveAdapterFactory;
 use BsbFlysystem\Exception\UnexpectedValueException;
 use BsbFlysystem\Service\AdapterManager;
+use Laminas\ServiceManager\Factory\InvokableFactory;
+use Laminas\Stdlib\ArrayUtils;
 use League\Flysystem\Adapter\NullAdapter;
 use Psr\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\InvokableFactory;
-use Zend\Stdlib\ArrayUtils;
 
 class AdapterManagerFactory
 {

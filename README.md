@@ -26,7 +26,7 @@ Copy the `config/bsb_flysystem.local.php.dist` to the `config/autoload` director
 ## Requirements
 
 - \>=PHP7.2
-- \>=ZF2.7
+- \>=Laminas2.7
 
 ## Configuration
 
@@ -43,7 +43,7 @@ The configuration consists of the following base elements;
 To configure an adapter you add a key to `bsb_flysystem->adapters` with a associative array containing the following options;
 
 - type    \<string\>  Type of adapter
-- shared  \<boolean\> (optional) Defines the shared option of a [ZF2 service](http://framework.zend.com/manual/2.0/en/modules/zend.service-manager.quick-start.html#using-configuration).
+- shared  \<boolean\> (optional) Defines the shared option of a [Laminas service](https://docs.laminas.dev/laminas-servicemanager/configuring-the-service-manager/).
 - options \<array\> Options specific per adapter (see [flysystem](http://flysystem.thephpleague.com) or config/bsb_flysystem.local.php.dist)
 
 
@@ -132,11 +132,11 @@ No cache factories are provided by BsbFlysystem. You should write them yourself 
 ]
 ```
 
-BsbFilesystem is able to automaticly wrap a ZF2 caching service in a in such way that a Flysystem instance is able to consume it.
+BsbFilesystem is able to automaticly wrap a Laminas caching service in a in such way that a Flysystem instance is able to consume it.
 
-This means that BsbFlysystem can work with both flysystem caches (implementing `League\Flysystem\Cached\CacheInterface`) and ZF2 caches (implementing `Zend\Cache\Storage\StorageInterface`).
+This means that BsbFlysystem can work with both flysystem caches (implementing `League\Flysystem\Cached\CacheInterface`) and Laminas caches (implementing `Laminas\Cache\Storage\StorageInterface`).
 
-example: caching options as are common in a ZF2 application
+example: caching options as are common in a Laminas application
 
 ```
 'bsb_flysystem' => [
@@ -158,18 +158,18 @@ example: caching options as are common in a ZF2 application
 ],
 'service_manager' => [
     'abstract_factories' => [
-    	\Zend\Cache\Service\StorageCacheAbstractServiceFactory::class
+    	\Laminas\Cache\Service\StorageCacheAbstractServiceFactory::class
     ],
 ],
 ```
  
-Further reading in ZF2 [documentation](http://framework.zend.com/manual/current/en/modules/zend.mvc.services.html#zend-cache-service-storagecacheabstractservicefactory).
+Further reading in Laminas [documentation](https://docs.laminas.dev/laminas-cache/storage/adapter/).
 
 #### AdapterManager
 
 The AdapterManager is automaticly configured, However it is possible to tweak its configuration via `bsb_flysystem->adapter_manager`. 
 
-In particular the lazy_services configuration key may be useful if you use the Rackspace Adapter. BsbFlysystem loads that adapter 'lazily'. A connection is only established until you actually use the adapter. This done with help from [ProxyManager](https://github.com/Ocramius/ProxyManager). As ZF2 also uses this libary we take advantage of the 'lazy_services' configuration that may be available in your application. The Rackspace adapter merges the ZF2 lazy_services config key with the adapter_manager lazy_services config allowing control over how the ProxyManager handles it's thing.
+In particular the lazy_services configuration key may be useful if you use the Rackspace Adapter. BsbFlysystem loads that adapter 'lazily'. A connection is only established until you actually use the adapter. This done with help from [ProxyManager](https://github.com/Ocramius/ProxyManager). As Laminas also uses this libary we take advantage of the 'lazy_services' configuration that may be available in your application. The Rackspace adapter merges the Laminas lazy_services config key with the adapter_manager lazy_services config allowing control over how the ProxyManager handles it's thing.
 
 ```
 'bsb_flysystem' => [
@@ -190,9 +190,9 @@ In particular the lazy_services configuration key may be useful if you use the R
 
 ## Usage
 
-By default BsbFlysystem provides one pre-configured filesystem. This is a local filesystem (uncached) and exposes the data directory of a default ZF2 application.
+By default BsbFlysystem provides one pre-configured filesystem. This is a local filesystem (uncached) and exposes the data directory of a default Laminas application.
 
-Both the filesystems and adapters are ZF2 plugin managers and stored within the global service manager.
+Both the filesystems and adapters are Laminas plugin managers and stored within the global service manager.
 
 ### Filesystem Manager
 
@@ -230,11 +230,11 @@ I have tried to provide factories (and tests) for each of the adapters that come
 - Ftpd
 - GoogleCloudDrive
 - Local
-  - BsbFlysystem is preconfigured with an adapter named 'local_data' to expose the ./data directory of a ZF2 application.
+  - BsbFlysystem is preconfigured with an adapter named 'local_data' to expose the ./data directory of a Laminas application.
 - Null
 - Rackspace
   - the ObjectStore Container must exist before usage
-  - Won't connect until actual usage by Filesystem (thanks to [ProxyManager](https://github.com/Ocramius/ProxyManager)) and uses the same lazy loading configuration ZF2 provides.
+  - Won't connect until actual usage by Filesystem (thanks to [ProxyManager](https://github.com/Ocramius/ProxyManager)) and uses the same lazy loading configuration Laminas provides.
 - Replicate
 - Sftp
 - VFS
@@ -251,7 +251,7 @@ There is one FilesystemFactory which creates a Filesystem or EventableFilesystem
 
 ### Shared option and createOptions
 
-A feature of ZF2 service managers is the ability to create an instance of a service each time you request it from the service manager (shared vs unshared). As a convienence this can be easily accomplished by setting 'shared' to false/true. Together with 'createOptions' that can be provided to the get method of a service manager this is useful to override option values. 
+A feature of Laminas service managers is the ability to create an instance of a service each time you request it from the service manager (shared vs unshared). As a convienence this can be easily accomplished by setting 'shared' to false/true. Together with 'createOptions' that can be provided to the get method of a service manager this is useful to override option values. 
 
 Consider the following configuration; Retrieve multiple configured dropbox filesystems based on stored accessTokens retrieved at runtime.
 
@@ -329,7 +329,7 @@ foreach ($contents as $entry) {
 
 This class takes an `filesystem` constructor option which must implement `League\Flysystem\FilesystemInterface`.
 
-The `BsbFlysystem\Filter\File\RenameUpload` extends `Zend\Filter\File\RenameUpload` class so I refer to the Flysystem [documentation](http://framework.zend.com/manual/current/en/modules/zend.filter.file.rename-upload.html#zend-filter-file-rename-upload) for more information.
+The `BsbFlysystem\Filter\File\RenameUpload` extends `Laminas\Filter\File\RenameUpload` class so I refer to the Flysystem [documentation](http://framework.zend.com/manual/current/en/modules/zend.filter.file.rename-upload.html#zend-filter-file-rename-upload) for more information.
 
 ```
 $request = new Request();
