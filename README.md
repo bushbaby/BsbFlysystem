@@ -23,11 +23,6 @@ Then add `BsbFlysystem` to the `config/application.config.php` modules list.
 
 Copy the `config/bsb_flysystem.local.php.dist` to the `config/autoload` directory to jump start configuration. 
 
-## Requirements
-
-- \>=PHP7.2
-- \>=Laminas2.7
-
 ## Configuration
 
 Configuration regarding BsbFlysystem lives in the top-level configuration key `bsb_flysystem`.
