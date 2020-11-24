@@ -21,7 +21,7 @@ composer require bushbaby/flysystem
 
 Then add `BsbFlysystem` to the `config/application.config.php` modules list.
 
-Copy the `config/bsb_flysystem.local.php.dist` to the `config/autoload` directory to jump start configuration.
+Copy the `config/bsb_flysystem.local.php.dist` to the `config/autoload` directory to jump start configuration. 
 
 ## Configuration
 
