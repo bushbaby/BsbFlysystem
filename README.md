@@ -1,6 +1,6 @@
 # BsbFlysystem
 
-A simple Zend Framework 2 module that bridges the Flysystem filesystem.
+A simple Laminas module that bridges the Flysystem filesystem.
 
 [![Latest Stable Version](https://poser.pugx.org/bushbaby/flysystem/v/stable)](https://packagist.org/packages/bushbaby/flysystem) 
 [![Total Downloads](https://poser.pugx.org/bushbaby/flysystem/downloads)](https://packagist.org/packages/bushbaby/flysystem) 
@@ -16,7 +16,7 @@ Provides a way to configure the various filesystem adapters provided by thephple
 ## Installation
 
 ```
-php composer.phar require "bushbaby/flysystem:^5.0"
+composer require bushbaby/flysystem
 ```
 
 Then add `BsbFlysystem` to the `config/application.config.php` modules list.
@@ -324,7 +324,7 @@ foreach ($contents as $entry) {
 
 This class takes an `filesystem` constructor option which must implement `League\Flysystem\FilesystemInterface`.
 
-The `BsbFlysystem\Filter\File\RenameUpload` extends `Laminas\Filter\File\RenameUpload` class so I refer to the Flysystem [documentation](http://framework.zend.com/manual/current/en/modules/zend.filter.file.rename-upload.html#zend-filter-file-rename-upload) for more information.
+The `BsbFlysystem\Filter\File\RenameUpload` extends `Laminas\Filter\File\RenameUpload` class so I refer to the Laminas [documentation](https://docs.laminas.dev/laminas-filter/file/#renameupload) for more information.
 
 ```
 $request = new Request();
