@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="./test/Bootstrap.php" colors="true">
-
-    <testsuites>
-        <testsuite name="BsbFlysystem">
-            <directory>test</directory>
-        </testsuite>
-    </testsuites>
-
-    <filter>
-        <whitelist addUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./src</directory>
-        </whitelist>
-    </filter>
-
-    <logging>
-        <log type="coverage-clover" target="./test/_build/logs/clover.xml"/>
-        <log type="coverage-html" target="./test/_build/coverage" lowUpperBound="90" highLowerBound="100"/>
-    </logging>
-
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="./test/Bootstrap.php" colors="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage includeUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">./src</directory>
+    </include>
+    <report>
+      <clover outputFile="./test/_build/logs/clover.xml"/>
+      <html outputDirectory="./test/_build/coverage" lowUpperBound="90" highLowerBound="100"/>
+    </report>
+  </coverage>
+  <testsuites>
+    <testsuite name="BsbFlysystem">
+      <directory>test</directory>
+    </testsuite>
+  </testsuites>
+  <logging/>
 </phpunit>

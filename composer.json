@@ -24,6 +24,12 @@
     },
     "require-dev": {
         "bushbaby/php-cs-fixer-config": "^1.0.5",
+        "laminas/laminas-code": "^3.3.1 || ^4.0",
+        "laminas/laminas-config": "^3.0",
+        "laminas/laminas-filter": "^2.9.1",
+        "laminas/laminas-modulemanager": "^2.0",
+        "laminas/laminas-mvc": "^3.0",
+        "laminas/laminas-servicemanager": "^3.3",
         "league/flysystem-aws-s3-v3": "~1.0",
         "league/flysystem-azure": "~1.0,>=1.0.2",
         "league/flysystem-cached-adapter": "~1.0",
@@ -36,15 +42,10 @@
         "league/flysystem-ziparchive": "~1.0",
         "ocramius/proxy-manager": "~1.0 || ~2.0",
         "php-coveralls/php-coveralls": "^2.1",
-        "phpunit/phpunit": "^7.5.20 || ^9.4.2",
+        "phpspec/prophecy-phpunit": "^2.0",
+        "phpunit/phpunit": "^9.5.1",
         "spatie/flysystem-dropbox": "~1.0",
-        "superbalist/flysystem-google-storage": "^7.2",
-        "laminas/laminas-code": "^3.3.1",
-        "laminas/laminas-config": "^3.0",
-        "laminas/laminas-filter": "^2.9.1",
-        "laminas/laminas-modulemanager": "^2.0",
-        "laminas/laminas-mvc": "^3.0",
-        "laminas/laminas-servicemanager": "^3.3"
+        "superbalist/flysystem-google-storage": "^7.2"
     },
     "suggest": {
         "laminas/laminas-filter": "laminas-filter component ~2.8, if you need RenameUpload filter"

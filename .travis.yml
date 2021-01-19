@@ -17,6 +17,12 @@ matrix:
     - php: 7.4
       env:
         - DEPENDENCIES="--prefer-lowest --prefer-stable"
+    - php: 8.0
+      env:
+        - DEPENDENCIES=""
+    - php: 8.0
+      env:
+        - DEPENDENCIES="--prefer-lowest --prefer-stable"
     - php: nightly
       env:
         - DEPENDENCIES=""

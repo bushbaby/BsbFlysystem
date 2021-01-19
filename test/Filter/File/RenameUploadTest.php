@@ -25,12 +25,15 @@ use Laminas\Filter\Exception\RuntimeException;
 use League\Flysystem\FilesystemInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use UnexpectedValueException;
 
 require_once __DIR__ . '/../../Assets/Functions.php';
 
 class RenameUploadTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @var FilesystemInterface
      */
