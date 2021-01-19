@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2020 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014-2021 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -76,7 +76,7 @@ class FilesystemFactoryTest extends TestCase
         $serviceLocatorMock = $this->createMock(ContainerInterface::class);
         $serviceLocatorMock->method('get')->willReturnMap([
             ['config', $config],
-            ['BsbFlysystemAdapterManager', $adapterPluginMock]
+            ['BsbFlysystemAdapterManager', $adapterPluginMock],
         ]);
 
         $adapterPluginMock->method('get')->with('named_adapter')->willReturn($adapter);
@@ -108,9 +108,8 @@ class FilesystemFactoryTest extends TestCase
         $serviceLocatorMock = $this->createMock(ContainerInterface::class);
         $serviceLocatorMock->method('get')->willReturnMap([
             ['config', $config],
-            ['BsbFlysystemAdapterManager', $adapterPluginMock]
+            ['BsbFlysystemAdapterManager', $adapterPluginMock],
         ]);
-
 
         $adapterPluginMock->method('get')->with('named_adapter')->willReturn($adapter);
 
@@ -180,7 +179,6 @@ class FilesystemFactoryTest extends TestCase
             ['named/cache', $cacheMock],
         ]);
 
-
         /** @var Filesystem $service */
         $service = $factory($serviceLocatorMock, 'named_fs');
 
@@ -217,10 +215,8 @@ class FilesystemFactoryTest extends TestCase
         $serviceLocatorMock = $this->createMock(ContainerInterface::class);
         $serviceLocatorMock->method('get')->willReturnMap([
             ['config', $config],
-            ['BsbFlysystemAdapterManager', $adapterPluginMock]
+            ['BsbFlysystemAdapterManager', $adapterPluginMock],
         ]);
-
-
 
         $service = $factory($serviceLocatorMock, 'named_fs');
 
