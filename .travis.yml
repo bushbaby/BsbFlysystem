@@ -13,7 +13,7 @@ matrix:
         - COMPOSER1=true
     - php: 7.4
       env:
-        - DEPENDENCIES="--dev bushbaby/php-cs-fixer-config"
+        - DEPENDENCIES=""
         - EXECUTE_CS_CHECK=true
         - TEST_COVERAGE=true
     - php: 7.4
@@ -34,6 +34,7 @@ cache:
 before_script:
   - if [[ $COMPOSER1 == 'true' ]]; then composer self-update --1; fi
   - composer update $DEPENDENCIES
+  - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then composer require --dev bushbaby/php-cs-fixer-config; fi
   - mkdir -p test/_build/logs
   - mkdir -p .php-cs-fixer
 
