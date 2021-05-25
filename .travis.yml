@@ -6,9 +6,11 @@ matrix:
     - php: 7.3
       env:
         - DEPENDENCIES=""
+        - COMPOSER1=true
     - php: 7.3
       env:
         - DEPENDENCIES="--prefer-lowest --prefer-stable"
+        - COMPOSER1=true
     - php: 7.4
       env:
         - DEPENDENCIES=""
@@ -30,7 +32,7 @@ cache:
     - $HOME/.php-cs-fixer/
 
 before_script:
-  - composer self-update
+  - if [[ COMPOSER1 == 'true' ]]; then composer self-update --1; fi
   - composer update $DEPENDENCIES
   - mkdir -p test/_build/logs
   - mkdir -p .php-cs-fixer
