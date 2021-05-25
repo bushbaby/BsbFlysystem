@@ -69,10 +69,7 @@
         }
     },
     "config": {
-        "sort-packages": true,
-        "platform": {
-            "php": "7.3"
-        }
+        "sort-packages": true
     },
     "scripts": {
         "check": [
