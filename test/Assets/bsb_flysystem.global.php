@@ -17,6 +17,12 @@
 
 declare(strict_types=1);
 
+$abstractFactories = [];
+
+if (class_exists('Laminas\Cache\Service\StorageCacheAbstractServiceFactory')) {
+    $abstractFactories[] = 'Laminas\Cache\Service\StorageCacheAbstractServiceFactory';
+}
+
 return [
     'bsb_flysystem' => [
         'adapters' => [
@@ -185,8 +191,6 @@ return [
         ],
     ],
     'service_manager' => [
-        'abstract_factories' => [
-            'Laminas\Cache\Service\StorageCacheAbstractServiceFactory',
-        ],
+        'abstract_factories' => $abstractFactories,
     ],
 ];

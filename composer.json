@@ -37,7 +37,7 @@
         "phpunit/phpunit": "^9.4.2",
         "spatie/flysystem-dropbox": "~1.0",
         "superbalist/flysystem-google-storage": "^7.2",
-        "laminas/laminas-code": "^3.3.1",
+        "laminas/laminas-code": "^3.3.1 || ^4.0.0",
         "laminas/laminas-config": "^3.1",
         "laminas/laminas-filter": "^2.9.1",
         "laminas/laminas-modulemanager": "^2.7.3",
