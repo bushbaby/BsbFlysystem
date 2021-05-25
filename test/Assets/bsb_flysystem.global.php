@@ -19,7 +19,7 @@ declare(strict_types=1);
 
 $abstractFactories = [];
 
-if (class_exists('Laminas\Cache\Service\StorageCacheAbstractServiceFactory')) {
+if (\class_exists('Laminas\Cache\Service\StorageCacheAbstractServiceFactory')) {
     $abstractFactories[] = 'Laminas\Cache\Service\StorageCacheAbstractServiceFactory';
 }
 

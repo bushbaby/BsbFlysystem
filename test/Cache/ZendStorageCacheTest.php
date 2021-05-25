@@ -26,7 +26,7 @@ class ZendStorageCacheTest extends TestCase
 {
     protected function setUp(): void
     {
-        if (! class_exists('Laminas\Cache\Storage\StorageInterface')) {
+        if (! \class_exists('Laminas\Cache\Storage\StorageInterface')) {
             $this->markTestSkipped('laminas/laminas-cache not required');
         }
     }

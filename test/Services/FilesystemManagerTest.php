@@ -114,7 +114,7 @@ class FilesystemManagerTest extends TestCase
 
     public function testCanGetCachedFilesystem(): void
     {
-        if (! class_exists('Laminas\Cache\Service\StorageCacheAbstractServiceFactory')) {
+        if (! \class_exists('Laminas\Cache\Service\StorageCacheAbstractServiceFactory')) {
             $this->markTestSkipped('laminas/laminas-cache not required');
         }
 
