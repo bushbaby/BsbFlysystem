@@ -17,7 +17,6 @@
     ],
     "require": {
         "php": "^7.3 || ^8.0",
-        "laminas/laminas-cache": "^2.7",
         "laminas/laminas-stdlib": "^3.0",
         "league/flysystem": "^1.0.41",
         "psr/container": "^1.0"
@@ -38,6 +37,7 @@
         "phpunit/phpunit": "^9.4.2",
         "spatie/flysystem-dropbox": "~1.0",
         "superbalist/flysystem-google-storage": "^7.2",
+        "laminas/laminas-cache": "^2.7",
         "laminas/laminas-code": "^3.3.1",
         "laminas/laminas-config": "^3.1",
         "laminas/laminas-filter": "^2.9.1",
@@ -46,7 +46,8 @@
         "laminas/laminas-servicemanager": "^3.3"
     },
     "suggest": {
-        "laminas/laminas-filter": "laminas-filter component ~2.8, if you need RenameUpload filter"
+        "laminas/laminas-cache": "laminas-cache component ^2.8, if you need laminas-cache support",
+        "laminas/laminas-filter": "laminas-filter component ^2.9.1, if you need RenameUpload filter"
     },
     "autoload": {
         "psr-4": {
