@@ -24,6 +24,13 @@ use PHPUnit\Framework\TestCase;
 
 class ZendStorageCacheTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        if (! class_exists('Laminas\Cache\Storage\StorageInterface')) {
+            $this->markTestSkipped('laminas/laminas-cache not required');
+        }
+    }
+
     public function testLoadDefault(): void
     {
         $mock = $this->getMockBuilder('Laminas\Cache\Storage\StorageInterface')->getMock();
