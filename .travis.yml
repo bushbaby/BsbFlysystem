@@ -13,7 +13,7 @@ matrix:
         - COMPOSER1=true
     - php: 7.4
       env:
-        - DEPENDENCIES=""
+        - DEPENDENCIES="--dev bushbaby/php-cs-fixer-config"
         - EXECUTE_CS_CHECK=true
         - TEST_COVERAGE=true
     - php: 7.4
