@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2020 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014-2021 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -147,6 +147,10 @@ class FilesystemFactoryTest extends TestCase
 
     public function testCreateServiceWithNameCachedAdapterLaminasCacheStorage(): void
     {
+        if (! \class_exists('Laminas\Cache\Service\StorageCacheAbstractServiceFactory')) {
+            $this->markTestSkipped('laminas/laminas-cache not required');
+        }
+
         $factory = new FilesystemFactory();
 
         $config = [

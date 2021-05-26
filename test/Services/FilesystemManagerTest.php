@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2020 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014-2021 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -114,6 +114,10 @@ class FilesystemManagerTest extends TestCase
 
     public function testCanGetCachedFilesystem(): void
     {
+        if (! \class_exists('Laminas\Cache\Service\StorageCacheAbstractServiceFactory')) {
+            $this->markTestSkipped('laminas/laminas-cache not required');
+        }
+
         $sm = Bootstrap::getServiceManager();
 
         /** @var FilesystemManager $manager */

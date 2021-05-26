@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2020 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014-2021 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -16,6 +16,12 @@
  */
 
 declare(strict_types=1);
+
+$abstractFactories = [];
+
+if (\class_exists('Laminas\Cache\Service\StorageCacheAbstractServiceFactory')) {
+    $abstractFactories[] = 'Laminas\Cache\Service\StorageCacheAbstractServiceFactory';
+}
 
 return [
     'bsb_flysystem' => [
@@ -185,8 +191,6 @@ return [
         ],
     ],
     'service_manager' => [
-        'abstract_factories' => [
-            'Laminas\Cache\Service\StorageCacheAbstractServiceFactory',
-        ],
+        'abstract_factories' => $abstractFactories,
     ],
 ];

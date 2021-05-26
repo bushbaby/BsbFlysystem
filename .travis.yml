@@ -6,21 +6,27 @@ matrix:
     - php: 7.3
       env:
         - DEPENDENCIES=""
+        - COMPOSER1=true
+        - LAMINAS_CACHE=true
     - php: 7.3
       env:
         - DEPENDENCIES="--prefer-lowest --prefer-stable"
+        - COMPOSER1=true
+        - LAMINAS_CACHE=true
     - php: 7.4
       env:
         - DEPENDENCIES=""
         - EXECUTE_CS_CHECK=true
         - TEST_COVERAGE=true
+        - LAMINAS_CACHE=true
     - php: 7.4
       env:
         - DEPENDENCIES="--prefer-lowest --prefer-stable"
-    - php: nightly
+        - LAMINAS_CACHE=true
+    - php: 8.0
       env:
         - DEPENDENCIES=""
-    - php: nightly
+    - php: 8.0
       env:
         - DEPENDENCIES="--prefer-lowest --prefer-stable"
 
@@ -30,7 +36,9 @@ cache:
     - $HOME/.php-cs-fixer/
 
 before_script:
-  - composer self-update
+  - if [[ $COMPOSER1 == 'true' ]]; then composer self-update --1; fi
+  - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then composer require --dev bushbaby/php-cs-fixer-config:^1.0.5; fi
+  - if [[ $LAMINAS_CACHE == 'true' ]]; then composer require --dev laminas/laminas-cache; fi
   - composer update $DEPENDENCIES
   - mkdir -p test/_build/logs
   - mkdir -p .php-cs-fixer
