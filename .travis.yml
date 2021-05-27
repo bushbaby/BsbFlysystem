@@ -26,9 +26,11 @@ matrix:
     - php: 8.0
       env:
         - DEPENDENCIES=""
+        - LAMINAS_CACHE=true
     - php: 8.0
       env:
         - DEPENDENCIES="--prefer-lowest --prefer-stable"
+        - LAMINAS_CACHE=true
 
 cache:
   directories:
@@ -38,7 +40,7 @@ cache:
 before_script:
   - if [[ $COMPOSER1 == 'true' ]]; then composer self-update --1; fi
   - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then composer require --dev bushbaby/php-cs-fixer-config:^1.0.5; fi
-  - if [[ $LAMINAS_CACHE == 'true' ]]; then composer require --dev laminas/laminas-cache; fi
+  - if [[ $LAMINAS_CACHE == 'true' ]]; then composer require --dev wikimedia/composer-merge-plugin; composer require --dev laminas/laminas-cache; fi
   - composer update $DEPENDENCIES
   - mkdir -p test/_build/logs
   - mkdir -p .php-cs-fixer

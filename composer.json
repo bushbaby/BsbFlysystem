@@ -65,6 +65,12 @@
         "laminas": {
             "component": "BsbFlysystem",
             "config-provider": "BsbFlysystem\\ConfigProvider"
+        },
+        "merge-plugin": {
+            "include": [
+                "composer.php8.json"
+            ],
+            "replace": true
         }
     },
     "config": {
