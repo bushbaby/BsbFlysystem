@@ -7,30 +7,26 @@ matrix:
       env:
         - DEPENDENCIES=""
         - COMPOSER1=true
-        - LAMINAS_CACHE=true
     - php: 7.3
       env:
         - DEPENDENCIES="--prefer-lowest --prefer-stable"
         - COMPOSER1=true
-        - LAMINAS_CACHE=true
     - php: 7.4
       env:
         - DEPENDENCIES=""
         - EXECUTE_CS_CHECK=true
         - TEST_COVERAGE=true
-        - LAMINAS_CACHE=true
     - php: 7.4
       env:
         - DEPENDENCIES="--prefer-lowest --prefer-stable"
-        - LAMINAS_CACHE=true
     - php: 8.0
       env:
         - DEPENDENCIES=""
-        - LAMINAS_CACHE=true
+        - ENABLE_MERGE_PLUGIN=true
     - php: 8.0
       env:
         - DEPENDENCIES="--prefer-lowest --prefer-stable"
-        - LAMINAS_CACHE=true
+        - ENABLE_MERGE_PLUGIN=true
 
 cache:
   directories:
@@ -40,7 +36,8 @@ cache:
 before_script:
   - if [[ $COMPOSER1 == 'true' ]]; then composer self-update --1; fi
   - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then composer require --dev bushbaby/php-cs-fixer-config:^1.0.5; fi
-  - if [[ $LAMINAS_CACHE == 'true' ]]; then composer require --dev wikimedia/composer-merge-plugin; composer require --dev laminas/laminas-cache; fi
+  - if [[ $ENABLE_MERGE_PLUGIN == 'true' ]]; then composer require --dev wikimedia/composer-merge-plugin; fi
+  - composer require --dev laminas/laminas-cache
   - composer update $DEPENDENCIES
   - mkdir -p test/_build/logs
   - mkdir -p .php-cs-fixer
