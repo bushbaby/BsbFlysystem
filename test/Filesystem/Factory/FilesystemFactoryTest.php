@@ -29,6 +29,8 @@ use League\Flysystem\Cached\CacheInterface;
 use League\Flysystem\EventableFilesystem\EventableFilesystem;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemOperator;
+use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
@@ -72,150 +74,14 @@ class FilesystemFactoryTest extends TestCase
         $serviceLocatorMock = $this->getMockBuilder(ContainerInterface::class)->getMock();
         $serviceLocatorMock->expects($this->at(0))->method('get')->with('config')->willReturn($config);
 
-        $adapter = new NullAdapter();
+        $adapter = new InMemoryFilesystemAdapter();
         $adapterPluginMock = $this->getMockBuilder(ContainerInterface::class)->getMock();
         $serviceLocatorMock->expects($this->at(1))->method('get')->with('BsbFlysystemAdapterManager')->willReturn($adapterPluginMock);
         $adapterPluginMock->expects($this->once())->method('get')->with('named_adapter')->willReturn($adapter);
 
         $service = $factory($serviceLocatorMock, 'named_fs');
 
-        $this->assertInstanceOf(FilesystemInterface::class, $service);
+        $this->assertInstanceOf(FilesystemOperator::class, $service);
         $this->assertInstanceOf(Filesystem::class, $service);
-        $this->assertNotInstanceOf(EventableFilesystem::class, $service);
-    }
-
-    public function testCreateServiceWithNameReturnsEventableFilesystem(): void
-    {
-        $factory = new FilesystemFactory();
-
-        $config = [
-            'bsb_flysystem' => [
-                'filesystems' => [
-                    'named_fs' => [
-                        'adapter' => 'named_adapter',
-                        'eventable' => true,
-                    ],
-                ],
-            ],
-        ];
-
-        $serviceLocatorMock = $this->getMockBuilder(ContainerInterface::class)->getMock();
-        $serviceLocatorMock->expects($this->at(0))->method('get')->with('config')->willReturn($config);
-
-        $adapter = new NullAdapter();
-        $adapterPluginMock = $this->getMockBuilder(ContainerInterface::class)->getMock();
-        $serviceLocatorMock->expects($this->at(1))->method('get')->with('BsbFlysystemAdapterManager')->willReturn($adapterPluginMock);
-        $adapterPluginMock->expects($this->once())->method('get')->with('named_adapter')->willReturn($adapter);
-
-        $service = $factory($serviceLocatorMock, 'named_fs');
-
-        $this->assertInstanceOf(FilesystemInterface::class, $service);
-        $this->assertInstanceOf(EventableFilesystem::class, $service);
-    }
-
-    public function testCreateServiceWithNameCachedAdapter(): void
-    {
-        $factory = new FilesystemFactory();
-
-        $config = [
-            'bsb_flysystem' => [
-                'filesystems' => [
-                    'named_fs' => [
-                        'adapter' => 'named_adapter',
-                        'cache' => 'named/cache',
-                    ],
-                ],
-            ],
-        ];
-
-        $serviceLocatorMock = $this->getMockBuilder(ContainerInterface::class)->getMock();
-        $serviceLocatorMock->expects($this->at(0))->method('get')->with('config')->willReturn($config);
-
-        $adapter = new NullAdapter();
-        $adapterPluginMock = $this->getMockBuilder(ContainerInterface::class)->getMock();
-        $serviceLocatorMock->expects($this->at(1))->method('get')->with('BsbFlysystemAdapterManager')->willReturn($adapterPluginMock);
-        $adapterPluginMock->expects($this->once())->method('get')->with('named_adapter')->willReturn($adapter);
-
-        $cacheMock = $this->getMockBuilder(CacheInterface::class)->getMock();
-        $serviceLocatorMock->expects($this->at(2))->method('get')->with('named/cache')->willReturn($cacheMock);
-
-        /** @var Filesystem $service */
-        $service = $factory($serviceLocatorMock, 'named_fs');
-
-        $this->assertInstanceOf(CachedAdapter::class, $service->getAdapter());
-    }
-
-    public function testCreateServiceWithNameCachedAdapterLaminasCacheStorage(): void
-    {
-        if (! \class_exists('Laminas\Cache\Service\StorageCacheAbstractServiceFactory')) {
-            $this->markTestSkipped('laminas/laminas-cache not required');
-        }
-
-        $factory = new FilesystemFactory();
-
-        $config = [
-            'bsb_flysystem' => [
-                'filesystems' => [
-                    'named_fs' => [
-                        'adapter' => 'named_adapter',
-                        'cache' => 'named/cache',
-                    ],
-                ],
-            ],
-        ];
-
-        $serviceLocatorMock = $this->getMockBuilder(ContainerInterface::class)->getMock();
-        $serviceLocatorMock->expects($this->at(0))->method('get')->with('config')->willReturn($config);
-
-        $adapter = new NullAdapter();
-        $adapterPluginMock = $this->getMockBuilder(ContainerInterface::class)->getMock();
-        $serviceLocatorMock->expects($this->at(1))->method('get')->with('BsbFlysystemAdapterManager')->willReturn($adapterPluginMock);
-        $adapterPluginMock->expects($this->once())->method('get')->with('named_adapter')->willReturn($adapter);
-
-        $cacheMock = $this->getMockBuilder('Laminas\Cache\Storage\StorageInterface')->getMock();
-        $serviceLocatorMock->expects($this->at(2))->method('get')->with('named/cache')->willReturn($cacheMock);
-
-        /** @var Filesystem $service */
-        $service = $factory($serviceLocatorMock, 'named_fs');
-
-        $this->assertInstanceOf(CachedAdapter::class, $service->getAdapter());
-
-        $class = new ReflectionClass(CachedAdapter::class);
-        $property = $class->getProperty('cache');
-        $property->setAccessible(true);
-
-        $cacheInstance = $property->getValue($service->getAdapter());
-        $this->assertInstanceOf(ZendStorageCache::class, $cacheInstance);
-    }
-
-    public function testCreateServiceWithNameReturnsFilesystemWithPluginsAdded(): void
-    {
-        $factory = new FilesystemFactory();
-
-        $config = [
-            'bsb_flysystem' => [
-                'filesystems' => [
-                    'named_fs' => [
-                        'adapter' => 'named_adapter',
-                        'plugins' => [
-                            'League\Flysystem\Plugin\ListPaths',
-                        ],
-                    ],
-                ],
-            ],
-        ];
-
-        $serviceLocatorMock = $this->getMockBuilder(ContainerInterface::class)->getMock();
-        $serviceLocatorMock->expects($this->at(0))->method('get')->with('config')->willReturn($config);
-
-        $adapter = new NullAdapter();
-        $adapterPluginMock = $this->getMockBuilder(ContainerInterface::class)->getMock();
-        $serviceLocatorMock->expects($this->at(1))->method('get')->with('BsbFlysystemAdapterManager')->willReturn($adapterPluginMock);
-        $adapterPluginMock->expects($this->once())->method('get')->with('named_adapter')->willReturn($adapter);
-
-        $service = $factory($serviceLocatorMock, 'named_fs');
-
-        // works because plugin is registered
-        $this->assertEmpty($service->listPaths());
     }
 }

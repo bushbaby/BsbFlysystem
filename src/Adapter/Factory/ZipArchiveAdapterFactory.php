@@ -21,13 +21,13 @@ namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\RequirementsException;
 use BsbFlysystem\Exception\UnexpectedValueException;
-use League\Flysystem\AdapterInterface;
+use League\Flysystem\FilesystemAdapter;
 use League\Flysystem\ZipArchive\ZipArchiveAdapter as Adapter;
 use Psr\Container\ContainerInterface;
 
 class ZipArchiveAdapterFactory extends AbstractAdapterFactory
 {
-    public function doCreateService(ContainerInterface $container): AdapterInterface
+    public function doCreateService(ContainerInterface $container): FilesystemAdapter
     {
         if (! \class_exists(Adapter::class)) {
             throw new RequirementsException(['league/ziparchive'], 'ZipArchive');

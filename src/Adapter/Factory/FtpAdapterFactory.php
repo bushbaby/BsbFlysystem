@@ -20,13 +20,14 @@ declare(strict_types=1);
 namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\UnexpectedValueException;
-use League\Flysystem\Adapter\Ftp as Adapter;
+use League\Flysystem\FilesystemAdapter;
+use League\Flysystem\Ftp\FtpAdapter as Adapter;
 use League\Flysystem\AdapterInterface;
 use Psr\Container\ContainerInterface;
 
 class FtpAdapterFactory extends AbstractAdapterFactory
 {
-    public function doCreateService(ContainerInterface $container): AdapterInterface
+    public function doCreateService(ContainerInterface $container): FilesystemAdapter
     {
         return new Adapter($this->options);
     }

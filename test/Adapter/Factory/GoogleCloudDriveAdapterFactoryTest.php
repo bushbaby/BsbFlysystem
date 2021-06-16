@@ -25,7 +25,7 @@ use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionProperty;
-use Superbalist\Flysystem\GoogleStorage\GoogleStorageAdapter;
+use League\Flysystem\GoogleCloudStorage\GoogleCloudStorageAdapter;
 
 class GoogleCloudDriveAdapterFactoryTest extends TestCase
 {
@@ -56,7 +56,7 @@ class GoogleCloudDriveAdapterFactoryTest extends TestCase
 
         $adapter = $factory($sm, 'googleclouddrive_default');
 
-        $this->assertInstanceOf(GoogleStorageAdapter::class, $adapter);
+        $this->assertInstanceOf(GoogleCloudStorageAdapter::class, $adapter);
     }
 
     /**
