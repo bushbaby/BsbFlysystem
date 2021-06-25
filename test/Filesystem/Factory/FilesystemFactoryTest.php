@@ -49,7 +49,7 @@ class FilesystemFactoryTest extends TestCase
         ];
 
         $serviceLocatorMock = $this->getMockBuilder(ContainerInterface::class)->getMock();
-        $serviceLocatorMock->expects($this->at(0))->method('get')->with('config')->willReturn($config);
+        $serviceLocatorMock->expects($this->any())->method('get')->with('config')->willReturn($config);
 
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage("Missing 'adapter' key for the filesystem 'named_fs' configuration");
@@ -71,13 +71,16 @@ class FilesystemFactoryTest extends TestCase
             ],
         ];
 
-        $serviceLocatorMock = $this->getMockBuilder(ContainerInterface::class)->getMock();
-        $serviceLocatorMock->expects($this->at(0))->method('get')->with('config')->willReturn($config);
-
         $adapter = new InMemoryFilesystemAdapter();
         $adapterPluginMock = $this->getMockBuilder(ContainerInterface::class)->getMock();
-        $serviceLocatorMock->expects($this->at(1))->method('get')->with('BsbFlysystemAdapterManager')->willReturn($adapterPluginMock);
-        $adapterPluginMock->expects($this->once())->method('get')->with('named_adapter')->willReturn($adapter);
+
+        $serviceLocatorMock = $this->getMockBuilder(ContainerInterface::class)->getMock();
+        $serviceLocatorMock->expects($this->any())->method('get')->will($this->returnValueMap([
+            ['config', $config],
+            ['BsbFlysystemAdapterManager', $adapterPluginMock],
+        ]));
+
+        $adapterPluginMock->expects($this->any())->method('get')->with('named_adapter')->willReturn($adapter);
 
         $service = $factory($serviceLocatorMock, 'named_fs');
 

@@ -23,6 +23,8 @@ use BsbFlysystem\Exception\RuntimeException;
 use BsbFlysystem\Service\AdapterManager;
 use BsbFlysystemTest\Bootstrap;
 use Laminas\ServiceManager\ServiceManager;
+use League\Flysystem\FilesystemAdapter;
+use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
@@ -47,7 +49,7 @@ class AdapterManagerTest extends TestCase
     public function testManagerValidatesPlugin(): void
     {
         $manager = new AdapterManager(new ServiceManager());
-        $plugin = $this->getMockBuilder(\League\Flysystem\Adapter\AbstractAdapter::class)
+        $plugin = $this->getMockBuilder(FilesystemAdapter::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -64,7 +66,7 @@ class AdapterManagerTest extends TestCase
         $sm = Bootstrap::getServiceManager();
         $manager = $sm->get('BsbFlysystemAdapterManager');
 
-        $this->assertInstanceOf(\League\Flysystem\Adapter\AbstractAdapter::class, $manager->get('local_default'));
+        $this->assertInstanceOf(FilesystemAdapter::class, $manager->get('local_default'));
     }
 
     public function testCreateViaServiceManagerNull(): void
@@ -72,6 +74,6 @@ class AdapterManagerTest extends TestCase
         $sm = Bootstrap::getServiceManager();
         $manager = $sm->get(AdapterManager::class);
 
-        $this->assertInstanceOf(\League\Flysystem\Adapter\NullAdapter::class, $manager->get('null_default'));
+        $this->assertInstanceOf(InMemoryFilesystemAdapter::class, $manager->get('null_default'));
     }
 }

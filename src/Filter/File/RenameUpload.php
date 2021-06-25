@@ -21,20 +21,23 @@ namespace BsbFlysystem\Filter\File;
 
 use Laminas\Filter\Exception;
 use Laminas\Filter\File\RenameUpload as RenameUploadFilter;
+use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemOperator;
+use League\Flysystem\UnableToWriteFile;
 use UnexpectedValueException;
 
 class RenameUpload extends RenameUploadFilter
 {
     /**
-     * @var FilesystemInterface
+     * @var FilesystemOperator
      */
     protected $filesystem;
 
     /**
      * @throws UnexpectedValueException
      */
-    public function getFilesystem(): FilesystemInterface
+    public function getFilesystem(): FilesystemOperator
     {
         if (! $this->filesystem) {
             throw new UnexpectedValueException('Missing required filesystem.');
@@ -43,7 +46,7 @@ class RenameUpload extends RenameUploadFilter
         return $this->filesystem;
     }
 
-    public function setFilesystem(FilesystemInterface $filesystem): void
+    public function setFilesystem(FilesystemOperator $filesystem): void
     {
         $this->filesystem = $filesystem;
     }
@@ -55,7 +58,7 @@ class RenameUpload extends RenameUploadFilter
 
     protected function checkFileExists($targetFile): void
     {
-        if (! $this->getOverwrite() && $this->getFilesystem()->has($targetFile)) {
+        if (! $this->getOverwrite() && $this->getFilesystem()->fileExists($targetFile)) {
             throw new Exception\InvalidArgumentException(\sprintf("File '%s' could not be uploaded. It already exists.", $targetFile));
         }
     }
@@ -66,13 +69,14 @@ class RenameUpload extends RenameUploadFilter
             throw new Exception\RuntimeException(\sprintf("File '%s' could not be uploaded. Filter can move only uploaded files.", $sourceFile), 0);
         }
         $stream = \fopen($sourceFile, 'r+');
-        $result = $this->getFilesystem()->putStream($targetFile, $stream);
-        \fclose($stream);
-
-        if (! $result) {
-            throw new Exception\RuntimeException(\sprintf("File '%s' could not be uploaded. An error occurred while processing the file.", $sourceFile), 0);
+        try {
+            $this->getFilesystem()->writeStream($targetFile, $stream);
+        } catch (FilesystemException|UnableToWriteFile $exception) {
+            throw new Exception\RuntimeException(\sprintf("File '%s' could not be uploaded. An error occurred while processing the file.", $sourceFile), 0, $exception);
+        } finally {
+            \fclose($stream);
         }
 
-        return $result;
+        return true;
     }
 }

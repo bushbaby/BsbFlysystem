@@ -40,7 +40,7 @@ return [
                 ],
             ],
             'null_default' => [
-                'type' => 'null',
+                'type' => 'inmemory',
                 'options' => [],
             ],
             'sftp_default' => [

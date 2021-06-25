@@ -37,6 +37,7 @@ use BsbFlysystem\Service\AdapterManager;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 use Laminas\Stdlib\ArrayUtils;
 use League\Flysystem\Adapter\NullAdapter;
+use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
 use Psr\Container\ContainerInterface;
 
 class AdapterManagerFactory
@@ -59,21 +60,12 @@ class AdapterManagerFactory
             'webdav' => WebDAVAdapterFactory::class,
             'ziparchive' => ZipArchiveAdapterFactory::class,
             'vfs' => VfsAdapterFactory::class,
-            'null' => InvokableFactory::class,
+            InMemoryFilesystemAdapter::class => InvokableFactory::class,
         ],
         'aliases' => [
-            'null' => NullAdapter::class,
+            'inmemory' => InMemoryFilesystemAdapter::class,
         ],
     ];
-
-    public function createService(ContainerInterface $container): AdapterManager
-    {
-        if (\method_exists($container, 'getServiceLocator')) {
-            $container = $container->getServiceLocator();
-        }
-
-        return $this($container, null);
-    }
 
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null): AdapterManager
     {
@@ -83,7 +75,7 @@ class AdapterManagerFactory
         $adapterMap = $this->adapterMap;
 
         if (isset($config['adapter_map'])) {
-            $adapterMap = ArrayUtils::merge($this->adapterMap, $config['adapter_map']);
+            $adapterMap = ArrayUtils::merge($adapterMap, $config['adapter_map']);
         }
 
         foreach ($config['adapters'] as $name => $adapterConfig) {
@@ -93,7 +85,7 @@ class AdapterManagerFactory
 
             $type = \strtolower($adapterConfig['type']);
 
-            if (! \in_array($type, \array_keys($adapterMap['factories']), false)) {
+            if (! isset($adapterMap['factories'][$type]) && ! isset($adapterMap['aliases'][$type])) {
                 throw new UnexpectedValueException(\sprintf("Unknown adapter type '%s'", $type));
             }
 

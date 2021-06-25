@@ -23,14 +23,15 @@ use BsbFlysystem\Exception\RuntimeException;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception;
 use Laminas\ServiceManager\Factory\InvokableFactory;
-use League\Flysystem\AdapterInterface;
+use League\Flysystem\FilesystemAdapter;
+use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
 
 class AdapterManager extends AbstractPluginManager
 {
     /**
      * @var string
      */
-    protected $instanceOf = AdapterInterface::class;
+    protected $instanceOf = FilesystemAdapter::class;
 
     /**
      * @var bool
@@ -46,7 +47,7 @@ class AdapterManager extends AbstractPluginManager
      * @var array
      */
     protected $factories = [
-        \League\Flysystem\Adapter\NullAdapter::class => InvokableFactory::class,
+        InMemoryFilesystemAdapter::class => InvokableFactory::class,
         'leagueflysystemadapternulladapter' => InvokableFactory::class,
     ];
 

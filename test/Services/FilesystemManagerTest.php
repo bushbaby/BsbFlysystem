@@ -52,7 +52,7 @@ class FilesystemManagerTest extends TestCase
     public function testManagerValidatesPlugin(): void
     {
         $manager = new FilesystemManager(new ServiceManager());
-        $plugin = $this->getMockBuilder(FilesystemInterface::class)
+        $plugin = $this->getMockBuilder(FilesystemOperator::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -92,24 +92,12 @@ class FilesystemManagerTest extends TestCase
         /** @var Filesystem $filesystem */
         $filesystem = $manager->get('default_unshared');
 
-        /** @var AbstractAdapter $adapter */
-        $adapter = $filesystem->getAdapter();
-
-        $pathPrefix = $adapter->getPathPrefix();
-        $pathPrefix = \str_replace(\realpath('.'), '', $pathPrefix);
-
-        $this->assertEquals('./test/_build/files/', $pathPrefix);
-
-        /** @var Filesystem $filesystem */
-        $filesystem = $manager->get('default_unshared',
+        /** @var Filesystem $filesystemWithOptions */
+        $filesystemWithOptions = $manager->get('default_unshared',
             ['adapter_options' => ['root' => './test/_build/documents']]);
 
-        /** @var AbstractAdapter $adapter */
-        $adapter = $filesystem->getAdapter();
+        $filesystem->write('test', '1');
 
-        $pathPrefix = $adapter->getPathPrefix();
-        $pathPrefix = \str_replace(\realpath('.'), '', $pathPrefix);
-
-        $this->assertEquals('./test/_build/documents/', $pathPrefix);
+        self::assertFalse($filesystemWithOptions->fileExists('test'));
     }
 }
