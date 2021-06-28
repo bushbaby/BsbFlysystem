@@ -61,18 +61,7 @@ abstract class AbstractAdapterFactory
 
         $this->validateConfig();
 
-        $service = $this->doCreateService($container);
-
-        return $service;
-    }
-
-    public function createService(ContainerInterface $container): FilesystemAdapter
-    {
-        if (\method_exists($container, 'getServiceLocator')) {
-            $container = $container->getServiceLocator();
-        }
-
-        return $this($container, \func_get_arg(2));
+        return $this->doCreateService($container);
     }
 
     /**
