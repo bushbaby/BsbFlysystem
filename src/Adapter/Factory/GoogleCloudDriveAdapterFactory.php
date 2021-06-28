@@ -22,13 +22,13 @@ namespace BsbFlysystem\Adapter\Factory;
 use BsbFlysystem\Exception\RequirementsException;
 use BsbFlysystem\Exception\UnexpectedValueException;
 use Google\Cloud\Storage\StorageClient;
-use League\Flysystem\AdapterInterface;
+use League\Flysystem\FilesystemAdapter;
 use Psr\Container\ContainerInterface;
-use Superbalist\Flysystem\GoogleStorage\GoogleStorageAdapter as Adapter;
+use League\Flysystem\GoogleCloudStorage\GoogleCloudStorageAdapter as Adapter;
 
 class GoogleCloudDriveAdapterFactory extends AbstractAdapterFactory
 {
-    public function doCreateService(ContainerInterface $container): AdapterInterface
+    public function doCreateService(ContainerInterface $container): FilesystemAdapter
     {
         if (! \class_exists(Adapter::class)) {
             throw new RequirementsException(['superbalist/flysystem-google-storage'], 'GoogleCloudDrive');

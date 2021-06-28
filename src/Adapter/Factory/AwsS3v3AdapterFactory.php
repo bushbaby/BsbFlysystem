@@ -22,13 +22,13 @@ namespace BsbFlysystem\Adapter\Factory;
 use Aws\S3\S3Client;
 use BsbFlysystem\Exception\RequirementsException;
 use BsbFlysystem\Exception\UnexpectedValueException;
-use League\Flysystem\AdapterInterface;
-use League\Flysystem\AwsS3v3\AwsS3Adapter as Adapter;
+use League\Flysystem\AwsS3V3\AwsS3V3Adapter as Adapter;
+use League\Flysystem\FilesystemAdapter;
 use Psr\Container\ContainerInterface;
 
 class AwsS3v3AdapterFactory extends AbstractAdapterFactory
 {
-    public function doCreateService(ContainerInterface $container): AdapterInterface
+    public function doCreateService(ContainerInterface $container): FilesystemAdapter
     {
         if (! \class_exists(Adapter::class)) {
             throw new RequirementsException(['league/flysystem-aws-s3-v3'], 'AwsS3v3');

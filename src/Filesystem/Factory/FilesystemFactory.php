@@ -28,6 +28,7 @@ use League\Flysystem\Cached\CacheInterface;
 use League\Flysystem\EventableFilesystem\EventableFilesystem;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemOperator;
 use Psr\Container\ContainerInterface;
 
 class FilesystemFactory
@@ -51,18 +52,14 @@ class FilesystemFactory
         }
     }
 
-    public function createService(ContainerInterface $container): FilesystemInterface
+    public function createService(ContainerInterface $container): FilesystemOperator
     {
-        if (\method_exists($container, 'getServiceLocator')) {
-            $serviceLocator = $container->getServiceLocator();
-        }
-
         $requestedName = \func_get_arg(2);
 
         return $this($container, $requestedName);
     }
 
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): FilesystemInterface
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): FilesystemOperator
     {
         $config = $container->get('config');
         $fsConfig = $config['bsb_flysystem']['filesystems'][$requestedName];
@@ -80,41 +77,7 @@ class FilesystemFactory
 
         $options = $fsConfig['options'] ?? [];
 
-        if (isset($fsConfig['cache']) && \is_string($fsConfig['cache'])) {
-            if (! \class_exists(CachedAdapter::class)) {
-                throw new RequirementsException(['league/flysystem-cached-adapter'], 'CachedAdapter');
-            }
 
-            $cacheAdapter = $container->get($fsConfig['cache']);
-
-            // wrap if StorageInterface, use filesystem name a key
-            if ($cacheAdapter instanceof StorageInterface) {
-                $cacheAdapter = new ZendStorageCache($cacheAdapter, $requestedName);
-            }
-
-            // ignore if not CacheInterface
-            if ($cacheAdapter instanceof CacheInterface) {
-                $adapter = new CachedAdapter($adapter, $cacheAdapter);
-            }
-        }
-
-        if (isset($fsConfig['eventable']) && \filter_var($fsConfig['eventable'], FILTER_VALIDATE_BOOLEAN)) {
-            if (! \class_exists(EventableFilesystem::class)) {
-                throw new RequirementsException(['league/flysystem-eventable-filesystem'], 'EventableFilesystem');
-            }
-
-            $filesystem = new EventableFilesystem($adapter, $options);
-        } else {
-            $filesystem = new Filesystem($adapter, $options);
-        }
-
-        if (isset($fsConfig['plugins']) && \is_array($fsConfig['plugins'])) {
-            foreach ($fsConfig['plugins'] as $plugin) {
-                $plugin = new $plugin();
-                $filesystem->addPlugin($plugin);
-            }
-        }
-
-        return $filesystem;
+        return new Filesystem($adapter, $options);
     }
 }

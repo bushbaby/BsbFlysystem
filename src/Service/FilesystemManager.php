@@ -23,13 +23,14 @@ use BsbFlysystem\Exception\RuntimeException;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception;
 use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemOperator;
 
 class FilesystemManager extends AbstractPluginManager
 {
     /**
      * @var string
      */
-    protected $instanceOf = FilesystemInterface::class;
+    protected $instanceOf = FilesystemOperator::class;
 
     /**
      * @var bool

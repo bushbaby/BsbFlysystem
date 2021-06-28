@@ -1,6 +1,6 @@
 # BsbFlysystem
 
-A simple Laminas module that bridges the Flysystem filesystem.
+A simple Laminas module that bridges the Flysystem V2 filesystem.
 
 [![Latest Stable Version](https://poser.pugx.org/bushbaby/flysystem/v/stable)](https://packagist.org/packages/bushbaby/flysystem) 
 [![Total Downloads](https://poser.pugx.org/bushbaby/flysystem/downloads)](https://packagist.org/packages/bushbaby/flysystem) 
