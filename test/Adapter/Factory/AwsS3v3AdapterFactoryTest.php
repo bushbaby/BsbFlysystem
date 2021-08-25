@@ -23,6 +23,7 @@ use Aws\Command;
 use BsbFlysystem\Adapter\Factory\AwsS3v3AdapterFactory;
 use BsbFlysystemTest\Bootstrap;
 use League\Flysystem\AwsS3v3\AwsS3Adapter;
+use League\Flysystem\AwsS3v3\AwsS3v3Adapter;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionMethod;
@@ -42,7 +43,7 @@ class AwsS3v3AdapterFactoryTest extends TestCase
 
     public function setup(): void
     {
-        $class = new ReflectionClass('BsbFlysystem\Adapter\Factory\AwsS3v3AdapterFactory');
+        $class = new ReflectionClass(AwsS3v3AdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 
@@ -52,14 +53,12 @@ class AwsS3v3AdapterFactoryTest extends TestCase
 
     public function testCreateService(): void
     {
-        $this->markTestSkipped('Skipped because Aws3Sv2 and Aws3Sv3 are not compatible.');
-
         $sm = Bootstrap::getServiceManager();
         $factory = new AwsS3v3AdapterFactory();
 
         $adapter = $factory($sm, 'awss3_default');
 
-        $this->assertInstanceOf('League\Flysystem\AwsS3v3\AwsS3v3Adapter', $adapter);
+        $this->assertInstanceOf(AwsS3v3Adapter::class, $adapter);
     }
 
     /**
@@ -191,8 +190,6 @@ class AwsS3v3AdapterFactoryTest extends TestCase
 
     public function testCreateServiceWithRequestOptions(): void
     {
-        $this->markTestSkipped('Skipped because Aws3Sv2 and Aws3Sv3 are not compatible.');
-
         $options = [
             'credentials' => [
                 'key' => 'abc',

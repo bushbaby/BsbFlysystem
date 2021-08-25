@@ -60,7 +60,7 @@ class AwsS3v3AdapterFactory extends AbstractAdapterFactory
 
         $client = new S3Client($config);
 
-        return new Adapter($client, $this->options['bucket'], $this->options['prefix'], $adapterOptions);
+        return new Adapter($client, $this->options['bucket'], $this->options['prefix'], null, null, $adapterOptions);
     }
 
     protected function validateConfig(): void
