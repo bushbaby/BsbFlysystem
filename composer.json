@@ -1,87 +1,87 @@
 {
-    "name": "bushbaby/flysystem",
-    "description": "Laminas Framework module bridge for flysystem filesystem.",
-    "keywords": [
-        "filesystem",
-        "flysystem",
-        "laminas",
-        "mezzio"
-    ],
-    "license": "MIT",
-    "type": "library",
-    "authors": [
-        {
-            "name": "Bas Kamer",
-            "email": "baskamer@gmail.com"
-        }
-    ],
-    "require": {
-        "php": "^7.3 || ^8.0",
-        "laminas/laminas-stdlib": "^3.0",
-        "league/flysystem": "^1.0.41",
-        "psr/container": "^1.0"
-    },
-    "require-dev": {
-        "laminas/laminas-code": "^3.3.1 || ^4.0.0",
-        "laminas/laminas-config": "^3.1",
-        "laminas/laminas-filter": "^2.9.1",
-        "laminas/laminas-modulemanager": "^2.7.3",
-        "laminas/laminas-mvc": "^3.0",
-        "laminas/laminas-servicemanager": "^3.3",
-        "league/flysystem-aws-s3-v3": "~1.0",
-        "league/flysystem-azure": "~1.0,>=1.0.2",
-        "league/flysystem-cached-adapter": "~1.0",
-        "league/flysystem-eventable-filesystem": "~1.0",
-        "league/flysystem-rackspace": "~1.0",
-        "league/flysystem-replicate-adapter": "~1.0",
-        "league/flysystem-sftp": "~1.0",
-        "league/flysystem-vfs": "^1.0",
-        "league/flysystem-webdav": "~1.0",
-        "league/flysystem-ziparchive": "~1.0",
-        "ocramius/proxy-manager": "~1.0 || ~2.0",
-        "phpunit/phpunit": "^9.4.2",
-        "spatie/flysystem-dropbox": "~1.0",
-        "superbalist/flysystem-google-storage": "^7.2"
-    },
-    "suggest": {
-        "laminas/laminas-cache": "laminas-cache component ^2.8, if you need laminas-cache support",
-        "laminas/laminas-filter": "laminas-filter component ^2.9.1, if you need RenameUpload filter"
-    },
-    "autoload": {
-        "psr-4": {
-            "BsbFlysystem\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "BsbFlysystemTest\\": "test/"
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "4.0.x-dev"
-        },
-        "laminas": {
-            "component": "BsbFlysystem",
-            "config-provider": "BsbFlysystem\\ConfigProvider"
-        },
-        "merge-plugin": {
-            "include": [
-                "composer.php8.json"
-            ],
-            "replace": true
-        }
-    },
-    "config": {
-        "sort-packages": true
-    },
-    "scripts": {
-        "check": [
-            "@cs",
-            "@test"
-        ],
-        "cs": "php-cs-fixer fix -v --diff --dry-run",
-        "cs-fix": "php-cs-fixer fix -v --diff",
-        "test": "phpunit"
+  "name": "bushbaby/flysystem",
+  "description": "Laminas Framework module bridge for flysystem filesystem.",
+  "keywords": [
+    "filesystem",
+    "flysystem",
+    "laminas",
+    "mezzio"
+  ],
+  "license": "MIT",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Bas Kamer",
+      "email": "baskamer@gmail.com"
     }
+  ],
+  "require": {
+    "php": "^7.3 || ^8.0",
+    "laminas/laminas-stdlib": "^3.0",
+    "league/flysystem": "^1.0.41",
+    "psr/container": "^1.0"
+  },
+  "require-dev": {
+    "laminas/laminas-code": "^3.3.1 || ^4.0.0",
+    "laminas/laminas-config": "^3.1",
+    "laminas/laminas-filter": "^2.9.1",
+    "laminas/laminas-modulemanager": "^2.7.3",
+    "laminas/laminas-mvc": "^3.0",
+    "laminas/laminas-servicemanager": "^3.3",
+    "league/flysystem-aws-s3-v3": "~1.0",
+    "league/flysystem-azure-blob-storage": "^1.0",
+    "league/flysystem-cached-adapter": "~1.0",
+    "league/flysystem-eventable-filesystem": "~1.0",
+    "league/flysystem-rackspace": "~1.0",
+    "league/flysystem-replicate-adapter": "~1.0",
+    "league/flysystem-sftp": "~1.0",
+    "league/flysystem-vfs": "^1.0",
+    "league/flysystem-webdav": "~1.0",/Users/diegosorribas/Workspace/Projects/BsbFlysystem/test/Adapter/Factory/RackspaceAdapterFactoryTest.php:57,
+    "league/flysystem-ziparchive": "~1.0",
+    "ocramius/proxy-manager": "~1.0 || ~2.0",
+    "phpunit/phpunit": "^9.4.2",
+    "spatie/flysystem-dropbox": "~1.0",
+    "superbalist/flysystem-google-storage": "^7.2"
+  },
+  "suggest": {
+    "laminas/laminas-cache": "laminas-cache component ^2.8, if you need laminas-cache support",
+    "laminas/laminas-filter": "laminas-filter component ^2.9.1, if you need RenameUpload filter"
+  },
+  "autoload": {
+    "psr-4": {
+      "BsbFlysystem\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "BsbFlysystemTest\\": "test/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "4.0.x-dev"
+    },
+    "laminas": {
+      "component": "BsbFlysystem",
+      "config-provider": "BsbFlysystem\\ConfigProvider"
+    },
+    "merge-plugin": {
+      "include": [
+        "composer.php8.json"
+      ],
+      "replace": true
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "scripts": {
+    "check": [
+      "@cs",
+      "@test"
+    ],
+    "cs": "php-cs-fixer fix -v --diff --dry-run",
+    "cs-fix": "php-cs-fixer fix -v --diff",
+    "test": "phpunit"
+  }
 }

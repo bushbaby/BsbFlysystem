@@ -15,15 +15,15 @@
  * @package   bushbaby/flysystem
  */
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\RequirementsException;
 use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\AdapterInterface;
-use League\Flysystem\Azure\AzureAdapter as Adapter;
-use MicrosoftAzure\Storage\Common\ServicesBuilder;
+use League\Flysystem\AzureBlobStorage\AzureBlobStorageAdapter as Adapter;
+use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 use Psr\Container\ContainerInterface;
 
 class AzureAdapterFactory extends AbstractAdapterFactory
@@ -31,7 +31,7 @@ class AzureAdapterFactory extends AbstractAdapterFactory
     public function doCreateService(ContainerInterface $container): AdapterInterface
     {
         if (! \class_exists(Adapter::class)) {
-            throw new RequirementsException(['league/flysystem-azure'], 'Azure');
+            throw new RequirementsException(['flysystem-azure-blob-storage'], 'Azure');
         }
         $endpoint = \sprintf(
             'DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s',
@@ -39,7 +39,7 @@ class AzureAdapterFactory extends AbstractAdapterFactory
             $this->options['account-key']
         );
 
-        $blobRestProxy = ServicesBuilder::getInstance()->createBlobService($endpoint);
+        $blobRestProxy = BlobRestProxy::createBlobService($endpoint);
 
         return new Adapter($blobRestProxy, $this->options['container']);
     }
