@@ -34,8 +34,7 @@
         "league/flysystem-memory": "^2.0.6",
         "league/flysystem-sftp": "^2.0.8",
         "league/flysystem-ziparchive": "^2.0.6",
-        "ocramius/proxy-manager": "~2.0",
-        "php-coveralls/php-coveralls": "^2.1",
+        "ocramius/proxy-manager": "~1.0 || ~2.0",
         "phpspec/prophecy-phpunit": "^2.0",
         "phpunit/phpunit": "^9.4.2",
         "spatie/flysystem-dropbox": "^2.0.4"

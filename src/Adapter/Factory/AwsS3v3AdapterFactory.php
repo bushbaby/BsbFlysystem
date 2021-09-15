@@ -60,7 +60,7 @@ class AwsS3v3AdapterFactory extends AbstractAdapterFactory
 
         $client = new S3Client($config);
 
-        return new Adapter($client, $this->options['bucket'], $this->options['prefix'], $adapterOptions);
+        return new Adapter($client, $this->options['bucket'], $this->options['prefix'], $adapterOptions, $this->options['streamReads']);
     }
 
     protected function validateConfig(): void
@@ -97,6 +97,10 @@ class AwsS3v3AdapterFactory extends AbstractAdapterFactory
 
         if (! isset($this->options['request.options'])) {
             $this->options['request.options'] = [];
+        }
+
+        if (! isset($this->options['streamReads'])) {
+            $this->options['streamReads'] = true;
         }
     }
 }
