@@ -37,7 +37,7 @@
         "league/flysystem-vfs": "^1.0",
         "league/flysystem-webdav": "~1.0",
         "league/flysystem-ziparchive": "~1.0",
-        "ocramius/proxy-manager": "~2.0",
+        "ocramius/proxy-manager": "^1.0.2 || ~2.0",
         "phpunit/phpunit": "^9.4.2",
         "spatie/flysystem-dropbox": "~1.0",
         "superbalist/flysystem-google-storage": "^7.2"
