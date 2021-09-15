@@ -20,12 +20,15 @@ jobs:
         php-version:
           - "8.0"
           - "7.4"
-          - "7.3"
         composer:
           - "v2"
         include:
           - php-version: "7.3"
             composer: "v1"
+            dependencies: "--prefer-lowest"
+          - php-version: "7.3"
+            composer: "v1"
+            dependencies: ""
 
     steps:
       - name: "Checkout"
