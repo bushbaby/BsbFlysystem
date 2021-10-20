@@ -22,6 +22,7 @@
         "psr/container": "^1.0"
     },
     "require-dev": {
+        "bushbaby/php-cs-fixer-config": "^2.0",
         "laminas/laminas-code": "^3.3.1 || ^4.0.0",
         "laminas/laminas-config": "^3.1",
         "laminas/laminas-filter": "^2.9.1",
