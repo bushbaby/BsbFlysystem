@@ -44,7 +44,7 @@ class FilesystemManager extends AbstractPluginManager
     public function validate($instance): void
     {
         if (! $instance instanceof $this->instanceOf) {
-            throw new Exception\InvalidServiceException(\sprintf('Invalid filesystem "%s" created; not an instance of %s', \get_class($instance), $this->instanceOf));
+            throw new Exception\InvalidServiceException(sprintf('Invalid filesystem "%s" created; not an instance of %s', \get_class($instance), $this->instanceOf));
         }
     }
 

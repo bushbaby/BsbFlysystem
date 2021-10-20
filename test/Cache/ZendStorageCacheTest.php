@@ -26,7 +26,7 @@ class ZendStorageCacheTest extends TestCase
 {
     protected function setUp(): void
     {
-        if (! \class_exists('Laminas\Cache\Storage\StorageInterface')) {
+        if (! class_exists('Laminas\Cache\Storage\StorageInterface')) {
             $this->markTestSkipped('laminas/laminas-cache not required');
         }
     }
@@ -49,7 +49,7 @@ class ZendStorageCacheTest extends TestCase
         $zendStorageCache = new ZendStorageCache($mock);
         $zendStorageCache->load();
 
-        $this->assertTrue(JSON_ERROR_NONE !== \json_last_error());
+        $this->assertTrue(JSON_ERROR_NONE !== json_last_error());
     }
 
     public function testLoadWithCustomKey(): void

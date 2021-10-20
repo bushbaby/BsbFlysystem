@@ -67,11 +67,11 @@ abstract class AbstractAdapterFactory
 
     public function createService(ContainerInterface $container): AdapterInterface
     {
-        if (\method_exists($container, 'getServiceLocator')) {
+        if (method_exists($container, 'getServiceLocator')) {
             $container = $container->getServiceLocator();
         }
 
-        return $this($container, \func_get_arg(2));
+        return $this($container, func_get_arg(2));
     }
 
     /**
@@ -125,7 +125,7 @@ abstract class AbstractAdapterFactory
             $factoryConfig->setGeneratorStrategy(new EvaluatingGeneratorStrategy());
         }
 
-        \spl_autoload_register($factoryConfig->getProxyAutoloader());
+        spl_autoload_register($factoryConfig->getProxyAutoloader());
 
         return new LazyLoadingValueHolderFactory($factoryConfig);
     }

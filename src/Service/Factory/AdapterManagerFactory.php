@@ -68,7 +68,7 @@ class AdapterManagerFactory
 
     public function createService(ContainerInterface $container): AdapterManager
     {
-        if (\method_exists($container, 'getServiceLocator')) {
+        if (method_exists($container, 'getServiceLocator')) {
             $container = $container->getServiceLocator();
         }
 
@@ -88,21 +88,21 @@ class AdapterManagerFactory
 
         foreach ($config['adapters'] as $name => $adapterConfig) {
             if (! isset($adapterConfig['type'])) {
-                throw new UnexpectedValueException(\sprintf("Missing 'type' key for the adapter '%s' configuration", $name));
+                throw new UnexpectedValueException(sprintf("Missing 'type' key for the adapter '%s' configuration", $name));
             }
 
-            $type = \strtolower($adapterConfig['type']);
+            $type = strtolower($adapterConfig['type']);
 
-            if (! \in_array($type, \array_keys($adapterMap['factories']), false)) {
-                throw new UnexpectedValueException(\sprintf("Unknown adapter type '%s'", $type));
+            if (! \in_array($type, array_keys($adapterMap['factories']), false)) {
+                throw new UnexpectedValueException(sprintf("Unknown adapter type '%s'", $type));
             }
 
-            foreach (\array_keys($adapterMap) as $serviceKind) {
+            foreach (array_keys($adapterMap) as $serviceKind) {
                 if (isset($adapterMap[$serviceKind][$type])) {
                     $serviceConfig[$serviceKind][$name] = $adapterMap[$serviceKind][$type];
 
                     if (isset($adapterConfig['shared'])) {
-                        $serviceConfig['shared'][$name] = \filter_var($adapterConfig['shared'], FILTER_VALIDATE_BOOLEAN);
+                        $serviceConfig['shared'][$name] = filter_var($adapterConfig['shared'], FILTER_VALIDATE_BOOLEAN);
                     }
                 }
             }

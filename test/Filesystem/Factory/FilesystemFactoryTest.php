@@ -147,7 +147,7 @@ class FilesystemFactoryTest extends TestCase
 
     public function testCreateServiceWithNameCachedAdapterLaminasCacheStorage(): void
     {
-        if (! \class_exists('Laminas\Cache\Service\StorageCacheAbstractServiceFactory')) {
+        if (! class_exists('Laminas\Cache\Service\StorageCacheAbstractServiceFactory')) {
             $this->markTestSkipped('laminas/laminas-cache not required');
         }
 

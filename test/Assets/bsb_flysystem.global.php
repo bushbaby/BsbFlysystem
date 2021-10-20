@@ -19,7 +19,7 @@ declare(strict_types=1);
 
 $abstractFactories = [];
 
-if (\class_exists('Laminas\Cache\Service\StorageCacheAbstractServiceFactory')) {
+if (class_exists('Laminas\Cache\Service\StorageCacheAbstractServiceFactory')) {
     $abstractFactories[] = 'Laminas\Cache\Service\StorageCacheAbstractServiceFactory';
 }
 
@@ -59,7 +59,7 @@ return [
                     'host' => 'xxxxx',
                     'username' => 'xxxxx',
                     'password' => 'xxxxx',
-                    /* optional config settings */
+                    // optional config settings
                     'port' => 21,
                     'root' => '/',
                     'passive' => true,
@@ -73,7 +73,7 @@ return [
                     'host' => 'xxxxx',
                     'username' => 'xxxxx',
                     'password' => 'xxxxx',
-                    /* optional config settings */
+                    // optional config settings
                     'port' => 21,
                     'root' => '/',
                     'passive' => true,
@@ -130,7 +130,7 @@ return [
             ],
             'dropbox_default' => [
                 'type' => 'dropbox',
-                'shared' => 'off', /* optional */
+                'shared' => 'off', // optional
                 'options' => [
                     'access_token' => 'xxxxx',
                 ],

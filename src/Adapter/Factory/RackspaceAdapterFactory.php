@@ -31,8 +31,8 @@ class RackspaceAdapterFactory extends AbstractAdapterFactory
 {
     public function doCreateService(ContainerInterface $container): AdapterInterface
     {
-        if (! \class_exists(Adapter::class) ||
-            ! \class_exists(LazyLoadingValueHolderFactory::class)
+        if (! class_exists(Adapter::class) ||
+            ! class_exists(LazyLoadingValueHolderFactory::class)
         ) {
             throw new RequirementsException(['league/flysystem-rackspace', 'ocramius/proxy-manager'], 'Rackspace');
         }

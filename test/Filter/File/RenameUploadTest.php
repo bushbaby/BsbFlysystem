@@ -141,7 +141,7 @@ class RenameUploadTest extends TestCase
         ]);
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage(\sprintf(
+        $this->expectExceptionMessage(sprintf(
             "File '%s' could not be uploaded. An error occurred while processing the file.",
             __DIR__ . '/../../Assets/test.txt'
         ));

@@ -53,11 +53,11 @@ class FilesystemFactory
 
     public function createService(ContainerInterface $container): FilesystemInterface
     {
-        if (\method_exists($container, 'getServiceLocator')) {
+        if (method_exists($container, 'getServiceLocator')) {
             $serviceLocator = $container->getServiceLocator();
         }
 
-        $requestedName = \func_get_arg(2);
+        $requestedName = func_get_arg(2);
 
         return $this($container, $requestedName);
     }
@@ -67,7 +67,7 @@ class FilesystemFactory
         $config = $container->get('config');
         $fsConfig = $config['bsb_flysystem']['filesystems'][$requestedName];
         if (! isset($fsConfig['adapter'])) {
-            throw new UnexpectedValueException(\sprintf("Missing 'adapter' key for the filesystem '%s' configuration", $requestedName));
+            throw new UnexpectedValueException(sprintf("Missing 'adapter' key for the filesystem '%s' configuration", $requestedName));
         }
 
         if (null !== $options) {
@@ -81,7 +81,7 @@ class FilesystemFactory
         $options = $fsConfig['options'] ?? [];
 
         if (isset($fsConfig['cache']) && \is_string($fsConfig['cache'])) {
-            if (! \class_exists(CachedAdapter::class)) {
+            if (! class_exists(CachedAdapter::class)) {
                 throw new RequirementsException(['league/flysystem-cached-adapter'], 'CachedAdapter');
             }
 
@@ -98,8 +98,8 @@ class FilesystemFactory
             }
         }
 
-        if (isset($fsConfig['eventable']) && \filter_var($fsConfig['eventable'], FILTER_VALIDATE_BOOLEAN)) {
-            if (! \class_exists(EventableFilesystem::class)) {
+        if (isset($fsConfig['eventable']) && filter_var($fsConfig['eventable'], FILTER_VALIDATE_BOOLEAN)) {
+            if (! class_exists(EventableFilesystem::class)) {
                 throw new RequirementsException(['league/flysystem-eventable-filesystem'], 'EventableFilesystem');
             }
 
