@@ -60,7 +60,7 @@ jobs:
       - name: "Install coveralls"
         run: "composer require --dev php-coveralls/php-coveralls"
       - name: "Generate coverage"
-        run: "vendor/bin/phpunit --coverage-text --coverage-clover ./test/_build/logs/clover.xml --configuration ./phpunit.xml.dist"
+        run: "vendor/bin/phpunit --coverage-text --coverage-clover ./build/logs/clover.xml --configuration ./phpunit.xml.dist"
       - name: "Publish coverage"
         run: "vendor/bin/php-coveralls -v"
 
