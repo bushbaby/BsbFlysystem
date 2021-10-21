@@ -43,6 +43,26 @@ jobs:
       - name: "Run tests"
         run: "vendor/bin/phpunit"
 
+  coverage:
+    name: "Publish coverage"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          php-version: "8.0"
+          tools: "composer:v2"
+          coverage: "pcov"
+      - name: "Install dependencies"
+        run: "composer update --no-interaction"
+      - name: "Generate coverage"
+        run: "vendor/bin/phpunit --coverage-text --coverage-clover ./test/_build/logs/clover.xml --configuration ./phpunit.xml.dist"
+      - name: "Publish coverage"
+        run: "vendor/bin/php-coveralls -v"
+
+
   coding-standard:
     name: "Coding standard"
     runs-on: "ubuntu-latest"
