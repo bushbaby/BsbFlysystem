@@ -57,13 +57,12 @@ jobs:
           coverage: "pcov"
       - name: "Install dependencies"
         run: "composer update --no-interaction"
-      - name: "Install coveralls"
-        run: "composer require --dev php-coveralls/php-coveralls"
       - name: "Generate coverage"
         run: "vendor/bin/phpunit --coverage-text --coverage-clover ./build/logs/clover.xml --configuration ./phpunit.xml.dist"
-      - name: "Publish coverage"
-        run: "vendor/bin/php-coveralls -v"
-
+      - name: "Coveralls"
+        uses: "coverallsapp/github-action@master"
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
 
   coding-standard:
     name: "Coding standard"
