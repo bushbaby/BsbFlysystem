@@ -18,7 +18,6 @@ jobs:
           - "--prefer-lowest"
           - ""
         php-version:
-          - "8.1"
           - "8.0"
           - "7.4"
         composer:
