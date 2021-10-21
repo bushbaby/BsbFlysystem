@@ -28,7 +28,7 @@ class SimpleAdapterFactory extends AbstractAdapterFactory
 {
     public function doCreateService(ContainerInterface $container): FilesystemAdapter
     {
-        $this->mergeMvcConfig($container, \func_get_arg(2));
+        $this->mergeMvcConfig($container, func_get_arg(2));
 
         $this->validateConfig();
 

@@ -53,20 +53,20 @@ class RenameUpload extends RenameUploadFilter
 
     protected function getFinalTarget($uploadData, $clientFileName): string
     {
-        return \trim(\str_replace('\\', '/', parent::getFinalTarget($uploadData, $clientFileName)), '/');
+        return trim(str_replace('\\', '/', parent::getFinalTarget($uploadData, $clientFileName)), '/');
     }
 
     protected function checkFileExists($targetFile): void
     {
         if (! $this->getOverwrite() && $this->getFilesystem()->fileExists($targetFile)) {
-            throw new Exception\InvalidArgumentException(\sprintf("File '%s' could not be uploaded. It already exists.", $targetFile));
+            throw new Exception\InvalidArgumentException(sprintf("File '%s' could not be uploaded. It already exists.", $targetFile));
         }
     }
 
     protected function moveUploadedFile($sourceFile, $targetFile): bool
     {
         if (! is_uploaded_file($sourceFile)) {
-            throw new Exception\RuntimeException(\sprintf("File '%s' could not be uploaded. Filter can move only uploaded files.", $sourceFile), 0);
+            throw new Exception\RuntimeException(sprintf("File '%s' could not be uploaded. Filter can move only uploaded files.", $sourceFile), 0);
         }
         $stream = \fopen($sourceFile, 'r+');
         try {

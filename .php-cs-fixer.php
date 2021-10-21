@@ -23,7 +23,7 @@ $config = new Bsb\CS\Config([
 
 $config->getFinder()->in(__DIR__)->append([__FILE__]);
 
-$cacheDir = \getenv('TRAVIS') ? \getenv('HOME') . '/.php-cs-fixer' : __DIR__;
+$cacheDir = getenv('TRAVIS') ? getenv('HOME') . '/.php-cs-fixer' : __DIR__;
 
 $config->setCacheFile($cacheDir . '/.php_cs.cache');
 

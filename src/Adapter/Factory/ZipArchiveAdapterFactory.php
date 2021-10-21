@@ -32,7 +32,7 @@ class ZipArchiveAdapterFactory extends AbstractAdapterFactory
 {
     public function doCreateService(ContainerInterface $container): FilesystemAdapter
     {
-        if (! \class_exists(Adapter::class)) {
+        if (! class_exists(Adapter::class)) {
             throw new RequirementsException(['league/ziparchive'], 'ZipArchive');
         }
 

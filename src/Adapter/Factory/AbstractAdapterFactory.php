@@ -115,7 +115,7 @@ abstract class AbstractAdapterFactory
             $factoryConfig->setGeneratorStrategy(new EvaluatingGeneratorStrategy());
         }
 
-        \spl_autoload_register($factoryConfig->getProxyAutoloader());
+        spl_autoload_register($factoryConfig->getProxyAutoloader());
 
         return new LazyLoadingValueHolderFactory($factoryConfig);
     }

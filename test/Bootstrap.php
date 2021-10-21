@@ -33,8 +33,8 @@ class Bootstrap
 
     public static function init(): void
     {
-        \error_reporting(E_ALL | E_STRICT);
-        \chdir(__DIR__);
+        error_reporting(E_ALL | E_STRICT);
+        chdir(__DIR__);
 
         static::initAutoloader();
 
@@ -51,7 +51,7 @@ class Bootstrap
     {
         $vendorPath = static::findParentPath('vendor');
 
-        if (\is_readable($vendorPath . '/autoload.php')) {
+        if (is_readable($vendorPath . '/autoload.php')) {
             $loader = include $vendorPath . '/autoload.php';
 
             return;
@@ -73,7 +73,7 @@ class Bootstrap
     public static function chroot(): void
     {
         $rootPath = \dirname(static::findParentPath('vendor'));
-        \chdir($rootPath);
+        chdir($rootPath);
     }
 
     public static function getServiceManager(): ContainerInterface
@@ -85,7 +85,7 @@ class Bootstrap
     {
         $dir = __DIR__;
         $previousDir = '.';
-        while (! \is_dir($dir . '/' . $path)) {
+        while (! is_dir($dir . '/' . $path)) {
             $dir = \dirname($dir);
             if ($previousDir === $dir) {
                 return null;
