@@ -21,5 +21,5 @@ namespace BsbFlysystem\Filter\File;
 
     function is_uploaded_file($filepath): bool
     {
-        return \realpath($filepath) === \realpath(__DIR__ . '/test.txt');
+        return realpath($filepath) === realpath(__DIR__ . '/test.txt');
     }

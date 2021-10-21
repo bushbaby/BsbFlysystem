@@ -30,7 +30,7 @@ class AwsS3v3AdapterFactory extends AbstractAdapterFactory
 {
     public function doCreateService(ContainerInterface $container): AdapterInterface
     {
-        if (! \class_exists(Adapter::class)) {
+        if (! class_exists(Adapter::class)) {
             throw new RequirementsException(['league/flysystem-aws-s3-v3'], 'AwsS3v3');
         }
         $config = [
@@ -53,7 +53,7 @@ class AwsS3v3AdapterFactory extends AbstractAdapterFactory
                 'key' => $this->options['credentials']['key'],
                 'secret' => $this->options['credentials']['secret'],
             ];
-            $config = \array_merge(\compact('credentials'), $config);
+            $config = array_merge(compact('credentials'), $config);
         }
 
         $adapterOptions = $this->options['options'] ?? [];

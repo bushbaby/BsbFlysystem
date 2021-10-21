@@ -95,26 +95,28 @@ class FilesystemManagerTest extends TestCase
         $adapter = $filesystem->getAdapter();
 
         $pathPrefix = $adapter->getPathPrefix();
-        $pathPrefix = \str_replace(\realpath('.'), '', $pathPrefix);
+        $pathPrefix = str_replace(realpath('.'), '', $pathPrefix);
 
         $this->assertEquals('./test/_build/files/', $pathPrefix);
 
         /** @var Filesystem $filesystem */
-        $filesystem = $manager->get('default_unshared',
-            ['adapter_options' => ['root' => './test/_build/documents']]);
+        $filesystem = $manager->get(
+            'default_unshared',
+            ['adapter_options' => ['root' => './test/_build/documents']]
+        );
 
         /** @var AbstractAdapter $adapter */
         $adapter = $filesystem->getAdapter();
 
         $pathPrefix = $adapter->getPathPrefix();
-        $pathPrefix = \str_replace(\realpath('.'), '', $pathPrefix);
+        $pathPrefix = str_replace(realpath('.'), '', $pathPrefix);
 
         $this->assertEquals('./test/_build/documents/', $pathPrefix);
     }
 
     public function testCanGetCachedFilesystem(): void
     {
-        if (! \class_exists('Laminas\Cache\Service\StorageCacheAbstractServiceFactory')) {
+        if (! class_exists('Laminas\Cache\Service\StorageCacheAbstractServiceFactory')) {
             $this->markTestSkipped('laminas/laminas-cache not required');
         }
 

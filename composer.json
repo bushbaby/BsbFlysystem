@@ -22,6 +22,7 @@
         "psr/container": "^1.0"
     },
     "require-dev": {
+        "bushbaby/php-cs-fixer-config": "^2.0",
         "laminas/laminas-code": "^3.3.1 || ^4.0.0",
         "laminas/laminas-config": "^3.1",
         "laminas/laminas-filter": "^2.9.1",
@@ -38,7 +39,7 @@
         "league/flysystem-vfs": "^1.0",
         "league/flysystem-webdav": "~1.0",
         "league/flysystem-ziparchive": "~1.0",
-        "ocramius/proxy-manager": "~1.0 || ~2.0",
+        "ocramius/proxy-manager": "~2.0",
         "phpunit/phpunit": "^9.4.2",
         "spatie/flysystem-dropbox": "~1.0",
         "superbalist/flysystem-google-storage": "^7.2"

@@ -53,7 +53,7 @@ class AdapterManager extends AbstractPluginManager
     public function validate($instance): void
     {
         if (! $instance instanceof $this->instanceOf) {
-            throw new Exception\InvalidServiceException(\sprintf('Invalid adapter "%s" created; not an instance of %s', \get_class($instance), $this->instanceOf));
+            throw new Exception\InvalidServiceException(sprintf('Invalid adapter "%s" created; not an instance of %s', \get_class($instance), $this->instanceOf));
         }
     }
 
