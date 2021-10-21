@@ -181,6 +181,7 @@ class AwsS3v3AdapterFactoryTest extends TestCase
                     'prefix' => '',
                     'request.options' => [],
                     'version' => 'latest',
+                    'streamReads' => true,
                 ],
                 null,
                 null,
