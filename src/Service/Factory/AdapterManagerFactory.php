@@ -85,7 +85,7 @@ class AdapterManagerFactory
 
             $type = strtolower($adapterConfig['type']);
 
-            if (! \in_array($type, array_keys($adapterMap['factories']), false)) {
+            if (! \in_array($type, array_merge(array_keys($adapterMap['factories']), array_keys($adapterMap['aliases'])), false)) {
                 throw new UnexpectedValueException(sprintf("Unknown adapter type '%s'", $type));
             }
 
