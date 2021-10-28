@@ -55,7 +55,7 @@ class AwsS3v3AdapterFactoryTest extends TestCase
         $sm = Bootstrap::getServiceManager();
         $factory = new AwsS3v3AdapterFactory();
 
-        $adapter = $factory($sm, 'awss3_default');
+        $adapter = $factory($sm, 'awss3v3_default');
 
         $this->assertInstanceOf(AwsS3v3Adapter::class, $adapter);
     }
@@ -206,7 +206,7 @@ class AwsS3v3AdapterFactoryTest extends TestCase
         $factory = new AwsS3v3AdapterFactory($options);
 
         /** @var AwsS3v3Adapter $adapter */
-        $adapter = $factory($sm, 'awss3_default');
+        $adapter = $factory($sm, 'awss3v3_default');
 
         /** @var Command $command */
         $command = $adapter->getClient()->getCommand('GetObject');
