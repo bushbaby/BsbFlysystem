@@ -22,7 +22,6 @@ namespace BsbFlysystemTest\Adapter\Factory;
 use Aws\Command;
 use BsbFlysystem\Adapter\Factory\AwsS3v3AdapterFactory;
 use BsbFlysystemTest\Bootstrap;
-use League\Flysystem\AwsS3v3\AwsS3Adapter;
 use League\Flysystem\AwsS3v3\AwsS3v3Adapter;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
@@ -206,7 +205,7 @@ class AwsS3v3AdapterFactoryTest extends TestCase
         $sm = Bootstrap::getServiceManager();
         $factory = new AwsS3v3AdapterFactory($options);
 
-        /** @var AwsS3Adapter $adapter */
+        /** @var AwsS3v3Adapter $adapter */
         $adapter = $factory($sm, 'awss3_default');
 
         /** @var Command $command */
