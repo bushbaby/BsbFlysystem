@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2021 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -20,83 +20,33 @@ declare(strict_types=1);
 namespace BsbFlysystemTest\Adapter\Factory;
 
 use BsbFlysystem\Adapter\Factory\LocalAdapterFactory;
-use BsbFlysystemTest\Bootstrap;
-use League\Flysystem\Adapter\Local;
-use PHPUnit\Framework\TestCase;
-use ReflectionClass;
-use ReflectionMethod;
-use ReflectionProperty;
+use League\Flysystem\Local\LocalFilesystemAdapter;
+use League\Flysystem\UnixVisibility\VisibilityConverter;
+use League\MimeTypeDetection\MimeTypeDetector;
+use Psr\Container\ContainerInterface;
 
-class LocalAdapterFactoryTest extends TestCase
+class LocalAdapterFactoryTest extends BaseAdapterFactory
 {
-    /**
-     * @var ReflectionProperty
-     */
-    protected $property;
-
-    /**
-     * @var ReflectionMethod
-     */
-    protected $method;
-
-    public function setup(): void
+    public function testGettingFromServiceManager(): void
     {
-        $class = new ReflectionClass(LocalAdapterFactory::class);
-        $this->property = $class->getProperty('options');
-        $this->property->setAccessible(true);
-
-        $this->method = $class->getMethod('validateConfig');
-        $this->method->setAccessible(true);
-    }
-
-    public function testCreateService(): void
-    {
-        $sm = Bootstrap::getServiceManager();
         $factory = new LocalAdapterFactory();
 
-        $adapter = $factory($sm, 'local_default');
+        $container = $this->prophet->prophesize(ContainerInterface::class);
+        $container->has('config')->willReturn(false);
 
-        $this->assertInstanceOf(Local::class, $adapter);
-    }
+        $mimeTypeDetector = $this->prophet->prophesize(MimeTypeDetector::class);
+        $container->get('a-mime-type-detector')->willReturn($mimeTypeDetector->reveal());
 
-    /**
-     * @dataProvider validateConfigProvider
-     */
-    public function testValidateConfig(
-        array $options,
-        ?array $expectedOptions,
-        ?string $expectedException,
-        ?string $expectedExceptionMessage
-    ): void {
-        $factory = new LocalAdapterFactory($options);
+        $visibility = $this->prophet->prophesize(VisibilityConverter::class);
+        $visibility->defaultForDirectories()->willReturn(0755);
+        $container->get('a-visibility')->willReturn($visibility->reveal());
 
-        if ($expectedException) {
-            $this->expectException($expectedException);
-            $this->expectExceptionMessage($expectedExceptionMessage);
-        }
+        $adapter = $factory($container->reveal(), 'local_default', [
+            'location' => 'a-location',
+            'mimeTypeDetector' => 'a-mime-type-detector',
+            'visibility' => 'a-visibility',
+        ]);
 
-        $this->method->invokeArgs($factory, []);
-
-        if (\is_array($expectedOptions)) {
-            $this->assertEquals($expectedOptions, $this->property->getValue($factory));
-        }
-    }
-
-    public function validateConfigProvider(): array
-    {
-        return [
-            [
-                [],
-                null,
-                'UnexpectedValueException',
-                "Missing 'root' as option",
-            ],
-            [
-                ['root' => '.'],
-                ['root' => '.'],
-                null,
-                null,
-            ],
-        ];
+        $this->assertInstanceOf(LocalFilesystemAdapter::class, $adapter);
     }
 }

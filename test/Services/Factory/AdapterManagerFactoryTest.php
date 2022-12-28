@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2021 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -22,94 +22,54 @@ namespace BsbFlysystemTest\Service\Factory;
 use BsbFlysystem\Service\AdapterManager;
 use BsbFlysystem\Service\Factory\AdapterManagerFactory;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Prophet;
+use Psr\Container\ContainerInterface;
 
 class AdapterManagerFactoryTest extends TestCase
 {
+    protected Prophet $prophet;
+
+    protected function setUp(): void
+    {
+        $this->prophet = new Prophet();
+    }
+
+    protected function tearDown(): void
+    {
+        $this->prophet->checkPredictions();
+    }
+
     public function testCreateService(): void
     {
-        $factory = new AdapterManagerFactory();
-
-        $config = [
-            'bsb_flysystem' => [
-                'adapters' => [],
-            ],
-        ];
-
-        $serviceLocatorMock = $this->getMockBuilder('Interop\Container\ContainerInterface')->getMock();
-        $serviceLocatorMock->expects($this->once())->method('get')->with('config')->willReturn($config);
-
-        $this->assertInstanceOf('BsbFlysystem\Service\AdapterManager', $factory($serviceLocatorMock, null));
-    }
-
-    public function testServicesSharedByDefault(): void
-    {
-        $factory = new AdapterManagerFactory();
-        $config = [
+        $container = $this->prophet->prophesize(ContainerInterface::class);
+        $container->has('config')->willReturn(true);
+        $container->get('config')->willReturn([
             'bsb_flysystem' => [
                 'adapters' => [
-                    'named_adapter' => [
-                        'type' => 'someadapter',
-                        'shared' => true,
-                    ],
-                ],
-                'adapter_map' => [
-                    'factories' => [
-                        'someadapter' => 'Laminas\ServiceManager\Factory\InvokableFactory',
-                    ],
-                    'aliases' => [
-                        'someadapter' => 'Some/Adapter',
-                    ],
                 ],
             ],
-        ];
+        ]);
 
-        $serviceLocatorMock = $this->getMockBuilder('Interop\Container\ContainerInterface')->getMock();
-        $serviceLocatorMock->expects($this->once())->method('get')->with('config')->willReturn($config);
+        $adapterManager = (new AdapterManagerFactory())($container->reveal(), null);
 
-        /** @var AdapterManager $adapterManager */
-        $adapterManager = $factory($serviceLocatorMock, null);
+        $this->assertInstanceOf(AdapterManager::class, $adapterManager);
     }
 
-    public function testThrowsExceptionForMissingAdapterType(): void
+    public function testThrowsExceptionForMissingAdapterFactory(): void
     {
-        $factory = new AdapterManagerFactory();
-
-        $config = [
+        $container = $this->prophet->prophesize(ContainerInterface::class);
+        $container->has('config')->willReturn(true);
+        $container->get('config')->willReturn([
             'bsb_flysystem' => [
                 'adapters' => [
                     'named_adapter' => [],
                 ],
             ],
-        ];
+        ]);
 
-        $serviceLocatorMock = $this->getMockBuilder('Interop\Container\ContainerInterface')->getMock();
-        $serviceLocatorMock->expects($this->once())->method('get')->with('config')->willReturn($config);
+        $this->expectException(\AssertionError::class);
+        $this->expectExceptionMessage("Option 'factory' must be defined in an adapter configuration");
 
-        $this->expectException(
-            'UnexpectedValueException',
-            "Missing 'type' key for the adapter 'named_adapter' configuration"
-        );
-        $factory($serviceLocatorMock, null);
-    }
-
-    public function testThrowsExceptionForUnknownAdapterType(): void
-    {
-        $factory = new AdapterManagerFactory();
-
-        $config = [
-            'bsb_flysystem' => [
-                'adapters' => [
-                    'named_adapter' => [
-                        'type' => 'unknown_adapter',
-                    ],
-                ],
-            ],
-        ];
-
-        $serviceLocatorMock = $this->getMockBuilder('Interop\Container\ContainerInterface')->getMock();
-        $serviceLocatorMock->expects($this->once())->method('get')->with('config')->willReturn($config);
-
-        $this->expectException('BsbFlysystem\Exception\UnexpectedValueException');
-        $factory($serviceLocatorMock, null);
+        (new AdapterManagerFactory())($container->reveal(), null);
     }
 }

@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2021 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -19,10 +19,22 @@ declare(strict_types=1);
 
 namespace BsbFlysystem;
 
-class Module
+use Laminas\ModuleManager\Feature\ConfigProviderInterface;
+
+final class Module implements ConfigProviderInterface
 {
     public function getConfig(): array
     {
-        return include __DIR__ . '/../config/module.config.php';
+        $provider = new ConfigProvider();
+
+        return [
+            'service_manager' => $provider->getDependencyConfig(),
+            'bsb_flysystem' => [
+                'adapters' => $provider->getAdapterConfig(),
+                'filesystems' => $provider->getFilesystemsConfig(),
+                'adapter_manager' => $provider->getAdapterManagerConfig(),
+                'filesystem_manager' => $provider->getFilesystemManagerConfig(),
+            ],
+        ];
     }
 }

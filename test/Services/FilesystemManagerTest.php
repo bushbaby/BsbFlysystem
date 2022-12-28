@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2021 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -21,14 +21,9 @@ namespace BsbFlysystemTest\Service;
 
 use BsbFlysystem\Service\FilesystemManager;
 use BsbFlysystemTest\Bootstrap;
-use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\ServiceManager;
-use League\Flysystem\Adapter\AbstractAdapter;
-use League\Flysystem\Cached\CachedAdapter;
 use League\Flysystem\Filesystem;
-use League\Flysystem\FilesystemInterface;
 use PHPUnit\Framework\TestCase;
-use stdClass;
 
 class FilesystemManagerTest extends TestCase
 {
@@ -51,7 +46,7 @@ class FilesystemManagerTest extends TestCase
     public function testManagerValidatesPlugin(): void
     {
         $manager = new FilesystemManager(new ServiceManager());
-        $plugin = $this->getMockBuilder(FilesystemInterface::class)
+        $plugin = $this->getMockBuilder(Filesystem::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -59,7 +54,7 @@ class FilesystemManagerTest extends TestCase
 
         $this->expectException('RuntimeException');
 
-        $plugin = new stdClass();
+        $plugin = new \stdClass();
         $manager->validatePlugin($plugin);
     }
 
@@ -68,69 +63,41 @@ class FilesystemManagerTest extends TestCase
         $sm = Bootstrap::getServiceManager();
         $manager = $sm->get('BsbFlysystemManager');
 
-        $this->assertInstanceOf(FilesystemInterface::class, $manager->get('default'));
+        $this->assertInstanceOf(Filesystem::class, $manager->get('default'));
     }
 
     public function testServicesSharedByDefault(): void
     {
         $sm = Bootstrap::getServiceManager();
-        /** @var AbstractPluginManager $manager */
+
+        /** @var FilesystemManager $manager */
         $manager = $sm->get(FilesystemManager::class);
 
         $localA = $manager->get('default');
         $localB = $manager->get('default');
-        $this->assertTrue($localA === $localB);
+        $this->assertSame($localA, $localB);
     }
 
     public function testConfigurationOverrideableForNotSharedServices(): void
     {
         $sm = Bootstrap::getServiceManager();
-        /** @var FilesystemManager $manager */
-        $manager = $sm->get(FilesystemManager::class);
-
-        /** @var Filesystem $filesystem */
-        $filesystem = $manager->get('default_unshared');
-
-        /** @var AbstractAdapter $adapter */
-        $adapter = $filesystem->getAdapter();
-
-        $pathPrefix = $adapter->getPathPrefix();
-        $pathPrefix = str_replace(realpath('.'), '', $pathPrefix);
-
-        $this->assertEquals('./test/_build/files/', $pathPrefix);
-
-        /** @var Filesystem $filesystem */
-        $filesystem = $manager->get(
-            'default_unshared',
-            ['adapter_options' => ['root' => './test/_build/documents']]
-        );
-
-        /** @var AbstractAdapter $adapter */
-        $adapter = $filesystem->getAdapter();
-
-        $pathPrefix = $adapter->getPathPrefix();
-        $pathPrefix = str_replace(realpath('.'), '', $pathPrefix);
-
-        $this->assertEquals('./test/_build/documents/', $pathPrefix);
-    }
-
-    public function testCanGetCachedFilesystem(): void
-    {
-        if (! class_exists('Laminas\Cache\Service\StorageCacheAbstractServiceFactory')) {
-            $this->markTestSkipped('laminas/laminas-cache not required');
-        }
-
-        $sm = Bootstrap::getServiceManager();
 
         /** @var FilesystemManager $manager */
         $manager = $sm->get(FilesystemManager::class);
 
         /** @var Filesystem $filesystem */
-        $filesystem = $manager->get('default_cached');
+        $localA = $manager->get('default');
 
-        /** @var CachedAdapter $adapter */
-        $adapter = $filesystem->getAdapter();
+        /** @var Filesystem $filesystem */
+        $localB = $manager->get('default', [
+            'adapter_options' => ['location' => './test/_build/documents'],
+        ]);
 
-        $this->assertInstanceOf(CachedAdapter::class, $adapter);
+        $localA->write('/test-from-fs1.txt', '');
+        $localB->write('/test-from-fs2.txt', '');
+
+        $this->assertNotSame($localA, $localB);
+        $this->assertFalse($localA->has('/test-from-fs2.txt'));
+        $this->assertFalse($localB->has('/test-from-fs1.txt'));
     }
 }

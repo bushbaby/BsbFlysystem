@@ -17,17 +17,22 @@
 
 declare(strict_types=1);
 
-namespace BsbFlysystemTest;
+namespace BsbFlysystemTest\Adapter\Factory;
 
-use BsbFlysystem\Module;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Prophet;
 
-class ModuleTest extends TestCase
+class BaseAdapterFactory extends TestCase
 {
-    public function testModuleGetConfig()
-    {
-        $module = new Module();
+    protected Prophet $prophet;
 
-        $this->assertNotEmpty($module->getConfig());
+    protected function setUp(): void
+    {
+        $this->prophet = new Prophet();
+    }
+
+    protected function tearDown(): void
+    {
+        $this->prophet->checkPredictions();
     }
 }

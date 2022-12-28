@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2021 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -20,35 +20,70 @@ declare(strict_types=1);
 namespace BsbFlysystem\Adapter\Factory;
 
 use BsbFlysystem\Exception\RequirementsException;
-use BsbFlysystem\Exception\UnexpectedValueException;
-use League\Flysystem\AdapterInterface;
+use League\Flysystem\FilesystemAdapter;
 use Psr\Container\ContainerInterface;
 use Spatie\Dropbox\Client;
-use Spatie\FlysystemDropbox\DropboxAdapter as Adapter;
+use Spatie\FlysystemDropbox\DropboxAdapter;
 
 class DropboxAdapterFactory extends AbstractAdapterFactory
 {
-    public function doCreateService(ContainerInterface $container): AdapterInterface
+    public function doCreateService(ContainerInterface $container): FilesystemAdapter
     {
-        if (! class_exists(Adapter::class)) {
+        if (! class_exists(DropboxAdapter::class)) {
             throw new RequirementsException(['spatie/flysystem-dropbox'], 'Dropbox');
         }
 
-        $client = new Client(
-            $this->options['access_token']
-        );
+        if (\is_string($this->options['client'])) {
+            $this->options['client'] = $container->get($this->options['client']);
+        } else {
+            $this->options['client'] = new Client(...$this->options['client']);
+        }
 
-        return new Adapter($client, $this->options['prefix']);
+        if (\array_key_exists('mimeTypeDetector', $this->options)) {
+            $this->options['mimeTypeDetector'] = $container->get($this->options['mimeTypeDetector']);
+        }
+
+        return new DropboxAdapter(...$this->options);
     }
 
     protected function validateConfig(): void
     {
-        if (! isset($this->options['access_token'])) {
-            throw new UnexpectedValueException("Missing 'access_token' as option");
+        \assert(
+            \array_key_exists('client', $this->options),
+            "Required option 'client' is missing"
+        );
+
+        \assert(
+            (\is_string($this->options['client']) && ! empty($this->options['client']))
+            || \is_array($this->options['client']),
+            "Option 'client' must either be a non empty string or an array"
+        );
+
+        if (\is_array($this->options['client'])) {
+            \assert(
+                \array_key_exists('accessTokenOrAppCredentials', $this->options['client']),
+                "Required option 'client.accessTokenOrAppCredentials' is missing"
+            );
+
+            \assert(
+                \is_string($this->options['client']['accessTokenOrAppCredentials']) && (! empty($this->options['client']['accessTokenOrAppCredentials']))
+                || \is_array($this->options['client']['accessTokenOrAppCredentials']),
+                "Option 'client.accessTokenOrAppCredentials' must either be a non empty string or an array"
+            );
+
+            if (\is_array($this->options['client']['accessTokenOrAppCredentials'])) {
+                \assert(
+                    2 === \count($this->options['client']['accessTokenOrAppCredentials']),
+                    "Option 'client.accessTokenOrAppCredentials' must be an array with 2 elements"
+                );
+            }
         }
 
-        if (! isset($this->options['prefix'])) {
-            $this->options['prefix'] = '';
+        if (\array_key_exists('mimeTypeDetector', $this->options)) {
+            \assert(
+                \is_string($this->options['mimeTypeDetector']) && ! empty($this->options['mimeTypeDetector']),
+                "Option 'mimeTypeDetector' must be a non empty string"
+            );
         }
     }
 }

@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2021 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -24,7 +24,6 @@ use BsbFlysystem\Service\AdapterManager;
 use BsbFlysystemTest\Bootstrap;
 use Laminas\ServiceManager\ServiceManager;
 use PHPUnit\Framework\TestCase;
-use stdClass;
 
 class AdapterManagerTest extends TestCase
 {
@@ -47,7 +46,7 @@ class AdapterManagerTest extends TestCase
     public function testManagerValidatesPlugin(): void
     {
         $manager = new AdapterManager(new ServiceManager());
-        $plugin = $this->getMockBuilder(\League\Flysystem\Adapter\AbstractAdapter::class)
+        $plugin = $this->getMockBuilder(\League\Flysystem\FilesystemAdapter::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -55,23 +54,23 @@ class AdapterManagerTest extends TestCase
 
         $this->expectException(RuntimeException::class);
 
-        $plugin = new stdClass();
+        $plugin = new \stdClass();
         $manager->validatePlugin($plugin);
     }
 
     public function testCreateViaServiceManagerLocal(): void
     {
         $sm = Bootstrap::getServiceManager();
-        $manager = $sm->get('BsbFlysystemAdapterManager');
-
-        $this->assertInstanceOf(\League\Flysystem\Adapter\AbstractAdapter::class, $manager->get('local_default'));
-    }
-
-    public function testCreateViaServiceManagerNull(): void
-    {
-        $sm = Bootstrap::getServiceManager();
         $manager = $sm->get(AdapterManager::class);
 
-        $this->assertInstanceOf(\League\Flysystem\Adapter\NullAdapter::class, $manager->get('null_default'));
+        $this->assertInstanceOf(\League\Flysystem\FilesystemAdapter::class, $manager->get('local_default'));
     }
+
+    // public function testCreateViaServiceManagerNull(): void
+    // {
+    //     $sm = Bootstrap::getServiceManager();
+    //     $manager = $sm->get(AdapterManager::class);
+
+    //     $this->assertInstanceOf(\League\Flysystem\Adapter\NullAdapter::class, $manager->get('null_default'));
+    // }
 }

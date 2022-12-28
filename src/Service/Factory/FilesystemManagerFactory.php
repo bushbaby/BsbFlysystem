@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2021 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -25,20 +25,15 @@ use Psr\Container\ContainerInterface;
 
 class FilesystemManagerFactory
 {
-    public function createService(ContainerInterface $container): FilesystemManager
-    {
-        return $this($container, null);
-    }
-
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null): FilesystemManager
     {
-        $config = $container->get('config');
-        $config = $config['bsb_flysystem']['filesystems'];
-        $serviceConfig = [];
-        foreach ($config as $key => $filesystems) {
-            $serviceConfig['factories'][$key] = FilesystemFactory::class;
-            $serviceConfig['shared'][$key] = isset($filesystems['shared']) ? (bool) $filesystems['shared'] : true;
-        }
+        $filesystems = ($container->has('config') ? $container->get('config') : [])['bsb_flysystem']['filesystems'] ?? [];
+
+        $serviceConfig = array_reduce(array_keys($filesystems), function (array $serviceConfig, string $name) {
+            $serviceConfig['factories'][$name] = FilesystemFactory::class;
+
+            return $serviceConfig;
+        }, ['factories' => []]);
 
         return new FilesystemManager($container, $serviceConfig);
     }

@@ -19,17 +19,16 @@ declare(strict_types=1);
 
 namespace BsbFlysystemTest\Adapter\Factory;
 
-use BsbFlysystem\Adapter\Factory\ZipArchiveAdapterFactory;
-use League\Flysystem\UnixVisibility\VisibilityConverter;
-use League\Flysystem\ZipArchive\ZipArchiveAdapter;
+use BsbFlysystem\Adapter\Factory\InMemoryAdapterFactory;
+use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
 use League\MimeTypeDetection\MimeTypeDetector;
 use Psr\Container\ContainerInterface;
 
-class ZipArchiveAdapterFactoryTest extends BaseAdapterFactory
+class InMemoryAdapterFactoryTest extends BaseAdapterFactory
 {
     public function testGettingFromServiceManager(): void
     {
-        $factory = new ZipArchiveAdapterFactory();
+        $factory = new InMemoryAdapterFactory();
 
         $container = $this->prophet->prophesize(ContainerInterface::class);
         $container->has('config')->willReturn(false);
@@ -37,18 +36,10 @@ class ZipArchiveAdapterFactoryTest extends BaseAdapterFactory
         $mimeTypeDetector = $this->prophet->prophesize(MimeTypeDetector::class);
         $container->get('a-mime-type-detector')->willReturn($mimeTypeDetector->reveal());
 
-        $visibility = $this->prophet->prophesize(VisibilityConverter::class);
-        $container->get('a-visibility')->willReturn($visibility->reveal());
-
-        $adapter = $factory($container->reveal(), 'zip_default', [
-            'zipArchiveProvider' => [
-                'filename' => 'test.zip',
-            ],
-            'root' => 'a-root',
+        $adapter = $factory($container->reveal(), 'inmemory_default', [
             'mimeTypeDetector' => 'a-mime-type-detector',
-            'visibility' => 'a-visibility',
         ]);
 
-        $this->assertInstanceOf(ZipArchiveAdapter::class, $adapter);
+        $this->assertInstanceOf(InMemoryFilesystemAdapter::class, $adapter);
     }
 }

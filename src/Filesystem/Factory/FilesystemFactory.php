@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2021 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -19,15 +19,8 @@ declare(strict_types=1);
 
 namespace BsbFlysystem\Filesystem\Factory;
 
-use BsbFlysystem\Cache\ZendStorageCache;
-use BsbFlysystem\Exception\RequirementsException;
-use BsbFlysystem\Exception\UnexpectedValueException;
-use Laminas\Cache\Storage\StorageInterface;
-use League\Flysystem\Cached\CachedAdapter;
-use League\Flysystem\Cached\CacheInterface;
-use League\Flysystem\EventableFilesystem\EventableFilesystem;
+use BsbFlysystem\Service\AdapterManager;
 use League\Flysystem\Filesystem;
-use League\Flysystem\FilesystemInterface;
 use Psr\Container\ContainerInterface;
 
 class FilesystemFactory
@@ -46,75 +39,40 @@ class FilesystemFactory
     {
         $this->options = $options;
 
-        if (! isset($this->options['adapter_options'])) {
-            $this->options['adapter_options'] = [];
+        if (\array_key_exists('adapter_options', $this->options)) {
+            \assert(
+                \is_array($this->options['adapter_options']),
+                "Option 'adapter_options' must be an array"
+            );
         }
     }
 
-    public function createService(ContainerInterface $container): FilesystemInterface
+    public function __invoke(ContainerInterface $container, string $requestedName, ?array $options = null): Filesystem
     {
-        if (method_exists($container, 'getServiceLocator')) {
-            $serviceLocator = $container->getServiceLocator();
-        }
+        $filesystems = ($container->has('config') ? $container->get('config') : [])['bsb_flysystem']['filesystems'] ?? [];
 
-        $requestedName = func_get_arg(2);
+        \assert(
+            \array_key_exists($requestedName, $filesystems) && \is_array($filesystems[$requestedName]),
+            sprintf("Missing or incorrect configuration for '%s'", $requestedName)
+        );
 
-        return $this($container, $requestedName);
-    }
+        $configForRequestedFS = $filesystems[$requestedName];
 
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): FilesystemInterface
-    {
-        $config = $container->get('config');
-        $fsConfig = $config['bsb_flysystem']['filesystems'][$requestedName];
-        if (! isset($fsConfig['adapter'])) {
-            throw new UnexpectedValueException(sprintf("Missing 'adapter' key for the filesystem '%s' configuration", $requestedName));
-        }
+        \assert(
+            \array_key_exists('adapter', $configForRequestedFS) && \is_string($configForRequestedFS['adapter']),
+            sprintf("Missing or incorrect configuration for the 'config.bsb_flysystem.filesystems.%s.adapter'", $requestedName)
+        );
 
         if (null !== $options) {
             $this->setCreationOptions($options);
         }
 
         $adapter = $container
-            ->get('BsbFlysystemAdapterManager')
-            ->get($fsConfig['adapter'], $this->options['adapter_options']);
+            ->get(AdapterManager::class)
+            ->get($configForRequestedFS['adapter'], $this->options['adapter_options'] ?? null);
 
-        $options = $fsConfig['options'] ?? [];
+        $options = $configForRequestedFS['options'] ?? [];
 
-        if (isset($fsConfig['cache']) && \is_string($fsConfig['cache'])) {
-            if (! class_exists(CachedAdapter::class)) {
-                throw new RequirementsException(['league/flysystem-cached-adapter'], 'CachedAdapter');
-            }
-
-            $cacheAdapter = $container->get($fsConfig['cache']);
-
-            // wrap if StorageInterface, use filesystem name a key
-            if ($cacheAdapter instanceof StorageInterface) {
-                $cacheAdapter = new ZendStorageCache($cacheAdapter, $requestedName);
-            }
-
-            // ignore if not CacheInterface
-            if ($cacheAdapter instanceof CacheInterface) {
-                $adapter = new CachedAdapter($adapter, $cacheAdapter);
-            }
-        }
-
-        if (isset($fsConfig['eventable']) && filter_var($fsConfig['eventable'], FILTER_VALIDATE_BOOLEAN)) {
-            if (! class_exists(EventableFilesystem::class)) {
-                throw new RequirementsException(['league/flysystem-eventable-filesystem'], 'EventableFilesystem');
-            }
-
-            $filesystem = new EventableFilesystem($adapter, $options);
-        } else {
-            $filesystem = new Filesystem($adapter, $options);
-        }
-
-        if (isset($fsConfig['plugins']) && \is_array($fsConfig['plugins'])) {
-            foreach ($fsConfig['plugins'] as $plugin) {
-                $plugin = new $plugin();
-                $filesystem->addPlugin($plugin);
-            }
-        }
-
-        return $filesystem;
+        return new Filesystem($adapter, $options);
     }
 }

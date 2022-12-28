@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2021 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -22,85 +22,69 @@ namespace BsbFlysystem\Adapter\Factory;
 use Aws\S3\S3Client;
 use BsbFlysystem\Exception\RequirementsException;
 use BsbFlysystem\Exception\UnexpectedValueException;
-use League\Flysystem\AdapterInterface;
-use League\Flysystem\AwsS3v3\AwsS3Adapter as Adapter;
+use League\Flysystem\AwsS3V3\AwsS3V3Adapter;
+use League\Flysystem\FilesystemAdapter;
 use Psr\Container\ContainerInterface;
 
 class AwsS3v3AdapterFactory extends AbstractAdapterFactory
 {
-    public function doCreateService(ContainerInterface $container): AdapterInterface
+    public function doCreateService(ContainerInterface $container): FilesystemAdapter
     {
-        if (! class_exists(Adapter::class)) {
+        if (! class_exists(AwsS3V3Adapter::class)) {
             throw new RequirementsException(['league/flysystem-aws-s3-v3'], 'AwsS3v3');
         }
-        $config = [
-            'region' => $this->options['region'],
-            'version' => $this->options['version'],
-            'http' => $this->options['request.options'],
-        ];
+
+        $clientConfig = $this->options['client'];
+        // [
+        //     'region' => $this->options['client']['region'] ?? null,
+        //     'version' => $this->options['client']['version'] ?? null,
+        //     'http' => $this->options['client']['request.options'] ?? null,
+        // ];
 
         // Override the endpoint for example: when using an s3 compatible host
-        if (! empty($this->options['endpoint'])) {
-            $config['endpoint'] = $this->options['endpoint'];
-        }
+        // if (! empty($this->options['client']['endpoint'])) {
+        //     $clientConfig['client']['endpoint'] = $this->options['client']['endpoint'];
+        // }
 
-        if (! empty($this->options['use_path_style_endpoint'])) {
-            $config['use_path_style_endpoint'] = $this->options['use_path_style_endpoint'];
-        }
+        // if (! empty($this->options['client']['use_path_style_endpoint'])) {
+        //     $clientConfig['use_path_style_endpoint'] = $this->options['client']['use_path_style_endpoint'];
+        // }
 
         if (! isset($this->options['iam']) || (isset($this->options['iam']) && (false === $this->options['iam']))) {
             $credentials = [
-                'key' => $this->options['credentials']['key'],
-                'secret' => $this->options['credentials']['secret'],
+                'key' => $this->options['client']['credentials']['key'],
+                'secret' => $this->options['client']['credentials']['secret'],
             ];
-            $config = array_merge(compact('credentials'), $config);
+            $clientConfig = array_merge(compact('credentials'), $clientConfig);
         }
 
-        $adapterOptions = $this->options['options'] ?? [];
+        $this->options['client'] = new S3Client($clientConfig);
 
-        $client = new S3Client($config);
+        if (\array_key_exists('mimeTypeDetector', $this->options)) {
+            $this->options['mimeTypeDetector'] = $container->get($this->options['mimeTypeDetector']);
+        }
 
-        return new Adapter($client, $this->options['bucket'], $this->options['prefix'], $adapterOptions, $this->options['streamReads']);
+        if (\array_key_exists('visibility', $this->options)) {
+            $this->options['visibility'] = $container->get($this->options['visibility']);
+        }
+
+        return new AwsS3V3Adapter(...$this->options);
     }
 
     protected function validateConfig(): void
     {
-        if (! isset($this->options['iam']) || (isset($this->options['iam']) && (false === $this->options['iam']))) {
-            if (! isset($this->options['credentials']) || ! \is_array($this->options['credentials'])) {
-                throw new UnexpectedValueException("Missing 'credentials' as array");
-            }
+        // if (! isset($this->options['iam']) || (isset($this->options['iam']) && (false === $this->options['iam']))) {
+        //     if (! isset($this->options['credentials']) || ! \is_array($this->options['credentials'])) {
+        //         throw new UnexpectedValueException("Missing 'credentials' as array");
+        //     }
 
-            if (! isset($this->options['credentials']['key'])) {
-                throw new UnexpectedValueException("Missing 'key' as option");
-            }
+        //     if (! isset($this->options['credentials']['key'])) {
+        //         throw new UnexpectedValueException("Missing 'key' as option");
+        //     }
 
-            if (! isset($this->options['credentials']['secret'])) {
-                throw new UnexpectedValueException("Missing 'secret' as option");
-            }
-        }
-
-        if (! isset($this->options['region'])) {
-            throw new UnexpectedValueException("Missing 'region' as option");
-        }
-
-        if (! isset($this->options['bucket'])) {
-            throw new UnexpectedValueException("Missing 'bucket' as option");
-        }
-
-        if (! isset($this->options['version'])) {
-            $this->options['version'] = 'latest';
-        }
-
-        if (! isset($this->options['prefix'])) {
-            $this->options['prefix'] = '';
-        }
-
-        if (! isset($this->options['request.options'])) {
-            $this->options['request.options'] = [];
-        }
-
-        if (! isset($this->options['streamReads'])) {
-            $this->options['streamReads'] = true;
-        }
+        //     if (! isset($this->options['credentials']['secret'])) {
+        //         throw new UnexpectedValueException("Missing 'secret' as option");
+        //     }
+        // }
     }
 }

@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2021 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -19,36 +19,48 @@ declare(strict_types=1);
 
 namespace BsbFlysystem\Adapter\Factory;
 
+use Ajgl\Flysystem\Replicate\ReplicateFilesystemAdapter;
 use BsbFlysystem\Exception\RequirementsException;
-use BsbFlysystem\Exception\UnexpectedValueException;
-use League\Flysystem\AdapterInterface;
-use League\Flysystem\Replicate\ReplicateAdapter as Adapter;
+use BsbFlysystem\Service\AdapterManager;
+use League\Flysystem\FilesystemAdapter;
 use Psr\Container\ContainerInterface;
 
 class ReplicateAdapterFactory extends AbstractAdapterFactory
 {
-    public function doCreateService(ContainerInterface $container): AdapterInterface
+    public function doCreateService(ContainerInterface $container): FilesystemAdapter
     {
-        if (! class_exists(Adapter::class)) {
-            throw new RequirementsException(['league/flysystem-replicate-adapter'], 'Replicate');
+        if (! class_exists(ReplicateFilesystemAdapter::class)) {
+            throw new RequirementsException(['ajgl/flysystem-replicate'], 'Replicate');
         }
 
-        $connectionManager = $container->get('BsbFlysystemAdapterManager');
+        $manager = $container->get(AdapterManager::class);
 
-        return new Adapter(
-            $connectionManager->get($this->options['source']),
-            $connectionManager->get($this->options['replicate'])
+        return new ReplicateFilesystemAdapter(
+            $manager->get($this->options['source']),
+            $manager->get($this->options['replica'])
         );
     }
 
     protected function validateConfig(): void
     {
-        if (! isset($this->options['source'])) {
-            throw new UnexpectedValueException("Missing 'source' as option");
-        }
+        \assert(
+            \array_key_exists('source', $this->options),
+            "Required option 'source' is missing"
+        );
 
-        if (! isset($this->options['replicate'])) {
-            throw new UnexpectedValueException("Missing 'replicate' as option");
-        }
+        \assert(
+            \is_string($this->options['source']) && ! empty($this->options['source']),
+            "Option 'source' must be a non empty string"
+        );
+
+        \assert(
+            \array_key_exists('replica', $this->options),
+            "Required option 'replica' is missing"
+        );
+
+        \assert(
+            \is_string($this->options['replica']) && ! empty($this->options['replica']),
+            "Option 'replica' must be a non empty string"
+        );
     }
 }

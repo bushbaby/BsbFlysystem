@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2021 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -19,7 +19,7 @@ declare(strict_types=1);
 
 namespace BsbFlysystem\Filter\File;
 
-    function is_uploaded_file($filepath): bool
-    {
-        return realpath($filepath) === realpath(__DIR__ . '/test.txt');
-    }
+function is_uploaded_file($filepath): bool
+{
+    return realpath($filepath) === realpath(__DIR__ . '/test.txt');
+}

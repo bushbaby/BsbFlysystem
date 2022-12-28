@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2021 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -20,101 +20,47 @@ declare(strict_types=1);
 namespace BsbFlysystemTest\Adapter\Factory;
 
 use BsbFlysystem\Adapter\Factory\FtpAdapterFactory;
-use BsbFlysystemTest\Bootstrap;
-use League\Flysystem\Adapter\Ftp;
-use PHPUnit\Framework\TestCase;
-use ReflectionClass;
-use ReflectionMethod;
-use ReflectionProperty;
+use League\Flysystem\Ftp\ConnectivityChecker;
+use League\Flysystem\Ftp\FtpAdapter;
+use League\Flysystem\Ftp\FtpConnectionProvider;
+use League\Flysystem\UnixVisibility\VisibilityConverter;
+use League\MimeTypeDetection\MimeTypeDetector;
+use Psr\Container\ContainerInterface;
 
-class FtpAdapterFactoryTest extends TestCase
+class FtpAdapterFactoryTest extends BaseAdapterFactory
 {
-    /**
-     * @var ReflectionProperty
-     */
-    protected $property;
-
-    /**
-     * @var ReflectionMethod
-     */
-    protected $method;
-
-    public function setup(): void
+    public function testGettingFromServiceManager(): void
     {
-        $class = new ReflectionClass(FtpAdapterFactory::class);
-        $this->property = $class->getProperty('options');
-        $this->property->setAccessible(true);
-
-        $this->method = $class->getMethod('validateConfig');
-        $this->method->setAccessible(true);
-    }
-
-    public function testCreateService(): void
-    {
-        $sm = Bootstrap::getServiceManager();
         $factory = new FtpAdapterFactory();
 
-        $adapter = $factory($sm, 'ftp_default');
+        $container = $this->prophet->prophesize(ContainerInterface::class);
+        $container->has('config')->willReturn(false);
 
-        $this->assertInstanceOf(Ftp::class, $adapter);
-    }
+        $connectionProvider = $this->prophet->prophesize(FtpConnectionProvider::class);
+        $container->get('a-connection-provider')->willReturn($connectionProvider->reveal());
 
-    /**
-     * @dataProvider validateConfigProvider
-     */
-    public function testValidateConfig(
-        array $options,
-        ?array $expectedOptions,
-        ?string $expectedException,
-        ?string $expectedExceptionMessage
-    ): void {
-        $factory = new FtpAdapterFactory($options);
+        $connectivityChecker = $this->prophet->prophesize(ConnectivityChecker::class);
+        $container->get('a-connectivity-checker')->willReturn($connectivityChecker->reveal());
 
-        if ($expectedException) {
-            $this->expectException($expectedException);
-            $this->expectExceptionMessage($expectedExceptionMessage);
-        }
+        $mimeTypeDetector = $this->prophet->prophesize(MimeTypeDetector::class);
+        $container->get('a-mime-type-detector')->willReturn($mimeTypeDetector->reveal());
 
-        $this->method->invokeArgs($factory, []);
+        $visibility = $this->prophet->prophesize(VisibilityConverter::class);
+        $container->get('a-visibility')->willReturn($visibility->reveal());
 
-        if (\is_array($expectedOptions)) {
-            $this->assertEquals($expectedOptions, $this->property->getValue($factory));
-        }
-    }
-
-    public function validateConfigProvider(): array
-    {
-        return [
-            [
-                [],
-                null,
-                'UnexpectedValueException',
-                "Missing 'host' as option",
+        $adapter = $factory($container->reveal(), 'ftp_default', [
+            'connectionOptions' => [
+                'host' => 'localhost',
+                'root' => '/path/to/root',
+                'username' => 'username',
+                'password' => 'password',
             ],
-            [
-                ['host' => 'foo'],
-                null,
-                'UnexpectedValueException',
-                "Missing 'port' as option",
-            ],
-            [
-                ['host' => 'foo', 'port' => 'foo'],
-                null,
-                'UnexpectedValueException',
-                "Missing 'username' as option",
-            ],
-            [
-                ['host' => 'foo', 'port' => 'foo', 'username' => 'foo'],
-                null,
-                'UnexpectedValueException',
-                "Missing 'password' as option",
-            ],
-            [
-                ['host' => 'foo', 'port' => 'foo', 'username' => 'foo', 'password' => 'foo'],
-                ['host' => 'foo', 'port' => 'foo', 'username' => 'foo', 'password' => 'foo'],
-                null,
-                null,
-            ],
-        ];
+            'connectionProvider' => 'a-connection-provider',
+            'connectivityChecker' => 'a-connectivity-checker',
+            'mimeTypeDetector' => 'a-mime-type-detector',
+            'visibilityConverter' => 'a-visibility',
+        ]);
+
+        $this->assertInstanceOf(FtpAdapter::class, $adapter);
     }
 }

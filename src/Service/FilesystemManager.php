@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2021 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -22,24 +22,14 @@ namespace BsbFlysystem\Service;
 use BsbFlysystem\Exception\RuntimeException;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception;
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\Filesystem;
 
 class FilesystemManager extends AbstractPluginManager
 {
     /**
      * @var string
      */
-    protected $instanceOf = FilesystemInterface::class;
-
-    /**
-     * @var bool
-     */
-    protected $shareByDefault = true;
-
-    /**
-     * @var bool
-     */
-    protected $sharedByDefault = true;
+    protected $instanceOf = Filesystem::class;
 
     public function validate($instance): void
     {
