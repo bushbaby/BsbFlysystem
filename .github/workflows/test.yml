@@ -29,7 +29,7 @@ jobs:
         with:
           php-version: "${{ matrix.php-version }}"
           tools: "composer:${{ matrix.composer }}"
-          ini-values: assert.active=1
+          ini-values: zend.assertions=1,assert.exception=1
       - name: "Install dependencies"
         run: "composer update --no-interaction"
       - name: "Run tests"
