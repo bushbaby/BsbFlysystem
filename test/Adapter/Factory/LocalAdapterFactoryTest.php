@@ -45,7 +45,7 @@ class LocalAdapterFactoryTest extends BaseAdapterFactory
             'location' => 'a-location',
             'mimeTypeDetector' => 'a-mime-type-detector',
             'visibility' => 'a-visibility',
-            'lazyRootCreation' => true
+            'lazyRootCreation' => true,
         ]);
 
         $this->assertInstanceOf(LocalFilesystemAdapter::class, $adapter);
