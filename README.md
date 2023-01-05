@@ -2,11 +2,7 @@
 
 A simple Laminas module that bridges the Flysystem filesystem.
 
-[![Latest Stable Version](https://poser.pugx.org/bushbaby/flysystem/v/stable)](https://packagist.org/packages/bushbaby/flysystem) 
-[![Total Downloads](https://poser.pugx.org/bushbaby/flysystem/downloads)](https://packagist.org/packages/bushbaby/flysystem) 
-[![Latest Unstable Version](https://poser.pugx.org/bushbaby/flysystem/v/unstable)](https://packagist.org/packages/bushbaby/flysystem) 
-[![License](https://poser.pugx.org/bushbaby/flysystem/license)](https://packagist.org/packages/bushbaby/flysystem)
-
+[![Latest Stable Version](http://poser.pugx.org/bushbaby/flysystem/v)](https://packagist.org/packages/bushbaby/flysystem) [![Total Downloads](http://poser.pugx.org/bushbaby/flysystem/downloads)](https://packagist.org/packages/bushbaby/flysystem) [![Latest Unstable Version](http://poser.pugx.org/bushbaby/flysystem/v/unstable)](https://packagist.org/packages/bushbaby/flysystem) [![License](http://poser.pugx.org/bushbaby/flysystem/license)](https://packagist.org/packages/bushbaby/flysystem) [![PHP Version Require](http://poser.pugx.org/bushbaby/flysystem/require/php)](https://packagist.org/packages/bushbaby/flysystem)
 ![Build Status](https://github.com/bushbaby/BsbFlysystem/actions/workflows/test.yml/badge.svg)
 [![Code Coverage](https://scrutinizer-ci.com/g/bushbaby/BsbFlysystem/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/bushbaby/BsbFlysystem/?branch=master)
 
