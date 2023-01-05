@@ -14,9 +14,6 @@ jobs:
     runs-on: "ubuntu-latest"
     strategy:
       matrix:
-        dependencies:
-          - "--prefer-lowest"
-          - ""
         php-version:
           - "8.2"
           - "8.1"
@@ -34,7 +31,7 @@ jobs:
           tools: "composer:${{ matrix.composer }}"
           ini-values: assert.active=1
       - name: "Install dependencies"
-        run: "composer update ${{ matrix.dependencies }} --no-interaction"
+        run: "composer update --no-interaction"
       - name: "Run tests"
         run: "vendor/bin/phpunit"
 
