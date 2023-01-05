@@ -75,16 +75,22 @@ abstract class AbstractAdapterFactory
         $this->validateConfig();
 
         // support path prefixing
-        if (class_exists(PathPrefixedAdapter::class) && $prefix = $this->options['prefix'] ?? false) {
+        $prefix = class_exists(PathPrefixedAdapter::class) && $this->options['prefix'] ?? false;
+        if ($prefix) {
+            $prefix = $this->options['prefix'];
+
+            // prefix may still be an adapter option even without PathPrefixedAdapter class for some adapters
             unset($this->options['prefix']);
         }
 
         // support read only
-        if (class_exists(ReadOnlyFilesystemAdapter::class) && $readonly = $this->options['readonly'] ?? false) {
-            unset($this->options['readonly']);
-        }
+        $readonly = class_exists(ReadOnlyFilesystemAdapter::class) && $this->options['readonly'] ?? false;
+
+        // never pass readonly as adapter option
+        unset($this->options['readonly']);
 
         $adapter = $this->doCreateService($container);
+
         if ($prefix) {
             $adapter = new PathPrefixedAdapter($adapter, $prefix);
         }
