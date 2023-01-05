@@ -23,6 +23,7 @@ use BsbFlysystem\Exception\RequirementsException;
 use League\Flysystem\FilesystemAdapter;
 use Psr\Container\ContainerInterface;
 use Spatie\Dropbox\Client;
+use Spatie\Dropbox\TokenProvider;
 use Spatie\FlysystemDropbox\DropboxAdapter;
 
 class DropboxAdapterFactory extends AbstractAdapterFactory
@@ -66,9 +67,10 @@ class DropboxAdapterFactory extends AbstractAdapterFactory
             );
 
             \assert(
-                \is_string($this->options['client']['accessTokenOrAppCredentials']) && (! empty($this->options['client']['accessTokenOrAppCredentials']))
-                || \is_array($this->options['client']['accessTokenOrAppCredentials']),
-                "Option 'client.accessTokenOrAppCredentials' must either be a non empty string or an array"
+                (\is_string($this->options['client']['accessTokenOrAppCredentials']) && ! empty($this->options['client']['accessTokenOrAppCredentials']))
+                || \is_array($this->options['client']['accessTokenOrAppCredentials'])
+                || $this->options['client']['accessTokenOrAppCredentials'] instanceof TokenProvider,
+                "Option 'client.accessTokenOrAppCredentials' must either be a non empty string, an array or an instance of 'Spatie\Dropbox\TokenProvider'"
             );
 
             if (\is_array($this->options['client']['accessTokenOrAppCredentials'])) {
