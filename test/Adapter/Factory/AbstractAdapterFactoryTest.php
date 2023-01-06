@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2021 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -22,25 +22,22 @@ namespace BsbFlysystemTest\Adapter\Factory;
 use BsbFlysystemTest\Assets\SimpleAdapterFactory;
 use Laminas\ServiceManager\ServiceManager;
 use PHPUnit\Framework\TestCase;
-use ReflectionClass;
-use ReflectionMethod;
-use ReflectionProperty;
 
 class AbstractAdapterFactoryTest extends TestCase
 {
     /**
-     * @var ReflectionProperty
+     * @var \ReflectionProperty
      */
     protected $property;
 
     /**
-     * @var ReflectionMethod
+     * @var \ReflectionMethod
      */
     protected $method;
 
     public function setup(): void
     {
-        $class = new ReflectionClass(SimpleAdapterFactory::class);
+        $class = new \ReflectionClass(SimpleAdapterFactory::class);
         $this->property = $class->getProperty('options');
         $this->property->setAccessible(true);
 

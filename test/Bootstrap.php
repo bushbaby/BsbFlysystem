@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2021 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -22,7 +22,6 @@ namespace BsbFlysystemTest;
 use Laminas\Mvc\Service\ServiceManagerConfig;
 use Laminas\ServiceManager\ServiceManager;
 use Psr\Container\ContainerInterface;
-use RuntimeException;
 
 class Bootstrap
 {
@@ -57,7 +56,7 @@ class Bootstrap
             return;
         }
 
-        throw new RuntimeException('Unable to load Laminas. Run `php composer.phar install` or define a LAMINAS_PATH environment variable.');
+        throw new \RuntimeException('Unable to load Laminas. Run `php composer.phar install` or define a LAMINAS_PATH environment variable.');
     }
 
     public static function getApplicationConfig(): array

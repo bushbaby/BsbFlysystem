@@ -19,16 +19,16 @@ declare(strict_types=1);
 
 namespace BsbFlysystemTest\Adapter\Factory;
 
-use BsbFlysystem\Adapter\Factory\SftpAdapterFactory;
+use BsbFlysystem\Adapter\Factory\GoogleCloudStorageAdapterFactory;
 use BsbFlysystem\Exception\RequirementsException;
-use League\Flysystem\PhpseclibV3\ConnectivityChecker;
-use League\Flysystem\PhpseclibV3\SftpAdapter;
-use League\Flysystem\UnixVisibility\VisibilityConverter;
+use Google\Cloud\Storage\Bucket;
+use League\Flysystem\GoogleCloudStorage\GoogleCloudStorageAdapter;
+use League\Flysystem\GoogleCloudStorage\VisibilityHandler;
 use League\MimeTypeDetection\MimeTypeDetector;
 use phpmock\phpunit\PHPMock;
 use Psr\Container\ContainerInterface;
 
-class SftpAdapterFactoryTest extends BaseAdapterFactory
+class GoogleCloudStorageAdapterFactoryTest extends BaseAdapterFactory
 {
     use PHPMock;
 
@@ -37,7 +37,7 @@ class SftpAdapterFactoryTest extends BaseAdapterFactory
         $classExists = $this->getFunctionMock('BsbFlysystem\Adapter\Factory', 'class_exists');
         $classExists->expects($this->once())->willReturn(false);
 
-        $factory = new SftpAdapterFactory();
+        $factory = new GoogleCloudStorageAdapterFactory();
         $container = $this->prophet->prophesize(ContainerInterface::class);
 
         $this->expectException(RequirementsException::class);
@@ -46,31 +46,26 @@ class SftpAdapterFactoryTest extends BaseAdapterFactory
 
     public function testGettingFromServiceManager(): void
     {
-        $factory = new SftpAdapterFactory();
+        $factory = new GoogleCloudStorageAdapterFactory();
 
         $container = $this->prophet->prophesize(ContainerInterface::class);
         $container->has('config')->willReturn(false);
 
-        $connectivityChecker = $this->prophet->prophesize(ConnectivityChecker::class);
-        $container->get('a-connectivity-checker')->willReturn($connectivityChecker->reveal());
+        $bucket = $this->prophet->prophesize(Bucket::class);
+        $container->get('a-bucket')->willReturn($bucket->reveal());
 
         $mimeTypeDetector = $this->prophet->prophesize(MimeTypeDetector::class);
         $container->get('a-mime-type-detector')->willReturn($mimeTypeDetector->reveal());
 
-        $visibility = $this->prophet->prophesize(VisibilityConverter::class);
+        $visibility = $this->prophet->prophesize(VisibilityHandler::class);
         $container->get('a-visibility')->willReturn($visibility->reveal());
 
-        $adapter = $factory($container->reveal(), 'sftp_default', [
-            'connectionProvider' => [
-                'host' => 'localhost',
-                'username' => 'username',
-                'connectivityChecker' => 'a-connectivity-checker',
-            ],
-            'root' => '/path/to/root',
+        $adapter = $factory($container->reveal(), 'googlecloudstorage_default', [
+            'bucket' => 'a-bucket',
             'mimeTypeDetector' => 'a-mime-type-detector',
-            'visibilityConverter' => 'a-visibility',
+            'visibilityHandler' => 'a-visibility',
         ]);
 
-        $this->assertInstanceOf(SftpAdapter::class, $adapter);
+        $this->assertInstanceOf(GoogleCloudStorageAdapter::class, $adapter);
     }
 }

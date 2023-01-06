@@ -16,37 +16,52 @@
         }
     ],
     "require": {
-        "php": "^7.3 || ^8.0",
-        "laminas/laminas-stdlib": "^3.0",
-        "league/flysystem": "^1.0.41",
-        "psr/container": "^1.0"
+        "php": "^8.0",
+        "laminas/laminas-servicemanager": "^3.3",
+        "league/flysystem": "^3.0",
+        "psr/container": "^1.0 || ^2.0"
     },
     "require-dev": {
+        "ajgl/flysystem-replicate": "^2.2",
         "bushbaby/php-cs-fixer-config": "^2.0",
+        "friendsofphp/proxy-manager-lts": "^1.0",
         "laminas/laminas-code": "^3.3.1 || ^4.0.0",
         "laminas/laminas-config": "^3.1",
         "laminas/laminas-filter": "^2.9.1",
         "laminas/laminas-modulemanager": "^2.7.3",
         "laminas/laminas-mvc": "^3.0",
-        "laminas/laminas-servicemanager": "^3.3",
-        "league/flysystem-aws-s3-v3": "~1.0",
-        "league/flysystem-azure": "~1.0,>=1.0.2",
-        "league/flysystem-cached-adapter": "~1.0",
-        "league/flysystem-eventable-filesystem": "~1.0",
-        "league/flysystem-rackspace": "~1.0",
-        "league/flysystem-replicate-adapter": "~1.0",
-        "league/flysystem-sftp": "~1.0",
-        "league/flysystem-vfs": "^1.0",
-        "league/flysystem-webdav": "~1.0",
-        "league/flysystem-ziparchive": "~1.0",
-        "ocramius/proxy-manager": "~2.0",
+        "league/flysystem-async-aws-s3": "^3.10",
+        "league/flysystem-aws-s3-v3": "^3.0",
+        "league/flysystem-azure-blob-storage": "^3.02",
+        "league/flysystem-ftp": "^3.10",
+        "league/flysystem-google-cloud-storage": "^3.11",
+        "league/flysystem-memory": "^3.10",
+        "league/flysystem-path-prefixing": "^3.10",
+        "league/flysystem-read-only": "^3.10",
+        "league/flysystem-sftp-v3": "^3.0",
+        "league/flysystem-webdav": "^3.0",
+        "league/flysystem-ziparchive": "^3.0",
+        "league/mime-type-detection": "^1.11",
+        "php-mock/php-mock-phpunit": "^2.6",
+        "phpspec/prophecy": "^1.16",
         "phpunit/phpunit": "^9.4.2",
-        "spatie/flysystem-dropbox": "~1.0",
-        "superbalist/flysystem-google-storage": "^7.2"
+        "spatie/flysystem-dropbox": "^2.0"
     },
     "suggest": {
-        "laminas/laminas-cache": "laminas-cache component ^2.8, if you need laminas-cache support",
-        "laminas/laminas-filter": "laminas-filter component ^2.9.1, if you need RenameUpload filter"
+        "laminas/laminas-filter": "laminas-filter component ^2.9.1, if you need RenameUpload filter",
+        "laminas/laminas-modulemanager": "Use as a Laminas Framework module",
+        "league/flysystem-path-prefixing": "Use to scope down any filesystem adapter to a prefixed path",
+        "league/flysystem-read-only": "Turn any Flysystem adapter into a read only adapter",
+        "league/mime-type-detection": "Supplies generic mime-type detection",
+        "league/flysystem-ftp": "FTP adapter for use with Flysystem",
+        "league/flysystem-sftp-v3": "SFTP adapter for use with Flysystem",
+        "league/flysystem-aws-s3-v3": "Aws S3 adapter for use with Flysystem",
+        "league/flysystem-async-aws-s3": "Aws Async S3 adapter for use with Flysystem",
+        "league/flysystem-azure-blob-storage": "Azure Blob Storage adapter for use with Flysystem",
+        "league/flysystem-google-cloud-storage": "Google Cloud Storage adapter for use with Flysystem",
+        "league/flysystem-webdav": "Webdav adapter for use with Flysystem",
+        "league/flysystem-memory": "In memory adapter for use with Flysystem",
+        "ajgl/flysystem-replicate": "Replicate adapter for use with Flysystem"
     },
     "autoload": {
         "psr-4": {
@@ -60,18 +75,12 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "4.0.x-dev"
+            "dev-master": "8.0.x-dev"
         },
         "laminas": {
             "component": "BsbFlysystem",
             "config-provider": "BsbFlysystem\\ConfigProvider"
-        },
-        "merge-plugin": {
-            "include": [
-                "composer.php8.json"
-            ],
-            "replace": true
-        }
+        }        
     },
     "config": {
         "sort-packages": true

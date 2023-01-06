@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2021 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -20,83 +20,60 @@ declare(strict_types=1);
 namespace BsbFlysystemTest\Adapter\Factory;
 
 use BsbFlysystem\Adapter\Factory\DropboxAdapterFactory;
-use BsbFlysystemTest\Bootstrap;
-use PHPUnit\Framework\TestCase;
-use ReflectionClass;
-use ReflectionMethod;
-use ReflectionProperty;
+use BsbFlysystem\Exception\RequirementsException;
+use League\MimeTypeDetection\MimeTypeDetector;
+use phpmock\phpunit\PHPMock;
+use Psr\Container\ContainerInterface;
 use Spatie\FlysystemDropbox\DropboxAdapter;
 
-class DropboxAdapterFactoryTest extends TestCase
+class DropboxAdapterFactoryTest extends BaseAdapterFactory
 {
-    /**
-     * @var ReflectionProperty
-     */
-    protected $property;
+    use PHPMock;
 
-    /**
-     * @var ReflectionMethod
-     */
-    protected $method;
-
-    public function setup(): void
+    public function testClassExists(): void
     {
-        $class = new ReflectionClass(DropboxAdapterFactory::class);
-        $this->property = $class->getProperty('options');
-        $this->property->setAccessible(true);
+        $classExists = $this->getFunctionMock('BsbFlysystem\Adapter\Factory', 'class_exists');
+        $classExists->expects($this->once())->willReturn(false);
 
-        $this->method = $class->getMethod('validateConfig');
-        $this->method->setAccessible(true);
+        $factory = new DropboxAdapterFactory();
+        $container = $this->prophet->prophesize(ContainerInterface::class);
+
+        $this->expectException(RequirementsException::class);
+        $factory->doCreateService($container->reveal());
     }
 
-    public function testCreateService(): void
+    public function testGettingFromServiceManager(): void
     {
-        $sm = Bootstrap::getServiceManager();
         $factory = new DropboxAdapterFactory();
 
-        $adapter = $factory($sm, 'dropbox_default');
+        $container = $this->prophet->prophesize(ContainerInterface::class);
+        $container->has('config')->willReturn(false);
+
+        $mimeTypeDetector = $this->prophet->prophesize(MimeTypeDetector::class);
+        $container->get('a-mime-type-detector')->willReturn($mimeTypeDetector->reveal());
+
+        $client = $this->prophet->prophesize(\Spatie\Dropbox\Client::class);
+        $container->get('a-client')->willReturn($client->reveal());
+
+        $adapter = $factory($container->reveal(), 'dropbox_default', [
+            'client' => 'a-client',
+            'mimeTypeDetector' => 'a-mime-type-detector',
+        ]);
 
         $this->assertInstanceOf(DropboxAdapter::class, $adapter);
     }
 
-    /**
-     * @dataProvider validateConfigProvider
-     */
-    public function testValidateConfig(
-        array $options,
-        ?array $expectedOptions,
-        ?string $expectedException,
-        ?string $expectedExceptionMessage
-    ): void {
-        $factory = new DropboxAdapterFactory($options);
-
-        if ($expectedException) {
-            $this->expectException($expectedException);
-            $this->expectExceptionMessage($expectedExceptionMessage);
-        }
-
-        $this->method->invokeArgs($factory, []);
-
-        if (\is_array($expectedOptions)) {
-            $this->assertEquals($expectedOptions, $this->property->getValue($factory));
-        }
-    }
-
-    public function validateConfigProvider(): array
+    public function testClientOptionsAsArray(): void
     {
-        return [
-            [
-                [],
-                [],
-                'UnexpectedValueException',
-                "Missing 'access_token' as option",
-            ],
-            [
-                ['access_token' => 'foo'],
-                ['access_token' => 'foo', 'prefix' => null],
-                null,
-                null,
-            ],
-        ];
+        $factory = new DropboxAdapterFactory();
+
+        $container = $this->prophet->prophesize(ContainerInterface::class);
+        $container->has('config')->willReturn(false);
+
+        $adapter = $factory($container->reveal(), 'dropbox_default', [
+            'client' => ['accessTokenOrAppCredentials' => 'string'],
+        ]);
+
+        $this->assertInstanceOf(DropboxAdapter::class, $adapter);
     }
 }

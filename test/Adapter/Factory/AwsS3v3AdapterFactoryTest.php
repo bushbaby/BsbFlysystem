@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2021 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -21,199 +21,99 @@ namespace BsbFlysystemTest\Adapter\Factory;
 
 use Aws\Command;
 use BsbFlysystem\Adapter\Factory\AwsS3v3AdapterFactory;
+use BsbFlysystem\Exception\RequirementsException;
 use BsbFlysystemTest\Bootstrap;
-use League\Flysystem\AwsS3v3\AwsS3Adapter;
-use PHPUnit\Framework\TestCase;
-use ReflectionClass;
-use ReflectionMethod;
-use ReflectionProperty;
+use League\Flysystem\AwsS3V3\AwsS3V3Adapter;
+use League\Flysystem\AwsS3V3\VisibilityConverter;
+use League\MimeTypeDetection\MimeTypeDetector;
+use phpmock\phpunit\PHPMock;
+use Psr\Container\ContainerInterface;
 
-class AwsS3v3AdapterFactoryTest extends TestCase
+class AwsS3v3AdapterFactoryTest extends BaseAdapterFactory
 {
-    /**
-     * @var ReflectionProperty
-     */
-    protected $property;
+    use PHPMock;
 
-    /**
-     * @var ReflectionMethod
-     */
-    protected $method;
-
-    public function setup(): void
+    public function testClassExists(): void
     {
-        $class = new ReflectionClass('BsbFlysystem\Adapter\Factory\AwsS3v3AdapterFactory');
-        $this->property = $class->getProperty('options');
-        $this->property->setAccessible(true);
+        $classExists = $this->getFunctionMock('BsbFlysystem\Adapter\Factory', 'class_exists');
+        $classExists->expects($this->once())->willReturn(false);
 
-        $this->method = $class->getMethod('validateConfig');
-        $this->method->setAccessible(true);
+        $factory = new AwsS3v3AdapterFactory();
+        $container = $this->prophet->prophesize(ContainerInterface::class);
+
+        $this->expectException(RequirementsException::class);
+        $factory->doCreateService($container->reveal());
     }
 
     public function testCreateService(): void
     {
-        $this->markTestSkipped('Skipped because Aws3Sv2 and Aws3Sv3 are not compatible.');
-
         $sm = Bootstrap::getServiceManager();
         $factory = new AwsS3v3AdapterFactory();
 
-        $adapter = $factory($sm, 'awss3_default');
+        $adapter = $factory($sm, 'awss3v3_default');
 
-        $this->assertInstanceOf('League\Flysystem\AwsS3v3\AwsS3v3Adapter', $adapter);
+        $this->assertInstanceOf(AwsS3V3Adapter::class, $adapter);
     }
 
-    /**
-     * @dataProvider validateConfigProvider
-     */
-    public function testValidateConfig(
-        array $options,
-        ?array $expectedOptions,
-        ?string $expectedException,
-        ?string $expectedExceptionMessage
-    ): void {
-        $factory = new AwsS3v3AdapterFactory($options);
-
-        if ($expectedException) {
-            $this->expectException($expectedException);
-            $this->expectExceptionMessage($expectedExceptionMessage);
-        }
-
-        $this->method->invokeArgs($factory, []);
-
-        if (\is_array($expectedOptions)) {
-            $this->assertEquals($expectedOptions, $this->property->getValue($factory));
-        }
-    }
-
-    public function validateConfigProvider(): array
+    public function testGettingFromServiceManager(): void
     {
-        return [
-            [
-                [],
-                [],
-                'UnexpectedValueException',
-                "Missing 'credentials' as array",
-            ],
-            [
-                [
-                    'iam' => false,
+        $factory = new AwsS3v3AdapterFactory();
+
+        $container = $this->prophet->prophesize(ContainerInterface::class);
+        $container->has('config')->willReturn(false);
+
+        $visibility = $this->prophet->prophesize(VisibilityConverter::class);
+        $container->get('a-visibility')->willReturn($visibility->reveal());
+
+        $mimeTypeDetector = $this->prophet->prophesize(MimeTypeDetector::class);
+        $container->get('a-mime-type-detector')->willReturn($mimeTypeDetector->reveal());
+
+        $adapter = $factory($container->reveal(), 'awss3v3_default', [
+            'client' => [
+                'credentials' => [
+                    'key' => 'abc',
+                     'secret' => 'xxx',
                 ],
-                [],
-                'UnexpectedValueException',
-                "Missing 'credentials' as array",
+                'region' => 'eu-west-1',
+                'version' => 'latest',
             ],
-            [
-                [
-                    'iam' => true,
-                ],
-                [],
-                'UnexpectedValueException',
-                "Missing 'region' as option",
-            ],
-            [
-                [
-                    'credentials' => [],
-                ],
-                [],
-                'UnexpectedValueException',
-                "Missing 'key' as option",
-            ],
-            [
-                [
-                    'credentials' => [
-                        'key' => 'foo',
-                    ],
-                ],
-                [],
-                'UnexpectedValueException',
-                "Missing 'secret' as option",
-            ],
-            [
-                [
-                    'credentials' => [
-                        'key' => 'foo',
-                        'secret' => 'bar',
-                    ],
-                ],
-                [],
-                'UnexpectedValueException',
-                "Missing 'region' as option",
-            ],
-            [
-                [
-                    'iam' => true,
-                    'credentials' => [
-                        'key' => 'foo',
-                        'secret' => 'bar',
-                    ],
-                ],
-                [],
-                'UnexpectedValueException',
-                "Missing 'region' as option",
-            ],
-            [
-                [
-                    'credentials' => [
-                        'key' => 'foo',
-                        'secret' => 'bar',
-                    ],
-                    'region' => 'baz',
-                ],
-                [],
-                'UnexpectedValueException',
-                "Missing 'bucket' as option",
-            ],
-            [
-                [
-                    'credentials' => [
-                        'key' => 'abc',
-                        'secret' => 'def',
-                    ],
-                    'region' => 'ghi',
-                    'bucket' => 'jkl',
-                ],
-                [
-                    'credentials' => [
-                        'key' => 'abc',
-                        'secret' => 'def',
-                    ],
-                    'region' => 'ghi',
-                    'bucket' => 'jkl',
-                    'prefix' => '',
-                    'request.options' => [],
-                    'version' => 'latest',
-                    'streamReads' => true,
-                ],
-                null,
-                null,
-            ],
-        ];
+            'bucket' => 'xxxxx',
+            'visibility' => 'a-visibility',
+            'mimeTypeDetector' => 'a-mime-type-detector',
+        ]);
+
+        $this->assertInstanceOf(AwsS3V3Adapter::class, $adapter);
     }
 
     public function testCreateServiceWithRequestOptions(): void
     {
-        $this->markTestSkipped('Skipped because Aws3Sv2 and Aws3Sv3 are not compatible.');
-
         $options = [
-            'credentials' => [
-                'key' => 'abc',
-                'secret' => 'def',
+            'client' => [
+                'credentials' => [
+                    'key' => 'abc',
+                    'secret' => 'def',
+                ],
+                'region' => 'ghi',
+                'http' => [
+                    'timeout' => 1,
+                ],
             ],
-            'region' => 'ghi',
             'bucket' => 'jkl',
-            'request.options' => [
-                'timeout' => 1,
-            ],
         ];
 
         $sm = Bootstrap::getServiceManager();
         $factory = new AwsS3v3AdapterFactory($options);
 
-        /** @var AwsS3Adapter $adapter */
-        $adapter = $factory($sm, 'awss3_default');
+        /** @var AwsS3V3Adapter $adapter */
+        $adapter = $factory($sm, 'awss3v3_default');
+
+        $reflectionProperty = new \ReflectionProperty($adapter, 'client');
+        $reflectionProperty->setAccessible(true);
+        $client = $reflectionProperty->getValue($adapter);
+        $reflectionProperty->setAccessible(false);
 
         /** @var Command $command */
-        $command = $adapter->getClient()->getCommand('GetObject');
+        $command = $client->getCommand('GetObject');
 
         self::assertTrue($command->hasParam('@http'));
         self::assertEquals(['timeout' => 1], $command['@http']);

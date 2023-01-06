@@ -8,7 +8,7 @@
  *
  * @see       https://bushbaby.nl/
  *
- * @copyright Copyright (c) 2014-2021 bushbaby multimedia. (https://bushbaby.nl)
+ * @copyright Copyright (c) 2014 bushbaby multimedia. (https://bushbaby.nl)
  * @author    Bas Kamer <baskamer@gmail.com>
  * @license   MIT
  *
@@ -22,37 +22,41 @@ namespace BsbFlysystemTest\Filter\File;
 use BsbFlysystem\Filter\File\RenameUpload;
 use Laminas\Filter\Exception\InvalidArgumentException;
 use Laminas\Filter\Exception\RuntimeException;
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\Filesystem;
+use League\Flysystem\UnableToWriteFile;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
-use UnexpectedValueException;
+use Prophecy\Prophet;
 
 require_once __DIR__ . '/../../Assets/Functions.php';
 
 class RenameUploadTest extends TestCase
 {
-    /**
-     * @var FilesystemInterface
-     */
-    protected $filesystem;
+    protected Prophet $prophet;
 
-    public function setup(): void
+    protected function setUp(): void
     {
-        $this->filesystem = $this->prophesize(FilesystemInterface::class);
+        $this->prophet = new Prophet();
+    }
+
+    protected function tearDown(): void
+    {
+        $this->prophet->checkPredictions();
     }
 
     public function testCanUploadFile(): void
     {
         $path = 'path/to/file.txt';
-        $this->filesystem->putStream($path, Argument::any())
-            ->willReturn(true)
-            ->shouldBeCalled();
-        $this->filesystem->has($path)
+
+        $filesystem = $this->prophet->prophesize(Filesystem::class);
+        $filesystem->writeStream($path, Argument::any());
+
+        $filesystem->has($path)
             ->willReturn(false);
 
         $filter = new RenameUpload([
             'target' => $path,
-            'filesystem' => $this->filesystem->reveal(),
+            'filesystem' => $filesystem->reveal(),
         ]);
 
         $key = $filter->filter(__DIR__ . '/../../Assets/test.txt');
@@ -62,15 +66,14 @@ class RenameUploadTest extends TestCase
     public function testCanUploadFileWhenUploading(): void
     {
         $path = 'path/to/file.txt';
-        $this->filesystem->putStream($path, Argument::any())
-            ->willReturn(true)
-            ->shouldBeCalled();
-        $this->filesystem->has($path)
-            ->willReturn(false);
+        $filesystem = $this->prophet->prophesize(Filesystem::class);
+
+        $filesystem->writeStream($path, Argument::any());
+        $filesystem->has($path)->willReturn(false);
 
         $filter = new RenameUpload([
             'target' => $path,
-            'filesystem' => $this->filesystem->reveal(),
+            'filesystem' => $filesystem->reveal(),
         ]);
 
         $file = [
@@ -88,19 +91,19 @@ class RenameUploadTest extends TestCase
             'target' => 'path/to/file.txt',
         ]);
 
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $filter->filter(__DIR__ . '/../../Assets/test.txt');
     }
 
     public function testWillThrowExceptionWhenFileIsNotPostUploaded(): void
     {
         $path = 'path/to/file.txt';
-        $this->filesystem->has($path)
-            ->willReturn(false);
+        $filesystem = $this->prophet->prophesize(Filesystem::class);
+        $filesystem->has($path)->willReturn(false);
 
         $filter = new RenameUpload([
             'target' => $path,
-            'filesystem' => $this->filesystem->reveal(),
+            'filesystem' => $filesystem->reveal(),
         ]);
 
         $this->expectException(RuntimeException::class);
@@ -111,33 +114,31 @@ class RenameUploadTest extends TestCase
     public function testWillThrowExceptionWhenFileExists(): void
     {
         $path = 'path/to/file.txt';
-        $this->filesystem->has($path)
-            ->willReturn(true)
-            ->shouldBeCalled();
+        $filesystem = $this->prophet->prophesize(Filesystem::class);
+        $filesystem->has($path)->willReturn(true);
 
         $filter = new RenameUpload([
             'target' => $path,
             'overwrite' => false,
-            'filesystem' => $this->filesystem->reveal(),
+            'filesystem' => $filesystem->reveal(),
         ]);
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("File 'path/to/file.txt' could not be uploaded. It already exists.");
+
         $filter->filter(__DIR__ . '/../../Assets/test.txt');
     }
 
     public function testWillThrowExceptionWhenFilesystemFails(): void
     {
         $path = 'path/to/file.txt';
-        $this->filesystem->putStream($path, Argument::any())
-            ->willReturn(false)
-            ->shouldBeCalled();
-        $this->filesystem->has($path)
-            ->willReturn(false);
+        $filesystem = $this->prophet->prophesize(Filesystem::class);
+        $filesystem->writeStream($path, Argument::any())->willThrow(UnableToWriteFile::class);
+        $filesystem->has($path)->willReturn(false);
 
         $filter = new RenameUpload([
             'target' => $path,
-            'filesystem' => $this->filesystem->reveal(),
+            'filesystem' => $filesystem->reveal(),
         ]);
 
         $this->expectException(RuntimeException::class);
@@ -145,6 +146,7 @@ class RenameUploadTest extends TestCase
             "File '%s' could not be uploaded. An error occurred while processing the file.",
             __DIR__ . '/../../Assets/test.txt'
         ));
+
         $filter->filter(__DIR__ . '/../../Assets/test.txt');
     }
 }
