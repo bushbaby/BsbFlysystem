@@ -42,6 +42,7 @@
         "league/flysystem-webdav": "^3.0",
         "league/flysystem-ziparchive": "^3.0",
         "league/mime-type-detection": "^1.11",
+        "php-mock/php-mock-phpunit": "^2.6",
         "phpspec/prophecy": "^1.16",
         "phpunit/phpunit": "^9.4.2",
         "spatie/flysystem-dropbox": "^2.0"

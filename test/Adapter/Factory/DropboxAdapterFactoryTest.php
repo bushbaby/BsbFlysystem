@@ -20,12 +20,28 @@ declare(strict_types=1);
 namespace BsbFlysystemTest\Adapter\Factory;
 
 use BsbFlysystem\Adapter\Factory\DropboxAdapterFactory;
+use BsbFlysystem\Exception\RequirementsException;
 use League\MimeTypeDetection\MimeTypeDetector;
+use phpmock\phpunit\PHPMock;
 use Psr\Container\ContainerInterface;
 use Spatie\FlysystemDropbox\DropboxAdapter;
 
 class DropboxAdapterFactoryTest extends BaseAdapterFactory
 {
+    use PHPMock;
+
+    public function testClassExists(): void
+    {
+        $classExists = $this->getFunctionMock('BsbFlysystem\Adapter\Factory', 'class_exists');
+        $classExists->expects($this->once())->willReturn(false);
+
+        $factory = new DropboxAdapterFactory();
+        $container = $this->prophet->prophesize(ContainerInterface::class);
+
+        $this->expectException(RequirementsException::class);
+        $factory->doCreateService($container->reveal());
+    }
+
     public function testGettingFromServiceManager(): void
     {
         $factory = new DropboxAdapterFactory();
@@ -42,6 +58,20 @@ class DropboxAdapterFactoryTest extends BaseAdapterFactory
         $adapter = $factory($container->reveal(), 'dropbox_default', [
             'client' => 'a-client',
             'mimeTypeDetector' => 'a-mime-type-detector',
+        ]);
+
+        $this->assertInstanceOf(DropboxAdapter::class, $adapter);
+    }
+
+    public function testClientOptionsAsArray(): void
+    {
+        $factory = new DropboxAdapterFactory();
+
+        $container = $this->prophet->prophesize(ContainerInterface::class);
+        $container->has('config')->willReturn(false);
+
+        $adapter = $factory($container->reveal(), 'dropbox_default', [
+            'client' => ['accessTokenOrAppCredentials' => 'string'],
         ]);
 
         $this->assertInstanceOf(DropboxAdapter::class, $adapter);

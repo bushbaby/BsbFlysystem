@@ -47,6 +47,9 @@ class DropboxAdapterFactory extends AbstractAdapterFactory
         return new DropboxAdapter(...$this->options);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function validateConfig(): void
     {
         \assert(

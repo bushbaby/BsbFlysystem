@@ -23,6 +23,8 @@ use BsbFlysystem\Exception\RuntimeException;
 use BsbFlysystem\Service\AdapterManager;
 use BsbFlysystemTest\Bootstrap;
 use Laminas\ServiceManager\ServiceManager;
+use League\Flysystem\PathPrefixing\PathPrefixedAdapter;
+use League\Flysystem\ReadOnly\ReadOnlyFilesystemAdapter;
 use PHPUnit\Framework\TestCase;
 
 class AdapterManagerTest extends TestCase
@@ -66,11 +68,19 @@ class AdapterManagerTest extends TestCase
         $this->assertInstanceOf(\League\Flysystem\FilesystemAdapter::class, $manager->get('local_default'));
     }
 
-    // public function testCreateViaServiceManagerNull(): void
-    // {
-    //     $sm = Bootstrap::getServiceManager();
-    //     $manager = $sm->get(AdapterManager::class);
+    public function testWrapsPathPrefixedAdapter(): void
+    {
+        $sm = Bootstrap::getServiceManager();
+        $adapter = $sm->get(AdapterManager::class)->get('local_default', ['prefix' => '/path']);
 
-    //     $this->assertInstanceOf(\League\Flysystem\Adapter\NullAdapter::class, $manager->get('null_default'));
-    // }
+        $this->assertInstanceOf(PathPrefixedAdapter::class, $adapter);
+    }
+
+    public function testWrapsReadOnlyFilesystemAdapter(): void
+    {
+        $sm = Bootstrap::getServiceManager();
+        $adapter = $sm->get(AdapterManager::class)->get('local_default', ['readonly' => true]);
+
+        $this->assertInstanceOf(ReadOnlyFilesystemAdapter::class, $adapter);
+    }
 }

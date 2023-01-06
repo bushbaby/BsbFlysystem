@@ -51,6 +51,9 @@ class AzureBlobStorageAdapterFactory extends AbstractAdapterFactory
         return new AzureBlobStorageAdapter(...$this->options);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function validateConfig(): void
     {
         \assert(

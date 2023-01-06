@@ -20,15 +20,31 @@ declare(strict_types=1);
 namespace BsbFlysystemTest\Adapter\Factory;
 
 use BsbFlysystem\Adapter\Factory\FtpAdapterFactory;
+use BsbFlysystem\Exception\RequirementsException;
 use League\Flysystem\Ftp\ConnectivityChecker;
 use League\Flysystem\Ftp\FtpAdapter;
 use League\Flysystem\Ftp\FtpConnectionProvider;
 use League\Flysystem\UnixVisibility\VisibilityConverter;
 use League\MimeTypeDetection\MimeTypeDetector;
+use phpmock\phpunit\PHPMock;
 use Psr\Container\ContainerInterface;
 
 class FtpAdapterFactoryTest extends BaseAdapterFactory
 {
+    use PHPMock;
+
+    public function testClassExists(): void
+    {
+        $classExists = $this->getFunctionMock('BsbFlysystem\Adapter\Factory', 'class_exists');
+        $classExists->expects($this->once())->willReturn(false);
+
+        $factory = new FtpAdapterFactory();
+        $container = $this->prophet->prophesize(ContainerInterface::class);
+
+        $this->expectException(RequirementsException::class);
+        $factory->doCreateService($container->reveal());
+    }
+
     public function testGettingFromServiceManager(): void
     {
         $factory = new FtpAdapterFactory();

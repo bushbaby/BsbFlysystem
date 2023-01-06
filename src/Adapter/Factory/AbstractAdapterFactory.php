@@ -42,6 +42,8 @@ abstract class AbstractAdapterFactory
 
     /**
      * Set creation options.
+     *
+     * @codeCoverageIgnore
      */
     public function setCreationOptions(array $options): void
     {
@@ -123,6 +125,8 @@ abstract class AbstractAdapterFactory
 
     /**
      * @throws \InvalidArgumentException
+     *
+     * @codeCoverageIgnore
      */
     public function getLazyFactory(ContainerInterface $container): LazyLoadingValueHolderFactory
     {

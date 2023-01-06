@@ -21,12 +21,28 @@ namespace BsbFlysystemTest\Adapter\Factory;
 
 use Ajgl\Flysystem\Replicate\ReplicateFilesystemAdapter;
 use BsbFlysystem\Adapter\Factory\ReplicateAdapterFactory;
+use BsbFlysystem\Exception\RequirementsException;
 use BsbFlysystem\Service\AdapterManager;
 use League\Flysystem\FilesystemAdapter;
+use phpmock\phpunit\PHPMock;
 use Psr\Container\ContainerInterface;
 
 class ReplicateAdapterFactoryTest extends BaseAdapterFactory
 {
+    use PHPMock;
+
+    public function testClassExists(): void
+    {
+        $classExists = $this->getFunctionMock('BsbFlysystem\Adapter\Factory', 'class_exists');
+        $classExists->expects($this->once())->willReturn(false);
+
+        $factory = new ReplicateAdapterFactory();
+        $container = $this->prophet->prophesize(ContainerInterface::class);
+
+        $this->expectException(RequirementsException::class);
+        $factory->doCreateService($container->reveal());
+    }
+
     public function testGettingFromServiceManager(): void
     {
         $factory = new ReplicateAdapterFactory();

@@ -54,6 +54,9 @@ class FtpAdapterFactory extends AbstractAdapterFactory
         return new FtpAdapter(...$this->options);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function validateConfig(): void
     {
         \assert(

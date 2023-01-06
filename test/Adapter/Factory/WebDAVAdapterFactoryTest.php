@@ -20,11 +20,27 @@ declare(strict_types=1);
 namespace BsbFlysystemTest\Adapter\Factory;
 
 use BsbFlysystem\Adapter\Factory\WebDAVAdapterFactory;
+use BsbFlysystem\Exception\RequirementsException;
 use League\Flysystem\WebDAV\WebDAVAdapter;
+use phpmock\phpunit\PHPMock;
 use Psr\Container\ContainerInterface;
 
 class WebDAVAdapterFactoryTest extends BaseAdapterFactory
 {
+    use PHPMock;
+
+    public function testClassExists(): void
+    {
+        $classExists = $this->getFunctionMock('BsbFlysystem\Adapter\Factory', 'class_exists');
+        $classExists->expects($this->once())->willReturn(false);
+
+        $factory = new WebDAVAdapterFactory();
+        $container = $this->prophet->prophesize(ContainerInterface::class);
+
+        $this->expectException(RequirementsException::class);
+        $factory->doCreateService($container->reveal());
+    }
+
     public function testGettingFromServiceManager(): void
     {
         $factory = new WebDAVAdapterFactory();

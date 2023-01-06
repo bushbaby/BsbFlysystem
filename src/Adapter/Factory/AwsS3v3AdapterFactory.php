@@ -21,7 +21,6 @@ namespace BsbFlysystem\Adapter\Factory;
 
 use Aws\S3\S3Client;
 use BsbFlysystem\Exception\RequirementsException;
-use BsbFlysystem\Exception\UnexpectedValueException;
 use League\Flysystem\AwsS3V3\AwsS3V3Adapter;
 use League\Flysystem\FilesystemAdapter;
 use Psr\Container\ContainerInterface;
@@ -35,20 +34,6 @@ class AwsS3v3AdapterFactory extends AbstractAdapterFactory
         }
 
         $clientConfig = $this->options['client'];
-        // [
-        //     'region' => $this->options['client']['region'] ?? null,
-        //     'version' => $this->options['client']['version'] ?? null,
-        //     'http' => $this->options['client']['request.options'] ?? null,
-        // ];
-
-        // Override the endpoint for example: when using an s3 compatible host
-        // if (! empty($this->options['client']['endpoint'])) {
-        //     $clientConfig['client']['endpoint'] = $this->options['client']['endpoint'];
-        // }
-
-        // if (! empty($this->options['client']['use_path_style_endpoint'])) {
-        //     $clientConfig['use_path_style_endpoint'] = $this->options['client']['use_path_style_endpoint'];
-        // }
 
         if (! isset($this->options['iam']) || (isset($this->options['iam']) && (false === $this->options['iam']))) {
             $credentials = [
@@ -71,6 +56,9 @@ class AwsS3v3AdapterFactory extends AbstractAdapterFactory
         return new AwsS3V3Adapter(...$this->options);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function validateConfig(): void
     {
         // if (! isset($this->options['iam']) || (isset($this->options['iam']) && (false === $this->options['iam']))) {

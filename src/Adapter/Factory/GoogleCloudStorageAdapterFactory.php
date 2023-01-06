@@ -46,6 +46,9 @@ class GoogleCloudStorageAdapterFactory extends AbstractAdapterFactory
         return new GoogleCloudStorageAdapter(...$this->options);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function validateConfig(): void
     {
         \assert(

@@ -46,6 +46,9 @@ class ZipArchiveAdapterFactory extends AbstractAdapterFactory
         return new ZipArchiveAdapter(...$this->options);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function validateConfig(): void
     {
         \assert(

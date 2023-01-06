@@ -21,13 +21,30 @@ namespace BsbFlysystemTest\Adapter\Factory;
 
 use Aws\Command;
 use BsbFlysystem\Adapter\Factory\AwsS3v3AdapterFactory;
+use BsbFlysystem\Exception\RequirementsException;
 use BsbFlysystemTest\Bootstrap;
 use League\Flysystem\AwsS3V3\AwsS3V3Adapter;
+use League\Flysystem\AwsS3V3\VisibilityConverter;
 use League\MimeTypeDetection\MimeTypeDetector;
+use phpmock\phpunit\PHPMock;
 use Psr\Container\ContainerInterface;
 
 class AwsS3v3AdapterFactoryTest extends BaseAdapterFactory
 {
+    use PHPMock;
+
+    public function testClassExists(): void
+    {
+        $classExists = $this->getFunctionMock('BsbFlysystem\Adapter\Factory', 'class_exists');
+        $classExists->expects($this->once())->willReturn(false);
+
+        $factory = new AwsS3v3AdapterFactory();
+        $container = $this->prophet->prophesize(ContainerInterface::class);
+
+        $this->expectException(RequirementsException::class);
+        $factory->doCreateService($container->reveal());
+    }
+
     public function testCreateService(): void
     {
         $sm = Bootstrap::getServiceManager();
@@ -45,6 +62,9 @@ class AwsS3v3AdapterFactoryTest extends BaseAdapterFactory
         $container = $this->prophet->prophesize(ContainerInterface::class);
         $container->has('config')->willReturn(false);
 
+        $visibility = $this->prophet->prophesize(VisibilityConverter::class);
+        $container->get('a-visibility')->willReturn($visibility->reveal());
+
         $mimeTypeDetector = $this->prophet->prophesize(MimeTypeDetector::class);
         $container->get('a-mime-type-detector')->willReturn($mimeTypeDetector->reveal());
 
@@ -58,7 +78,7 @@ class AwsS3v3AdapterFactoryTest extends BaseAdapterFactory
                 'version' => 'latest',
             ],
             'bucket' => 'xxxxx',
-
+            'visibility' => 'a-visibility',
             'mimeTypeDetector' => 'a-mime-type-detector',
         ]);
 

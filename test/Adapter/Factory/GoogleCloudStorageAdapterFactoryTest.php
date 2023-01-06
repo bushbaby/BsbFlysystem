@@ -20,14 +20,30 @@ declare(strict_types=1);
 namespace BsbFlysystemTest\Adapter\Factory;
 
 use BsbFlysystem\Adapter\Factory\GoogleCloudStorageAdapterFactory;
+use BsbFlysystem\Exception\RequirementsException;
 use Google\Cloud\Storage\Bucket;
 use League\Flysystem\GoogleCloudStorage\GoogleCloudStorageAdapter;
 use League\Flysystem\GoogleCloudStorage\VisibilityHandler;
 use League\MimeTypeDetection\MimeTypeDetector;
+use phpmock\phpunit\PHPMock;
 use Psr\Container\ContainerInterface;
 
 class GoogleCloudStorageAdapterFactoryTest extends BaseAdapterFactory
 {
+    use PHPMock;
+
+    public function testClassExists(): void
+    {
+        $classExists = $this->getFunctionMock('BsbFlysystem\Adapter\Factory', 'class_exists');
+        $classExists->expects($this->once())->willReturn(false);
+
+        $factory = new GoogleCloudStorageAdapterFactory();
+        $container = $this->prophet->prophesize(ContainerInterface::class);
+
+        $this->expectException(RequirementsException::class);
+        $factory->doCreateService($container->reveal());
+    }
+
     public function testGettingFromServiceManager(): void
     {
         $factory = new GoogleCloudStorageAdapterFactory();

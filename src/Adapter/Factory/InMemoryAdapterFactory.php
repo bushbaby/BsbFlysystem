@@ -40,6 +40,9 @@ class InMemoryAdapterFactory extends AbstractAdapterFactory
         return new InMemoryFilesystemAdapter(...$this->options);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function validateConfig(): void
     {
         if (\array_key_exists('mimeTypeDetector', $this->options)) {

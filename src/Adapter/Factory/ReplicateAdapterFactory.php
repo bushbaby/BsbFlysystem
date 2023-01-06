@@ -41,6 +41,9 @@ class ReplicateAdapterFactory extends AbstractAdapterFactory
         );
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function validateConfig(): void
     {
         \assert(

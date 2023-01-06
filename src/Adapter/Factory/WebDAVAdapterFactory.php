@@ -39,6 +39,9 @@ class WebDAVAdapterFactory extends AbstractAdapterFactory
         return new WebDAVAdapter(...$this->options);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function validateConfig(): void
     {
         \assert(

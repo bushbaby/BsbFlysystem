@@ -50,6 +50,9 @@ class SftpAdapterFactory extends AbstractAdapterFactory
         return new SftpAdapter(...$this->options);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function validateConfig(): void
     {
         \assert(

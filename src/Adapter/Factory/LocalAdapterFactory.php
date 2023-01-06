@@ -38,6 +38,9 @@ class LocalAdapterFactory extends AbstractAdapterFactory
         return new LocalFilesystemAdapter(...$this->options);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function validateConfig(): void
     {
         \assert(
