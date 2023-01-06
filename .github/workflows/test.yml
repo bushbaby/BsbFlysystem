@@ -18,8 +18,6 @@ jobs:
           - "8.2"
           - "8.1"
           - "8.0"
-        composer:
-          - "v2"
 
     steps:
       - name: "Checkout"
@@ -28,7 +26,6 @@ jobs:
         uses: "shivammathur/setup-php@v2"
         with:
           php-version: "${{ matrix.php-version }}"
-          tools: "composer:${{ matrix.composer }}"
           ini-values: zend.assertions=1,assert.exception=1
       - name: "Install dependencies"
         run: "composer update --no-interaction"
@@ -46,11 +43,11 @@ jobs:
         with:
           php-version: "8.0"
           tools: "composer:v2"
-          coverage: "pcov"
+          ini-values: zend.assertions=1,assert.exception=1
       - name: "Install dependencies"
         run: "composer update --no-interaction"
       - name: "Install coveralls"
-        run: "composer require --dev php-coveralls/php-coveralls"
+        run: "composer require --dev php-coveralls/php-coveralls:^2.0 --with-all-dependencies"
       - name: "Generate coverage"
         run: "vendor/bin/phpunit --coverage-text --coverage-clover ./build/logs/clover.xml --configuration ./phpunit.xml.dist"
       - name: "Publish coverage"
