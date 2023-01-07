@@ -4,7 +4,7 @@ A simple Laminas module that bridges the Flysystem filesystem.
 
 [![Latest Stable Version](http://poser.pugx.org/bushbaby/flysystem/v)](https://packagist.org/packages/bushbaby/flysystem) [![Total Downloads](http://poser.pugx.org/bushbaby/flysystem/downloads)](https://packagist.org/packages/bushbaby/flysystem) [![Latest Unstable Version](http://poser.pugx.org/bushbaby/flysystem/v/unstable)](https://packagist.org/packages/bushbaby/flysystem) [![License](http://poser.pugx.org/bushbaby/flysystem/license)](https://packagist.org/packages/bushbaby/flysystem) [![PHP Version Require](http://poser.pugx.org/bushbaby/flysystem/require/php)](https://packagist.org/packages/bushbaby/flysystem)
 ![Build Status](https://github.com/bushbaby/BsbFlysystem/actions/workflows/test.yml/badge.svg)
-[![Code Coverage](https://scrutinizer-ci.com/g/bushbaby/BsbFlysystem/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/bushbaby/BsbFlysystem/?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/bushbaby/BsbFlysystem/badge.svg?branch=master)](https://coveralls.io/github/bushbaby/BsbFlysystem?branch=master)
 
 Provides a way to configure the various filesystem adapters provided by thephpleague's 'Flysystem'. And allows to retrieve fully configured filesystems by name from the ServiceLocator. Whether the defined filesystems are local- or dropbox filesystems becomes a configuration detail.
 
