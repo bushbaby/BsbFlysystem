@@ -20,10 +20,10 @@ return [
                 'factory' => BsbFlysystem\Adapter\Factory\FtpAdapterFactory::class,
                 'options' => [
                     'connectionOptions' => [
-                         'host' => 'localhost',
-                         'root' => '/var/www/html',
-                         'username' => 'username',
-                         'password' => '',
+                        'host' => 'localhost',
+                        'root' => '/var/www/html',
+                        'username' => 'username',
+                        'password' => '',
                         //  'port' => 21,
                         //  'ssl' => false,
                         //  'timeout' => 90,
@@ -201,7 +201,7 @@ return [
                 ],
             ],
         ],
-         'adapter_manager' => [
+        'adapter_manager' => [
             'config' => [],
             'lazy_services' => [
                 // directory where proxy classes will be written - default to system_get_tmp_dir()
