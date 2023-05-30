@@ -53,6 +53,8 @@ class AwsS3v3AdapterFactory extends AbstractAdapterFactory
             $this->options['visibility'] = $container->get($this->options['visibility']);
         }
 
+        unset($this->options['iam']);
+
         return new AwsS3V3Adapter(...$this->options);
     }
 
