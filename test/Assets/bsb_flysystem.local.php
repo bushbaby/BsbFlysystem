@@ -15,7 +15,7 @@
  * @package   bushbaby/flysystem
  */
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 return [
     'bsb_flysystem' => [
@@ -35,10 +35,10 @@ return [
                 'factory' => BsbFlysystem\Adapter\Factory\FtpAdapterFactory::class,
                 'options' => [
                     'connectionOptions' => [
-                         'host' => 'localhost',
-                         'root' => '/var/www/html',
-                         'username' => 'username',
-                         'password' => '',
+                        'host' => 'localhost',
+                        'root' => '/var/www/html',
+                        'username' => 'username',
+                        'password' => '',
                         //  'port' => 21,
                         //  'ssl' => false,
                         //  'timeout' => 90,
@@ -161,7 +161,6 @@ return [
                             'secret' => 'xxxxx',
                         ],
                         'region' => 'eu-west-1',
-                        'bucket' => 'xxxxx',
                         'version' => 'latest', // default: 'latest'
                         // guzzle request options; see http://docs.guzzlephp.org/en/latest/request-options.html#proxy
                         'http' => [
@@ -171,13 +170,14 @@ return [
                     ],
                     'bucket' => 'xxxxx',
                     // 'prefix' => '',
+                    // 'visibility' => \League\Flysystem\Visibility::PUBLIC,
                     // 'mimeTypeDetector' => 'service_manager_key', // return a \League\MimeTypeDetection\MimeTypeDetector
-                    // 'defaultVisibility' => \League\Flysystem\Visibility::PUBLIC,
                     // 'options' => [],
                     // 'streamReads' => true,
                     // 'forwardedOptions' => self::AVAILABLE_OPTIONS,
                     // 'metadataFields' => self::EXTRA_METADATA_FIELDS,
                     // 'multipartUploadOptions' => self::MUP_AVAILABLE_OPTIONS,
+                    // 'iam' => false,
                 ],
             ],
             'replicate_default' => [

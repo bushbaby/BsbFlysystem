@@ -146,7 +146,6 @@ return [
                             'secret' => 'xxxxx',
                         ],
                         'region' => 'eu-west-1',
-                        'bucket' => 'xxxxx',
                         'version' => 'latest', // default: 'latest'
                         // guzzle request options; see http://docs.guzzlephp.org/en/latest/request-options.html#proxy
                         'http' => [
@@ -156,13 +155,14 @@ return [
                     ],
                     'bucket' => 'xxxxx',
                     // 'prefix' => '',
+                    // 'visibility' => \League\Flysystem\Visibility::PUBLIC,
                     // 'mimeTypeDetector' => 'service_manager_key', // return a \League\MimeTypeDetection\MimeTypeDetector
-                    // 'defaultVisibility' => \League\Flysystem\Visibility::PUBLIC,
                     // 'options' => [],
                     // 'streamReads' => true,
                     // 'forwardedOptions' => self::AVAILABLE_OPTIONS,
                     // 'metadataFields' => self::EXTRA_METADATA_FIELDS,
                     // 'multipartUploadOptions' => self::MUP_AVAILABLE_OPTIONS,
+                    // 'iam' => false,
                 ],
             ],
             'replicate_default' => [

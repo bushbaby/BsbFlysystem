@@ -72,7 +72,7 @@ class AwsS3v3AdapterFactoryTest extends BaseAdapterFactory
             'client' => [
                 'credentials' => [
                     'key' => 'abc',
-                     'secret' => 'xxx',
+                    'secret' => 'xxx',
                 ],
                 'region' => 'eu-west-1',
                 'version' => 'latest',
@@ -80,6 +80,7 @@ class AwsS3v3AdapterFactoryTest extends BaseAdapterFactory
             'bucket' => 'xxxxx',
             'visibility' => 'a-visibility',
             'mimeTypeDetector' => 'a-mime-type-detector',
+            'iam' => false,
         ]);
 
         $this->assertInstanceOf(AwsS3V3Adapter::class, $adapter);
