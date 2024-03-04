@@ -210,8 +210,8 @@ return [
                 'adapter' => 'local_default',
                 'adapter_options' => null,
                 'options' => [
-                    'pathNormalizer' => null, // returns PathNormalizer::class
-                    'publicUrlGenerator' => null, // returns \League\Flysystem\UrlGeneration\PublicUrlGeneratorInterface::class
+                    'pathNormalizer' => null, // returns \League\Flysystem\PathNormalizer::class
+                    'publicUrlGenerator' => null, // returns \League\Flysystem\UrlGeneration\PublicUrlGenerator::class
                     'temporaryUrlGenerator' => null, // returns \League\Flysystem\UrlGeneration\TemporaryUrlGenerator::class
                 ],
             ],

@@ -73,6 +73,21 @@ class FilesystemFactory
 
         $options = $configForRequestedFS['options'] ?? [];
 
-        return new Filesystem($adapter, $options);
+        $pathNormalizer = $options['pathNormalizer'] ?? null;
+        if (null !== $pathNormalizer) {
+            $pathNormalizer = $container->get($pathNormalizer);
+        }
+
+        $publicUrlGenerator = $options['publicUrlGenerator'] ?? null;
+        if (null !== $publicUrlGenerator) {
+            $publicUrlGenerator = $container->get($publicUrlGenerator);
+        }
+
+        $temporaryUrlGenerator = $options['temporaryUrlGenerator'] ?? null;
+        if (null !== $temporaryUrlGenerator) {
+            $temporaryUrlGenerator = $container->get($temporaryUrlGenerator);
+        }
+
+        return new Filesystem($adapter, $options, $pathNormalizer, $publicUrlGenerator, $temporaryUrlGenerator);
     }
 }
