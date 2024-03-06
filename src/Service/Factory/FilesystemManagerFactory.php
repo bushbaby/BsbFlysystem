@@ -25,7 +25,7 @@ use Psr\Container\ContainerInterface;
 
 class FilesystemManagerFactory
 {
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): FilesystemManager
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): FilesystemManager
     {
         $filesystems = ($container->has('config') ? $container->get('config') : [])['bsb_flysystem']['filesystems'] ?? [];
 

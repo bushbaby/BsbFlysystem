@@ -107,12 +107,12 @@ abstract class AbstractAdapterFactory
     /**
      * Merges the options given from the ServiceLocator Config object with the create options of the class.
      */
-    protected function mergeMvcConfig(ContainerInterface $container, string $requestedName = null): void
+    protected function mergeMvcConfig(ContainerInterface $container, ?string $requestedName = null): void
     {
         $config = $container->has('config') ? $container->get('config') : [];
 
-        if (! isset($config['bsb_flysystem']['adapters'][$requestedName]['options']) ||
-            ! \is_array(($config['bsb_flysystem']['adapters'][$requestedName]['options']))
+        if (! isset($config['bsb_flysystem']['adapters'][$requestedName]['options'])
+            || ! \is_array(($config['bsb_flysystem']['adapters'][$requestedName]['options']))
         ) {
             return;
         }
