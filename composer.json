@@ -45,7 +45,7 @@
         "php-mock/php-mock-phpunit": "^2.6",
         "phpspec/prophecy": "^1.16",
         "phpunit/phpunit": "^9.4.2",
-        "spatie/flysystem-dropbox": "^2.0"
+        "spatie/flysystem-dropbox": "^2.0 || ^3.0"
     },
     "suggest": {
         "laminas/laminas-filter": "laminas-filter component ^2.9.1, if you need RenameUpload filter",
